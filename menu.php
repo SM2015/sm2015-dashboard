@@ -2,7 +2,9 @@
     include('./php/signin.php');
     session_start();
     $name = $_SESSION['SESS_FIRST_NAME'] . ' ' . $_SESSION['SESS_LAST_NAME'];
+    $userCountriesMenu = $_SESSION["SESS_COUNTRIES"];
 ?>
+    
       <div class="navbar-wrapper">
             <!-- Wrap the .navbar in .container to center it within the absolutely positioned parent. -->
             <div class="container">
@@ -18,8 +20,7 @@
                                 <ul class="nav">
                                     <li class="active"><a href="main.php">Home</a>
                                     </li>
-                                    </li>
-                                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Visualization <b class="caret"></b></a>
+                                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Language <b class="caret"></b></a>
                                         <ul class="dropdown-menu">
                                             <li id="menuenglish"><a href="#">English</a>
 
@@ -29,26 +30,36 @@
                                             </li>
                                         </ul>
                                     </li>
+                                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><?= _t('Country', $_SESSION['SESS_LANG']); ?> <b class="caret"></b></a>
+                                        <ul id="menucountry" class="dropdown-menu">
+                                            <!-- <li id="menuenglish"><a href="#">English</a>
+
+                                            </li>
+                                            <li id="menuspanish"><a href="#">Spanish (Español)</a>
+
+                                            </li> -->
+                                        </ul>
+                                    </li>
                                     <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown">Data Entry <b class="caret"></b></a>
 
                                         <ul class="dropdown-menu">
-                                            <li><a href="#">Milestones</a>
+                                            <li><a href="milestones.php"><?=_t('Milestone', $_SESSION['SESS_LANG']); ?></a>
 
                                             </li>
-                                            <li><a href="#">Performance</a>
+                                            <li><a href="#"><?=_t('Performance', $_SESSION['SESS_LANG']); ?></a>
 
                                             </li>
-                                            <li><a href="#">Risks</a>
+                                            <li><a href="#"><?=_t('Risks', $_SESSION['SESS_LANG']); ?></a>
 
                                             </li>
-                                            <li class="divider"></li>
+                                            <!-- <li class="divider"></li>
                                             <li class="nav-header">Nav header</li>
                                             <li><a href="#">Separated link</a>
 
                                             </li>
                                             <li><a href="#">One more separated link</a>
 
-                                            </li>
+                                            </li> -->
                                         </ul>
                                     </li>
                                 </ul>
@@ -65,11 +76,11 @@
 
                                         <ul class="dropdown-menu">
                                             <? if ($_SESSION['SESS_LEVEL'] == 'admin') : ?>
-                                            <li><a id="menuAddUser" href="#">Create Account</a>
+                                            <li><a href="create_account.php">Create Account</a>
                                             </li>
                                             <li class="divider"></li>
                                             <? endif; ?>
-                                            <li><a href="#">Profile</a>
+                                            <li><a href="profile.php">Profile</a>
                                             </li>
                                             <li><a href="#">Settings</a>
                                             </li>
@@ -91,3 +102,13 @@
 
 
 
+        <script type="text/javascript">
+            var countryMenu = '<?= $userCountriesMenu; ?>'.split(',');
+            var html = [];
+            for (var i = 0; i < countryMenu.length; i++) {
+                html.push('<li id="menu' + countryMenu[i] + '"><a href="#">' + countryMenu[i] + '</a></li>');
+            }
+
+            //$('#menucountry').html(html.join(''));
+            document.getElementById('menucountry').innerHTML = html.join('');
+        </script>

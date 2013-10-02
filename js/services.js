@@ -77,7 +77,7 @@
                         },
                         error: function(data, msg) {
                             if (options.error) {
-                                options.error.call(this, message);
+                                options.error.call(this, msg);
                             }
                         }
                     };

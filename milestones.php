@@ -131,12 +131,23 @@
     }
 
     function getStatusList() {
-        var aStatusList = new Array();
-
-        aStatusList[0] = { "label": "Completado", "value": "Completado" };
-        aStatusList[1] = { "label": "En Proceso", "value": "En Proceso" };
-        aStatusList[2] = { "label": "Pendiente", "value": "Pendiente" };
-
+        var aStatusList = [{
+            'label': '<?= _t("Completed", $_SESSION["SESS_LANG"])?>',
+            'value': '<?= _t("Completed", $_SESSION["SESS_LANG"])?>'
+        }, {
+            'label': '<?= _t("In Process", $_SESSION["SESS_LANG"])?>',
+            'value': '<?= _t("In Process", $_SESSION["SESS_LANG"])?>'
+        }, {
+            'label': '<?= _t("Delayed", $_SESSION["SESS_LANG"])?>',
+            'value': '<?= _t("Delayed", $_SESSION["SESS_LANG"])?>'
+        }];
+        // aStatusList[0] = { "label": "Completado", "value": "Completado" };
+        // aStatusList[1] = { "label": "En Proceso", "value": "En Proceso" };
+        // aStatusList[2] = { "label": "Pendiente", "value": "Pendiente" };
+        // Na coluna de status, nao deveriamos permitir a entrada de qualquer
+        // valor. Por isso, a ideia e' de colocar um combo box com as opcoes
+        // pre-definidas: Complido, En Proceso, Retrasado (em ingles: Completed,
+        // In process, Delayed).
         return aStatusList;
     }
     
@@ -406,6 +417,8 @@
                 }, {
                     "label": "<?php echo($status); ?>:",
                     "name": "status",
+                    "type": "select",
+                    "ipOpts": getStatusList(),
                     "required": true
                 }
             ]
@@ -460,29 +473,31 @@
                     "sLengthMenu": "_MENU_ records per page"
                 },
                 "oTableTools": {
-                "aButtons": [
-                    {"sExtends": "text",
-                        "sButtonText": "New",
-                        "fnClick": function ( button, config ) {
-                            editor.create(
-                                'Create New User',
-                                {
-                                    "label": "New",
-                                    "className": "btn btn-primary",
-                                    "fn": function () {
-                                        editor.submit()
+                    "aButtons": [
+                        {"sExtends": "text",
+                            "sButtonText": "New",
+                            "fnClick": function ( button, config ) {
+                                editor.create(
+                                    'Create New Report',
+                                    {
+                                        "label": "New",
+                                        "className": "btn btn-primary",
+                                        "fn": function () {
+                                            editor.submit()
+                                        }
                                     }
-                                }
-                            );
-                        }
-                    },
-                    {"sExtends": "text", "sButtonText": "Word", "fnClick": function() {
-                        var infoMilestone = iTable.fnGetData();
-                        var milestonesData = oTable.fnGetData();
-                        dashboard.milestones.report(infoMilestone, milestonesData);
-                        //window.open("php/report.php");
-                    }}
-                ]
+                                );
+                            }
+                        },
+                        {"sExtends": "text", "sButtonText": "Word", "fnClick": function() {
+                            var infoMilestone = iTable.fnGetData();
+                            var milestonesData = oTable.fnGetData();
+                            dashboard.milestones.report(infoMilestone, milestonesData);
+                            //window.open("php/report.php");
+                            }
+                        },
+                        "csv"
+                    ]
             }
         });
 
@@ -545,41 +560,56 @@
         });
 
 
-    $("#add-detail").live('click', function (e) {
-        //var nTr = this.parentNode.parentNode.id;
-        e.preventDefault();
-        var nTr = $(this).parents('tr')[0];
-        var aData = oTable.fnGetData( nTr );
-        
-        dataDetailUpdate = aData.DT_RowId.split('_')[1];
-        dashboard.milestones.addFormDetailData(aData);
-        $('#modalReportDetail').modal({
-            keyboard: false
+        $("#add-detail").live('click', function (e) {
+            //var nTr = this.parentNode.parentNode.id;
+            e.preventDefault();
+            var nTr = $(this).parents('tr')[0];
+            var aData = oTable.fnGetData( nTr );
+            
+            dataDetailUpdate = aData.DT_RowId.split('_')[1];
+            dashboard.milestones.addFormDetailData(aData);
+            $('#modalReportDetail').modal({
+                keyboard: false
+            });
         });
+
+        $('#addReportDetail').bind('click', function (e) {
+            e.preventDefault();
+            dashboard.milestones.addSubmit(dataDetailUpdate);
+            utils.cleanInputs('#modalReportDetail');
+            $('#modalReportDetail').modal('hide');
+        });
+
     });
 
-    $('#addReportDetail').bind('click', function (e) {
-        e.preventDefault();
-        dashboard.milestones.addSubmit(dataDetailUpdate);
-        utils.cleanInputs('#modalReportDetail');
-        $('#modalReportDetail').modal('hide');
-    });
-
-    });
+    function getSelectHTMLEdit(select) {
+        var status = getStatusList();
+        var html = ['<select>'];
+        for (var i = 0, size = status.length; i < size; i++) {
+            if (status[i].value.toLowerCase() == select.toLowerCase()) {
+                html.push('<option value="' + status[i].value + '" selected="true"> ' + status[i].label + '</option>');
+            } else {
+                html.push('<option value="' + status[i].value + '"> ' + status[i].label + '</option>');
+            }
+        }
+        html.push('</select>');
+        return html.join('');
+    }
 
     function editRow ( oTable, nRow )
     {
         var aData = oTable.fnGetData(nRow);
         var jqTds = $('>td', nRow);
-        //<textarea style="height: 100%; width: 100%;" name="value"></textarea>
+        var status = getSelectHTMLEdit(aData.status);
+        var level = '<?= $_SESSION['SESS_LEVEL']; ?>';
         jqTds[0].innerHTML = '<input name="contry" style="width: 67px;" value="'+aData.country+'" type="text">';
-        //jqTds[1].innerHTML = '<input value="'+aData.indicator+'" type="text">';
-        jqTds[1].innerHTML = '<textarea style="height: 300px; width: 95%;">' + aData.indicator + '</textarea>';
-        //jqTds[2].innerHTML = '<input style="width: auto;" value="'+aData.milestone+'" type="text">';
-        jqTds[2].innerHTML = '<textarea style="height: 300px; width: auto;">' + aData.milestone + '</textarea>';
-        jqTds[3].innerHTML = '<input style="width: 68px;" value="'+aData.quarter+'" type="text">';
+        if (level != 'user') {
+            jqTds[1].innerHTML = '<textarea style="height: 300px; width: 95%;">' + aData.indicator + '</textarea>';
+            jqTds[2].innerHTML = '<textarea style="height: 300px; width: auto;">' + aData.milestone + '</textarea>';
+            jqTds[3].innerHTML = '<input style="width: 68px;" value="'+aData.quarter+'" type="text">';
+        }
         jqTds[4].innerHTML = '<input name="audience" style="width: 68px;" value="'+aData.audience+'" type="text">';
-        jqTds[5].innerHTML = '<input name="status" style="width: 70px;" value="'+aData.status+'" type="text">';
+        jqTds[5].innerHTML = status;
         jqTds[7].innerHTML = '<a class="btn btn-small btn-primary" name="edit" href="#"><?= _t("Save", $_SESSION["SESS_LANG"]); ?></a>';
 
         var inputsAutocomplete = $('>td>input', nRow);
@@ -587,18 +617,27 @@
         //contry
         $(inputsAutocomplete[0]).typeahead({source: countryForm});
         $(inputsAutocomplete[2]).typeahead({source: audienceForm});
-        $(inputsAutocomplete[3]).typeahead({source: statusForm});
+        // $(inputsAutocomplete[3]).typeahead({source: statusForm});
     }
 
     function saveRow ( oTable, nRow )
     {
         var jqInputs = $('input', nRow);
         var jqTextareas = $('textarea', nRow);
+        var jqSelects = $('select', nRow);
+        var options = jqSelects[0].options;
+        var statusValue = '';
+        for (var i = 0; i < options.length; i++) {
+            if (options[i].selected) {
+                statusValue = options[i].value;
+            }
+        }
+
         oTable.fnUpdate( jqInputs[0].value, nRow, 0, false );
         //oTable.fnUpdate( jqInputs[1].value, nRow, 2, false );
         oTable.fnUpdate( jqInputs[1].value, nRow, 3, false );
         oTable.fnUpdate( jqInputs[2].value, nRow, 4, false );
-        oTable.fnUpdate( jqInputs[3].value, nRow, 5, false );
+        oTable.fnUpdate( statusValue, nRow, 5, false );
         
         oTable.fnUpdate( jqTextareas[0].value, nRow, 1, false);
         oTable.fnUpdate( jqTextareas[1].value, nRow, 2, false);
@@ -615,7 +654,7 @@
             indicator: aData.indicator,
             milestone: aData.milestone,
             quarter: aData.quarter,
-            status: aData.status
+            status: statusValue
         };
 
         dashboard.milestones.update(params);

@@ -4,16 +4,20 @@
 	header('Content-type: application/x-javascript');
 	header('Connection: close');
 
-	$user = $_POST['username'];
+	$userid = $_POST['id'];
 	$pass = $_POST['password'];
-	$active = $_POST['active'];
+	$fname = $_POST['fname'];
+	$lname = $_POST['lname'];
+	$phone = $_POST['contact'];
+	$level = $_POST['level'];
+	$countries = $_POST['countries'];
 
 	$response["username"] = "";
 	$response["fname"] = "";
 	$response["lname"] = "";
 	$response["error"] = array();
 
-	if (isset($user) && isset($pass)) {
+	if (isset($userid)) {
 
 		//Function to sanitize values received from the form. Prevents SQL injection
 		function clean($str) {
@@ -24,26 +28,12 @@
 			return pg_escape_string($str);
 		}
 
-		$username = clean($user);
-		$password = clean($pass);
+		$username = clean($userid);
 
 		$login = new Login();
 
-		if ($login->isEmail($username) == false) {
-			array_push($response["error"], "This email address is not considered valid");
-		}
-
-		if ($login->isPassword($password) == false) {
+		if (isset($pass) && $pass == '') {
 			array_push($response["error"], "Password missing");
-		}
-
-		if (isset($active)) {
-			if  ($active == 'true') {
-				$valid = $login->setPassword($password, $username);
-				if ($valid == false) {
-					array_push($response["error"], "The system is not avaliable, please try again soon or contact admin@sm2015.org");
-				}
-			}
 		}
 
 		if (count($response["error"]) == 0) {

@@ -1,4 +1,8 @@
 <?php include('./php/signin.php'); ?>
+<?php require_once('./php/trans.php'); ?>
+<?php
+$home = _t('HOME_PAGE', $_SESSION['SESS_LANG']);
+?>
 <!DOCTYPE html>
 <html lang="en">
     
@@ -72,7 +76,7 @@
                 <div class="jumbotron">
                      <h1>SM2015 Dashboard</h1>
 
-                    <p class="lead">Welcome to the SM2015 Monthly Execution Report Webapp. This site will allow you to update the Milestones and Advances graphics on the Dashboard Website in addition to creating reports in PDF, Word or Excel.</p> <a class="btn btn-large btn-success" href="#">Get started now</a>
+                    <p class="lead"><?php echo($home); ?></p>
 
                 </div>
                 <hr>
@@ -102,59 +106,6 @@
                 </div>
                 <hr>
             </div>
-        </div>
-        <div id="modalAddUser" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="modalAddUserLabel" aria-hidden="true">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h3>Create Account</h3>
-          </div>
-          <form id="formAddUser">
-          <div class="modal-body">
-                <p>Required fields are followed by <strong><abbr title="required">*</abbr></strong>.</p>
-                <p class="formAddUser">
-                    <label for="formfirstname">
-                        <span>First Name: </span>
-                        <input id="formfirstname" value="" name="firstname" type="text" required />
-                        <strong><abbr title="required">*</abbr></strong>
-                    </label>
-                    <label for="formlastname">
-                        <span>Last Name: </span>
-                        <input id="formlastname" value="" name="formlastname" type="text" required />
-                        <strong><abbr title="required">*</abbr></strong>
-                    </label>
-                    <label for="formemailuser">
-                        <span style="padding-right: 42px;">Email: </span>
-                        <input style="padding-left: 8px;" id="formemailuser" value="" name="formemailuser" type="text" required />
-                        <strong><abbr title="required">*</abbr></strong>
-                    </label>
-                    <label for="formphoneuser">
-                        <span style="padding-right: 35px;">Phone: </span>
-                        <input id="formphoneuser" value="" name="formphoneuser" type="text" />
-                    </label>
-                    <label for="formcontries">
-                        <span>Contries: </span>
-                        <ul style="display: inline; list-style: none;">
-                        <li style="float: left;"><label class="labelContries" for="belize"><input id="belize" type="checkbox" value="Belize" class="inputCountries"/> Belize</label></li>
-                        <li style="float: left;"><label class="labelContries"  for="costarica"><input id="costarica" type="checkbox" value="Costa Rica" class="inputCountries" /> Costa Rica</label></li>
-                        <li style="float: left;"> <label class="labelContries"  for="elsalvador"><input id="elsalvador" type="checkbox" value="El Salvador" class="inputCountries" /> El Salvador</label></li>
-                        <li style="float: left;"><label class="labelContries"  for="honduras"><input id="honduras" type="checkbox" value="Honduras" class="inputCountries" /> Honduras</label></li>
-                        <li style="float: left;"><label class="labelContries"  for="guatemala"><input id="guatemala" type="checkbox" value="Guatemala" class="inputCountries" /> Guatemala</label></li>
-                        <li style="float: left;"><label class="labelContries"  for="mexico"><input id="mexico" type="checkbox" value="Mexico" class="inputCountries" /> Mexico</label></li>
-                        <li style="float: left;"><label class="labelContries"  for="nicaragua"><input id="nicaragua" type="checkbox" value="Nicaragua" class="inputCountries" /> Nicaragua</label></li>
-                        <li style="float: left;"><label class="labelContries"  for="panama"><input id="panama" type="checkbox" value="Panama" class="inputCountries" /> Panama</label></li>
-                        </ul>
-                    </label>
-                </p>
-          </div>
-          <div id="alertErrorAddUser" class="alert alert-error fade in">
-            <button data-dismiss="alert" class="close" type="button">×</button>
-            <div id="alertMsgErrorAddUser"><strong>Holy guacamole!</strong> Best check yo self, you're not looking too good.</div>
-        </div>
-          <div class="modal-footer">
-            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-            <button type="submit" class="btn btn-primary">Add</button>
-          </div>
-          </form>
         </div>
         <div id="footer">
             <div class="container">

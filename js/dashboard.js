@@ -14,6 +14,7 @@
 			var instance = this;
 			var loginButton = $(instance.loginButton);
 			$(".alert").alert();
+			
 			loginButton.bind('submit', function (evt) {
 				evt.preventDefault();
 				var loginEmailVal = $('#signin-email').val();
@@ -132,13 +133,18 @@
 				var email = $('#formemailuser').val();
 				var pass = $('#formpassworduser').val();
 				var phone = $('#formphoneuser').val();
+				var level = 'user';
+				$( "#formleveluser select option:selected" ).each(function() {
+					level = $( this ).text();
+				});
 				var countries = dashboard.main.countries();
 				dashboard.main.addUser({
 					fname: fname,
 					lname: lname,
 					email: email,
 					phone: phone,
-					countries: countries
+					countries: countries,
+					level: level
 				});
 			});
 		},
@@ -187,7 +193,8 @@
 					lname: opt.lname,
 					email: opt.email,
 					countries: opt.countries.join(','),
-					phone: opt.phone
+					phone: opt.phone,
+					level: opt.level
 				},
 				success: function (data) {
 					if (data.error && data.error.length > 0) {
@@ -196,7 +203,7 @@
 						if (data.msg && data.msg == 'success') {
 							dashboard.main.showAlertAddUser('The user was added successfully and an email was sent with the activation link.');
 							setTimeout(function () {
-								$('#modalAddUser').modal('hide');
+								dashboard.main.hideAlertAddUser();
 							}, 5000);
 							dashboard.main.cleanFormAddUser();
 						}
@@ -215,11 +222,11 @@
 			$('#formphoneuser').val('');
 		},
 		showAlertAddUser: function (msg) {
-			$('#alertMsgErrorAddUser').html(msg);
-			$('#alertErrorAddUser').show();
+			$('#alert-create-user-msg').html(msg);
+			$('#alert-create-user').show();
 		},
 		hideAlertAddUser: function() {
-			$('#alertErrorAddUser').hide();
+			$('#alert-create-user').hide();
 		}
 	};
 

@@ -65,6 +65,9 @@
         'Pending' => array(
             'es' => 'Pendiente'
         ),
+        'Delayed' => array(
+            'es' => 'Retrasado'
+        ),
         'Donors' => array(
             'es' => 'Donantes'
         ),
@@ -91,6 +94,16 @@
         ),
         'Recommendation' => array(
             'es' => 'Recomendaciones'
+        ),
+        'Performance' => array(
+            'es' => 'Avances'
+        ),
+        'Risks' => array(
+            'es' => 'Riesgos'
+        ),
+        'HOME_PAGE' => array(
+            'es' => 'Bienvenido a la SM2015 Informe Mensual de Ejecución aplicación web. Este sitio le permitirá actualizar el Hito y avances gráficos en el Sitio Web Dashboard además de crear informes en PDF, Word o Excel.',
+            'eng' => 'Welcome to the SM2015 Monthly Execution Report Webapp. This site will allow you to update the Milestone and Advances graphics on the Dashboard Website in addition to creating reports in PDF, Word or Excel.'
         )
     );
 

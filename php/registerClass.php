@@ -11,14 +11,16 @@ class Register {
 	private $email;
 	private $countries;
 	private $phone;
+	private $level;
 	private $success;
 
-	function __construct($fname, $lname, $email, $countries, $phone) {
+	function __construct($fname, $lname, $email, $countries, $phone, $level) {
 		$this->fname = $fname;
 		$this->lname = $lname;
 		$this->email = $email;
 		$this->countries = $countries;
 		$this->phone = $phone;
+		$this->level = $level;
 		$this->success = false;
 	}
 
@@ -35,7 +37,7 @@ class Register {
 			if ($rows == 0) {
 				// Create a unique  activation code:
 				$activation = md5(uniqid(rand(), true));
-				$query_insert_user = "INSERT INTO member ( username, password, fname, lname, address, contact, picture, gender, activation, level, countries) VALUES ( '$this->email', '', '$this->fname', '$this->lname', '', '$this->phone', '', '','$activation', 'admin', '$this->countries')";
+				$query_insert_user = "INSERT INTO member ( username, password, fname, lname, address, contact, picture, gender, activation, level, countries) VALUES ( '$this->email', '', '$this->fname', '$this->lname', '', '$this->phone', '', '','$activation', '$level', '$this->countries')";
 
 				$result_insert_user = $db->insert($query_insert_user);
 

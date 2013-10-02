@@ -9,6 +9,7 @@ $lname = $_POST['lname'];
 $email = $_POST['email'];
 $countries = $_POST['countries'];
 $phone = $_POST['phone'];
+$level = $_POST['level'];
 
 $response["msg"] = '';
 $response["error"] = array();
@@ -29,7 +30,7 @@ if (isset($fname) && isset($lname) && isset($email) && isset($countries)) {
 	}
 
 	if (empty($response["error"])) {
-		$register = new Register($fname, $lname, $email, $countries, $phone);
+		$register = new Register($fname, $lname, $email, $countries, $phone, $level);
 		$result = $register->addUser();
 		if (!empty($result)) {
 			array_push($response["error"],$result[0]);

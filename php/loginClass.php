@@ -11,9 +11,11 @@ class Login {
 	private $lname; //last name;
 	private $address;
 	private $contact;
+	private $password;
 	private $picture;
 	private $gender;
 	private $level;
+	private $phone;
 	private $activation;
 	private $countries;
 	private $databaseError = False; //error from database
@@ -69,6 +71,20 @@ class Login {
 		$db->close();
 	}
 
+	function updateInfo($id, $userinfo) {
+		$query = "UPDATE member SET password = $userinfo->pass, fname = $userinfo->fname, lname = $userinfo->lname, contact = $userinfo->contact WHERE mem_id=$id";
+		$db = new Database();
+		$db->connect();
+		$response = False;
+		$result = $db->update($query);
+		if ($result != False) {
+			$response = True;
+			$db->freeMemory($result);
+		}
+		$db->close();
+		return $response;
+	}
+
 	function getDatabaseError() {
 		return $this->databaseError;
 	}
@@ -85,6 +101,7 @@ class Login {
 		$this->address = $info['address'];
 		$this->contact = $info['contact'];
 		$this->picture = $info['picture'];
+		$this->password = $info['password'];
 		$this->gender = $info['gender'];
 		$this->activation = $info['activation'];
 		$this->level = $info['level'];
@@ -135,8 +152,33 @@ class Login {
 		return $this->countries;
 	}
 
-	function getInfo() {
+	function getPassword() {
+		return $this->password;
+	}
 
+	function getInfoDatabase($id) {
+		$query="SELECT * FROM member WHERE mem_id=$id";
+		//connect database
+		$db = new Database();
+		$db->connect();
+		$result = $db->retrieve($query);
+		if ($result != False) {
+			$rows = pg_num_rows($result);
+			if ($rows > 0) {
+				$member = pg_fetch_assoc($result);
+				$this->setInformation($member);
+				$db->freeMemory($result);
+			}
+		} else {
+			$this->databaseError = True;
+		}
+
+		$db->close();
+		$info = $this->getInfo(); 
+		return $info;
+	}
+
+	function getInfo() {
 		$info = new stdClass();
 		$info->id = $this->getId();
 		$info->username = $this->getUsername();
@@ -148,9 +190,9 @@ class Login {
 		$info->gender = $this->getGender();
 		$info->level = $this->getLevel();
 		$info->activation = $this->getActivation();
+		$info->password = $this->getPassword();
 		$info->countries = $this->getCountries();
 		return $info;
-
 	}
 
 }

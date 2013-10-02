@@ -2,21 +2,13 @@
 
 	$(document).ready(function () {
 
-
-
-		$('#menuAddUser').bind('click', function() {
-			$('#modalAddUser').modal({
-				keyboard: false
-			});
-		});
-
 		$('#menuenglish').bind('click', function(e) {
 			e.preventDefault();
 
 			$.ajax({
 				'type': 'GET',
 				'data': {
-					'lang': 'en'
+					'lang': 'eng'
 				},
 				'url': 'php/setLang.php',
 				success: function(data) {
