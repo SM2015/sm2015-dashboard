@@ -7,6 +7,7 @@ include('signin.php');
 include("database.php");
 
 $country = $_GET['country'];
+$country = urldecode($country);
 $html = array();
 if (isset($country)) {
 	array_push($html, '<table border="1"><tr>', '<th>Pais</th>','<th>Fecha de Actualizacion</th>', '<th>Avances Físicos Planificados</th>', '<th>Avances Financieros Planificados</th>', '<th>Monto Comprometido</th>', '<th>Alertas Tempranas</th>', '<th>Monto Desembolsado</th>', '<th>Avances Físicos Reales</th>', '<th>Avances Financieros actuales</th>', '<th>Recomendaciones</th></tr>');

@@ -75,11 +75,12 @@
       dashboard.milestones.updateDetail(params);
     },
     report: function(country) {
-      var url = 'php/report.php?country=' + country;
+      var url = 'php/report.php?country=' + encodeURIComponent(country);
       window.open(url);
     },
     exportExcel: function(country) {
-      var url = 'php/exportExcel.php?country=' + country;
+      var url = 'php/exportExcel.php?country=' + encodeURIComponent(country);
+      console.log(url);
       window.open(url);
     },
     addFormDetailData: function(data) {
