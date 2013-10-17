@@ -40,6 +40,28 @@
 				}
 			});
 		});
+
+		$('#menucountry > li').bind('click', function(e) {
+			e.preventDefault();
+			var pais = $(this).attr('id').replace('menu', '');
+			$.ajax({
+				'type': 'GET',
+				'data': {
+					'country': pais
+				},
+				'url': 'php/setCountry.php',
+				success: function(data) {
+					//if (data.msg && data.msg == 'success') {
+						window.location.reload();
+					//}
+				},
+				complete: function (data) {
+					
+						window.location.reload();
+					
+				}
+			});
+		});
 	});
 
 })(window, document, jQuery);

@@ -11,6 +11,7 @@
         $user = $login->getInfoDatabase($_SESSION['SESS_MEMBER_ID']);
     }
     $userCountries = $user->countries;
+    $level = $_SESSION['SESS_LEVEL'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -131,7 +132,7 @@
                                 <input id="formeditphoneuser" value="<?= $user->contact; ?>" name="formphoneuser" type="text" />
                             </div>
                         </div>
-                        <? if ($_SESSION['SESS_LEVEL'] == 'leader') || ($_SESSION['SESS_LEVEL'] == 'admin'): ?>
+                        <? if ($level == 'admin'): ?>
                         <div class="control-group">
                             <label class="control-label">Level:</label>
                             <div class="controls">

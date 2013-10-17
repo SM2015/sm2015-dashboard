@@ -113,10 +113,30 @@
       });
     },
     addFormDetailData: function(data) {
-      $('#formalertsnotes').val(data.alerts);
-      $('#formrecommendation').val(data.recommendation);
-      $('#formagreements').val(data.agreements);
-      $('#formpoa').val(data.activitypoa);
+      var id = data["DT_RowId"].replace('row_', '');
+      services.milestones.getDetail({
+        data: {
+          'rowid': id
+        },
+        success: function(data) {
+          if (data.error.length > 0) {
+            console.log('Error');
+          } else {
+            $('#formalertsnotes').val(data.alerts);
+            $('#formrecommendation').val(data.recommendation);
+            $('#formagreements').val(data.agreements);
+            $('#formpoa').val(data.activitypoa);
+          }
+        },
+        error: function(data, msg) {
+          console.log(data);
+        }
+
+      });
+      // $('#formalertsnotes').val(data.alerts);
+      // $('#formrecommendation').val(data.recommendation);
+      // $('#formagreements').val(data.agreements);
+      // $('#formpoa').val(data.activitypoa);
     }
   };
 

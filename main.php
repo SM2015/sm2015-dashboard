@@ -83,25 +83,22 @@ $home = _t('HOME_PAGE', $_SESSION['SESS_LANG']);
                 <!-- Example row of columns -->
                 <div class="row-fluid">
                     <div class="span4">
-                         <h2>Milestones</h2>
+                         <h2><?=_t('Milestone', $_SESSION['SESS_LANG']); ?></h2>
 
-                        <p>To update your milestones, please click on the 'View milestones' button below. The information will also update the Dashboard Website. Condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
-                        <p><a class="btn" href="./milestones.php">Manage milestones &raquo;</a>
-                        </p>
+                        <p><?=_t('Milestone_Home', $_SESSION['SESS_LANG']); ?></p>
+                        <p><a class="btn" href="./milestones.php"><?=_t('Manage', $_SESSION['SESS_LANG']); ?> <?=_t('Milestone', $_SESSION['SESS_LANG']); ?> &raquo;</a></p>
                     </div>
                     <div class="span4">
-                         <h2>Advances</h2>
+                         <h2><?=_t('Performance', $_SESSION['SESS_LANG']); ?></h2>
 
-                        <p>To update the advances (triangle), please click on the advances button. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa. Justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
-                        <p><a class="btn" href="./milestones.php">Manage advances &raquo;</a>
-                        </p>
+                        <p><?=_t('Performance_Home', $_SESSION['SESS_LANG']); ?></p>
+                        <p><a class="btn" href="./milestones.php"><?=_t('Manage', $_SESSION['SESS_LANG']); ?> <?=_t('Performance', $_SESSION['SESS_LANG']); ?> &raquo;</a></p>
                     </div>
                     <div class="span4">
-                         <h2>Risks</h2>
+                         <h2><?=_t('Risks', $_SESSION['SESS_LANG']); ?></h2>
 
-                        <p>To update risk table, please click on the risk button. There is no graphic on the dashboard linked to this information, it is only included in the report when you export. Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. </p>
-                        <p><a class="btn" href="./milestones.php">Manage risks &raquo;</a>
-                        </p>
+                        <p><?=_t('Risks_Home', $_SESSION['SESS_LANG']); ?></p>
+                        <p><a class="btn" href="./milestones.php"><?=_t('Manage', $_SESSION['SESS_LANG']); ?> <?=_t('Risks', $_SESSION['SESS_LANG']); ?> &raquo;</a></p>
                     </div>
                 </div>
                 <hr>

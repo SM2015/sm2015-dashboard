@@ -50,6 +50,12 @@
                     options.url = 'php/report';
                     services.request.call(this, options);
                 }
+            },
+            getDetail: function(options) {
+                if (options) {
+                    options.url = 'php/getDetailMilestone';
+                    services.request.call(this, options);
+                }
             }
         },
 

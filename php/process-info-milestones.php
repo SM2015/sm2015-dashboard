@@ -18,6 +18,7 @@ Editor::inst( $db, 'infomilestone' )
         Field::inst( 'updated' )->validator( 'Validate::required' ),
         Field::inst( 'executed' )->validator( 'Validate::required' ),
         Field::inst( 'planned' )->validator( 'Validate::required' ),
+        Field::inst( 'montocomprometido' )->validator( 'Validate::required' ),
         Field::inst( 'alerts' )->validator( 'Validate::required' ),
         Field::inst( 'expended' )->validator( 'Validate::required' ),
         Field::inst( 'pep' )->validator( 'Validate::required' ),

@@ -64,6 +64,8 @@
 					$_SESSION['SESS_LAST_NAME'] = $login->getLname();
 					$_SESSION['SESS_LEVEL'] = $login->getLevel();
 					$_SESSION['SESS_COUNTRIES'] = $login->getCountries();
+					$paises = explode(",", $login->getCountries());
+					$_SESSION['SESS_COUNTRY'] = $paises[0];
 					$_SESSION['SESS_LANG'] = 'es';
 
 					$response["username"] = $login->getUsername();

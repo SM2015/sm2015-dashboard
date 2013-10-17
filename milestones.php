@@ -21,6 +21,7 @@
     $physicalprogress = _t('Physical Progress', $_SESSION['SESS_LANG']);
     $financialprogress = _t('Financial Progress', $_SESSION['SESS_LANG']);
     $inforecommendation = _t('Recommendation', $_SESSION['SESS_LANG']);
+    $montocomprometido = _t('Monto Comprometido', $_SESSION['SESS_LANG']);
 
     
 ?>
@@ -167,6 +168,7 @@
     var statusForm = ['<?= _t("Completed", $_SESSION["SESS_LANG"])?>', '<?= _t("In Process", $_SESSION["SESS_LANG"])?>', '<?= _t("Pending", $_SESSION["SESS_LANG"])?>'];
     var audienceForm = ['<?= _t("Donors", $_SESSION["SESS_LANG"])?>', '<?= _t("Country", $_SESSION["SESS_LANG"])?>'];
     var dataDetailUpdate = '';
+    var countrySelect = '<?= $_SESSION["SESS_COUNTRY"]?>';
 
     function filterCountry(param) {
         var country = utils.removeEmpty(param);
@@ -200,7 +202,7 @@
     function filterCountries ( country ) {
         var response = false;
         for (var key in countriesHash) {
-            if (country.toLowerCase() == countriesHash[key].toLowerCase()) {
+            if (country.toLowerCase() == countrySelect.toLowerCase()) {//countriesHash[key].toLowerCase()) {
                 response = true;
                 break;
             }
@@ -270,6 +272,10 @@
                 "name": 'planned',
                 "required": true
             }, {
+                "label": '<?php echo($montocomprometido); ?>:',
+                "name": 'montocomprometido',
+                "required": true
+            }, {
                 "label": '<?php echo($alerts); ?>:',
                 "name": 'alerts',
                 "type": "textarea",
@@ -332,6 +338,7 @@
                 { "mData": "updated", "bSortable": false, "bSearchable": false, "sClass": "center" },
                 { "mData": "executed", "bSortable": false, "bSearchable": false, "sClass": "center" },
                 { "mData": "planned", "bSortable": false, "bSearchable": false, "sClass": "center" },
+                { "mData": "montocomprometido", "bSortable": false, "bSearchable": false, "sClass": "center" },
                 { "mData": null, "bSortable": false, "bSearchable": false, "sClass": "center", "fnRender": function(obj) {
                     var alerts = obj.aData.alerts;
                     alerts = utils.paddingText(alerts, 75);
@@ -351,12 +358,12 @@
                 "oTableTools": {
                 "aButtons": [
                     {"sExtends": 'text',
-                        "sButtonText": "Edit",
+                        "sButtonText": "<?=_t('Edit', $_SESSION['SESS_LANG']); ?>",
                         "fnClick": function ( button, config ) {
                             infoeditor.edit($('#info_milestone').find('tbody tr')[0],
                                 'Edit',
                                 {
-                                    "label": "Edit",
+                                    "label": "<?=_t('Save', $_SESSION['SESS_LANG']); ?>",
                                     "className": "btn btn-primary",
                                     "fn": function () {
                                         infoeditor.submit()
@@ -475,7 +482,7 @@
                 "oTableTools": {
                     "aButtons": [
                         {"sExtends": "text",
-                            "sButtonText": "New",
+                            "sButtonText": "<?=_t('New', $_SESSION['SESS_LANG']); ?>",
                             "fnClick": function ( button, config ) {
                                 editor.create(
                                     'Create New Report',
@@ -688,6 +695,7 @@
                                         <th class="header" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 400px;" aria-label="Indicator: activate to sort column ascending"><?php echo($update); ?></th>
                                         <th class="header" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 208px;" aria-label="Milestone: activate to sort column ascending"><?php echo($executed); ?></th>
                                         <th class="header" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 60px;" aria-label="Quarter: activate to sort column ascending"><?php echo($financial); ?></th>
+                                        <th class="header" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 60px;" aria-label="Monto Comprometido: activate to sort column ascending"><?php echo($montocomprometido); ?></th>
                                         <th class="header" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 80px;" aria-label="Audience: activate to sort column ascending"><?php echo($alerts); ?></th>
                                         <th class="header" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 80px;" aria-label="Status: activate to sort column ascending"><?php echo($fund); ?></th>
                                         <th class="header" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 80px;" aria-label="Status: activate to sort column ascending"><?php echo($physicalprogress); ?></th>
