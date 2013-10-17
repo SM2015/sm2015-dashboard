@@ -497,13 +497,15 @@
                             }
                         },
                         {"sExtends": "text", "sButtonText": "Word", "fnClick": function() {
-                            var infoMilestone = iTable.fnGetData();
-                            var milestonesData = oTable.fnGetData();
-                            dashboard.milestones.report(infoMilestone, milestonesData);
+                            // var infoMilestone = iTable.fnGetData();
+                            // var milestonesData = oTable.fnGetData();
+                            dashboard.milestones.report(countrySelect);
                             //window.open("php/report.php");
                             }
                         },
-                        "csv"
+                        {"sExtends": "text", "sButtonText": "CSV", "fnClick": function() {
+                            dashboard.milestones.exportExcel(countrySelect);
+                        }}
                     ]
             }
         });

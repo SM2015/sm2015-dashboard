@@ -1,6 +1,6 @@
 <?php
-$file="DashboardSM2015.doc";
-header('Content-Type: application/vnd.ms-word');
+$file="DashboardSM2015.xls";
+header('Content-Type: application/vnd.ms-excel');
 header('Content-Disposition: attachment;filename="'.$file.'"');
 header('Cache-Control: max-age=0');
 include('signin.php');

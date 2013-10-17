@@ -74,43 +74,13 @@
       };
       dashboard.milestones.updateDetail(params);
     },
-    report: function(infoMilestone, dataMilestone) {
-      var data = {
-        'info': infoMilestone,
-        'table': {}
-      }, i = 0, size = dataMilestone.length;
-
-      for (i; i < size; i++) {
-        var aux = dataMilestone[i];
-        var key = aux.DT_RowId;
-        var activitypoa = (aux.activitypoa === null) ? '' : aux.activitypoa;
-        var agreements = (aux.agreements === null) ? '' : aux.agreements;
-        var alerts = (aux.alerts === null) ? '' : aux.alerts;
-        var recommendation = (aux.recommendation === null) ? '' : aux.recommendation;
-        data.table[key] = {
-          activitypoa: activitypoa,
-          agreements: agreements,
-          alerts: alerts,
-          audience: aux.audience,
-          country: aux.country,
-          indicator: aux.indicator,
-          milestone: aux.milestone,
-          quarter: aux.quarter,
-          recommendation: recommendation,
-          status: aux.status
-        };
-      }
-
-      services.milestones.report({
-        'type': 'POST',
-        data: data,
-        success: function(data) {
-          window.open(data.url);
-        },
-        error: function(data, msg) {
-          console.log(data);
-        }
-      });
+    report: function(country) {
+      var url = 'php/report.php?country=' + country;
+      window.open(url);
+    },
+    exportExcel: function(country) {
+      var url = 'php/exportExcel.php?country=' + country;
+      window.open(url);
     },
     addFormDetailData: function(data) {
       var id = data["DT_RowId"].replace('row_', '');
