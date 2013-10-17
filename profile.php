@@ -99,7 +99,7 @@
             <!-- Begin page content -->
             <div class="container">
                 <div class="page-header" id="follow">
-                <h2>Create Account</h2>
+                <h2>Profile</h2>
                 </div>
                 <!-- Form -->
                 <form class="form-horizontal" id="formEditUser">
