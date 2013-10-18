@@ -302,7 +302,7 @@
             "events": {
                 "onOpen": function() {
                     console.log();
-                }
+                }   
             }
         });
 
@@ -643,8 +643,7 @@
         var aData = oTable.fnGetData(nRow);
         var jqTds = $('>td', nRow);
         var status = getSelectHTMLEdit(aData.status);
-        
-        jqTds[0].innerHTML = '<input name="contry" style="width: 67px;" value="'+aData.country+'" type="text">';
+        //jqTds[0].innerHTML = '<input name="contry" style="width: 67px;" value="'+aData.country+'" type="text">';
         if (userLevel != 'user') {
             jqTds[1].innerHTML = '<textarea style="height: 300px; width: 95%;">' + aData.indicator + '</textarea>';
             jqTds[2].innerHTML = '<textarea style="height: 300px; width: auto;">' + aData.milestone + '</textarea>';
@@ -663,6 +662,7 @@
 
     function saveRow ( oTable, nRow )
     {
+        var jqTds = $('>td', nRow);
         var jqInputs = $('input', nRow);
         var jqTextareas = $('textarea', nRow);
         var jqSelects = $('select', nRow);
@@ -674,13 +674,25 @@
             }
         }
 
-        oTable.fnUpdate( jqInputs[0].value, nRow, 0, false );
-        oTable.fnUpdate( jqInputs[1].value, nRow, 3, false );
-        oTable.fnUpdate( jqInputs[2].value, nRow, 4, false );
-        oTable.fnUpdate( statusValue, nRow, 5, false );
-        
-        oTable.fnUpdate( jqTextareas[0].value, nRow, 1, false);
-        oTable.fnUpdate( jqTextareas[1].value, nRow, 2, false);
+        if (userLevel == 'user') {
+            var audience = jqInputs[0].value;
+            jqTds[4].innerHTML = audience;
+            jqTds[5].innerHTML = statusValue;
+            oTable.fnUpdate( jqInputs[0].value, nRow, 0, false );
+            oTable.fnUpdate( statusValue, nRow, 5, false );
+        } else {
+            oTable.fnUpdate( jqInputs[0].value, nRow, 0, false );
+            oTable.fnUpdate( jqInputs[1].value, nRow, 3, false );
+            //oTable.fnUpdate( jqInputs[2].value, nRow, 4, false );
+            oTable.fnUpdate( statusValue, nRow, 5, false );
+            oTable.fnUpdate( jqTextareas[0].value, nRow, 1, false);
+            oTable.fnUpdate( jqTextareas[1].value, nRow, 2, false);
+            jqTds[1].innerHTML = jqTextareas[0].value;
+            jqTds[2].innerHTML = jqTextareas[1].value;
+            jqTds[3].innerHTML = jqInputs[0].value;
+            jqTds[4].innerHTML = jqInputs[1].value;
+            jqTds[5].innerHTML = statusValue;
+        }
         var buttonText = '<?= (_t("Edit", $_SESSION["SESS_LANG"])); ?>';
         
         oTable.fnUpdate( '<a class="btn btn-small btn-primary" name="edit" href="">' + buttonText + '</a>', nRow, 7, false );
