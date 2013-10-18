@@ -183,3 +183,7 @@ code {
     padding-right: 10px;
     margin-right: 15px;
 }
+
+#formReportDetail textarea {
+    width: 500px;
+}

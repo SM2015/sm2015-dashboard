@@ -109,8 +109,8 @@
     <script type="text/javascript" charset="utf-8" src="./js/DataTables/dataTables.bootstrap.js" ></script>
     <script type="text/javascript" charset="utf-8" src="./js/DataTables/dataTables.editor.bootstrap.js" ></script>
     <script type="text/javascript" charset="utf-8" src="./js/DataTables/ZeroClipboard.js" ></script>
+    <script type="text/javascript" charset="utf-8" src="./js/numeral.min.js" ></script>
     <script type="text/javascript" charset="utf-8" src="./js/utils.js"></script>
-
 
     
    <script type="text/javascript" charset="utf-8">
@@ -169,6 +169,7 @@
     var audienceForm = ['<?= _t("Donors", $_SESSION["SESS_LANG"])?>', '<?= _t("Country", $_SESSION["SESS_LANG"])?>'];
     var dataDetailUpdate = '';
     var countrySelect = '<?= $_SESSION["SESS_COUNTRY"]?>';
+    var userLevel = '<?= $_SESSION['SESS_LEVEL']; ?>';
 
     function filterCountry(param) {
         var country = utils.removeEmpty(param);
@@ -262,7 +263,7 @@
             }, {
                 "label": '<?php echo($update); ?>:',
                 "name": 'updated',
-                "required": true
+                "required": true,
             }, {
                 "label": '<?php echo($executed); ?>:',
                 "name": 'executed',
@@ -299,8 +300,8 @@
                 "required": true
             }],
             "events": {
-                "onInitEdit": function(json, data) {
-                    console.log(data);
+                "onOpen": function() {
+                    console.log();
                 }
             }
         });
@@ -336,27 +337,55 @@
             "aoColumns": [
                 { "mData": "country", "bSortable": false, "bSearchable": false, "sClass": "center"},
                 { "mData": "updated", "bSortable": false, "bSearchable": false, "sClass": "center" },
-                { "mData": "executed", "bSortable": false, "bSearchable": false, "sClass": "center" },
-                { "mData": "planned", "bSortable": false, "bSearchable": false, "sClass": "center" },
+                { "mData": "executed", "bSortable": false, "bSearchable": false, "sClass": "center", "fnRender": function(obj) {
+                    var executed = obj.aData.executed;
+                    if (executed.indexOf('%') == (-1)) {
+                        return executed.concat('%');
+                    } else {
+                        return executed;
+                    }
+                } },
+                { "mData": "planned", "bSortable": false, "bSearchable": false, "sClass": "center", "fnRender": function(obj) {
+                    var planned = obj.aData.planned;
+                    if (planned.indexOf('%') == (-1)) {
+                        return planned.concat('%');
+                    } else {
+                        return planned;
+                    }
+                } },
                 { "mData": "montocomprometido", "bSortable": false, "bSearchable": false, "sClass": "center" },
                 { "mData": null, "bSortable": false, "bSearchable": false, "sClass": "center", "fnRender": function(obj) {
                     var alerts = obj.aData.alerts;
-                    alerts = utils.paddingText(alerts, 75);
+                    // alerts = utils.paddingText(alerts, 75);
                     return alerts;
                 } },
                 { "mData": "expended", "bSortable": false, "bSearchable": false, "sClass": "center" },
-                { "mData": "pep", "bSortable": false, "bSearchable": false, "sClass": "center" },
-                { "mData": "progression","bSortable": false, "bSearchable": false, "sClass": "center" },
+                { "mData": "pep", "bSortable": false, "bSearchable": false, "sClass": "center", "fnRender": function(obj) {
+                    var pep = obj.aData.pep;
+                    if (pep.indexOf('%') == (-1)) {
+                        return pep.concat('%');
+                    } else {
+                        return pep;
+                    }
+                } },
+                { "mData": "progression","bSortable": false, "bSearchable": false, "sClass": "center" , "fnRender": function(obj) {
+                    var progression = obj.aData.progression;
+                    if (progression.indexOf('%') == (-1)) {
+                        return progression.concat('%');
+                    } else {
+                        return progression;
+                    }
+                }},
                 { "mData": "recommendation", "bSortable": false, "bSearchable": false, "sClass": "center", "fnRender": function(obj) {
                     var recommendation = obj.aData.recommendation;
-                    recommendation = utils.paddingText(recommendation, 75);
+                    // recommendation = utils.paddingText(recommendation, 75);
                     return recommendation;
                 }}],
                 "oLanguage": {
                     "sLengthMenu": "_MENU_ records per page"
                 },
                 "oTableTools": {
-                "aButtons": [
+                    "aButtons": [
                     {"sExtends": 'text',
                         "sButtonText": "<?=_t('Edit', $_SESSION['SESS_LANG']); ?>",
                         "fnClick": function ( button, config ) {
@@ -473,7 +502,11 @@
                     return '<a class="btn btn-small btn-primary" name="edit" href=""><?php echo(_t("Edit", $_SESSION["SESS_LANG"])); ?></a>';
                 }},
                 { "mData": null, "bSortable": false, "bSearchable": false, "sClass": "center", "fnRender": function() {
-                    return '<a class="btn btn-small btn-primary" name="delete" href=""><?php echo(_t("Delete", $_SESSION["SESS_LANG"])); ?></a>';
+                    if (userLevel == 'admin') {
+                        return '<button class="btn btn-small btn-primary" name="delete" type="button"><?php echo(_t("Delete", $_SESSION["SESS_LANG"])); ?></button>';
+                    } else {
+                        return '<button class="btn btn-small btn-primary" name="delete" type="button" disabled="true"><?php echo(_t("Delete", $_SESSION["SESS_LANG"])); ?></button>';
+                    }
                 }
             }],
             "oLanguage": {
@@ -539,7 +572,7 @@
         }
     } );
 
-    $('#example a[name="delete"]').live('click', function (e) {
+    $('#example button[name="delete"]').live('click', function (e) {
         e.preventDefault();
         dataDelete = $(this).parents('tr')[0];
         //oTable.fnDeleteRow( nRow );
@@ -610,9 +643,9 @@
         var aData = oTable.fnGetData(nRow);
         var jqTds = $('>td', nRow);
         var status = getSelectHTMLEdit(aData.status);
-        var level = '<?= $_SESSION['SESS_LEVEL']; ?>';
+        
         jqTds[0].innerHTML = '<input name="contry" style="width: 67px;" value="'+aData.country+'" type="text">';
-        if (level != 'user') {
+        if (userLevel != 'user') {
             jqTds[1].innerHTML = '<textarea style="height: 300px; width: 95%;">' + aData.indicator + '</textarea>';
             jqTds[2].innerHTML = '<textarea style="height: 300px; width: auto;">' + aData.milestone + '</textarea>';
             jqTds[3].innerHTML = '<input style="width: 68px;" value="'+aData.quarter+'" type="text">';
@@ -623,10 +656,9 @@
 
         var inputsAutocomplete = $('>td>input', nRow);
 
-        //contry
+        //country
         $(inputsAutocomplete[0]).typeahead({source: countryForm});
         $(inputsAutocomplete[2]).typeahead({source: audienceForm});
-        // $(inputsAutocomplete[3]).typeahead({source: statusForm});
     }
 
     function saveRow ( oTable, nRow )
@@ -643,7 +675,6 @@
         }
 
         oTable.fnUpdate( jqInputs[0].value, nRow, 0, false );
-        //oTable.fnUpdate( jqInputs[1].value, nRow, 2, false );
         oTable.fnUpdate( jqInputs[1].value, nRow, 3, false );
         oTable.fnUpdate( jqInputs[2].value, nRow, 4, false );
         oTable.fnUpdate( statusValue, nRow, 5, false );
@@ -668,7 +699,8 @@
 
         dashboard.milestones.update(params);
     }
-        </script>
+
+    </script>
 
     </head>
     
@@ -770,22 +802,18 @@
           <form id="formReportDetail">
           <div class="modal-body">
                 <p class="formReportDetail">
-                    <label for="formAlertsNotes">
-                        <span><?php echo($alertnotes); ?>: </span>
-                        <input style="width:77%;" id="formalertsnotes" value="" name="formAlertsNotes" type="text" required />
-                    </label>
-                    <label for="formRecommendation">
-                        <span><?php echo($recommendation);?>: </span>
-                        <input style="width: <?php if ($_SESSION["SESS_LANG"] == "en") { echo("67%"); } else { echo("69%"); } ?>;" id="formrecommendation" value="" name="formRecommendation" type="text" required />
-                    </label>
-                    <label for="formAgreements">
-                        <span style="padding-right: 10px;"><?php echo($agreements);?>: </span>
-                        <input style="width: <?php if ($_SESSION["SESS_LANG"] == "en") { echo("78%"); } else { echo("81%"); } ?>;" id="formagreements" value="" name="formAgreements" type="text" required />
-                    </label>
-                    <label for="formPOA">
-                        <span style="padding-right: 6px;"><?php echo($activitypoa); ?>: </span>
-                        <input style="width:<?php if ($_SESSION["SESS_LANG"] == "en") { echo("75%"); } else { echo("72%"); } ?>;" id="formpoa" value="" name="formPOA" type="text" required />
-                    </label>
+                    <label for="formAlertsNotes"><?php echo($alertnotes); ?>:</label>
+                        <!-- <input style="width:77%;" id="formalertsnotes" value="" name="formAlertsNotes" type="text" required /> -->
+                        <textarea id="formalertsnotes" value="" name="formAlertsNotes" rows="10" cols="50"></textarea>
+                    <label for="formRecommendation"><?php echo($recommendation);?>:</label>
+                        <textarea id="formrecommendation" value="" name="formRecommendation" rows="10" cols="50"></textarea>
+                        <!-- <input style="width: <?php if ($_SESSION["SESS_LANG"] == "en") { echo("67%"); } else { echo("69%"); } ?>;" id="formrecommendation" value="" name="formRecommendation" type="text" required /> -->
+                    <label for="formAgreements"><?php echo($agreements);?>: </label>
+                        <!-- <input style="width: <?php if ($_SESSION["SESS_LANG"] == "en") { echo("78%"); } else { echo("81%"); } ?>;" id="formagreements" value="" name="formAgreements" type="text" required /> -->
+                        <textarea id="formagreements" value="" name="formAgreements" rows="10" cols="50"></textarea>
+                    <label for="formPOA"><?php echo($activitypoa); ?>: </label>
+                        <!-- <input style="width:<?php if ($_SESSION["SESS_LANG"] == "en") { echo("75%"); } else { echo("72%"); } ?>;" id="formpoa" value="" name="formPOA" type="text" required /> -->
+                        <textarea id="formpoa" value="" name="formPOA" rows="10" cols="50"></textarea>
                 </p>
           </div>
           <div class="modal-footer">
@@ -807,5 +835,4 @@
     <script type="text/javascript" charset="utf-8" src="./js/milestones.js" ></script>
     <script type="text/javascript" charset="utf-8" src="./js/dashboard.js"></script>
     <script type="text/javascript" charset="utf-8" src="./js/menu.js"></script>
-    <script type="text/javascript" charset="utf-8" src="./js/utils.js"></script>
 </html>
