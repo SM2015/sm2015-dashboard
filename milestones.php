@@ -303,7 +303,7 @@
                 "onPreOpen": function() {
                     setTimeout(function () {
                         //executed
-                        $('#DTE_Field_executed').focusin( function(e) {
+                        $('#DTE_Field_executed').focus( function(e) {
                             var executed = $(this).val();
                             executed = utils.removePerc(executed);
                             $(this).val(executed);
@@ -322,14 +322,14 @@
                             }
                         });
 
-                        $('#DTE_Field_executed').focusout( function(e) {
+                        $('#DTE_Field_executed').blur( function(e) {
                             var executed = $(this).val();
                             if (executed.indexOf('%') == (-1)) {
                                 $(this).val(executed + '%');
                             }
                         });
                         //planned
-                        $('#DTE_Field_planned').focusin( function(e) {
+                        $('#DTE_Field_planned').focus( function(e) {
                             var executed = $(this).val();
                             executed = utils.removePerc(executed);
                             $(this).val(executed);
@@ -348,14 +348,14 @@
                             }
                         });
 
-                        $('#DTE_Field_planned').focusout( function(e) {
+                        $('#DTE_Field_planned').blur( function(e) {
                             var executed = $(this).val();
                             if (executed.indexOf('%') == (-1)) {
                                 $(this).val(executed + '%');
                             }
                         });
                         //pep
-                        $('#DTE_Field_pep').focusin( function(e) {
+                        $('#DTE_Field_pep').focus( function(e) {
                             var executed = $(this).val();
                             executed = utils.removePerc(executed);
                             $(this).val(executed);
@@ -374,14 +374,14 @@
                             }
                         });
 
-                        $('#DTE_Field_pep').focusout( function(e) {
+                        $('#DTE_Field_pep').blur( function(e) {
                             var executed = $(this).val();
                             if (executed.indexOf('%') == (-1)) {
                                 $(this).val(executed + '%');
                             }
                         });
                         //progression
-                        $('#DTE_Field_progression').focusin( function(e) {
+                        $('#DTE_Field_progression').focus( function(e) {
                             var executed = $(this).val();
                             executed = utils.removePerc(executed);
                             $(this).val(executed);
@@ -400,7 +400,7 @@
                             }
                         });
 
-                        $('#DTE_Field_progression').focusout( function(e) {
+                        $('#DTE_Field_progression').blur( function(e) {
                             var executed = $(this).val();
                             if (executed.indexOf('%') == (-1)) {
                                 $(this).val(executed + '%');
