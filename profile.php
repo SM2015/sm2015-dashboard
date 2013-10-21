@@ -11,7 +11,7 @@
         $user = $login->getInfoDatabase($_SESSION['SESS_MEMBER_ID']);
     }
     $userCountries = $user->countries;
-    $level = $_SESSION['SESS_LEVEL'];
+    $userLevel = $_SESSION['SESS_LEVEL'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -132,7 +132,7 @@
                                 <input id="formeditphoneuser" value="<?= $user->contact; ?>" name="formphoneuser" type="text" />
                             </div>
                         </div>
-                        <? if ($level == 'admin'): ?>
+                        <?php if ($userLevel == 'admin'): ?>
                         <div class="control-group">
                             <label class="control-label">Level:</label>
                             <div class="controls">
@@ -142,7 +142,6 @@
                                 </select>
                             </div>
                         </div>
-                    <? endif; ?>
                         <div class="control-group">
                             <label class="control-label">Countries:</label>
                             <div class="controls">
@@ -156,6 +155,7 @@
                                 <label class="checkbox"  for="panama"><input id="panama" type="checkbox" value="Panama" class="inputCountries" /> Panama</label>
                             </div>
                         </div>
+                        <?php endif; ?>
                         <div class="control-group">
                             <div class="controls">
                                 <button type="submit" class="btn">Edit Profile</button>
@@ -185,6 +185,7 @@
     <script src="./js/services.js"></script>
     <script src="./js/dashboard.js"></script>
     <script src="./js/menu.js"></script>
+    <script src="./js/profile.js"></script>
     <script type="text/javascript">
         var countryForm = '<?= $userCountries; ?>'.split(',');
         var checkboxs = $("form input:checkbox");

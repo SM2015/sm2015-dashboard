@@ -23,6 +23,13 @@
             }
         },
 
+        profileRequest: function(options) {
+            if (options) {
+                options.url = 'php/profile';
+                services.request.call(this, options);
+            }
+        },
+
         milestones: {
             updateRequest: function (options) {
                 if (options) {
@@ -54,6 +61,12 @@
             getDetail: function(options) {
                 if (options) {
                     options.url = 'php/getDetailMilestone';
+                    services.request.call(this, options);
+                }
+            },
+            exportExcel: function(options) {
+                if (options) {
+                    options.url = 'php/exportExcel';
                     services.request.call(this, options);
                 }
             }

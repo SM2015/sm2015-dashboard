@@ -71,14 +71,14 @@ class Login {
 		$db->close();
 	}
 
-	function updateInfo($id, $userinfo) {
-		$query = "UPDATE member SET password = $userinfo->pass, fname = $userinfo->fname, lname = $userinfo->lname, contact = $userinfo->contact WHERE mem_id=$id";
+	function updateInfo($id, $pass, $fname, $lname, $contact) {
+		$query = "UPDATE member SET password = $pass, fname = $fname, lname = $lname, contact = $contact WHERE mem_id=$id";
 		$db = new Database();
 		$db->connect();
 		$response = False;
 		$result = $db->update($query);
 		if ($result != False) {
-			$response = True;
+			$response = True; //obvio!
 			$db->freeMemory($result);
 		}
 		$db->close();
