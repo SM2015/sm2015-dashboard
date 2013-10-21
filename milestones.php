@@ -300,8 +300,113 @@
                 "required": true
             }],
             "events": {
-                "onOpen": function() {
-                    console.log();
+                "onPreOpen": function() {
+                    setTimeout(function () {
+                        //executed
+                        $('#DTE_Field_executed').focusin( function(e) {
+                            var executed = $(this).val();
+                            executed = utils.removePerc(executed);
+                            $(this).val(executed);
+                        });
+
+                        $('#DTE_Field_executed').bind('keyup', function (e) {
+                            e.preventDefault();
+                            var executed = $(this).val();
+                            executed = utils.removePerc(executed);
+                            if (utils.isNumber(executed)) {
+                                $(this).val(executed);
+                            } else {
+                                var last = executed[executed.length - 1];
+                                executed = executed.replace(last, '');
+                                $(this).val(executed);
+                            }
+                        });
+
+                        $('#DTE_Field_executed').focusout( function(e) {
+                            var executed = $(this).val();
+                            if (executed.indexOf('%') == (-1)) {
+                                $(this).val(executed + '%');
+                            }
+                        });
+                        //planned
+                        $('#DTE_Field_planned').focusin( function(e) {
+                            var executed = $(this).val();
+                            executed = utils.removePerc(executed);
+                            $(this).val(executed);
+                        });
+
+                        $('#DTE_Field_planned').bind('keyup', function (e) {
+                            e.preventDefault();
+                            var executed = $(this).val();
+                            executed = utils.removePerc(executed);
+                            if (utils.isNumber(executed)) {
+                                $(this).val(executed);
+                            } else {
+                                var last = executed[executed.length - 1];
+                                executed = executed.replace(last, '');
+                                $(this).val(executed);
+                            }
+                        });
+
+                        $('#DTE_Field_planned').focusout( function(e) {
+                            var executed = $(this).val();
+                            if (executed.indexOf('%') == (-1)) {
+                                $(this).val(executed + '%');
+                            }
+                        });
+                        //pep
+                        $('#DTE_Field_pep').focusin( function(e) {
+                            var executed = $(this).val();
+                            executed = utils.removePerc(executed);
+                            $(this).val(executed);
+                        });
+
+                        $('#DTE_Field_pep').bind('keyup', function (e) {
+                            e.preventDefault();
+                            var executed = $(this).val();
+                            executed = utils.removePerc(executed);
+                            if (utils.isNumber(executed)) {
+                                $(this).val(executed);
+                            } else {
+                                var last = executed[executed.length - 1];
+                                executed = executed.replace(last, '');
+                                $(this).val(executed);
+                            }
+                        });
+
+                        $('#DTE_Field_pep').focusout( function(e) {
+                            var executed = $(this).val();
+                            if (executed.indexOf('%') == (-1)) {
+                                $(this).val(executed + '%');
+                            }
+                        });
+                        //progression
+                        $('#DTE_Field_progression').focusin( function(e) {
+                            var executed = $(this).val();
+                            executed = utils.removePerc(executed);
+                            $(this).val(executed);
+                        });
+
+                        $('#DTE_Field_progression').bind('keyup', function (e) {
+                            e.preventDefault();
+                            var executed = $(this).val();
+                            executed = utils.removePerc(executed);
+                            if (utils.isNumber(executed)) {
+                                $(this).val(executed);
+                            } else {
+                                var last = executed[executed.length - 1];
+                                executed = executed.replace(last, '');
+                                $(this).val(executed);
+                            }
+                        });
+
+                        $('#DTE_Field_progression').focusout( function(e) {
+                            var executed = $(this).val();
+                            if (executed.indexOf('%') == (-1)) {
+                                $(this).val(executed + '%');
+                            }
+                        });
+                    }, 1000);
                 }   
             }
         });

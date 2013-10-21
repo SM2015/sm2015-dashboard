@@ -78,7 +78,7 @@ class Login {
 		$response = False;
 		$result = $db->update($query);
 		if ($result != False) {
-			$response = True; //obvio!
+			$response = True; //ok, just confirm!
 			$db->freeMemory($result);
 		}
 		$db->close();

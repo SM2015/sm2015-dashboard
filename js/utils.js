@@ -67,8 +67,37 @@ var utils = (function () {
     };
 
     var isNumber = function(value) {
-        return (/\D/.test(value));
+        var pattern = /^\s*\d+\s*$/g;
+        var re = new RegExp(pattern);
+        return re.test(value);
     };
+
+    // check is number
+    var regIsNumber = function (fData)
+    {
+        var reg = new RegExp("^[-]?[0-9]+[\\.]?[0-9]+$");
+        return reg.test(fData);
+    };
+
+    // Check if string is a whole number(digits only).
+    var isWhole = function (s) {
+        var isWhole_re = /^\s*\d+\s*$/;
+        return String(s).search (isWhole_re) != -1;
+    };
+
+    var removePerc = function(text) {
+        var last = text[text.length - 1];
+        if (last === '%') {
+            text = text.replace('%', '');
+        }
+        return text;
+    };
+    // Checks that an input string is a decimal number, with an optional +/- sign character.
+    var isDecimal = function (s) {
+        var isDecimal_re     = /^\s*(\+|-)?((\d+(\.\d+)?)|(\.\d+))\s*$/;
+       return String(s).search (isDecimal_re) != -1;
+    };
+
 
 
     return {
@@ -80,7 +109,8 @@ var utils = (function () {
         removeEmpty: removeSpace,
         cleanInputs: cleanInputs,
         paddingText: paddingText,
-        isNumber: isNumber
+        isNumber: isDecimal,
+        removePerc: removePerc
     };
 
 })();

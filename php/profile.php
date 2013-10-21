@@ -4,15 +4,12 @@
 	header('Content-type: application/x-javascript');
 	header('Connection: close');
 
-	$userid = $_POST['id'];
-	$pass = $_POST['password'];
+	$userid = $_SESSION['SESS_MEMBER_ID'];
+	$pass = $_POST['pass'];
 	$fname = $_POST['fname'];
 	$lname = $_POST['lname'];
 	$phone = $_POST['contact'];
-	$level = $_POST['level'];
-	$countries = $_POST['countries'];
 
-	$response["username"] = "";
 	$response["fname"] = "";
 	$response["lname"] = "";
 	$response["error"] = array();
@@ -37,32 +34,11 @@
 		}
 
 		if (count($response["error"]) == 0) {
-			//try login
-			$login->getLogin($username, $password);
-			//verify database erro
-			if ($login->getDatabaseError()) {
-				//error on database
-				array_push($response["error"], "The system is not avaliable, please try again soon.");
-			} else {
-				//verify if the user exist
-				if ($login->isValid()) {
-					//LOGIN VALID SESSION MUST START!
-					session_start();
-					$_SESSION['SESS_MEMBER_ID'] = $login->getId();
-					$_SESSION['SESS_USERNAME'] = $login->getUsername();
-					$_SESSION['SESS_FIRST_NAME'] = $login->getFname();
-					$_SESSION['SESS_LAST_NAME'] = $login->getLname();
-					$_SESSION['SESS_LEVEL'] = $login->getLevel();
-					$_SESSION['SESS_COUNTRIES'] = $login->getCountries();
-					$_SESSION['SESS_LANG'] = 'es';
-
-					$response["username"] = $login->getUsername();
-					$response["fname"] = $login->getFname();
-					$response["lname"] = $login->getLname();
-					
-				} else {
-					array_push($response["error"], "The user/password is not correct.");
-				}
+			//try update
+			$result = $login->updateInfo($username, $pass, $fname, $lname, $phone);
+			if ($result == True) {
+				$response["fname"] = $fname;
+				$response["lname"] = $lname;
 			}
 		}
 	} else {
