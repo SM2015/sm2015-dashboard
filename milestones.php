@@ -301,6 +301,7 @@
             }],
             "events": {
                 "onPreOpen": function() {
+                    //TODO: Refactory
                     setTimeout(function () {
                         //executed
                         $('#DTE_Field_executed').focus( function(e) {

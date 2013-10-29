@@ -72,7 +72,7 @@ class Login {
 	}
 
 	function updateInfo($id, $pass, $fname, $lname, $contact) {
-		$query = "UPDATE member SET password = $pass, fname = $fname, lname = $lname, contact = $contact WHERE mem_id=$id";
+		$query = "UPDATE member SET password = '$pass', fname = '$fname', lname = '$lname', contact = '$contact' WHERE mem_id=$id";
 		$db = new Database();
 		$db->connect();
 		$response = False;

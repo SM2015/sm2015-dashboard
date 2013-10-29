@@ -122,7 +122,7 @@
                         <div class="control-group">
                             <label class="control-label">Password:</label>
                             <div class="controls">
-                                <input id="formeditemailuser" value="<?= $user->password; ?>" name="formemailuser" type="password" required />
+                                <input id="formeditpassworduser" value="<?= $user->password; ?>" name="formemailuser" type="password" required />
                                 <strong><abbr title="required">*</abbr></strong>
                             </div>
                         </div>
@@ -162,8 +162,8 @@
                             </div>
                         </div>
                         <div class="control-group">
-                        <div id="alert-create-user" class="alert alert-block alert-warn fade in">
-                          <p id="alert-create-user-msg"></p>
+                        <div id="alert-edit-user" class="alert alert-block alert-warn fade in">
+                          <p id="alert-edit-user-msg"></p>
                         </div>
                     </div>
                     </fieldset>
