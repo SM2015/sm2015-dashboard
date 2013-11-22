@@ -29,7 +29,7 @@
 <script src="assets/plugins/jquery-sparkline/jquery-sparkline.js"></script>
 <script src="assets/plugins/jquery-flot/jquery.flot.min.js"></script>
 <script src="assets/plugins/jquery-flot/jquery.flot.animator.min.js"></script>
-<script src="assets/plugins/skycons/skycons.js"></script>
+<!--<script src="assets/plugins/skycons/skycons.js"></script>-->
 <!-- END PAGE LEVEL PLUGINS --> 	
 <!-- PAGE JS --> 	
 <script src="assets/js/dashboard.js" type="text/javascript"></script> 

@@ -10,23 +10,31 @@ $home = _t('HOME_PAGE', $_SESSION['SESS_LANG']);
 <div class="page-container row-fluid"> 
 
     <?php include_once('./sidebar.php') ?>
+    
+    <div class="page-content"> 
+        <div class="map-container">
+            (mapa)
+        </div>
 
-  <!-- BEGIN PAGE CONTAINER-->
-  <div class="page-content"> 
-    <!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
-    <div id="portlet-config" class="modal hide">
-      <div class="modal-header">
-        <button data-dismiss="modal" class="close" type="button"></button>
-        <h3>Widget Settings</h3>
-      </div>
-      <div class="modal-body"> Widget settings form goes here </div>
+        <div class="content">  
+           <div id="container">
+                <div class="row-fluid spacing-bottom 2col">	
+                    <div class="span3 ">	
+                        (grafico)
+                    </div>
+                    <div class="span3 ">	
+                        (grafico)
+                    </div>
+                    <div class="span3 ">	
+                        (grafico)
+                    </div>
+                    <div class="span3 ">	
+                        (grafico)
+                    </div>
+		        </div>
+           </div> 
+        </div>  
     </div>
-    <div class="clearfix"></div>
-    <div class="content">  
-
-	</div> 
-  </div>  
-  <!-- END PAGE --> 
 </div>
 <!-- END CONTAINER --> 
 
