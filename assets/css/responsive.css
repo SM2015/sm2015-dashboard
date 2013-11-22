@@ -54,7 +54,7 @@ and (min-width : 1824px) {
   	/*** Page content ***/
   	.page-content { 
   		margin-left: 250px; 
-		margin-top: 42px;
+		margin-top: 58px;
 	}
 
 	.page-content.no-min-height {

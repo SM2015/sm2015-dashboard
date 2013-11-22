@@ -1,0 +1,65 @@
+.header .navbar-inner {
+  background-color: #DA587D !important;
+}
+.header .chat-toggler .user-details {
+  color: white;
+}
+.iconset.top-settings-white { 
+    background: url('../img/user_settings_icon.png') no-repeat; 
+    width: 20px; 
+    height: 20px;
+}
+
+.icon-custom-dashboard { 
+    background: url('../img/mydashboard.png') no-repeat !important;
+}
+.icon-custom-paises { 
+    background: url('../img/paises.png') no-repeat !important;
+}
+.icon-custom-gantz { 
+    background: url('../img/ghants.png') no-repeat !important;
+}
+.icon-custom-sm { 
+    background: url('../img/sm2015.png') no-repeat !important;
+}
+.icon-custom-reports { 
+    background: url('../img/reports.png') no-repeat !important;
+}
+.icon-custom-db { 
+    background: url('../img/databases.png') no-repeat !important;
+}
+.icon-custom-db,
+.icon-custom-sm,
+.icon-custom-gantz,
+.icon-custom-paises,
+.icon-custom-dashboard,
+.icon-custom-reports { 
+    height: 28px;
+    width: 25px !important;
+}
+.page-sidebar {
+  background-color: #1A1A1A !important;
+}
+.page-sidebar > ul > li {
+  background-color: #505050;
+  margin: 2px 0;
+  line-height: 0;
+}
+.page-sidebar > ul > li .title {
+  color: #9C9C9C;
+  display: block;
+  font-family: "Oswald";
+  font-size: 18px;
+  margin-left: 38px;
+  margin-top: -15px;
+}
+.page-sidebar > ul > li > a {
+  padding: 11.5px 31px 22px;
+}
+.page-sidebar > ul > li.open > a, .page-sidebar > ul > li > a:hover, .page-sidebar > ul > li:hover > a {
+  background: none repeat scroll 0 0 #1A1A1A;
+  padding: 11.5px 31px 22px;
+}
+body {
+    background-color: #1A1A1A;
+}

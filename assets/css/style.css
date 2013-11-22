@@ -37,7 +37,7 @@ Page header
 .header .navbar-inner {
   filter:none !important;
   background-image: none !important;
-  background-color: #DA587E !important;
+  background-color: #ffffff !important;
 }
 
 .header .btn-navbar {  
@@ -699,6 +699,7 @@ hr {
 }
 .header .chat-toggler{
 	position:relative;
+	top:10px;
 	margin-right:5px;
 	display:inline-block;
 	float:left;
@@ -708,6 +709,7 @@ hr {
 .header .chat-toggler .user-details{
 	display:inline-block;
 	float:left;
+	line-height:35px;
 }
 .header .chat-toggler .iconset{
 	display:inline-block;
@@ -799,14 +801,8 @@ hr {
 }
 
 .header .quick-section{
-  margin-bottom: 9px;
-  margin-left: 13px;
-  margin-right: 13px;
-  margin-top: 9px;
-}	
-
-.header .pull-right .quick-section{
-  margin: 0;
+	margin-left:20px;
+	margin-top: 16px;
 }	
 
 .header .nav > li.quicklinks i{
@@ -1548,7 +1544,7 @@ display:none;
 .page-content {  
   margin-top: 0px;   
   padding: 0px;
-  background-color: white; 
+  background-color: #e5e9ec; 
   overflow:auto; 
   position:relative;
   min-height:911px;

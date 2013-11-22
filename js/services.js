@@ -4,28 +4,28 @@
 
 		loginRequest: function(options) {
 			if (options) {
-				options.url = 'php/login';
+				options.url = 'php/login.php';
 				services.request.call(this, options);
 			}
 		},
 
         passwordRequest: function(options) {
             if (options) {
-                options.url = '../php/login';
+                options.url = '../php/login.php';
                 services.request.call(this, options);
             }
         },
 
         addUserRequest: function(options) {
             if (options) {
-                options.url = 'php/register';
+                options.url = 'php/register.php';
                 services.request.call(this, options);
             }
         },
 
         profileRequest: function(options) {
             if (options) {
-                options.url = 'php/profile';
+                options.url = 'php/profile.php';
                 services.request.call(this, options);
             }
         },
@@ -33,40 +33,40 @@
         milestones: {
             updateRequest: function (options) {
                 if (options) {
-                    options.url = 'php/milestones';
+                    options.url = 'php/milestones.php';
                     options.data.action = 'update';
                     services.request.call(this, options);
                 }
             },
             deleteRequest: function (options) {
               if (options) {
-                    options.url = 'php/milestones';
+                    options.url = 'php/milestones.php';
                     options.data.action = 'delete';
                     services.request.call(this, options);
                 }
             },
             updateDetail: function(options) {
                 if (options) {
-                    options.url = 'php/milestones';
+                    options.url = 'php/milestones.php';
                     options.data.action = 'detail';
                     services.request.call(this, options);
                 }
             },
             report: function(options) {
                 if (options) {
-                    options.url = 'php/report';
+                    options.url = 'php/report.php';
                     services.request.call(this, options);
                 }
             },
             getDetail: function(options) {
                 if (options) {
-                    options.url = 'php/getDetailMilestone';
+                    options.url = 'php/getDetailMilestone.php';
                     services.request.call(this, options);
                 }
             },
             exportExcel: function(options) {
                 if (options) {
-                    options.url = 'php/exportExcel';
+                    options.url = 'php/exportExcel.php';
                     services.request.call(this, options);
                 }
             }
