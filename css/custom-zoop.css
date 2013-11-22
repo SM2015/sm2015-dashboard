@@ -1,0 +1,37 @@
+.pull-left {
+    background-color: #C65072;
+}
+
+.pull-right .user-container {
+  background: url("../img/user_bg.png") no-repeat scroll -1px 0 rgba(0, 0, 0, 0);
+  height: 26px;
+  margin-top: 9px;
+  padding-left: 13px;
+  padding-top: 6px;
+  width: 261px;
+}
+.user-container .username {
+  background: url("../img/user_icon.png") no-repeat;
+  color: #FFFFFF;
+  padding-left: 32px;
+  padding-top: 4px;
+}
+.user-container .top-settings-white {
+    background: url("../img/user_settings_icon.png") no-repeat;
+    height: 20px;
+    width: 20px;
+}
+.user-container .navbar .nav {
+  float: right;
+}
+.header .nav .exit-container > a {
+  background-color: #3E3E3E;
+  color: #FFFFFF;
+  display:block;
+  height: 32px;
+  line-height: 32px;
+  margin-left: 10px;
+  margin-top: -5px;
+  padding: 0 16px;
+  text-transform: uppercase;
+}
