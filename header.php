@@ -7,6 +7,8 @@
 <meta content="" name="description" />
 <meta content="" name="author" />
 
+<link href='http://fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
+
 <!-- BEGIN PLUGIN CSS -->
 <link href="assets/plugins/fullcalendar/fullcalendar.css" rel="stylesheet" type="text/css" media="screen"/>
 <link href="assets/plugins/pace/pace-theme-flash.css" rel="stylesheet" type="text/css" media="screen"/>
@@ -32,7 +34,18 @@
 <link href="assets/css/responsive.css" rel="stylesheet" type="text/css"/>
 <link href="assets/css/custom-icon-set.css" rel="stylesheet" type="text/css"/>
 <link href="css/custom-zoop.css" rel="stylesheet" type="text/css"/>
+<link href="css/maps-custom.css" rel="stylesheet" type="text/css"/>
 <!-- END CSS TEMPLATE -->
+
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+<script src="js/infobox.js"></script> 
+<style>
+  html, body, #map-goals {
+    height: 100%;
+    margin: 0px;
+    padding: 0px
+  }
+</style>
 </head>
 <!-- END HEAD -->
 
@@ -80,7 +93,7 @@
                    </ul>
                 </li> 
                 <li class="quicklinks exit-container"> 
-                    <a href="#" class="exit" style="padding: 0 16px !important;">exit</a>
+                    <a href="#" class="exit" style="padding: 0 18px !important;">exit</a>
                 </li>
             </ul>
         </div>

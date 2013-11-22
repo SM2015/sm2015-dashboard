@@ -2,19 +2,38 @@
     background-color: #C65072;
 }
 
+.iconset.top-menu-toggle-white {
+    background: url('../img/hide_show_settings_bt.jpg') no-repeat;
+    height: 86px;
+    top:0;
+    width: 89px;
+}
+.header .nav > li.quicklinks > a {
+  padding: 0 !important;
+}
+.header .quick-section {
+  margin: 0;
+}
+
 .pull-right .user-container {
   background: url("../img/user_bg.png") no-repeat scroll -1px 0 rgba(0, 0, 0, 0);
-  height: 26px;
-  margin-top: 9px;
+  height: 40px;
+  margin-top: 46px;
   padding-left: 13px;
-  padding-top: 6px;
-  width: 261px;
+  width: 267px;
+}
+.header .chat-toggler .user-details {
+  padding-top: 10px;
+}
+.user-container > .quick-section {
+    padding-top:10px;
 }
 .user-container .username {
   background: url("../img/user_icon.png") no-repeat;
   color: #FFFFFF;
-  padding-left: 32px;
-  padding-top: 4px;
+  font-family: "Arial";
+  font-size: 18px;
+  padding-left: 35px;
 }
 .user-container .top-settings-white {
     background: url("../img/user_settings_icon.png") no-repeat;
@@ -25,13 +44,31 @@
   float: right;
 }
 .header .nav .exit-container > a {
-  background-color: #3E3E3E;
-  color: #FFFFFF;
-  display:block;
-  height: 32px;
-  line-height: 32px;
-  margin-left: 10px;
-  margin-top: -5px;
-  padding: 0 16px;
-  text-transform: uppercase;
+    background-color: #3E3E3E;
+    color: #FFFFFF;
+    display: block;
+    font-family: "Oswald";
+    font-size: 20px;
+    height: 39px;
+    line-height: 39px;
+    margin-left: 10px;
+    margin-top: -9px;
+    padding: 0 16px;
+    text-transform: uppercase;
+}
+.header .nav .exit-container > a:hover {
+    background-color: #3E3E3E;
+}
+
+.map-container {
+    height: 450px;
+    width:100%;
+}
+
+.page-sidebar {
+  margin-top: 80px;
+}
+
+.page-content {
+  margin-top: 86px;
 }
