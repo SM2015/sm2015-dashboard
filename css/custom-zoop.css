@@ -72,3 +72,10 @@
 .page-content {
   margin-top: 86px;
 }
+
+.page-sidebar > ul > li > a {
+    background-color: #505050;
+    color: #9C9C9C;
+    font-family: "Oswald";
+    font-size: 18px;
+}

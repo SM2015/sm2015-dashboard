@@ -70,7 +70,8 @@ $home = _t('HOME_PAGE', $_SESSION['SESS_LANG']);
                   var markerGuatemala = new google.maps.Marker({
                       position: geoGuatemala,
                       map: map,
-                      icon: markerIcon
+                      icon: markerIcon,
+                      visible: true
                   });
 
                   var infoBoxGuatemalaOptions = infoBoxOptions;
@@ -90,14 +91,45 @@ $home = _t('HOME_PAGE', $_SESSION['SESS_LANG']);
         <div class="content">  
            <div id="container">
                 <div class="row-fluid spacing-bottom 2col">	
-                    <div class="span3 ">	
-                        (grafico)
-                    </div>
-                    <div class="span3 ">	
-                        (grafico)
-                    </div>
-                    <div class="span3 ">	
-                        (grafico)
+                    <div class="span9 grafico-barra-01">	
+                        <div class="F4" id="ID-overview-narrative">
+                            <div class="hm"></div>
+                        </div>
+
+                        <table class="p5">
+                            <tbody>
+                                <tr>
+                                    <td><div id="indicator-graph" class="Oqb">
+                                            <table class="in">
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="Yf">
+                        <div id="container" style="min-width: 800px; height: 400px; margin: 0 auto"></div>
+                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div></td>
+                                </tr>
+                                  
+                            </tbody>
+                        </table>
+
+                        <div class="Jdb">
+                            <div id="miniTable" class="fZ">
+                                <table class="gc CQ" id="dataTable">
+                                    <tbody id="inIndicator">
+                                        <tr>
+                                            <th class="Ru"></th>
+                                            <th class="uE ">Proxy - Coberturas institutionales calculados por el MINSAL</th>
+                                            <th class="Cw">Promedio Reportado</th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        
                     </div>
                     <div class="span3 ">	
                         (grafico)

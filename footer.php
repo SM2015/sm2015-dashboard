@@ -37,6 +37,11 @@
 <script src="assets/js/core.js" type="text/javascript"></script> 
 <script src="assets/js/demo.js" type="text/javascript"></script> 
 <!-- END CORE TEMPLATE JS -->
+
+
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script src="js/grafico-barras-01.js"></script> 
 </body>
 </html>
 
