@@ -4,12 +4,9 @@
 .header .chat-toggler .user-details {
   color: white;
 }
-.iconset.top-settings-white { 
-    background: url('../img/user_settings_icon.png') no-repeat; 
-    width: 20px; 
-    height: 20px;
+.iconset.top-settings-dark {
+  background-position: -34px -6px;
 }
-
 .icon-custom-dashboard { 
     background: url('../img/mydashboard.png') no-repeat !important;
 }
@@ -37,29 +34,19 @@
     height: 28px;
     width: 25px !important;
 }
-.page-sidebar {
-  background-color: #1A1A1A !important;
-}
-.page-sidebar > ul > li {
-  background-color: #505050;
-  margin: 2px 0;
-  line-height: 0;
-}
 .page-sidebar > ul > li .title {
-  color: #9C9C9C;
   display: block;
-  font-family: "Oswald";
-  font-size: 18px;
   margin-left: 38px;
-  margin-top: -15px;
+  margin-top: -30px;
 }
-.page-sidebar > ul > li > a {
-  padding: 11.5px 31px 22px;
-}
-.page-sidebar > ul > li.open > a, .page-sidebar > ul > li > a:hover, .page-sidebar > ul > li:hover > a {
-  background: none repeat scroll 0 0 #1A1A1A;
-  padding: 11.5px 31px 22px;
+.map-container {
+    height: 400px;
 }
 body {
     background-color: #1A1A1A;
 }
+
+.graficos-triangulo td {
+    padding: 10px;
+}
+
