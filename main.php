@@ -35,8 +35,9 @@
 
 <link href="css/custom-sm2012.css" rel="stylesheet" type="text/css"/>
 <link href="css/maps-custom.css" rel="stylesheet" type="text/css"/>
-<link href="css/custom-sm2012.css" rel="stylesheet" type="text/css"/>
 <link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+<script src="js/infobox.js"></script> 
 
 </head>
 <!-- END HEAD -->
@@ -146,8 +147,87 @@
       <div class="modal-body"> Widget settings form goes here </div>
     </div>
     <div class="clearfix"></div>
+
+
     <div class="map-container">
-       <div id="world-map" class="demo-map" style="min-height:400px; height: 400px;"></div>
+        <script>
+            var map;
+            function initialize() {
+              /* Geo LatLng */
+              var geoGuatemala = new google.maps.LatLng(15.961329,-90.981447);
+              /* END OF Geo LatLng */
+
+              var mapOptions = {
+                zoom: 4,
+                center: geoGuatemala
+              };
+              map = new google.maps.Map(document.getElementById('map-goals'), mapOptions);
+              var markerIcon = 'img/green_waypoint.png';
+
+              /* InfoWIdows */
+              var InfoBoxHTML = ''+
+                '<div class="content-info-window">'+
+                    '<div class="arrow-container"></div>'+
+                    '<div class="left-side">'+
+                        '<div class="main-info">'+
+                            '<h4 class="title-info">{TITLE}</h4>'+
+                            '<p class="desc">Meta: melhorar o acesso.</p>'+
+                        '</div>'+
+                        '<a class="more-info" href="#">Más infos</a>'+
+                    '</div>'+
+                    '<div class="right-side">'+
+                        '<div class="statistics">'+
+                            '<span class="label-stats">Objetivos</span>'+
+                        '</div>'+
+                    '</div>'+
+                '</div>';
+
+              var infoBoxDefault = document.createElement("div");
+                infoBoxDefault.className = 'content-info-window'
+                infoBoxDefault.innerHTML = InfoBoxHTML;
+
+              var infoBoxOptions = {
+                  disableAutoPan: true
+                  ,maxWidth: 0
+                  ,pixelOffset: new google.maps.Size(0, -140)
+                  ,zIndex: null
+                  ,boxStyle: {
+                    width: '522px'
+                  }
+                  ,closeBoxMargin: "10px 40px 0px 0px"
+                  ,closeBoxURL: "http://www.google.com/intl/en_us/mapfiles/close.gif"
+                  ,infoBoxClearance: new google.maps.Size(1, 1)
+                  ,isHidden: false
+                  ,pane: "floatPane"
+                  ,visible: true
+              };
+              /* END OF InfoWIdows */
+
+              /* Markers */
+              var markerGuatemala = new google.maps.Marker({
+                  position: geoGuatemala,
+                  map: map,
+                  icon: markerIcon,
+                  visible: true
+              });
+
+              var infoBoxGuatemalaOptions = infoBoxOptions;
+              infoBoxGuatemalaOptions.content = infoBoxDefault.innerHTML.replace("{TITLE}", "Guatemala");
+              var infoBoxGuatemala = new InfoBox(infoBoxGuatemalaOptions);
+              infoBoxGuatemala.open(map, markerGuatemala);
+
+              google.maps.event.addListener(markerGuatemala,'click', (function(markerGuatemala) {
+                return function() {
+                    infoBoxGuatemala.open(map, this);
+                }
+              })(markerGuatemala));
+              /* END OF Markers */
+            }
+
+
+            google.maps.event.addDomListener(window, 'load', initialize);
+        </script>
+        <div id="map-goals"></div>
     </div>
 
     <div class="content graficos-triangulo">  
@@ -212,6 +292,7 @@
 <!-- END PAGE LEVEL PLUGINS --> 	
 <!-- PAGE JS --> 	
 <script src="assets/js/vector_maps.js" type="text/javascript"></script>
+<script src="js/vector_map-custom.js" type="text/javascript"></script>
 <!-- BEGIN CORE TEMPLATE JS --> 
 <script src="assets/js/core.js" type="text/javascript"></script> 
 <script src="assets/js/demo.js" type="text/javascript"></script> 

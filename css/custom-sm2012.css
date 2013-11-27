@@ -42,6 +42,11 @@
 .map-container {
     height: 400px;
 }
+#map-goals {
+  height: 100%;
+  margin: 0px;
+  padding: 0px
+}
 body {
     background-color: #1A1A1A;
 }
