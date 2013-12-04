@@ -14,7 +14,7 @@ def create_project_structure():
     print(green("Creating directory structure in %s" % PROJECT_PATH))
     sudo("mkdir -p {project_path}".format(project_path=PROJECT_PATH))
     with cd(PROJECT_PATH):
-        sudo("mkdir -p conf src logs")
+        sudo("mkdir -p conf src logs releases")
 
 def install_packages():
     f = open('./deploy/packages.txt')
@@ -58,7 +58,6 @@ def upload():
 
     print(green("Deploying site %s" % site))
 
-
     # Generate package file
     today = datetime.now().strftime('%Y%m%d-%H%M%S')
     commit_id = str(local('git rev-parse HEAD', True)).strip()
@@ -68,6 +67,7 @@ def upload():
     put("/tmp/{site}.tgz".format(site=site), "/tmp/")
     run("tar -C /tmp -xzf /tmp/{site}.tgz".format(site=site))
 
-    sudo("mv /tmp/{site} {project_path}/src/ ".format(site=site, project_path=PROJECT_PATH))
-    run("rm /tmp/{site}.tgz".format(site=site))
+    sudo("rm -rf {project_path}/src/{site}".format(site=site, project_path=PROJECT_PATH))
+    sudo("mv /tmp/{site} {project_path}/src/".format(site=site, project_path=PROJECT_PATH))
+    run("rm /tmp/{site}.tgz".format(site=site)) 
     local("rm /tmp/{site}.tgz".format(site=site))
