@@ -1,5 +1,12 @@
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+# coding: utf-8
+
+from os.path import dirname, abspath, join
 import os
+from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
+
+def get_local_file(path):
+    return (lambda *x: abspath(join(dirname(path), *x)))
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -20,7 +27,10 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'south',
     'dashboard',
+    'core',
+    'website',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -35,6 +45,12 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'dashboard.urls'
 
 WSGI_APPLICATION = 'dashboard.wsgi.application'
+
+WEB_TEMPLATES = join(abspath(dirname(__file__)),"website", 'templates')
+
+TEMPLATE_DIRS = (
+    'WEB_TEMPLATES',
+)
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
@@ -78,3 +94,16 @@ STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'media')
 MEDIA_URL = "/media/"
+
+BASE_URL = "http://localhost:8000"
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'nomadness.travel@gmail.com'
+EMAIL_HOST_PASSWORD = '#n0m4dN3SS#'
+EMAIL_PORT = 587
+
+DEFAULT_FROM_NAME = "Dashboard"
+DEFAULT_FROM_EMAIL = "noreply@dashboard.com"
+DEFAULT_EMAIL_REGISTER_SUBJECT = "Dashboard - Registration Confirmation"
+DEFAULT_EMAIL_FORGOT_PASSWORD_SUBJECT = "Dashboard - Forgot your password?"
