@@ -1,0 +1,4 @@
+-r requirements.txt
+ipython==1.1.0
+ipdb==0.8
+Fabric==1.8.0
