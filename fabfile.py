@@ -40,8 +40,8 @@ def configure_nginx():
     sudo("service nginx start")
 
 def configure_uwsgi():
-    put("deploy/{env}/conf/uwsgi.ini", "/tmp/uwsgi.ini")
-    sudo("mv /tmp/uwsgi.ini {project_path}/conf/".format(project_path=PROJECT_PATH))
+    put("deploy/{env}/conf/uwsgi.ini", "/tmp/uwsgi-conf.ini".format(env=env.name))
+    sudo("mv /tmp/uwsgi-conf.ini {project_path}/conf/uwsgi.ini".format(project_path=PROJECT_PATH))
 
     put("deploy/init/uwsgi.ini", "/tmp/uwsgi.ini")
     sudo("mv /tmp/uwsgi.ini /etc/init/")
@@ -55,12 +55,12 @@ def configure_locale():
 
 def initial_setup():
     create_project_structure()
-    configure_locale()
-    upload()
     sudo("echo \"localhost\" > /etc/hostname")
     sudo("hostname localhost")
     sudo("apt-get update")
     sudo("apt-get upgrade")
+    configure_locale()
+    upload()
     install_packages()
     install_virtualenv()
     configure_nginx()
