@@ -1,0 +1,5 @@
+python
+python-virtualenv
+python2.7-dev
+nginx
+uwsgi
