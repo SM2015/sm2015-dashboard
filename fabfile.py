@@ -23,12 +23,13 @@ def install_packages():
 
 def install_virtualenv():
     with cd(PROJECT_PATH):
-        sudo("mkdir virtualenv")
+        sudo("rm -rf virtualenv")
+        sudo("mkdir -p virtualenv")
         sudo("virtualenv ./virtualenv")
 
 def configure_nginx():
-    sudo("mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf-initial-bkp")
-    sudo("ln -s {project_path}/conf/nginx.conf /etc/nginx/nginx.conf")
+    sudo("rm -rf /etc/nginx/nginx.conf")
+    sudo("ln -s {project_path}/conf/nginx.conf /etc/nginx/nginx.conf".format(project_path=PROJECT_PATH))
     sudo("service nginx stop")
     sudo("service nginx start")
 
