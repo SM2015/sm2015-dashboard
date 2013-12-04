@@ -14,7 +14,7 @@ def create_project_structure():
     print(green("Creating directory structure in %s" % PROJECT_PATH))
     sudo("mkdir -p {project_path}".format(project_path=PROJECT_PATH))
     with cd(PROJECT_PATH):
-        sudo("mkdir conf src logs")
+        sudo("mkdir -p conf src logs")
 
 def install_packages():
     f = open('./deploy/packages.txt')
@@ -52,9 +52,11 @@ def initial_setup():
     sudo("reboot")
 
 def upload():
-    print(green("Deploying site %s" % site))
 
     site = 'dashboard'
+
+    print(green("Deploying site %s" % site))
+
 
     # Generate package file
     today = datetime.now().strftime('%Y%m%d-%H%M%S')
