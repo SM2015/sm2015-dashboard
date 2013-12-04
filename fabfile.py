@@ -12,6 +12,9 @@ def prod():
     env.user = 'rafaelsantos'
     env.name = 'prod'
 
+def setup():
+    install_nginx_conf()
+
 def upload(site):
     
     print(green("Deploying site %s" % site))
@@ -72,3 +75,10 @@ def migrate(site):
                 
             if confirm("Deseja executar as migracoes acima?", False):
                 run_command(site, 'migrate '+app, database)
+
+def install_nginx_conf():
+    """Atualiza as configurações do nginx"""
+
+    print(green("Installing nginx conf"))
+    put('deploy/{env}/nginx.conf'.format(env=env.name), '/tmp/nginx.conf')
+    sudo('mv /tmp/nginx.conf %s/nginx/conf/nginx.conf' % INSTALL_PREFIX)
