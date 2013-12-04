@@ -28,7 +28,7 @@ def install_virtualenv():
         sudo("virtualenv ./virtualenv")
 
 def configure_nginx():
-    put("deploy/{env}/conf/nginx.conf", "/tmp/nginx.conf")
+    put("deploy/{env}/conf/nginx.conf".format(env=env.name), "/tmp/nginx.conf")
     sudo("mv /tmp/nginx.conf {project_path}/conf/nginx.conf".format(project_path=PROJECT_PATH))
 
     sudo("rm -rf /etc/nginx/nginx.conf")
