@@ -10,6 +10,9 @@ def prod():
     env.user = 'rafaelsantos'
     env.name = 'prod'
 
+def service(service,op):
+    sudo("service {service} {op}".format(service=service, op=op))
+
 def create_project_structure():
     print(green("Creating directory structure in %s" % PROJECT_PATH))
     sudo("mkdir -p {project_path}".format(project_path=PROJECT_PATH))
@@ -43,8 +46,16 @@ def configure_uwsgi():
     put("deploy/init/uwsgi.ini", "/tmp/uwsgi.ini")
     sudo("mv /tmp/uwsgi.ini /etc/init/")
 
+def configure_locale():
+    run("export LANGUAGE=en_US.UTF-8")
+    run("export LANG=en_US.UTF-8")
+    run("export LC_ALL=en_US.UTF-8")
+    run("locale-gen en_US.UTF-8")
+    sudo("dpkg-reconfigure locales")
+
 def initial_setup():
     create_project_structure()
+    configure_locale()
     upload()
     sudo("echo \"localhost\" > /etc/hostname")
     sudo("hostname localhost")
@@ -53,6 +64,7 @@ def initial_setup():
     install_packages()
     install_virtualenv()
     configure_nginx()
+
     sudo("reboot")
 
 def upload():
