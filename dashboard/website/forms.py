@@ -65,3 +65,5 @@ class SetPasswordForm(forms.Form):
     password         = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'password', 'size':20, 'maxlength':20}), max_length=100, label=u"password:")
     password_conf    = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'password confirmation', 'size':20, 'maxlength':20}), max_length=100, label=u"password confirmation:")
     
+class ForgotPasswordForm(forms.Form):
+    email = forms.EmailField(label="e-mail:")
