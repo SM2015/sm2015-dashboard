@@ -20,18 +20,19 @@ from website.forms import LoginForm, RegisterForm, SetPasswordForm, ForgotPasswo
 from core.models import DashboardUser
 
 def index(request):
-    return render_to_response('dashboard.html')
+    context = RequestContext(request)
+    context.update({'user_name': context.get('user').first_name})
+    return render_to_response('index.html', context)
 
 def dashboard_login(request):
     context = RequestContext(request)
-    
     if request.method == "POST":
         form_login = LoginForm(request.POST)
         if  request.POST.get('username') and request.POST.get('password'):
             username = request.POST.get('username')
             password = request.POST.get('password')
             try:
-                user = User.objects.get(email=username)
+                user = User.objects.get(username=username)
                 if user.is_active:
                     if user.check_password(password):
                         user.backend = "django.contrib.auth.backends.ModelBackend"
@@ -43,7 +44,7 @@ def dashboard_login(request):
                         context.update({
                             'dashboard_user': dashboard_user,
                         })
-                        return redirect('home')
+                        return redirect('index')
                     else:
                         form_login.errors.update({'password': [u'incorrect password.']})    
                 else:
