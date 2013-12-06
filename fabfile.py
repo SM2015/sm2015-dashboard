@@ -135,7 +135,7 @@ def _is_valid_app(app_name):
 
 def migrate(site):
     sys.path.append(os.path.join(os.getcwd(), 'dashboard'))
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.settings")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.settings_prod")
 
     mod = __import__('core', globals(), locals(), ['settings'], -1)
     settings = mod.settings
