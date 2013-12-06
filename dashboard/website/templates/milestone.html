@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    
+
+    <table>
+        <tr>
+            <th>indicador de pago<th>
+            <th>hito<th>
+            <th>trimestre<th>
+            <th>audiencia<th>
+            <th>estado actual<th>
+            <th>alerta notas<th>
+            <th>recomendacion<th>
+            <th>acuerdo<th>
+            <th>activad en pod<th>
+        </tr>
+
+        {% for milestone in milestones %}
+        <tr id="{{milestone.id}}">
+            <td class="editable" name="indicador_de_pago">{{milestone.indicador_de_pago}}<td>
+            <td class="editable" name="hito">{{milestone.hito}}<td>
+            <td class="editable" name="trimestre">{{milestone.trimestre}}<td>
+            <td class="editable" name="audiencia">{{milestone.audiencia}}<td>
+            <td class="editable" name="estado_actual">{{milestone.estado_actual}}<td>
+            <td class="editable" name="alerta_notas">{{milestone.alerta_notas}}<td>
+            <td class="editable" name="recomendacion">{{milestone.recomendacion}}<td>
+            <td class="editable" name="acuerdo">{{milestone.acuerdo}}<td>
+            <td class="editable" name="actividad_en_pod">{{milestone.actividad_en_pod}}<td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+    <script type="text/javascript">
+        $('.editable').editable('/save-milestone-data', { 
+            submitdata : function(value, settings) { 
+                            return {
+                                    csrfmiddlewaretoken : "{{ csrf_token }}",
+                                    objid : $(this).parent().attr('id'),
+                                    objfield : $(this).attr('name')
+                                   };
+                         }
+        });
+    </script>
+    
+{% endblock %}
