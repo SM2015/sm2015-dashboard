@@ -1,5 +1,4 @@
 from django.conf.urls import patterns, include, url
-from core import views as core_view
 from website import views as website_view
 
 from django.contrib import admin
