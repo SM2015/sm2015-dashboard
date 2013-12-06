@@ -42,6 +42,11 @@ def deploy(site='dashboard'):
     install_requirements()
     migrate(site)
     collect_static(site)
+    run_as_dev(site)
+
+def run_as_dev(site='dashboard'):
+    run("{project_path}/virtualenv/bin/python {project_path}/src/{site}/manage.py runserver 0.0.0.0:8000 --settings=core.settings_wsgi &" \
+        .format(project_path=PROJECT_PATH, site=site))
 
 def service(service,op):
     sudo("service {service} {op}".format(service=service, op=op))
@@ -72,7 +77,7 @@ def configure_nginx():
     sudo("rm /etc/nginx/sites-enabled/dashboard.conf")
     sudo("ln -s {project_path}/conf/nginx.conf /etc/nginx/sites-enabled/dashboard.conf".format(project_path=PROJECT_PATH))
     sudo("service nginx stop")
-    sudo("service nginx start")
+    #sudo("service nginx start")
 
 def configure_uwsgi():
     put("deploy/{env}/conf/uwsgi.ini".format(env=env.name), "/tmp/uwsgi-conf.ini")

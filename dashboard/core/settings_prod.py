@@ -1,6 +1,6 @@
 from core.settings import *
 
-DEBUG = False
+#DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 DATABASES = {
