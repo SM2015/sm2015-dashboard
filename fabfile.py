@@ -69,8 +69,7 @@ def configure_nginx():
     put("deploy/{env}/conf/nginx.conf".format(env=env.name), "/tmp/nginx.conf")
     sudo("mv /tmp/nginx.conf {project_path}/conf/nginx.conf".format(project_path=PROJECT_PATH))
 
-    sudo("rm -rf /etc/nginx/nginx.conf")
-    sudo("ln -s {project_path}/conf/nginx.conf /etc/nginx/nginx.conf".format(project_path=PROJECT_PATH))
+    sudo("ln -s {project_path}/conf/nginx.conf /etc/nginx/sites-enabled/dashboard.conf".format(project_path=PROJECT_PATH))
     sudo("service nginx stop")
     sudo("service nginx start")
 
@@ -78,10 +77,13 @@ def configure_uwsgi():
     put("deploy/{env}/conf/uwsgi.ini".format(env=env.name), "/tmp/uwsgi-conf.ini")
     sudo("mv /tmp/uwsgi-conf.ini {project_path}/conf/uwsgi.ini".format(project_path=PROJECT_PATH))
 
-    put("deploy/init/uwsgi.ini", "/tmp/uwsgi.ini")
-    sudo("mv /tmp/uwsgi.ini /etc/init/")
-    service('uwsgi', 'stop')
-    service('uwsgi', 'start')
+    put("deploy/{env}/conf/uwsgi_params.conf".format(env=env.name), "/tmp/uwsgi_params.conf")
+    sudo("mv /tmp/uwsgi_params.conf {project_path}/conf/uwsgi_params.conf".format(project_path=PROJECT_PATH))
+
+    put("deploy/init/uwsgi.conf", "/tmp/uwsgi.conf")
+    sudo("mv /tmp/uwsgi.conf /etc/init/")
+    sudo("/etc/init.d/uwsgi stop")
+    sudo("/etc/init.d/uwsgi start")
 
 
 def configure_locale():
