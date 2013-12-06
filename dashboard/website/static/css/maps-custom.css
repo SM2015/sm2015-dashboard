@@ -1,0 +1,51 @@
+.content-info-window {
+    background: url('/static/img/country_details.png') no-repeat;
+    height: 263px;
+    width: 531px;
+}
+.content-info-window .arrow-container {
+    background: url('/static/img/country_details_arrow.png') no-repeat;
+    float:left;
+    height: 37px;
+    margin-top:90px;
+    width: 18px;
+}
+.content-info-window .left-side {
+    float: left;
+    padding-left:25px;
+    width: 287px;
+}
+.content-info-window .left-side .main-info {
+    height: 175px;
+    padding-top:10px;
+}
+.content-info-window .left-side .main-info .title-info {
+    color: white;
+    font-family: "Oswald";
+    font-size: 30px;
+}
+.content-info-window .left-side .main-info .desc {
+    color: white;
+    font-family: "Arial";
+    font-size: 14px;
+}
+.content-info-window .left-side .more-info {
+    color: #DB26B6;
+    display: block;
+    font-family: "Oswald";
+    font-size: 16px;
+    padding-top: 8px;
+    text-transform: uppercase;
+}
+.content-info-window .right-side {
+    float: left;
+    height: 225px;
+    padding-left:15px;
+    width: 180px;
+}
+.content-info-window .right-side .statistics {}
+.content-info-window .right-side .statistics .label-stats {
+    color: #666;
+    font-family: "Oswald";
+    font-size: 30px;
+}
