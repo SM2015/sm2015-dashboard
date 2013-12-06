@@ -1,4 +1,6 @@
 # encoding: utf-8
+import os
+import sys
 from fabric.api import *
 from fabric.colors import green
 from datetime import datetime
@@ -15,6 +17,30 @@ def prod():
     env.user = 'rafaelsantos'
     env.name = 'prod'
 
+def initial_setup(site='dashboard'):
+    create_project_structure()
+    sudo("echo \"localhost\" > /etc/hostname")
+    sudo("hostname localhost")
+    sudo("apt-get update")
+    sudo("apt-get upgrade")
+    install_packages()
+    initial_configuration()
+    deploy(site)
+
+    sudo("reboot")
+
+def initial_configuration():
+    configure_locale()
+    install_virtualenv()
+    configure_nginx()
+    initial_mysql_configuration()
+
+def deploy(site='dashboard'):
+    upload(site)
+    install_requirements()
+    migrate(site)
+    collect_static()
+
 def service(service,op):
     sudo("service {service} {op}".format(service=service, op=op))
 
@@ -23,6 +49,8 @@ def create_project_structure():
     sudo("mkdir -p {project_path}".format(project_path=PROJECT_PATH))
     with cd(PROJECT_PATH):
         sudo("mkdir -p conf src logs releases")
+
+    sudo("mkdir -p /static /media")
 
 def install_packages():
     f = open('./deploy/packages.txt')
@@ -63,22 +91,16 @@ def initial_mysql_configuration():
     query += 'CREATE DATABASE IF NOT EXISTS {db} DEFAULT CHARACTER SET utf8;'.format(db=MYSQL_DB)
     run("mysql -u root -p{root_password} -e '{query}'".format(query=query, root_password=MYSQL_ROOT_PASSWORD))
 
-def initial_setup():
-    create_project_structure()
-    sudo("echo \"localhost\" > /etc/hostname")
-    sudo("hostname localhost")
-    sudo("apt-get update")
-    sudo("apt-get upgrade")
-    configure_locale()
-    upload()
-    install_packages()
-    install_virtualenv()
-    configure_nginx()
-    initial_mysql_configuration()
+def install_requirements():
+    print(green("Installing requirements"))
 
-    sudo("reboot")
+    requirements_path = os.path.join('requirements.txt')
+    with cd(PROJECT_PATH):
+        for line in open(requirements_path):
+            package = line.replace("\n", "")
+            run('virtualenv/bin/pip install {package}'.format(package=package), shell=False)
 
-def upload(site='dashboard'):
+def upload(site):
 
     print(green("Deploying site %s" % site))
 
@@ -98,3 +120,28 @@ def upload(site='dashboard'):
 
     with cd("{project_path}/src/{site}/core/".format(site=site, project_path=PROJECT_PATH)):
         run("mv settings_prod.py settings_wsgi.py")
+
+def _is_valid_app(app_name):
+    try:
+        exec("from %s import migrations" % app_name)
+    except ImportError:
+        return False        
+    return True
+
+def migrate(site):
+    sys.path.append(os.path.join(os.getcwd(), 'dashboard'))
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.settings")
+
+    mod = __import__('core', globals(), locals(), ['settings'], -1)
+    settings = mod.settings
+
+    with cd("{project_path}/src/{site}".format(project_path=PROJECT_PATH, site=site)):
+        for app in settings.INSTALLED_APPS:
+            if _is_valid_app(app):
+                print(green("Migrate app {app}".format(app=app)))
+                run('{project_path}/virtualenv/bin/python manage.py migrate {app} --settings=core.settings_wsgi' \
+                    .format(app=app, project_path=PROJECT_PATH))
+
+def collect_static():
+    run('{project_path}/virtualenv/bin/python manage.py collectstatic --noinput --settings=core.settings_wsgi' \
+        .format(project_path=PROJECT_PATH))
