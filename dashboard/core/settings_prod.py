@@ -15,3 +15,5 @@ DATABASES = {
 }
 
 BASE_URL = "http://sm2015dashboard.org:8000"
+
+ALLOWED_HOSTS = ['sm2015dashboard.org']

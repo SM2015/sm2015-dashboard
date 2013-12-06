@@ -104,6 +104,8 @@ def _is_valid_app(app_name):
 
 def migrate(site):
     sys.path.append(os.path.join(os.getcwd(), 'dashboard'))
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.settings")
+
     mod = __import__('core', globals(), locals(), ['settings'], -1)
     settings = mod.settings
 
@@ -111,7 +113,8 @@ def migrate(site):
         for app in settings.INSTALLED_APPS:
             if _is_valid_app(app):
                 print(green("Migrate app {app}".format(app=app)))
-                run('python manage.py migrate {app}'.format(app=app))
+                run('{project_path}/virtualenv/bin/python manage.py migrate {app} --settings=core.settings_wsgi' \
+                    .format(app=app, project_path=PROJECT_PATH))
 
 def initial_setup():
     create_project_structure()
