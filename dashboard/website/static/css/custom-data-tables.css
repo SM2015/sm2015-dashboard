@@ -1,0 +1,29 @@
+.dataTable {
+    margin-bottom:5px;
+}
+
+.dataTable .odd {
+    background-color: #eee;
+}
+.dataTable thead th,
+.dataTable .even {
+    background-color: white;
+}
+
+.dataTable thead th {
+    padding:0;
+}
+.dataTable th.column-name {
+    cursor:pointer;
+    padding:5px 15px;
+}
+.dataTable td {
+    text-align:center;
+    padding:5px 0;
+}
+tr.even td.sorting_1 {
+    background-color: #EEEEEE;
+}
+tr.odd td.sorting_1 {
+    background-color: #e5e5e5;
+}

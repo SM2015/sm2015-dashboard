@@ -28,7 +28,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'south',
-    'dashboard',
     'core',
     'website',
 )
@@ -42,9 +41,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'dashboard.urls'
+ROOT_URLCONF = 'core.urls'
 
-WSGI_APPLICATION = 'dashboard.wsgi.application'
+WSGI_APPLICATION = 'core.wsgi.application'
 
 WEB_TEMPLATES = join(abspath(dirname(__file__)),"website", 'templates')
 
@@ -66,6 +65,7 @@ DATABASES = {
     }
 }
 
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
@@ -76,7 +76,7 @@ USE_L10N = True
 USE_TZ = True
 
 TEMPLATE_DIRS = (
-     os.path.join( os.path.dirname( os.path.dirname( __file__ ) ), 'dashboard', 'templates' ),
+     os.path.join( os.path.dirname( os.path.dirname( __file__ ) ), 'templates' ),
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -101,7 +101,7 @@ STATICFILES_FINDERS = (
 MEDIA_ROOT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'media')
 MEDIA_URL = "/media/"
 
-BASE_URL = "http://sm2015dashboard.org:8000"
+BASE_URL = "http://localhost:8000"
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
@@ -113,3 +113,5 @@ DEFAULT_FROM_NAME = "Dashboard"
 DEFAULT_FROM_EMAIL = "noreply@dashboard.com"
 DEFAULT_EMAIL_REGISTER_SUBJECT = "Dashboard - Registration Confirmation"
 DEFAULT_EMAIL_FORGOT_PASSWORD_SUBJECT = "Dashboard - Forgot your password?"
+
+LOGIN_URL = 'login/'
