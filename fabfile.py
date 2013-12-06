@@ -17,6 +17,30 @@ def prod():
     env.user = 'rafaelsantos'
     env.name = 'prod'
 
+def initial_setup(site='dashboard'):
+    create_project_structure()
+    sudo("echo \"localhost\" > /etc/hostname")
+    sudo("hostname localhost")
+    sudo("apt-get update")
+    sudo("apt-get upgrade")
+    install_packages()
+    initial_configuration()
+    deploy(site)
+
+    sudo("reboot")
+
+def initial_configuration():
+    configure_locale()
+    install_virtualenv()
+    configure_nginx()
+    initial_mysql_configuration()
+
+def deploy(site='dashboard'):
+    upload(site)
+    install_requirements()
+    migrate(site)
+    collect_static()
+
 def service(service,op):
     sudo("service {service} {op}".format(service=service, op=op))
 
@@ -25,6 +49,8 @@ def create_project_structure():
     sudo("mkdir -p {project_path}".format(project_path=PROJECT_PATH))
     with cd(PROJECT_PATH):
         sudo("mkdir -p conf src logs releases")
+
+    sudo("mkdir -p /static /media")
 
 def install_packages():
     f = open('./deploy/packages.txt')
@@ -116,25 +142,6 @@ def migrate(site):
                 run('{project_path}/virtualenv/bin/python manage.py migrate {app} --settings=core.settings_wsgi' \
                     .format(app=app, project_path=PROJECT_PATH))
 
-def initial_setup():
-    create_project_structure()
-    sudo("echo \"localhost\" > /etc/hostname")
-    sudo("hostname localhost")
-    sudo("apt-get update")
-    sudo("apt-get upgrade")
-    install_packages()
-    initial_configuration()
-    deploy()
-
-    sudo("reboot")
-
-def initial_configuration():
-    configure_locale()
-    install_virtualenv()
-    configure_nginx()
-    initial_mysql_configuration()
-
-def deploy(site='dashboard'):
-    upload(site)
-    install_requirements()
-    migrate(site)
+def collect_static():
+    run('{project_path}/virtualenv/bin/python manage.py collectstatic --noinput --settings=core.settings_wsgi' \
+        .format(project_path=PROJECT_PATH))

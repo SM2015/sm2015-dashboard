@@ -17,3 +17,13 @@ DATABASES = {
 BASE_URL = "http://sm2015dashboard.org:8000"
 
 ALLOWED_HOSTS = ['sm2015dashboard.org']
+
+ADMINS = (
+    ('Rafael Soares', 'rafaelsantos88@gmail.com'),
+)
+EMAIL_SUBJECT_PREFIX = '[SM2015-Dashboard] - ERROR'
+
+STATIC_ROOT = "/static/"
+MEDIA_ROOT = "/media/"
+
+FILES_STATIC_PATH = MEDIA_ROOT
