@@ -66,7 +66,7 @@ class Country(models.Model):
         verbose_name = u"Contry"
         verbose_name_plural = "Contries"
 
-class avance_fisico_y_financiero(models.Model):
+class Avance_fisico_y_financiero(models.Model):
     country = models.ForeignKey(Country)
 
     fecha_de_actualizacion = models.CharField(max_length=100, null=True, blank=True, default=None)
@@ -81,7 +81,7 @@ class avance_fisico_y_financiero(models.Model):
     alerta = models.CharField(max_length=100, null=True, blank=True, default=None)
     recomendacion = models.CharField(max_length=100, null=True, blank=True, default=None)
 
-class hito(models.Model):
+class Hito(models.Model):
     country = models.ForeignKey(Country)
 
     indicador_de_pago = models.CharField(max_length=100, null=True, blank=True, default=None)

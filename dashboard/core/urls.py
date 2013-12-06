@@ -11,6 +11,7 @@ urlpatterns = patterns('',
     url(r'^login/?$', website_view.dashboard_login, name="dashboard_login"),
     url(r'^logout/?$', website_view.dashboard_logout, name="dashboard_logout"),
     url(r'^forgot-password/?$', website_view.forgot_password, name="forgot_password"),
+    url(r'^milestone/?$', website_view.milestone, name="milestone"),
 
     #user
     url(r'^user/(?P<dashboard_user_id>[0-9]+)/reset_password/token/(?P<forgot_password_token>[0-9a-zA-Z]+)/?$', website_view.reset_password, name="reset_password"),

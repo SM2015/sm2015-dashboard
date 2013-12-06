@@ -17,7 +17,7 @@ from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 
 from website.forms import LoginForm, SetPasswordForm, ForgotPasswordForm
-from core.models import DashboardUser
+from core.models import *
 
 @login_required
 def index(request):
@@ -156,3 +156,5 @@ def reset_password(request, dashboard_user_id, forgot_password_token):
         
     
     return render_to_response("reset_password.html", context_instance=context)    
+
+def milestone(request):
