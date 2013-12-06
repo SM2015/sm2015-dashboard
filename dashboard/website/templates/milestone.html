@@ -2,38 +2,59 @@
 
 {% block content %}
     
+<style>
+    table.table {
+        background-color: #FFFFFF;
+    }
+    .table-condensed th, .table-condensed td {
+        padding: 10px 5px 10px 3px;
+    }
+    #example_paginate {
+        display: none;
+    }
+</style>
 <div class="content">
-    <table id="example" class="table-bordered">
-        <thead>
-            <tr>
-                <th class="column-name">indicador de pago<th>
-                <th class="column-name">hito<th>
-                <th class="column-name">trimestre<th>
-                <th class="column-name">audiencia<th>
-                <th class="column-name">estado actual<th>
-                <th class="column-name">alerta notas<th>
-                <th class="column-name">recomendacion<th>
-                <th class="column-name">acuerdo<th>
-                <th class="column-name">activad en pod<th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for milestone in milestones %}
-        <tr id="{{milestone.id}}">
-            <td class="editable" name="indicador_de_pago">{{milestone.indicador_de_pago}}<td>
-            <td class="editable" name="hito">{{milestone.hito}}<td>
-            <td class="editable" name="trimestre">{{milestone.trimestre}}<td>
-            <td class="editable" name="audiencia">{{milestone.audiencia}}<td>
-            <td class="editable" name="estado_actual">{{milestone.estado_actual}}<td>
-            <td class="editable" name="alerta_notas">{{milestone.alerta_notas}}<td>
-            <td class="editable" name="recomendacion">{{milestone.recomendacion}}<td>
-            <td class="editable" name="acuerdo">{{milestone.acuerdo}}<td>
-            <td class="editable" name="actividad_en_pod">{{milestone.actividad_en_pod}}<td>
-        </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="grid simple ">
+                <div class="grid-body ">
+                    <table id="example" class="table table-hover table-condensed dataTable">
+                        <thead>
+                            <tr>
+                                <th class="column-name">Pais<th>
+                                <th class="column-name">Indicador de Pago<th>
+                                <th class="column-name">Hito<th>
+                                <th class="column-name">Trimestre<th>
+                                <th class="column-name">Audiencia<th>
+                                <th class="column-name">Estado Actual<th>
+                                <th class="column-name">Alerta/Notas<th>
+                                <th class="column-name">Recomendación<th>
+                                <th class="column-name">Acuerdo<th>
+                                <th class="column-name">Actividad en POA<th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for milestone in milestones %}
+                        <tr id="{{milestone.id}}">
+                            <td class="editable" name="indicador_de_pago">{{milestone.country}}<td>
+                            <td class="editable" name="indicador_de_pago">{{milestone.indicador_de_pago}}<td>
+                            <td class="editable" name="hito">{{milestone.hito}}<td>
+                            <td class="editable" name="trimestre">{{milestone.trimestre}}<td>
+                            <td class="editable" name="audiencia">{{milestone.audiencia}}<td>
+                            <td class="editable" name="estado_actual">{{milestone.estado_actual}}<td>
+                            <td class="editable" name="alerta_notas">{{milestone.alerta_notas}}<td>
+                            <td class="editable" name="recomendacion">{{milestone.recomendacion}}<td>
+                            <td class="editable" name="acuerdo">{{milestone.acuerdo}}<td>
+                            <td class="editable" name="actividad_en_pod">{{milestone.actividad_en_pod}}<td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>    
+            </div>    
+        </div>    
+    </div>    
+</div>    
     <script type="text/javascript" charset="utf-8">
     /* Time between each scrolling frame */
     $.fn.dataTableExt.oPagination.iTweenTime = 100;
@@ -148,9 +169,8 @@
     }
             
             $(document).ready(function() {
-                $('#example').dataTable( {
-                } );
-            } );
+                $('#example').dataTable({});
+            });
             $('.editable').editable('/save-milestone-data', { 
                 submitdata : function(value, settings) { 
                                 return {
@@ -162,5 +182,4 @@
             });
         
     </script>
-</div>    
 {% endblock %}

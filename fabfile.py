@@ -69,6 +69,7 @@ def configure_nginx():
     put("deploy/{env}/conf/nginx.conf".format(env=env.name), "/tmp/nginx.conf")
     sudo("mv /tmp/nginx.conf {project_path}/conf/nginx.conf".format(project_path=PROJECT_PATH))
 
+    sudo("rm /etc/nginx/sites-enabled/dashboard.conf")
     sudo("ln -s {project_path}/conf/nginx.conf /etc/nginx/sites-enabled/dashboard.conf".format(project_path=PROJECT_PATH))
     sudo("service nginx stop")
     sudo("service nginx start")

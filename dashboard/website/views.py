@@ -49,6 +49,7 @@ def dashboard_logout(request):
         logout(request)
     return redirect("dashboard_login")
 
+@login_required
 def forgot_password(request):
     context = RequestContext(request)
     
@@ -118,6 +119,7 @@ def _send_forgot_password_email(request, forgot_password_token, dashboard_user):
     
     return True
 
+@login_required
 def reset_password(request, dashboard_user_id, forgot_password_token):
     dashboard_user = get_object_or_404(DashboardUser, id=dashboard_user_id)
     
@@ -157,6 +159,7 @@ def reset_password(request, dashboard_user_id, forgot_password_token):
     
     return render_to_response("reset_password.html", context_instance=context)
 
+@login_required
 def milestone(request):
     milestones = Hito.objects.all()
 
@@ -168,6 +171,7 @@ def milestone(request):
 
     return render_to_response("milestone.html", context_instance=context)
 
+@login_required
 def save_milestone_data(request):
     milestone = get_object_or_404(Hito, id=request.POST.get('objid'))
     

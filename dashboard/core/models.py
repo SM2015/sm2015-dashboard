@@ -93,3 +93,6 @@ class Hito(models.Model):
     recomendacion = models.CharField(max_length=100, null=True, blank=True, default=None)
     acuerdo = models.CharField(max_length=100, null=True, blank=True, default=None)
     actividad_en_pod = models.CharField(max_length=100, null=True, blank=True, default=None)
+
+    def __unicode__(self):
+        return self.country.name
