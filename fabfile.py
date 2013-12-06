@@ -5,6 +5,11 @@ from datetime import datetime
 
 PROJECT_PATH = '/var/www/sm2015dashboard.org'
 
+MYSQL_USER = 'sm2015_dashboard'
+MYSQL_PASSWORD = '$Sm2015_dashboarD$'
+MYSQL_DB = 'sm2015_dashboard'
+MYSQL_ROOT_PASSWORD = '#SM2015Dashboard*'
+
 def prod():
     env.hosts = ['66.228.41.76']
     env.user = 'rafaelsantos'
@@ -26,7 +31,6 @@ def install_packages():
 
 def install_virtualenv():
     with cd(PROJECT_PATH):
-        sudo("rm -rf virtualenv")
         sudo("mkdir -p virtualenv")
         sudo("virtualenv ./virtualenv")
 
@@ -53,6 +57,12 @@ def configure_locale():
     run("locale-gen en_US.UTF-8")
     sudo("dpkg-reconfigure locales")
 
+def initial_mysql_configuration():
+    query = 'CREATE USER "{user}"@"localhost" IDENTIFIED BY "{password}";'.format(user=MYSQL_USER, password=MYSQL_PASSWORD)
+    query += 'GRANT ALL ON {db}.* TO "{user}"@"%";'.format(db=MYSQL_DB, user=MYSQL_USER)
+    query += 'CREATE DATABASE IF NOT EXISTS {db} DEFAULT CHARACTER SET utf8;'.format(db=MYSQL_DB)
+    run("mysql -u root -p{root_password} -e '{query}'".format(query=query, root_password=MYSQL_ROOT_PASSWORD))
+
 def initial_setup():
     create_project_structure()
     sudo("echo \"localhost\" > /etc/hostname")
@@ -64,12 +74,11 @@ def initial_setup():
     install_packages()
     install_virtualenv()
     configure_nginx()
+    initial_mysql_configuration()
 
     sudo("reboot")
 
-def upload():
-
-    site = 'dashboard'
+def upload(site='dashboard'):
 
     print(green("Deploying site %s" % site))
 
@@ -78,11 +87,14 @@ def upload():
     commit_id = str(local('git rev-parse HEAD', True)).strip()
     current = "%s-%s" % (today, commit_id[:8])
     
+    # upload site
     local("git archive --format=tar --prefix={site}/ HEAD:{path}/ | gzip > /tmp/{site}.tgz".format(site=site, path=site))
     put("/tmp/{site}.tgz".format(site=site), "/tmp/")
     run("tar -C /tmp -xzf /tmp/{site}.tgz".format(site=site))
-
     sudo("rm -rf {project_path}/src/{site}".format(site=site, project_path=PROJECT_PATH))
     sudo("mv /tmp/{site} {project_path}/src/".format(site=site, project_path=PROJECT_PATH))
     run("rm /tmp/{site}.tgz".format(site=site)) 
     local("rm /tmp/{site}.tgz".format(site=site))
+
+    with cd("{project_path}/src/{site}/core/".format(site=site, project_path=PROJECT_PATH)):
+        run("mv settings_prod.py settings_wsgi.py")
