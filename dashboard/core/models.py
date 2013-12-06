@@ -66,7 +66,7 @@ class Country(models.Model):
         verbose_name = u"Contry"
         verbose_name_plural = "Contries"
 
-class Avance_fisico_y_financiero(models.Model):
+class AvanceFisicoFinanciero(models.Model):
     country = models.ForeignKey(Country)
 
     fecha_de_actualizacion = models.CharField(max_length=100, null=True, blank=True, default=None)
