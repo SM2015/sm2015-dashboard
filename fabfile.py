@@ -3,6 +3,7 @@ import os
 import sys
 from fabric.api import *
 from fabric.colors import green
+from fabric.contrib.files import exists
 from datetime import datetime
 
 PROJECT_PATH = '/var/www/sm2015dashboard.org'
@@ -24,22 +25,23 @@ def initial_setup(site='dashboard'):
     sudo("apt-get update")
     sudo("apt-get upgrade")
     install_packages()
-    initial_configuration()
+    create_virtualenv()
+    server_configuration()
+    initial_mysql_configuration()
     deploy(site)
 
     sudo("reboot")
 
-def initial_configuration():
+def server_configuration():
     configure_locale()
-    install_virtualenv()
     configure_nginx()
-    initial_mysql_configuration()
+    configure_uwsgi()
 
 def deploy(site='dashboard'):
     upload(site)
     install_requirements()
     migrate(site)
-    collect_static()
+    collect_static(site)
 
 def service(service,op):
     sudo("service {service} {op}".format(service=service, op=op))
@@ -57,10 +59,11 @@ def install_packages():
     list_packages = ' '.join(f.read().split('\n'))
     sudo("apt-get install {list_packages}".format(list_packages=list_packages))
 
-def install_virtualenv():
+def create_virtualenv():
     with cd(PROJECT_PATH):
-        sudo("mkdir -p virtualenv")
-        sudo("virtualenv ./virtualenv")
+        if not exists("virtualenv"):
+            sudo("mkdir -p virtualenv")
+            sudo("virtualenv ./virtualenv")
 
 def configure_nginx():
     put("deploy/{env}/conf/nginx.conf".format(env=env.name), "/tmp/nginx.conf")
@@ -77,6 +80,9 @@ def configure_uwsgi():
 
     put("deploy/init/uwsgi.ini", "/tmp/uwsgi.ini")
     sudo("mv /tmp/uwsgi.ini /etc/init/")
+    service('uwsgi', 'stop')
+    service('uwsgi', 'start')
+
 
 def configure_locale():
     run("export LANGUAGE=en_US.UTF-8")
@@ -86,8 +92,7 @@ def configure_locale():
     sudo("dpkg-reconfigure locales")
 
 def initial_mysql_configuration():
-    query = 'CREATE USER "{user}"@"localhost" IDENTIFIED BY "{password}";'.format(user=MYSQL_USER, password=MYSQL_PASSWORD)
-    query += 'GRANT ALL ON {db}.* TO "{user}"@"%";'.format(db=MYSQL_DB, user=MYSQL_USER)
+    query = 'GRANT ALL ON {db}.* TO "{user}"@"%" IDENTIFIED BY "{password}";'.format(db=MYSQL_DB, user=MYSQL_USER, password=MYSQL_PASSWORD)
     query += 'CREATE DATABASE IF NOT EXISTS {db} DEFAULT CHARACTER SET utf8;'.format(db=MYSQL_DB)
     run("mysql -u root -p{root_password} -e '{query}'".format(query=query, root_password=MYSQL_ROOT_PASSWORD))
 
@@ -142,6 +147,7 @@ def migrate(site):
                 run('{project_path}/virtualenv/bin/python manage.py migrate {app} --settings=core.settings_wsgi' \
                     .format(app=app, project_path=PROJECT_PATH))
 
-def collect_static():
-    run('{project_path}/virtualenv/bin/python manage.py collectstatic --noinput --settings=core.settings_wsgi' \
-        .format(project_path=PROJECT_PATH))
+def collect_static(site):
+    with cd("{project_path}/src/{site}".format(project_path=PROJECT_PATH, site=site)):
+        sudo('{project_path}/virtualenv/bin/python manage.py collectstatic --noinput --settings=core.settings_wsgi' \
+            .format(project_path=PROJECT_PATH))
