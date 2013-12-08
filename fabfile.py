@@ -31,7 +31,7 @@ def initial_setup(site='dashboard'):
     initial_mysql_configuration()
     deploy(site)
 
-    sudo("reboot")
+    #sudo("reboot")
 
 def server_configuration():
     configure_locale()

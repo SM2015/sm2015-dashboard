@@ -14,7 +14,7 @@ DATABASES = {
     }
 }
 
-BASE_URL = "http://sm2015dashboard.org:8000"
+BASE_URL = "http://sm2015dashboard.org"
 
 ALLOWED_HOSTS = ['sm2015dashboard.org']
 
@@ -23,7 +23,7 @@ ADMINS = (
 )
 EMAIL_SUBJECT_PREFIX = '[SM2015-Dashboard] - ERROR'
 
-STATIC_ROOT = "/static/"
-MEDIA_ROOT = "/media/"
+STATIC_ROOT = "/static/sm2015dashboard.org/"
+MEDIA_ROOT = "/media/sm2015dashboard.org/"
 
 FILES_STATIC_PATH = MEDIA_ROOT
