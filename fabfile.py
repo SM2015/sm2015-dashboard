@@ -31,7 +31,7 @@ def initial_setup(site='dashboard'):
     initial_mysql_configuration()
     deploy(site)
 
-    #sudo("reboot")
+    sudo("reboot")
 
 def server_configuration():
     configure_locale()
@@ -87,9 +87,6 @@ def configure_uwsgi():
 
     put("deploy/init/uwsgi.conf", "/tmp/uwsgi.conf")
     sudo("mv /tmp/uwsgi.conf /etc/init/")
-    sudo("{project_path}/virtualenv/bin/python uwsgi stop".format(project_path=PROJECT_PATH))
-    sudo("{project_path}/virtualenv/bin/python uwsgi start".format(project_path=PROJECT_PATH))
-
 
 def configure_locale():
     run("export LANGUAGE=en_US.UTF-8")
