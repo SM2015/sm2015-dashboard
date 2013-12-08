@@ -23,6 +23,8 @@ from core.models import *
 def index(request):
     context = RequestContext(request)
     context.update({'user_name': context.get('user').first_name})
+    logging.info("INFO - sdf")
+    logging.error("ERRO - sdf")
     return render_to_response('index.html', context)
 
 def dashboard_login(request):
