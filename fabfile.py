@@ -83,14 +83,15 @@ def configure_nginx():
 def configure_uwsgi():
     put("deploy/{env}/conf/uwsgi.ini".format(env=env.name), "/tmp/uwsgi-conf.ini")
     sudo("mv /tmp/uwsgi-conf.ini {project_path}/conf/uwsgi.ini".format(project_path=PROJECT_PATH))
+    sudo("{project_path}/virtualenv/bin/python uwsgi --ini {project_path}/conf/uwsgi.ini".format(projec_path=PROJECT_PATH))
 
     put("deploy/{env}/conf/uwsgi_params.conf".format(env=env.name), "/tmp/uwsgi_params.conf")
     sudo("mv /tmp/uwsgi_params.conf {project_path}/conf/uwsgi_params.conf".format(project_path=PROJECT_PATH))
 
     put("deploy/init/uwsgi.conf", "/tmp/uwsgi.conf")
     sudo("mv /tmp/uwsgi.conf /etc/init/")
-    sudo("/etc/init.d/uwsgi stop")
-    sudo("/etc/init.d/uwsgi start")
+    sudo("{project_path}/virtualenv/bin/python uwsgi stop".format(projec_path=PROJECT_PATH))
+    sudo("{project_path}/virtualenv/bin/python uwsgi start".format(projec_path=PROJECT_PATH))
 
 
 def configure_locale():
