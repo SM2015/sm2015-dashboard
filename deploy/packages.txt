@@ -2,7 +2,6 @@ python
 python-virtualenv
 python2.7-dev
 nginx
-uwsgi
 mysql-server
 libmysqlclient-dev
 python-mysqldb
