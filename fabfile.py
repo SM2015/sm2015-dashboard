@@ -82,14 +82,13 @@ def configure_nginx():
 
 def configure_uwsgi():
     run("export DJANGO_SETTINGS_MODULE='core.settings_wsgi'")
-    put("deploy/{env}/conf/uwsgi.ini".format(env=env.name), "/tmp/uwsgi-conf.ini")
-    sudo("mv /tmp/uwsgi-conf.ini {project_path}/conf/uwsgi.ini".format(project_path=PROJECT_PATH))
-    sudo("{project_path}/virtualenv/bin/uwsgi --ini {project_path}/conf/uwsgi.ini".format(project_path=PROJECT_PATH))
+    #put("deploy/{env}/conf/uwsgi.ini".format(env=env.name), "/tmp/uwsgi-conf.ini")
+    #sudo("mv /tmp/uwsgi-conf.ini {project_path}/conf/uwsgi.ini".format(project_path=PROJECT_PATH))
 
     put("deploy/init/uwsgi.conf", "/tmp/uwsgi.conf")
     sudo("mv /tmp/uwsgi.conf /etc/init/")
-    sudo("{project_path}/virtualenv/bin/python uwsgi stop".format(projec_path=PROJECT_PATH))
-    sudo("{project_path}/virtualenv/bin/python uwsgi start".format(projec_path=PROJECT_PATH))
+    sudo("{project_path}/virtualenv/bin/python uwsgi stop".format(project_path=PROJECT_PATH))
+    sudo("{project_path}/virtualenv/bin/python uwsgi start".format(project_path=PROJECT_PATH))
 
 
 def configure_locale():
