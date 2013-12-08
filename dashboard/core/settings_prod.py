@@ -1,6 +1,7 @@
 from core.settings import *
 import logging
 
+
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
@@ -28,6 +29,9 @@ STATIC_ROOT = "/static/sm2015dashboard.org/"
 MEDIA_ROOT = "/media/sm2015dashboard.org/"
 
 FILES_STATIC_PATH = MEDIA_ROOT
+
+import locale
+locale.setlocale(locale.LC_ALL, "en_US.UTF-8")
 
 LOGGING = {
     'version': 1,
