@@ -56,7 +56,7 @@ def create_project_structure():
     print(green("Creating directory structure in %s" % PROJECT_PATH))
     sudo("mkdir -p {project_path}".format(project_path=PROJECT_PATH))
     with cd(PROJECT_PATH):
-        sudo("mkdir -p conf src logs/nginx logs/app releases")
+        sudo("mkdir -p conf src logs/nginx logs/app releases run")
 
     sudo("mkdir -p /static/{host_name} /media/{host_name}".format(host_name=HOST))
 
@@ -81,12 +81,10 @@ def configure_nginx():
     sudo("service nginx start")
 
 def configure_uwsgi():
+    run("export DJANGO_SETTINGS_MODULE='core.settings_wsgi'")
     put("deploy/{env}/conf/uwsgi.ini".format(env=env.name), "/tmp/uwsgi-conf.ini")
     sudo("mv /tmp/uwsgi-conf.ini {project_path}/conf/uwsgi.ini".format(project_path=PROJECT_PATH))
-    sudo("{project_path}/virtualenv/bin/python uwsgi --ini {project_path}/conf/uwsgi.ini".format(projec_path=PROJECT_PATH))
-
-    put("deploy/{env}/conf/uwsgi_params.conf".format(env=env.name), "/tmp/uwsgi_params.conf")
-    sudo("mv /tmp/uwsgi_params.conf {project_path}/conf/uwsgi_params.conf".format(project_path=PROJECT_PATH))
+    sudo("{project_path}/virtualenv/bin/uwsgi --ini {project_path}/conf/uwsgi.ini".format(project_path=PROJECT_PATH))
 
     put("deploy/init/uwsgi.conf", "/tmp/uwsgi.conf")
     sudo("mv /tmp/uwsgi.conf /etc/init/")
