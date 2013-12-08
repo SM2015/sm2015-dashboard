@@ -54,7 +54,7 @@ def create_project_structure():
     print(green("Creating directory structure in %s" % PROJECT_PATH))
     sudo("mkdir -p {project_path}".format(project_path=PROJECT_PATH))
     with cd(PROJECT_PATH):
-        sudo("mkdir -p conf src logs/nginx logs/app releases run")
+        sudo("mkdir -p conf src logs/nginx logs/app logs/uwsgi releases run")
 
     sudo("mkdir -p /static/{host_name} /media/{host_name}".format(host_name=HOST))
 
