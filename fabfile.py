@@ -79,10 +79,6 @@ def configure_nginx():
     service("nginx", "start")
 
 def configure_uwsgi():
-    run("export DJANGO_SETTINGS_MODULE='core.settings_wsgi'")
-    #put("deploy/{env}/conf/uwsgi.ini".format(env=env.name), "/tmp/uwsgi-conf.ini")
-    #sudo("mv /tmp/uwsgi-conf.ini {project_path}/conf/uwsgi.ini".format(project_path=PROJECT_PATH))
-
     put("deploy/init/uwsgi.conf", "/tmp/uwsgi.conf")
     sudo("mv /tmp/uwsgi.conf /etc/init/")
 
