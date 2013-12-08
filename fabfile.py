@@ -6,7 +6,8 @@ from fabric.colors import green
 from fabric.contrib.files import exists
 from datetime import datetime
 
-PROJECT_PATH = '/var/www/sm2015dashboard.org'
+HOST = 'sm2015dashboard.org'
+PROJECT_PATH = '/var/www/{host_name}'.format(host_name=HOST)
 
 MYSQL_USER = 'sm2015_dashboard'
 MYSQL_PASSWORD = '$Sm2015_dashboarD$'
@@ -42,7 +43,7 @@ def deploy(site='dashboard'):
     install_requirements()
     migrate(site)
     collect_static(site)
-    run_as_dev(site)
+    #run_as_dev(site)
 
 def run_as_dev(site='dashboard'):
     run("{project_path}/virtualenv/bin/python {project_path}/src/{site}/manage.py runserver 0.0.0.0:8000 --settings=core.settings_wsgi &" \
@@ -55,9 +56,9 @@ def create_project_structure():
     print(green("Creating directory structure in %s" % PROJECT_PATH))
     sudo("mkdir -p {project_path}".format(project_path=PROJECT_PATH))
     with cd(PROJECT_PATH):
-        sudo("mkdir -p conf src logs releases")
+        sudo("mkdir -p conf src logs/nginx logs/app releases")
 
-    sudo("mkdir -p /static /media")
+    sudo("mkdir -p /static/{host_name} /media/{host_name}".format(host_name=HOST))
 
 def install_packages():
     f = open('./deploy/packages.txt')
@@ -77,7 +78,7 @@ def configure_nginx():
     sudo("rm /etc/nginx/sites-enabled/dashboard.conf")
     sudo("ln -s {project_path}/conf/nginx.conf /etc/nginx/sites-enabled/dashboard.conf".format(project_path=PROJECT_PATH))
     sudo("service nginx stop")
-    #sudo("service nginx start")
+    sudo("service nginx start")
 
 def configure_uwsgi():
     put("deploy/{env}/conf/uwsgi.ini".format(env=env.name), "/tmp/uwsgi-conf.ini")
