@@ -46,6 +46,7 @@ def deploy(site='dashboard'):
 
     service("nginx", "stop")
     service("nginx", "start")
+    restart_uwsgi()
 
 def service(service,op):
     sudo("service {service} {op}".format(service=service, op=op))
@@ -81,6 +82,9 @@ def configure_nginx():
 def configure_uwsgi():
     put("deploy/init/uwsgi.conf", "/tmp/uwsgi.conf")
     sudo("mv /tmp/uwsgi.conf /etc/init/")
+
+def restart_uwsgi():
+    sudo("{project_path}/virtualenv/bin/uwsgi --reload {project_path}/run/uwsgi.pid".format(project_path=PROJECT_PATH))
 
 def configure_locale():
     run("export LANGUAGE=en_US.UTF-8")
