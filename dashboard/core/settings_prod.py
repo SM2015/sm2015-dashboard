@@ -18,7 +18,7 @@ DATABASES = {
 
 BASE_URL = "http://sm2015dashboard.org"
 
-ALLOWED_HOSTS = ['sm2015dashboard.org']
+ALLOWED_HOSTS = ['sm2015dashboard.org', '66.228.41.76']
 
 ADMINS = (
     ('Rafael Soares', 'rafaelsantos88@gmail.com'),
