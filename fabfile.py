@@ -6,7 +6,8 @@ from fabric.colors import green
 from fabric.contrib.files import exists
 from datetime import datetime
 
-PROJECT_PATH = '/var/www/sm2015dashboard.org'
+HOST = 'sm2015dashboard.org'
+PROJECT_PATH = '/var/www/{host_name}'.format(host_name=HOST)
 
 MYSQL_USER = 'sm2015_dashboard'
 MYSQL_PASSWORD = '$Sm2015_dashboarD$'
@@ -15,7 +16,6 @@ MYSQL_ROOT_PASSWORD = '#SM2015Dashboard*'
 
 def prod():
     env.hosts = ['66.228.41.76']
-    env.user = 'rafaelsantos'
     env.name = 'prod'
 
 def initial_setup(site='dashboard'):
@@ -42,11 +42,10 @@ def deploy(site='dashboard'):
     install_requirements()
     migrate(site)
     collect_static(site)
-    run_as_dev(site)
 
-def run_as_dev(site='dashboard'):
-    run("{project_path}/virtualenv/bin/python {project_path}/src/{site}/manage.py runserver 0.0.0.0:8000 --settings=core.settings_wsgi &" \
-        .format(project_path=PROJECT_PATH, site=site))
+    service("nginx", "stop")
+    service("nginx", "start")
+    restart_uwsgi()
 
 def service(service,op):
     sudo("service {service} {op}".format(service=service, op=op))
@@ -55,9 +54,9 @@ def create_project_structure():
     print(green("Creating directory structure in %s" % PROJECT_PATH))
     sudo("mkdir -p {project_path}".format(project_path=PROJECT_PATH))
     with cd(PROJECT_PATH):
-        sudo("mkdir -p conf src logs releases")
+        sudo("mkdir -p conf src logs/nginx logs/app logs/uwsgi releases run")
 
-    sudo("mkdir -p /static /media")
+    sudo("mkdir -p /static/{host_name} /media/{host_name}".format(host_name=HOST))
 
 def install_packages():
     f = open('./deploy/packages.txt')
@@ -76,21 +75,16 @@ def configure_nginx():
 
     sudo("rm /etc/nginx/sites-enabled/dashboard.conf")
     sudo("ln -s {project_path}/conf/nginx.conf /etc/nginx/sites-enabled/dashboard.conf".format(project_path=PROJECT_PATH))
-    sudo("service nginx stop")
-    #sudo("service nginx start")
+    service("nginx", "stop")
+    service("nginx", "start")
 
 def configure_uwsgi():
-    put("deploy/{env}/conf/uwsgi.ini".format(env=env.name), "/tmp/uwsgi-conf.ini")
-    sudo("mv /tmp/uwsgi-conf.ini {project_path}/conf/uwsgi.ini".format(project_path=PROJECT_PATH))
-
-    put("deploy/{env}/conf/uwsgi_params.conf".format(env=env.name), "/tmp/uwsgi_params.conf")
-    sudo("mv /tmp/uwsgi_params.conf {project_path}/conf/uwsgi_params.conf".format(project_path=PROJECT_PATH))
-
     put("deploy/init/uwsgi.conf", "/tmp/uwsgi.conf")
     sudo("mv /tmp/uwsgi.conf /etc/init/")
-    sudo("/etc/init.d/uwsgi stop")
-    sudo("/etc/init.d/uwsgi start")
+    restart_uwsgi()
 
+def restart_uwsgi():
+    sudo("{project_path}/virtualenv/bin/uwsgi --reload {project_path}/run/uwsgi.pid".format(project_path=PROJECT_PATH))
 
 def configure_locale():
     run("export LANGUAGE=en_US.UTF-8")
@@ -143,7 +137,7 @@ def _is_valid_app(app_name):
 
 def migrate(site):
     sys.path.append(os.path.join(os.getcwd(), 'dashboard'))
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.settings_prod")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.settings")
 
     mod = __import__('core', globals(), locals(), ['settings'], -1)
     settings = mod.settings

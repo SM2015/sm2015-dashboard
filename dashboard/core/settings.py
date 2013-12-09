@@ -2,6 +2,7 @@
 
 from os.path import dirname, abspath, join
 import os
+import logging
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
 
 def get_local_file(path):
@@ -74,6 +75,47 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'formatters': {
+        'standard': {
+            'format': '%(levelname)s %(asctime)s %(message)s'
+        },
+    },
+    'handlers': {
+        'default': {
+            'level':'INFO',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename': '/tmp/dashboard.log',
+            'maxBytes': 1024*1024*5, # 5 MB
+            'backupCount': 5,
+            'formatter':'standard',
+        },  
+        'request_handler': {
+                'level':'INFO',
+                'class':'logging.handlers.RotatingFileHandler',
+                'filename': '/tmp/dashboard_request.log',
+                'maxBytes': 1024*1024*5, # 5 MB
+                'backupCount': 5,
+                'formatter':'standard',
+        },
+    },
+    'loggers': {
+        '': {
+            'handlers': ['default'],
+            'level': 'INFO',
+            'propagate': True
+        },
+        'django.request': { # Stop SQL debug from logging to main logger
+            'handlers': ['request_handler'],
+            'level': 'INFO',
+            'propagate': False
+        },
+    }
+}
+
 
 TEMPLATE_DIRS = (
      os.path.join( os.path.dirname( os.path.dirname( __file__ ) ), 'templates' ),
