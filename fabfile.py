@@ -16,7 +16,6 @@ MYSQL_ROOT_PASSWORD = '#SM2015Dashboard*'
 
 def prod():
     env.hosts = ['66.228.41.76']
-    env.user = 'rafaelsantos'
     env.name = 'prod'
 
 def initial_setup(site='dashboard'):
@@ -82,6 +81,7 @@ def configure_nginx():
 def configure_uwsgi():
     put("deploy/init/uwsgi.conf", "/tmp/uwsgi.conf")
     sudo("mv /tmp/uwsgi.conf /etc/init/")
+    restart_uwsgi()
 
 def restart_uwsgi():
     sudo("{project_path}/virtualenv/bin/uwsgi --reload {project_path}/run/uwsgi.pid".format(project_path=PROJECT_PATH))
