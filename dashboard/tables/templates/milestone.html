@@ -21,10 +21,22 @@
         <div class="span12">
             <div class="grid simple ">
                 <div class="grid-body clearfix">
+                    <div class="opcoes-paises">
+                        {% if countries|length == 1 %}
+                        <span>Pais: {{countries.0.name}}</span>
+                        {% elif countries|length > 1 %}
+                        <span>Pais:</span>
+                        <select id="choice-country">
+                            {% for country in countries %}
+                            <option value="{{country.id}}">{{country.name}}</option>
+                            {% endfor %}
+                        </select>
+                        {% endif %}
+                    </div>
+
                     <table id="example" class="table table-hover table-condensed dataTable">
                         <thead>
                             <tr>
-                                <th class="column-name">Pais<th>
                                 <th class="column-name">Indicador de Pago<th>
                                 <th class="column-name">Hito<th>
                                 <th class="column-name">Trimestre<th>
@@ -37,18 +49,17 @@
                             </tr>
                         </thead>
                         <tbody>
-                        {% for milestone in milestones %}
-                        <tr id="{{milestone.id}}">
-                            <td class="editable" name="indicador_de_pago">{{milestone.country}}<td>
-                            <td class="editable" name="indicador_de_pago">{{milestone.indicador_de_pago}}<td>
-                            <td class="editable" name="hito">{{milestone.hito}}<td>
-                            <td class="editable" name="trimestre">{{milestone.trimestre}}<td>
-                            <td class="editable" name="audiencia">{{milestone.audiencia}}<td>
-                            <td class="editable" name="estado_actual">{{milestone.estado_actual}}<td>
-                            <td class="editable" name="alerta_notas">{{milestone.alerta_notas}}<td>
-                            <td class="editable" name="recomendacion">{{milestone.recomendacion}}<td>
-                            <td class="editable" name="acuerdo">{{milestone.acuerdo}}<td>
-                            <td class="editable" name="actividad_en_pod">{{milestone.actividad_en_pod}}<td>
+                        {% for hito in hitos %}
+                        <tr id="hito-{{hito.id}}">
+                            <td class="editable" name="indicador_de_pago">{{hito.indicador_de_pago}}<td>
+                            <td class="editable" name="hito">{{hito.hito}}<td>
+                            <td class="editable" name="trimestre">{{hito.trimestre}}<td>
+                            <td class="editable" name="audiencia">{{hito.audiencia}}<td>
+                            <td class="editable" name="estado_actual">{{hito.estado_actual}}<td>
+                            <td class="editable" name="alerta_notas">{{hito.alerta_notas}}<td>
+                            <td class="editable" name="recomendacion">{{hito.recomendacion}}<td>
+                            <td class="editable" name="acuerdo">{{hito.acuerdo}}<td>
+                            <td class="editable" name="actividad_en_pod">{{hito.actividad_en_pod}}<td>
                         </tr>
                         {% endfor %}
                         </tbody>

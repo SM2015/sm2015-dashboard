@@ -1,6 +1,8 @@
 from django.contrib import admin
-from core import models
+from core.models import DashboardUser
 
-admin.site.register(models.Country)
-admin.site.register(models.AvanceFisicoFinanciero)
-admin.site.register(models.Hito)
+class DashboardUserAdmin(admin.ModelAdmin):
+    fields = ('user', 'countries',)
+    readonly_fields = ('user',)
+
+admin.site.register(DashboardUser, DashboardUserAdmin)
