@@ -31,6 +31,7 @@ INSTALLED_APPS = (
     'south',
     'core',
     'website',
+    'tables',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -45,12 +46,6 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'core.urls'
 
 WSGI_APPLICATION = 'core.wsgi.application'
-
-WEB_TEMPLATES = join(abspath(dirname(__file__)),"website", 'templates')
-
-TEMPLATE_DIRS = (
-    'WEB_TEMPLATES',
-)
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
@@ -119,9 +114,6 @@ LOGGING = {
 
 TEMPLATE_DIRS = (
      os.path.join( os.path.dirname( os.path.dirname( __file__ ) ), 'templates' ),
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
 )
 
 TEMPLATE_LOADERS = (
@@ -156,4 +148,4 @@ DEFAULT_FROM_EMAIL = "noreply@dashboard.com"
 DEFAULT_EMAIL_REGISTER_SUBJECT = "Dashboard - Registration Confirmation"
 DEFAULT_EMAIL_FORGOT_PASSWORD_SUBJECT = "Dashboard - Forgot your password?"
 
-LOGIN_URL = 'login/'
+LOGIN_URL = '/user/login/'

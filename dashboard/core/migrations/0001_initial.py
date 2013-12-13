@@ -17,10 +17,22 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal(u'core', ['DashboardUser'])
 
+        # Adding M2M table for field countries on 'DashboardUser'
+        m2m_table_name = db.shorten_name(u'core_dashboarduser_countries')
+        db.create_table(m2m_table_name, (
+            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
+            ('dashboarduser', models.ForeignKey(orm[u'core.dashboarduser'], null=False)),
+            ('country', models.ForeignKey(orm[u'tables.country'], null=False))
+        ))
+        db.create_unique(m2m_table_name, ['dashboarduser_id', 'country_id'])
+
 
     def backwards(self, orm):
         # Deleting model 'DashboardUser'
         db.delete_table(u'core_dashboarduser')
+
+        # Removing M2M table for field countries on 'DashboardUser'
+        db.delete_table(db.shorten_name(u'core_dashboarduser_countries'))
 
 
     models = {
@@ -63,9 +75,15 @@ class Migration(SchemaMigration):
         u'core.dashboarduser': {
             'Meta': {'object_name': 'DashboardUser'},
             'activation_key': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'countries': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['tables.Country']", 'symmetrical': 'False'}),
             'forgot_password_token': ('django.db.models.fields.CharField', [], {'default': 'None', 'max_length': '100', 'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'user': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['auth.User']", 'unique': 'True'})
+        },
+        u'tables.country': {
+            'Meta': {'object_name': 'Country'},
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         }
     }
 
