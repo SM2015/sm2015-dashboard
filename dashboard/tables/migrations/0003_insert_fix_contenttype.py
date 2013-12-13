@@ -2,22 +2,16 @@
 from south.utils import datetime_utils as datetime
 from south.db import db
 from south.v2 import DataMigration
-from django.db import models
+from django.db import models, connection
 
 class Migration(DataMigration):
 
     def forwards(self, orm):
-        orm.Country.objects.create(name='Belize')
-        orm.Country.objects.create(name='Costa Rica')
-        orm.Country.objects.create(name='El Salvador')
-        orm.Country.objects.create(name='Guatemala')
-        orm.Country.objects.create(name='Honduras')
-        orm.Country.objects.create(name='Mexico')
-        orm.Country.objects.create(name='Nicaragua')
-        orm.Country.objects.create(name='Panama')
+        cursor = connection.cursor()
+        cursor.execute("INSERT INTO `django_content_type` (`name`, `app_label`, `model`) VALUES ('hito audiencia', 'tables', 'hitoaudiencia');")
 
     def backwards(self, orm):
-        orm.Country.objects.all().delete()
+        "Write your backwards methods here."
 
     models = {
         u'tables.audiencia': {

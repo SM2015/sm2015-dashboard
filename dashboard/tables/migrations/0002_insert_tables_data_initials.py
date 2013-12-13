@@ -7,12 +7,27 @@ from django.db import models
 class Migration(DataMigration):
 
     def forwards(self, orm):
+        orm.Country.objects.create(name='Belize')
+        orm.Country.objects.create(name='Costa Rica')
+        orm.Country.objects.create(name='El Salvador')
+        orm.Country.objects.create(name='Guatemala')
+        orm.Country.objects.create(name='Honduras')
+        orm.Country.objects.create(name='Mexico')
+        orm.Country.objects.create(name='Nicaragua')
+        orm.Country.objects.create(name='Panama')
+
+        orm.EstadoActual.objects.create(name="Cumplido")
+        orm.EstadoActual.objects.create(name="Retrasado")
+        orm.EstadoActual.objects.create(name="En proceso")
+
         orm.Audiencia.objects.create(name="Pais")
         orm.Audiencia.objects.create(name="BID")
         orm.Audiencia.objects.create(name="Donantes")
 
     def backwards(self, orm):
         orm.Audiencia.objects.all().delete()
+        orm.EstadoActual.objects.all().delete()
+        orm.Country.objects.all().delete()
 
     models = {
         u'tables.audiencia': {
