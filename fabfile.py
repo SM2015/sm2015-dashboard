@@ -143,6 +143,8 @@ def migrate(site):
     settings = mod.settings
 
     with cd("{project_path}/src/{site}".format(project_path=PROJECT_PATH, site=site)):
+        run('{project_path}/virtualenv/bin/python manage.py syncdb --settings=core.settings_wsgi'.format(project_path=PROJECT_PATH))
+
         for app in settings.INSTALLED_APPS:
             if _is_valid_app(app):
                 print(green("Migrate app {app}".format(app=app)))
