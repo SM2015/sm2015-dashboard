@@ -226,23 +226,23 @@
                         </tr>
                         <tr>
                             <th class="avances-header">Avances Fiscos Planificados (Meta Ejecución)</th>
-                            <td class="avances-value">{{avance.avance_fisico_planificado}}%</td>
+                            <td class="avances-value editable charfield">{{avance.avance_fisico_planificado}}%</td>
                         </tr>
                         <tr>
                             <th class="avances-header">Avances financieros  planificados (Ejecución financiera planificados)</th>
-                            <td class="avances-value">{{avance.avance_financiero_planificado}}%</td>
+                            <td class="avances-value editable charfield">{{avance.avance_financiero_planificado}}%</td>
                         </tr>
                         <tr>
                             <th class="avances-header">Monto total desembolsado (BID a PAIS)</th>
-                            <td class="avances-value">${{avance.monto_desembolsado|intcomma}}</td>
+                            <td class="avances-value editable charfield">${{avance.monto_desembolsado|intcomma}}</td>
                         </tr>
                         <tr>
                             <th class="avances-header">Avances Físicos reales (Avance en la ejecución real segun el PEP)</th>
-                            <td class="avances-value">{{avance.avance_fisico_real}}%</td>
+                            <td class="avances-value editable charfield">{{avance.avance_fisico_real}}%</td>
                         </tr>
                         <tr>
                             <th class="avances-header">Avances financieros actuales (Ejecución financiera real según el estados financieros del ejecutor hasta la fecha (%))</th>
-                            <td class="avances-value">{{avance.avance_financiero_actual}}%</td>
+                            <td class="avances-value editable charfield">{{avance.avance_financiero_actual}}%</td>
                         </tr>
                     </table>
                 </div>
@@ -250,23 +250,23 @@
                     <table class="table-avances table-bordered">
                         <tr>
                             <th class="avances-header">Monto Comprometido</th>
-                            <td class="avances-value">${{avance.monto_comprometido|intcomma}}</td>
+                            <td class="avances-value editable charfield">{{avance.monto_comprometido}}%</td>
                         </tr>
                         <tr>
                             <th class="avances-header">Avances Fiscos Planificados (Meta Ejecución): DE LA LINEA DE BASE ORIGINAL</th>
-                            <td class="avances-value">{{avance.avances_fisicos_original_programado}}%</td>
+                            <td class="avances-value editable charfield">{{avance.avances_fisicos_original_programado}}%</td>
                         </tr>
                         <tr>
                             <th class="avances-header">Avances financieros planificados (Ejecución financiera planificados) DEL LINEA DE BASE ORIGINAL</th>
-                            <td class="avances-value">{{avance.avances_financieros_original_programado}}%</td>
+                            <td class="avances-value editable charfield">{{avance.avances_financieros_original_programado|intcomma}}</td>
                         </tr>
                         <tr>
                             <th class="avances-header">Alertas temprana en general</th>
-                            <td class="avances-value">{{avance.alerta}}</td>
+                            <td class="avances-value editable textfield">{{avance.alerta}}</td>
                         </tr>
                         <tr>
                             <th class="avances-header">Recomendaciones</th>
-                            <td class="avances-value">{{avance.recomendacion}}</td>
+                            <td class="avances-value editable textfield">{{avance.recomendacion}}</td>
                         </tr>
                     </table>
                 </div>
