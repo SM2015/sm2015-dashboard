@@ -9,15 +9,20 @@ from tables.models import Hito, AvanceFisicoFinanciero
 def milestone(request):
     context = RequestContext(request)
     countries = context.get('user').dashboarduser.countries.all()
+    tables = []
 
-    hitos = Hito.objects.filter(country__in=countries)
-    avances = AvanceFisicoFinanciero.objects.filter(country__in=countries)
+    for country in countries:
+        table = {
+            'country': country,
+            'hitos': Hito.objects.filter(country=country),
+            'avances': AvanceFisicoFinanciero.objects.filter(country=country),
+        }
+        tables.append(table)
 
     return render_to_response("milestone.html", {
         'context_instance': context,
         'countries': countries,
-        'hitos': hitos,
-        'avances': avances
+        'tables': tables
     })
 
 @login_required
