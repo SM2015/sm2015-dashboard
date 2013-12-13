@@ -15,6 +15,11 @@ class Migration(DataMigration):
         orm.EstadoActual.objects.all().delete()
 
     models = {
+        u'tables.audiencia': {
+            'Meta': {'object_name': 'Audiencia'},
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
+        },
         u'tables.avancefisicofinanciero': {
             'Meta': {'object_name': 'AvanceFisicoFinanciero'},
             'alerta': ('django.db.models.fields.CharField', [], {'default': 'None', 'max_length': '100', 'null': 'True', 'blank': 'True'}),
@@ -25,7 +30,7 @@ class Migration(DataMigration):
             'avances_financieros_original_programado': ('django.db.models.fields.CharField', [], {'default': 'None', 'max_length': '100', 'null': 'True', 'blank': 'True'}),
             'avances_fisicos_original_programado': ('django.db.models.fields.CharField', [], {'default': 'None', 'max_length': '100', 'null': 'True', 'blank': 'True'}),
             'country': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['tables.Country']"}),
-            'fecha_de_actualizacion': ('django.db.models.fields.CharField', [], {'default': 'None', 'max_length': '100', 'null': 'True', 'blank': 'True'}),
+            'fecha_de_actualizacion': ('django.db.models.fields.DateField', [], {}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'monto_comprometido': ('django.db.models.fields.CharField', [], {'default': 'None', 'max_length': '100', 'null': 'True', 'blank': 'True'}),
             'monto_desembolsado': ('django.db.models.fields.CharField', [], {'default': 'None', 'max_length': '100', 'null': 'True', 'blank': 'True'}),
@@ -36,24 +41,24 @@ class Migration(DataMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
+        u'tables.estadoactual': {
+            'Meta': {'object_name': 'EstadoActual'},
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
+        },
         u'tables.hito': {
             'Meta': {'object_name': 'Hito'},
-            'actividad_en_pod': ('django.db.models.fields.CharField', [], {'default': 'None', 'max_length': '100', 'null': 'True', 'blank': 'True'}),
-            'acuerdo': ('django.db.models.fields.CharField', [], {'default': 'None', 'max_length': '100', 'null': 'True', 'blank': 'True'}),
-            'alerta_notas': ('django.db.models.fields.CharField', [], {'default': 'None', 'max_length': '100', 'null': 'True', 'blank': 'True'}),
-            'audiencia': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['tables.HitoAudiencia']", 'symmetrical': 'False'}),
+            'actividad_en_poa': ('django.db.models.fields.CharField', [], {'default': 'None', 'max_length': '100', 'null': 'True', 'blank': 'True'}),
+            'acuerdo': ('django.db.models.fields.TextField', [], {}),
+            'alerta_notas': ('django.db.models.fields.TextField', [], {}),
+            'audiencia': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['tables.Audiencia']", 'symmetrical': 'False'}),
             'country': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['tables.Country']"}),
-            'estado_actual': ('django.db.models.fields.CharField', [], {'default': 'None', 'max_length': '100', 'null': 'True', 'blank': 'True'}),
+            'estado_actual': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['tables.EstadoActual']"}),
             'hito': ('django.db.models.fields.CharField', [], {'default': 'None', 'max_length': '100', 'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'indicador_de_pago': ('django.db.models.fields.CharField', [], {'default': 'None', 'max_length': '100', 'null': 'True', 'blank': 'True'}),
-            'recomendacion': ('django.db.models.fields.CharField', [], {'default': 'None', 'max_length': '100', 'null': 'True', 'blank': 'True'}),
+            'recomendacion': ('django.db.models.fields.TextField', [], {}),
             'trimestre': ('django.db.models.fields.CharField', [], {'default': 'None', 'max_length': '100', 'null': 'True', 'blank': 'True'})
-        },
-        u'tables.hitoaudiencia': {
-            'Meta': {'object_name': 'HitoAudiencia'},
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         }
     }
 
