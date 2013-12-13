@@ -7,4 +7,5 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^milestone/?$', views.milestone, name="milestone"),
     url(r'^save-milestone-data/?$', views.save_milestone_data, name="save_milestone_data"),
+    url(r'^list/estado_actual/?$', views.list_estado_actual, name="list_estado_actual"),
 )

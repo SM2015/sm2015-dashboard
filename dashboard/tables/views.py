@@ -1,13 +1,17 @@
 # coding: utf-8
+import json
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from django.shortcuts import render_to_response
-from tables.models import Hito, AvanceFisicoFinanciero
+from django.core.context_processors import csrf
+from django.http import HttpResponse
+from tables.models import Hito, AvanceFisicoFinanciero, EstadoActual
 
 @login_required
 def milestone(request):
     context = RequestContext(request)
+
     countries = context.get('user').dashboarduser.countries.all()
     tables = []
 
@@ -22,7 +26,9 @@ def milestone(request):
     return render_to_response("milestone.html", {
         'context_instance': context,
         'countries': countries,
-        'tables': tables
+        'tables': tables,
+        'user_name': context.get('user').first_name,
+        'csrf_token': csrf(request)
     })
 
 @login_required
@@ -54,3 +60,14 @@ def save_milestone_data(request):
     milestone.save()
 
     return HttpResponse(value, content_type="application/json")
+
+@login_required
+def list_estado_actual(request):
+    estados_actuais = EstadoActual.objects.all()
+    list_estados = []
+    for estado in estados_actuais:
+        list_estados.append({
+            'name': estado.name,
+            'id': estado.id
+        })
+    return HttpResponse(json.dumps(list_estados), content_type="application/json")
