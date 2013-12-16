@@ -5,11 +5,12 @@ from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
 from django.core.context_processors import csrf
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.template.loader import render_to_string
 from django.db.models import ForeignKey, FieldDoesNotExist
 from tables.models import Hito, AvanceFisicoFinanciero, EstadoActual
 from tables import models as table_models
+
 
 @login_required
 def milestone(request):
@@ -36,13 +37,13 @@ def milestone(request):
 
 @login_required
 def save_milestone_data(request, model_name):
-    value = ""
     try:
+        value = ""
         class_table = getattr(table_models, model_name)
         instance = get_object_or_404(class_table, id=request.POST.get('objid'))
 
     except AttributeError, e:
-        pass
+        raise Http404
 
     for field_name in class_table.get_editable_fields():
         if request.POST.get(field_name, None) != None:

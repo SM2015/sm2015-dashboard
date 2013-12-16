@@ -22,7 +22,6 @@
                         var data = {};
                         data['objid'] = $(this).parent().attr('data-objid');
                         data[field] = $(this).find("input").val();
-;
                         return data;
                     }
                 });
@@ -59,6 +58,50 @@
                 });
             },
 
+            bindDataTable: function(){
+                if(!this.opts.vertical){
+                    var responsiveHelper = undefined;
+                    var breakpointDefinition = {
+                        tablet: 1024,
+                        phone : 480
+                    };
+                    var tableElement = this.$wrapper.find("table");
+                    tableElement.dataTable({
+                        "sDom": "<'row-fluid'<'span6'l T><'span6'f>r>t<'row-fluid'<'span12'p i>>",
+                            "oTableTools": {
+                            "aButtons": [
+                                {
+                                    "sExtends":    "collection",
+                                    "sButtonText": "<i class='icon-cloud-download'></i>",
+                                    "aButtons":    [ "csv", "xls", "pdf", "copy"]
+                                }
+                            ]
+                        },
+                        "sPaginationType": "bootstrap",
+                         "aoColumnDefs": [
+                          { 'bSortable': false, 'aTargets': [ 0 ] }
+                        ],
+                        "aaSorting": [[ 1, "asc" ]],
+                        "oLanguage": {
+                            "sLengthMenu": "_MENU_ ",
+                            "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries"
+                        },
+                        bAutoWidth     : false,
+                        fnPreDrawCallback: function () {
+                            if (!responsiveHelper) {
+                                responsiveHelper = new ResponsiveDatatablesHelper(tableElement, breakpointDefinition);
+                            }
+                        },
+                        fnRowCallback  : function (nRow) {
+                            responsiveHelper.createExpandIcon(nRow);
+                        },
+                        fnDrawCallback : function (oSettings) {
+                            responsiveHelper.respond();
+                        }
+                    });
+                }
+            },
+
             drawTable: function(){
                 var self = this,
                     html_box = ""+
@@ -70,7 +113,7 @@
                                 '<div class="tools"> <a href="javascript:;" class="collapse"></a> <a href="#grid-config" data-toggle="modal" class="config"></a> <a href="javascript:;" class="reload"></a> <a href="javascript:;" class="remove"></a> </div>'+
                               '</div>'+
                               '<div class="grid-body ">'+
-                                '<div class="row-fluid column-seperation">'+
+                                '<div class="row-fluid column-seperation table-content">'+
                                     '{{TABLE_PLACEHOLDER}}'+
                                 '</div>'+
                               '</div>'+
@@ -83,7 +126,20 @@
                 this.loadTable(function(table_html){
                     html_box = html_box.replace("{{TABLE_PLACEHOLDER}}", table_html);
                     self.$wrapper.html(html_box);
+                    self.$wrapper.find(".reload").click(function(){
+                        self.refresh();
+                    });
                     self.bindElements();
+                    self.bindDataTable();
+                });
+            },
+
+            refresh: function(){
+                var self = this;
+                this.loadTable(function(table_html){
+                    self.$wrapper.find(".table-content").html(table_html);
+                    self.bindElements();
+                    self.bindDataTable();
                 });
             },
 

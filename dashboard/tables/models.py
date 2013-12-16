@@ -59,10 +59,3 @@ class Hito(models.Model):
 
     def __unicode__(self):
         return self.country.name
-
-    @classmethod
-    def get_attributes(cls):
-        boring = dir(type('dummy', (object,), {}))
-        return [item
-                for item in inspect.getmembers(cls)
-                if item[0] not in boring]
