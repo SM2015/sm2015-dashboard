@@ -59,3 +59,14 @@ class Hito(models.Model):
 
     def __unicode__(self):
         return self.country.name
+
+class UcMilestone(models.Model):
+    objective = models.CharField(max_length=200, null=True, blank=True, default=None)
+    coordination_unit_milestone = models.CharField(max_length=200, null=True, blank=True, default=None)
+    quarter = models.CharField(max_length=200, null=True, blank=True, default=None)
+    status = models.CharField(max_length=200, null=True, blank=True, default=None)
+    status_2 = models.CharField(max_length=200, null=True, blank=True, default=None)
+
+    @classmethod
+    def get_editable_fields(cls):
+        return ('objective', 'coordination_unit_milestone', 'quarter', 'status', 'status_2')
