@@ -27,82 +27,25 @@
             $(window).bind("select-country", function(elem, country, country_slug){
                 $(".country-name").text(country);
 
-                $(".dataTables_wrapper").attr("style", "display: none !important");
-                $("#hito-pais-"+country_slug+"_wrapper").attr("style", "display: block !important");
-
-                $(".avance-pais").attr("style", "display: none !important");
-                $(".avance-pais-"+country_slug).attr("style", "display: block !important");
+                $(".table-hitos").dashboardTable("/tables/render/hitos/"+country_slug, {
+                    title: "Hitos",
+                    url_save: "{% url 'save_milestone_data' model_name='Hito' %}"
+                });
             });
             $("select[name='select-pais']").change(function(){
-                var name = $(this).find(":selected").val().split('|')[0];
-                var slug = $(this).find(":selected").val().split('|')[1];
+                var name = $(this).find(":selected").text();
+                var slug = $(this).find(":selected").val();
                 $(window).trigger("select-country", [name, slug]);
             });
 
             {% if countries|length > 1 %}
             var $pais_initial = $("select[name='select-pais'] :selected");
-            var name = $pais_initial.val().split('|')[0];
-            var slug = $pais_initial.val().split('|')[1];
+            var name = $pais_initial.text();
+            var slug = $pais_initial.val();
             $(window).trigger("select-country", [name, slug]);
             {% else %}
-            $(window).trigger("select-country", ["{{countries.0.name}}", "{{countries.0.name|slugify}}"]);
+            $(window).trigger("select-country", ["{{countries.0.name}}", "{{countries.0.slug}}"]);
             {% endif %}
-
-
-            /*
-            {% for table in tables %}
-                    var responsiveHelper = undefined;
-                    var breakpointDefinition = {
-                        tablet: 1024,
-                        phone : 480
-                    };
-                    var tableElement_{{forloop.counter}} = $('#hito-pais-{{table.country.name|slugify}}');
-                    tableElement_{{forloop.counter}}.dataTable( {
-                        "sDom": "<'row-fluid'<'span6'l T><'span6'f>r>t<'row-fluid'<'span12'p i>>",
-                            "oTableTools": {
-                            "aButtons": [
-                                {
-                                    "sExtends":    "collection",
-                                    "sButtonText": "<i class='icon-cloud-download'></i>",
-                                    "aButtons":    [ "csv", "xls", "pdf", "copy"]
-                                }
-                            ]
-                        },
-                        "sPaginationType": "bootstrap",
-                         "aoColumnDefs": [
-                          { 'bSortable': false, 'aTargets': [ 0 ] }
-                        ],
-                        "aaSorting": [[ 1, "asc" ]],
-                        "oLanguage": {
-                            "sLengthMenu": "_MENU_ ",
-                            "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries"
-                        },
-                         bAutoWidth     : false,
-                        fnPreDrawCallback: function () {
-                            // Initialize the responsive datatables helper once.
-                            if (!responsiveHelper) {
-                                responsiveHelper = new ResponsiveDatatablesHelper(tableElement_{{forloop.counter}}, breakpointDefinition);
-                            }
-                        },
-                        fnRowCallback  : function (nRow) {
-                            responsiveHelper.createExpandIcon(nRow);
-                        },
-                        fnDrawCallback : function (oSettings) {
-                            responsiveHelper.respond();
-                        }
-                    });
-                    
-                    $('#hito-pais-{{table.country.name|slugify}} input').click( function() {
-                        $(this).parent().parent().parent().toggleClass('row_selected');
-                    });
-            {% endfor %}
-        });*/
-
-            $(".table-hitos").dashboardTable("{% url 'table_render_hitos' country_slug='belize' %}", {
-                title: "Hitos",
-                url_save: "{% url 'save_milestone_data' model_name='Hito' %}"
-            }, function(){
-            });
 
             $(".table-ucmilestones").dashboardTable("{% url 'table_render_ucmilestone' %}", {
                 title: "UcMilestone",
@@ -172,7 +115,7 @@
                 <h4 class="title-select-pais">Seleccione un país - </h4>
                 <select name="select-pais" class="select-pais">
                     {% for country in countries %}
-                    <option value="{{country.name}}|{{country.name|slugify}}">{{country.name}}</option>
+                    <option value="{{country.slug}}">{{country.name}}</option>
                     {% endfor %}
                 </select>
                 {% else %}
@@ -187,7 +130,7 @@
     <div class="table-hitos"></div>
     <div class="table-ucmilestones"></div>
 
-    <div class="row-fluid">
+    <!--<div class="row-fluid">
       <div class="span12">
         <div class="grid simple ">
           <div class="grid-title">
@@ -256,7 +199,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div>-->
 
 </div>
 {% endblock %}

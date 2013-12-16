@@ -18,9 +18,8 @@
         <td class="" name="indicador_de_pago">{{hito.indicador_de_pago}}</td>
         <td class="" name="hito">{{hito.hito}}</td>
         <td class="" name="trimestre">{{hito.trimestre}}</td>
-        <td class="" name="audiencia">
-            {{hito.audiencia.all|join:", "}}</td>
-        <td class="editable select estado_actual" name="estado_actual" data-options="{{hito.options_estados_actuais}}">{{hito.estado_actual.name}}</td>
+        <td class="" name="audiencia">{{hito.audiencia.all|join:", "}}</td>
+        <td class="editable select" name="estado_actual" data-options="{{hito.options_estados_actuais}}">{{hito.estado_actual.name}}</td>
         <td class="editable textarea" name="alerta_notas">{{hito.alerta_notas}}</td>
         <td class="editable textarea" name="recomendacion">{{hito.recomendacion}}</td>
         <td class="editable textarea" name="acuerdo">{{hito.acuerdo}}</td>

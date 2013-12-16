@@ -60,13 +60,6 @@ class Hito(models.Model):
     def __unicode__(self):
         return self.country.name
 
-    @classmethod
-    def get_attributes(cls):
-        boring = dir(type('dummy', (object,), {}))
-        return [item
-                for item in inspect.getmembers(cls)
-                if item[0] not in boring]
-
 class UcMilestone(models.Model):
     objective = models.CharField(max_length=200, null=True, blank=True, default=None)
     coordination_unit_milestone = models.CharField(max_length=200, null=True, blank=True, default=None)
