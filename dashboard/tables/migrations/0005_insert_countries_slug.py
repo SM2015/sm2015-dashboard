@@ -3,16 +3,21 @@ from south.utils import datetime_utils as datetime
 from south.db import db
 from south.v2 import DataMigration
 from django.db import models
+from django.template.defaultfilters import slugify
 
 class Migration(DataMigration):
 
     def forwards(self, orm):
-        orm.Audiencia.objects.create(name="Pais")
-        orm.Audiencia.objects.create(name="BID")
-        orm.Audiencia.objects.create(name="Donantes")
+        countries = orm.Country.objects.all()
+        for country in countries:
+            country.slug = slugify(country.name)
+            country.save()
 
     def backwards(self, orm):
-        orm.Audiencia.objects.all().delete()
+        countries = orm.Country.objects.all()
+        for country in countries:
+            country.slug = ''
+            country.save()
 
     models = {
         u'tables.audiencia': {
@@ -39,7 +44,8 @@ class Migration(DataMigration):
         u'tables.country': {
             'Meta': {'object_name': 'Country'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'slug': ('django.db.models.fields.SlugField', [], {'max_length': '100'})
         },
         u'tables.estadoactual': {
             'Meta': {'object_name': 'EstadoActual'},

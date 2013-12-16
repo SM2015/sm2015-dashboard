@@ -1,8 +1,10 @@
 # coding: utf-8
+import inspect
 from django.db import models
 
 class Country(models.Model):
     name = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=100)
     
     def __unicode__(self):
         return self.name
@@ -51,5 +53,16 @@ class Hito(models.Model):
     acuerdo = models.TextField(null=True, blank=True)
     actividad_en_poa = models.CharField(max_length=200, null=True, blank=True, default=None)
 
+    @classmethod
+    def get_editable_fields(cls):
+        return ('estado_actual', 'alerta_notas', 'recomendacion', 'acuerdo', 'actividad_en_poa')
+
     def __unicode__(self):
         return self.country.name
+
+    @classmethod
+    def get_attributes(cls):
+        boring = dir(type('dummy', (object,), {}))
+        return [item
+                for item in inspect.getmembers(cls)
+                if item[0] not in boring]

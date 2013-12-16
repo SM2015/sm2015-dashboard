@@ -7,17 +7,13 @@ from django.db import models
 class Migration(DataMigration):
 
     def forwards(self, orm):
-        orm.Country.objects.create(name='Belize')
-        orm.Country.objects.create(name='Costa Rica')
-        orm.Country.objects.create(name='El Salvador')
-        orm.Country.objects.create(name='Guatemala')
-        orm.Country.objects.create(name='Honduras')
-        orm.Country.objects.create(name='Mexico')
-        orm.Country.objects.create(name='Nicaragua')
-        orm.Country.objects.create(name='Panama')
+        "Write your forwards methods here."
+        # Note: Don't use "from appname.models import ModelName". 
+        # Use orm.ModelName to refer to models in this application,
+        # and orm['appname.ModelName'] for models in other applications.
 
     def backwards(self, orm):
-        orm.Country.objects.all().delete()
+        "Write your backwards methods here."
 
     models = {
         u'tables.audiencia': {

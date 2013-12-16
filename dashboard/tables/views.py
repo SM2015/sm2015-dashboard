@@ -3,10 +3,13 @@ import json
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, get_object_or_404
 from django.core.context_processors import csrf
 from django.http import HttpResponse
+from django.template.loader import render_to_string
+from django.db.models import ForeignKey, FieldDoesNotExist
 from tables.models import Hito, AvanceFisicoFinanciero, EstadoActual
+from tables import models as table_models
 
 @login_required
 def milestone(request):
@@ -32,32 +35,31 @@ def milestone(request):
     })
 
 @login_required
-def save_milestone_data(request):
-    milestone = get_object_or_404(Hito, id=request.POST.get('objid'))
+def save_milestone_data(request, model_name):
+    value = ""
+    try:
+        class_table = getattr(table_models, model_name)
+        instance = get_object_or_404(class_table, id=request.POST.get('objid'))
+
+    except AttributeError, e:
+        pass
+
+    for field_name in class_table.get_editable_fields():
+        if request.POST.get(field_name, None) != None:
+            value = request.POST.get(field_name)
+            try:
+                field = getattr(class_table, field_name)
+                if isinstance(field.field, ForeignKey):
+                    instance_related_model = field.field.related.parent_model.objects.get(id=value)
+                    setattr(instance, field_name, instance_related_model)
+                    value = instance_related_model.name
+            except AttributeError, e:
+                field = class_table._meta.get_field_by_name(field_name)[0]
+                setattr(instance, field_name, value)
+            except FieldDoesNotExist, e:
+                continue
     
-    field = request.POST.get('objfield')
-    value = request.POST.get('value')
-
-    if field == "indicador_de_pago":
-        milestone.indicador_de_pago = value
-    elif field == "hito":
-        milestone.hito = value
-    elif field == "trimestre":
-        milestone.trimestre = value
-    elif field == "audiencia":
-        milestone.audiencia = value
-    elif field == "estado_actual":
-        milestone.estado_actual = value
-    elif field == "alerta_notas":
-        milestone.alerta_notas = value
-    elif field == "recomendacion":
-        milestone.recomendacion = value
-    elif field == "acuerdo":
-        milestone.acuerdo = value
-    elif field == "actividad_en_pod":
-        milestone.actividad_en_pod = value
-
-    milestone.save()
+    instance.save()
 
     return HttpResponse(value, content_type="application/json")
 
@@ -71,3 +73,25 @@ def list_estado_actual(request):
             'id': estado.id
         })
     return HttpResponse(json.dumps(list_estados), content_type="application/json")
+
+@login_required
+def render_hitos(request, country_slug):
+    hitos = Hito.objects.filter(country__slug=country_slug)
+    estados_actuais = EstadoActual.objects.all()
+    options_estados_actuais = {}
+    hitos_estados_actuais = {}
+    for estado in estados_actuais:
+        options_estados_actuais.update({
+            "{id}".format(id=estado.id): str(estado.name)
+        })
+
+    for hito in hitos:
+        options_estados_actuais.update({
+            'selected': str(hito.estado_actual.id)
+        })
+        hito.options_estados_actuais = options_estados_actuais
+
+    rendered = render_to_string("tables/hitos.html", {
+        'hitos': hitos
+    })
+    return HttpResponse(rendered, content_type="text/html")

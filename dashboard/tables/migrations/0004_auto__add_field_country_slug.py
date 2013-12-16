@@ -1,18 +1,23 @@
 # -*- coding: utf-8 -*-
 from south.utils import datetime_utils as datetime
 from south.db import db
-from south.v2 import DataMigration
+from south.v2 import SchemaMigration
 from django.db import models
 
-class Migration(DataMigration):
+
+class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        orm.EstadoActual.objects.create(name="Cumplido")
-        orm.EstadoActual.objects.create(name="Retrasado")
-        orm.EstadoActual.objects.create(name="En proceso")
+        # Adding field 'Country.slug'
+        db.add_column(u'tables_country', 'slug',
+                      self.gf('django.db.models.fields.SlugField')(default=None, max_length=100),
+                      keep_default=False)
+
 
     def backwards(self, orm):
-        orm.EstadoActual.objects.all().delete()
+        # Deleting field 'Country.slug'
+        db.delete_column(u'tables_country', 'slug')
+
 
     models = {
         u'tables.audiencia': {
@@ -39,7 +44,8 @@ class Migration(DataMigration):
         u'tables.country': {
             'Meta': {'object_name': 'Country'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'slug': ('django.db.models.fields.SlugField', [], {'max_length': '100'})
         },
         u'tables.estadoactual': {
             'Meta': {'object_name': 'EstadoActual'},
@@ -63,4 +69,3 @@ class Migration(DataMigration):
     }
 
     complete_apps = ['tables']
-    symmetrical = True
