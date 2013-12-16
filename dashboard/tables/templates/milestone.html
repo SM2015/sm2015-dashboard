@@ -24,6 +24,11 @@
                     title: "Hitos",
                     url_save: "{% url 'save_milestone_data' model_name='Hito' %}"
                 });
+
+                $(".table-hitos-2").dashboardTable("/tables/render/hitos/"+country_slug, {
+                    title: "Hitos",
+                    url_save: "{% url 'save_milestone_data' model_name='Hito' %}"
+                });
             });
             $("select[name='select-pais']").change(function(){
                 var name = $(this).find(":selected").text();
@@ -115,6 +120,7 @@
     </div>
 
     <div class="table-hitos"></div>
+    <div class="table-hitos-2"></div>
 
     <!--<div class="row-fluid">
       <div class="span12">
