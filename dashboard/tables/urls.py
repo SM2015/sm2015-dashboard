@@ -11,4 +11,5 @@ urlpatterns = patterns('',
 
     url(r'render/hitos/(?P<country_slug>[-\w]+)/?$', views.render_hitos, name="table_render_hitos"),
     url(r'render/ucmilestone/?$', views.render_ucmilestone, name="table_render_ucmilestone"),
+    url(r'render/sm2015milestone/?$', views.render_sm2015milestone, name="table_render_sm2015milestone"),
 )

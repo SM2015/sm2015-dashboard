@@ -8,7 +8,7 @@ from django.core.context_processors import csrf
 from django.http import HttpResponse, Http404
 from django.template.loader import render_to_string
 from django.db.models import ForeignKey, FieldDoesNotExist
-from tables.models import Hito, AvanceFisicoFinanciero, EstadoActual, UcMilestone
+from tables.models import Hito, AvanceFisicoFinanciero, EstadoActual, UcMilestone, Sm2015Milestone, Objective
 from tables import models as table_models
 
 
@@ -103,5 +103,15 @@ def render_ucmilestone(request):
 
     rendered = render_to_string("tables/ucmilestone.html", {
         'ucmilestones': ucmilestones
+    })
+    return HttpResponse(rendered, content_type="text/html")
+
+@login_required
+def render_sm2015milestone(request):
+    import ipdb;ipdb.set_trace()
+    sm2015milestones = Sm2015Milestone.objects.all()
+
+    rendered = render_to_string("tables/sm2015milestone.html", {
+        'sm2015milestones': sm2015milestones
     })
     return HttpResponse(rendered, content_type="text/html")
