@@ -77,6 +77,8 @@ class Objective(models.Model):
     
 
 class Sm2015Milestone(models.Model):
+    objective = models.ForeignKey(Objective, null=True, blank=True, default=None)
+
     hitos = models.CharField(max_length=200, null=True, blank=True, default=None)
     status = models.CharField(max_length=200, null=True, blank=True, default=None)
     observation = models.CharField(max_length=200, null=True, blank=True, default=None)

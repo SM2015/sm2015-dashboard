@@ -108,7 +108,6 @@ def render_ucmilestone(request):
 
 @login_required
 def render_sm2015milestone(request):
-    import ipdb;ipdb.set_trace()
     sm2015milestones = Sm2015Milestone.objects.all()
 
     rendered = render_to_string("tables/sm2015milestone.html", {
