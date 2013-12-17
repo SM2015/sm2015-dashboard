@@ -1,0 +1,20 @@
+<table class="table table-hover table-condensed table-bordered">
+    <thead>
+      <tr>
+        <th class="column-name">Objective</th>
+        <th class="column-name">Quarter</th>
+        <th class="column-name">Status</th>
+        <th class="column-name">Observation</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for sm2015milestone in sm2015milestones %}
+      <tr data-objid="{{sm2015milestone.id}}">
+        <td class="editable text" name="objective">{{sm2015milestone.objective.objective}}</td>
+        <td class="editable text" name="hitos">{{sm2015milestone.hitos}}</td>
+        <td class="editable text" name="status">{{sm2015milestone.status}}</td>
+        <td class="editable text" name="status_2">{{sm2015milestone.observation}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+</table>

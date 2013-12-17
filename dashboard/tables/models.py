@@ -1,8 +1,10 @@
 # coding: utf-8
+import inspect
 from django.db import models
 
 class Country(models.Model):
     name = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=100)
     
     def __unicode__(self):
         return self.name
@@ -22,6 +24,13 @@ class AvanceFisicoFinanciero(models.Model):
 
     alerta = models.TextField(null=True, blank=True, default=None)
     recomendacion = models.TextField(null=True, blank=True, default=None)
+
+    @classmethod
+    def get_editable_fields(cls):
+        return ('fecha_de_actualizacion', 'avance_fisico_planificado', 'avance_financiero_planificado',
+        'avance_fisico_real','avance_financiero_actual','avances_fisicos_original_programado',
+        'avances_financieros_original_programado','monto_desembolsado','monto_comprometido',
+        'alerta','recomendacion')
 
     def __unicode__(self):
         return self.country.name
@@ -51,5 +60,43 @@ class Hito(models.Model):
     acuerdo = models.TextField(null=True, blank=True)
     actividad_en_poa = models.CharField(max_length=200, null=True, blank=True, default=None)
 
+    @classmethod
+    def get_editable_fields(cls):
+        return ('estado_actual', 'alerta_notas', 'recomendacion', 'acuerdo', 'actividad_en_poa')
+
     def __unicode__(self):
         return self.country.name
+
+class UcMilestone(models.Model):
+    objective = models.CharField(max_length=200, null=True, blank=True, default=None)
+    coordination_unit_milestone = models.CharField(max_length=200, null=True, blank=True, default=None)
+    quarter = models.CharField(max_length=200, null=True, blank=True, default=None)
+    status = models.CharField(max_length=200, null=True, blank=True, default=None)
+    observation = models.CharField(max_length=200, null=True, blank=True, default=None)
+
+    @classmethod
+    def get_editable_fields(cls):
+        return ('objective', 'coordination_unit_milestone', 'quarter', 'status', 'observation')
+
+    def __unicode__(self):
+        return self.coordination_unit_milestone
+
+class Objective(models.Model):
+    objective = models.CharField(max_length=200, null=True, blank=True, default=None)
+    
+    def __unicode__(self):
+        return self.objective
+
+class Sm2015Milestone(models.Model):
+    objective = models.ForeignKey(Objective, null=True, blank=True, default=None)
+
+    hitos = models.CharField(max_length=200, null=True, blank=True, default=None)
+    status = models.CharField(max_length=200, null=True, blank=True, default=None)
+    observation = models.CharField(max_length=200, null=True, blank=True, default=None)
+
+    @classmethod
+    def get_editable_fields(cls):
+        return ('hitos', 'status', 'observation')
+
+    def __unicode__(self):
+        return self.hitos

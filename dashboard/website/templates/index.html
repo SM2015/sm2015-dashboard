@@ -1,166 +1,1221 @@
 {% extends 'base_logado.html' %}
 
-{% block content %}
-  <div class="map-container row-fluid spacing-bottom spacing-bottom">
-      <script>
-          var map;
-          function initialize() {
-            /* Geo LatLng */
-            var geoGuatemala = new google.maps.LatLng(15.961329,-90.981447);
-            /* END OF Geo LatLng */
+{% block css %}
+    {{block.super}}
+    <style>
+    .gmnoprint img {
+        max-width: none;
+    }
 
-            var mapOptions = {
-              zoom: 4,
-              center: geoGuatemala
-            };
-            map = new google.maps.Map(document.getElementById('map-goals'), mapOptions);
-            var markerIcon = '/static/img/green_waypoint.png';
+    .Jdb {
+        float: left;
+        width: 550px;
+    }
 
-            /* InfoWIdows */
-            var InfoBoxHTML = ''+
-              '<div class="content-info-window">'+
-                  '<div class="arrow-container"></div>'+
-                  '<div class="left-side">'+
-                      '<div class="main-info">'+
-                          '<h4 class="title-info">{TITLE}</h4>'+
-                          '<p class="desc">Meta: melhorar o acesso.</p>'+
-                      '</div>'+
-                      '<a class="more-info" href="#">Más infos</a>'+
-                  '</div>'+
-                  '<div class="right-side">'+
-                      '<div class="statistics">'+
-                          '<span class="label-stats">Objetivos</span>'+
-                      '</div>'+
-                  '</div>'+
-              '</div>';
+    div,form {
+        margin: 2;
+        padding: 2;
+        outline-style: none;
+    }
 
-            var infoBoxDefault = document.createElement("div");
-              infoBoxDefault.className = 'content-info-window'
-              infoBoxDefault.innerHTML = InfoBoxHTML;
+    div {
+        display: block;
+    }
 
-            var infoBoxOptions = {
-                disableAutoPan: true
-                ,maxWidth: 0
-                ,pixelOffset: new google.maps.Size(0, -140)
-                ,zIndex: null
-                ,boxStyle: {
-                  width: '522px'
+    .Zm {
+        border-collapse: collapse;
+    }
+
+    table {
+        border-collapse: separate;
+        border-spacing: 2px;
+    }
+
+    body {
+        font-family: arial, sans-serif;
+        font-size: 82%;
+    }
+
+    .gc {
+        border-collapse: collapse;
+        font-size: 98%;
+        margin-bottom: 7px;
+        /*table-layout: fixed;*/
+        table-layout: auto;
+        width: 550px;
+    }
+
+    .gc {
+        border-collapse: collapse;
+        font-size: 98%;
+    }
+
+    table {
+        display: table;
+        border-collapse: separate;
+        border-spacing: 2px;
+        border-color: gray;
+    }
+
+    tr {
+        display: table-row;
+        vertical-align: inherit;
+        border-color: inherit;
+    }
+
+    .gc tr.xdb {
+        background-color: #F8F8F8;
+    }
+
+    .gc td.AK {
+        text-align: right;
+        vertical-align: middle;
+        width: 3px;
+    }
+
+    .gc tr td {
+        padding: 8px 8px 7px;
+    }
+
+    .gc td {
+        border-bottom: 1px solid #CBCBCB;
+        padding: 0.4em;
+        text-align: center;
+    }
+
+    .gc {
+        border-collapse: collapse;
+        font-size: 98%;
+    }
+
+    .gc td.JE {
+        text-align: left;
+    }
+
+    .yq.meb {
+        color: #058DC7;
+    }
+
+    .highlight {
+        color: #058DC7;
+        width: 390px;
+        font-weight: bold;
+    }
+
+    .yq {
+        word-break: break-all;
+        word-wrap: break-word;
+        -ms-word-wrap: break-word;
+        -ms-word-break: break-all;
+    }
+
+    div,form {
+        margin: 0;
+        padding: 0;
+        outline-style: none;
+    }
+
+    div,form {
+        margin: 0;
+        padding: 0;
+        outline-style: none;
+    }
+
+    .gc .Vr {
+        text-align: right;
+        width: 60px;
+    }
+
+    .gc .g4 {
+        white-space: nowrap;
+    }
+
+    .gc .Cw {
+        text-align: left;
+        width: 150px;
+    }
+
+    td,th {
+        display: table-cell;
+        vertical-align: inherit;
+    }
+
+    .gc tr:first-child th {
+        border-bottom: 1px solid gray;
+        color: black;
+        font-weight: bold;
+        padding: 12px 8px 3px;
+    }
+
+    .gc th.uE {
+        text-align: left;
+    }
+
+    .e {
+        cursor: pointer;
+        color: #005C9C;
+    }
+
+    a,a:visited,.e {
+        color: #005C9C;
+    }
+
+    .Q3 {
+        text-align: right;
+    }
+
+    div,form {
+        margin: 0;
+        padding: 0;
+        outline-style: none;
+    }
+
+    .gc div.PT {
+        background-color: #058DC7;
+        display: inline;
+        float: left;
+        height: 1.17em;
+        margin: 0 10px 0 0;
+        min-width: 1px;
+    }
+
+    .hm {
+        background-color: #EEE;
+        clear: both;
+        font-weight: bold;
+        margin-top: 5px;
+        padding: 8px;
+        font-size: 110%;
+        width: 550px;
+        border-radius: 5px;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+    }
+
+    .F4 {
+        clear: both;
+    }
+
+    .xx {
+        font-size: 140%;
+        font-weight: bold;
+        padding-left: 5px;
+    }
+
+    .yj {
+        font-size: 17px;
+        font-weight: bold;
+        margin: 0;
+    }
+
+    .wz {
+        clear: both;
+        display: block;
+        font-size: 85%;
+        padding-left: 18px;
+    }
+
+    .gF {
+        font-size: 115%;
+        font-weight: bold;
+        line-height: 24px;
+        padding-left: 5px;
+    }
+
+    .Ia {
+        font-size: 19px;
+        font-weight: bold;
+    }
+
+    .Bcb {
+        text-align: left;
+    }
+    .e {
+        cursor: pointer;
+        color: #005C9C;
+    }
+
+    a,a:visited,.e {
+        color: #005C9C;
+    }
+
+    .CQ tr:hover td{
+        background-color:#ffffcc;
+        cursor:pointer
+    }
+        
+    </style>
+{% endblock css %}
+
+{% block js_top %}
+    {{block.super}}
+    <script>
+        var map;
+        function initialize() {
+          /* Geo LatLng */
+          var geoGuatemala = new google.maps.LatLng(15.961329,-90.981447);
+          /* END OF Geo LatLng */
+
+          var mapOptions = {
+            zoom: 4,
+            center: geoGuatemala
+          };
+          map = new google.maps.Map(document.getElementById('map-goals'), mapOptions);
+          var markerIcon = '/static/img/green_waypoint.png';
+
+          /* InfoWIdows */
+          var InfoBoxHTML = ''+
+            '<div class="content-info-window">'+
+                '<div class="arrow-container"></div>'+
+                '<div class="left-side">'+
+                    '<div class="main-info">'+
+                        '<h4 class="title-info">{TITLE}</h4>'+
+                        '<p class="desc">Meta: melhorar o acesso.</p>'+
+                    '</div>'+
+                    '<a class="more-info" href="#">Más infos</a>'+
+                '</div>'+
+                '<div class="right-side">'+
+                    '<div class="statistics">'+
+                        '<span class="label-stats">Objetivos</span>'+
+                    '</div>'+
+                '</div>'+
+            '</div>';
+
+          var infoBoxDefault = document.createElement("div");
+            infoBoxDefault.className = 'content-info-window'
+            infoBoxDefault.innerHTML = InfoBoxHTML;
+
+          var infoBoxOptions = {
+              disableAutoPan: true
+              ,maxWidth: 0
+              ,pixelOffset: new google.maps.Size(0, -140)
+              ,zIndex: null
+              ,boxStyle: {
+                width: '522px'
+              }
+              ,closeBoxMargin: "10px 40px 0px 0px"
+              ,closeBoxURL: "http://www.google.com/intl/en_us/mapfiles/close.gif"
+              ,infoBoxClearance: new google.maps.Size(1, 1)
+              ,isHidden: true
+              ,pane: "floatPane"
+              ,visible: true
+          };
+          /* END OF InfoWIdows */
+
+          /* Markers */
+          var markerGuatemala = new google.maps.Marker({
+              position: geoGuatemala,
+              map: map,
+              icon: markerIcon,
+              visible: true
+          });
+
+          var infoBoxGuatemalaOptions = infoBoxOptions;
+          infoBoxGuatemalaOptions.content = infoBoxDefault.innerHTML.replace("{TITLE}", "Guatemala");
+          var infoBoxGuatemala = new InfoBox(infoBoxGuatemalaOptions);
+
+          google.maps.event.addListener(markerGuatemala,'click', (function(markerGuatemala) {
+            return function() {
+                infoBoxGuatemala.open(map, this);
+            }
+          })(markerGuatemala));
+          /* END OF Markers */
+        }
+        google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+
+{% endblock js_top %}
+
+{% block js_bottom %}
+    {{block.super}}
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>
+    <script type="text/javascript" src="http://code.highcharts.com/modules/exporting.js"></script>
+    <script type="text/javascript" src="http://code.highcharts.com/highcharts-more.js"></script>
+
+    <script>
+    (function(){
+google.load("visualization", "1", {
+    packages: ["corechart"]
+});
+
+var WORKSHEET = "Avances NEW";
+
+var items = {
+    "Performance": {
+        start: "A1",
+        end: "E33"
+    }
+};
+
+$(document).ready(function () {
+    google.setOnLoadCallback(drawVisualization());
+
+});
+
+function drawVisualization() {
+
+    var graphInfo = items['Performance'];
+
+    var DATA_SOURCE_URL = 'https://docs.google.com/spreadsheet/tq?key=0AjFAkwSrq381dGNLZ1RBZGFxaHlWV3VXUzluVWU0VHc&sheet=' + WORKSHEET + '&range=' + graphInfo.start + ':' + graphInfo.end + '&pub=1';
+
+    var query = new google.visualization.Query(DATA_SOURCE_URL);
+
+    query.send(handleQueryResponse);
+
+}
+
+function handleQueryResponse(response) {
+    if (checkStatus(response)) {
+        var data = response.getDataTable();
+        drawChart(data)
+    }
+}
+
+function drawChart(data) {
+
+    var seriesArray = [];
+    var categoriesArray = [];
+    var dataArray = [];
+
+    // Create a view 
+    var view = new google.visualization.DataView(data);
+    var numColumns = view.getNumberOfColumns();
+    var numRows = data.getNumberOfRows();
+
+    for (var i = 2; i < numColumns; i++) {
+        var category = view.getColumnLabel(i);
+        if (category) categoriesArray.push(category);
+    }
+
+    var index = 0;
+    var div = '#container' + index;
+
+    for (var i = 0; i <= numRows; i++) {
+
+        if (i > 1 && !(i % 4)) {
+            index++;
+            console.log('div: ' + div + ' | series: ' + seriesArray);
+
+            drawSpider(div, view.getValue(i - 1, 1), categoriesArray, seriesArray);
+
+            seriesArray = [];
+            div = '#container' + index;
+            console.log('i: ' + i + ' | container' + index);
+        }
+
+        if (i < numRows) {
+            var country = view.getValue(i, 1);
+            var seriesName = view.getValue(i, 0);
+
+            if (country && seriesName) {
+
+                for (var col = 2; col < numColumns; col++) {
+                    if (isInt(view.getValue(i, col))) var value = toInt(view.getValue(i, col));
+                    else value = toInt(view.getValue(i, col) * 100);
+
+                    dataArray.push(value);
                 }
-                ,closeBoxMargin: "10px 40px 0px 0px"
-                ,closeBoxURL: "http://www.google.com/intl/en_us/mapfiles/close.gif"
-                ,infoBoxClearance: new google.maps.Size(1, 1)
-                ,isHidden: true
-                ,pane: "floatPane"
-                ,visible: true
-            };
-            /* END OF InfoWIdows */
 
-            /* Markers */
-            var markerGuatemala = new google.maps.Marker({
-                position: geoGuatemala,
-                map: map,
-                icon: markerIcon,
-                visible: true
+                seriesArray.push({
+                    name: seriesName,
+                    data: dataArray,
+                    pointPlacement: 'on'
+                });
+
+                dataArray = [];
+            }
+
+        }
+
+
+    }
+
+}
+
+function drawSpider(div, country, categoriesArray, seriesArray) {
+
+    Highcharts.theme = {
+        colors: ['#058DC7', '#0d233a', '#bbbbbb', '#F9CCCA', '#F9CCCA', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
+
+        title: {
+            style: {
+                color: '#000',
+                font: 'bold 16px "Trebuchet MS", Verdana, sans-serif'
+            }
+        },
+        subtitle: {
+            style: {
+                color: '#666666',
+                font: 'bold 12px "Trebuchet MS", Verdana, sans-serif'
+            }
+        },
+        xAxis: {
+            gridLineWidth: 1,
+            lineColor: '#000',
+            tickColor: '#000',
+            labels: {
+                style: {
+                    color: '#000',
+                    font: '11px Trebuchet MS, Verdana, sans-serif'
+                }
+            },
+            title: {
+                style: {
+                    color: '#333',
+                    fontWeight: 'bold',
+                    fontSize: '12px',
+                    fontFamily: 'Trebuchet MS, Verdana, sans-serif'
+
+                }
+            }
+        },
+
+        legend: {
+            itemStyle: {
+                font: '9pt Trebuchet MS, Verdana, sans-serif',
+                color: 'black'
+
+            },
+            itemHoverStyle: {
+                color: '#039'
+            },
+            itemHiddenStyle: {
+                color: 'gray'
+            }
+        },
+        labels: {
+            style: {
+                color: '#99b'
+            }
+        },
+
+        navigation: {
+            buttonOptions: {
+                theme: {
+                    stroke: '#CCCCCC'
+                }
+            }
+        }
+    };
+
+    // Apply the theme
+    var highchartsOptions = Highcharts.setOptions(Highcharts.theme);
+
+    $(div).highcharts({
+
+        chart: {
+            polar: true,
+            type: 'line',
+            width: 230,
+            marginLeft: 10,
+            marginRight: 10,
+        },
+
+        title: {
+            text: country + ' Primera Operación SM2015'
+        },
+
+        pane: {
+            size: '85%'
+        },
+
+        xAxis: {
+            categories: categoriesArray,
+            tickmarkPlacement: 'on',
+            lineWidth: 0,
+            labels: {
+                style: {
+                    width: '30px'
+                }
+            }
+        },
+
+        yAxis: {
+            gridLineInterpolation: 'polygon',
+            lineWidth: 0,
+            min: 0,
+            width: 30
+        },
+
+        tooltip: {
+            shared: true,
+            pointFormat: '<span style="color:{series.color}">{series.name}: <b>{point.y}%</b><br/>'
+        },
+        exporting: {
+            enabled: true
+        },
+        credits: {
+            enabled: false
+        },
+
+        series: seriesArray
+
+    });
+
+
+}
+
+function isInt(n) {
+    return n != 1 && n % 1 == 0;
+}
+
+function toInt(n) {
+    return Math.round(Number(n));
+};
+
+function checkStatus(response) {
+
+    if (response.isError()) {
+        alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+        return false;
+    }
+
+    return true;
+}
+    })();
+    </script>
+
+    <script>
+    (function(){
+        google.load("visualization", "1", {
+            packages: ["corechart"]
+        });
+
+        var indicators = {
+            "AllIndicators": {
+                start: "A1",
+                end: "U35"
+            },
+            "Indicators": {
+                start: "A1",
+                end: "U35"
+            }
+        };
+
+        var title = '% de mujeres inscritas en control prenatal precoz (primeras 12 semanas)';
+
+        var indicatorId = "Indicator1";
+
+        $(document).ready(function() {
+
+            setSummaryBar();
+            var DEFAULT = 'Indicator1';
+            google.setOnLoadCallback(drawVisualization);
+
+        });
+
+        function setSummaryBar() {
+            var indicatorsList = indicators['AllIndicators'];
+
+            var DATA_SOURCE_URL = 'https://docs.google.com/spreadsheet/tq?key=0AjFAkwSrq381dG5zejZ0dzV4VWhoWDExaXU2TjdjT2c&sheet=Q1 2013 ES&range=' + indicatorsList.start + ':' + indicatorsList.end + '&pub=1';
+
+            var query = new google.visualization.Query(DATA_SOURCE_URL);
+
+            query.setQuery('select B, Q');
+
+            query.send(handleQuerySummaryIndicators);
+
+        }
+
+        var indicatorsGoal = {};
+
+        function handleQuerySummaryIndicators(response) {
+
+            var data = response.getDataTable();
+
+            var numRows = data.getNumberOfRows();
+
+            var output = $('#inIndicator');
+
+            for (var i = 0; i < numRows; i++) {
+
+                var index = i;
+                var indicator = data.getValue(i, 0);
+                var average = data.getValue(i, 1);
+
+                //if (average <= 1) average = toInt(data.getValue(i, 1) * 100);
+                //else average = toInt(data.getValue(i, 1));
+
+                average = toInt(data.getValue(i, 1) * 100);
+                
+                if (index >= 0 && indicator && average) {
+                    var incrIdx = ++index
+                    indicatorsGoal['Indicator' + incrIdx] = {
+                        "average": average
+                    };
+
+                    var indicatorIndexHtml = '<td class="AK">' + incrIdx + '</td>';
+
+                    var indicatorHtml = '<td class = "JE" id = "Indicator' + incrIdx + '"><div class="yq meb" >' + indicator + '</div></td >';
+
+                                    var averageHtml = "<td class='Cw g4' id=''><div class='PT' style='width: " + average + "%;'></div>" + average + "%</td>";
+        /*
+                    if (average <= 100) {
+
+                        var averageHtml = "<td class='Cw g4' id=''><div class='PT' style='width: " + average + "%;'></div>" + average + "%</td>";
+
+                    } else {
+                        var averageHtml = "<td class='Cw g4' id=''>" + numberWithCommas(average) + "</td>";
+
+                    }
+        */
+                    var indicatorRowHtml = '<tr class="xdb">' + indicatorIndexHtml + indicatorHtml + averageHtml + '</tr>';
+
+                    output.append(indicatorRowHtml);
+                }
+            }
+
+            $('#Indicator1').addClass('highlight');
+
+        }
+
+        function toInt(n) {
+            return Math.round(Number(n));
+        };
+
+        $(document).ready(function() {
+
+            $("#dataTable > tbody > tr").live('click', function() {
+                indicatorId = $(this).closest('tr').children('td.JE').attr('id');
+                title = $(this).closest('tr').children('td.JE').text();
+                $(this).closest('tbody').find('.highlight').removeClass('highlight');
+                $(this).closest('tr').children('td.JE').children('div').addClass('highlight');
+
+                //alert(key);
+                drawVisualization();
+            });
+        });
+
+        function drawVisualization() {
+
+            var graphInfo = indicators['Indicators'];
+
+            var DATA_SOURCE_URL = 'https://docs.google.com/spreadsheet/tq?key=0AjFAkwSrq381dG5zejZ0dzV4VWhoWDExaXU2TjdjT2c&sheet=Q1 2013 ES&range=' + graphInfo.start + ':' + graphInfo.end + '&pub=1';
+
+            var query = new google.visualization.Query(DATA_SOURCE_URL);
+
+            query.setQuery('select B, C, D, E, F, G, H, I, J, L, M, N, O, P');
+
+            query.send(handleQueryResponse);
+
+        }
+
+        function handleQueryResponse(response) {
+
+            if (checkStatus(response)) {
+                var data = response.getDataTable();
+                drawChart(data);
+            }
+        }
+
+        function drawChart(data) {
+
+            $('div.hm').text('T1 2013: '+ title);
+
+            var seriesArray = [];
+
+            // Create a view 
+            var view = new google.visualization.DataView(data);
+
+            view.setRows(view.getFilteredRows([{
+                column: 0,
+                value: title}]));
+
+            var numColumns = view.getNumberOfColumns();
+            var maxValue = 0;
+
+            for (var i = 1; i < numColumns; i++) {
+
+                var key = view.getColumnLabel(i);
+                
+                if (isInt(view.getValue(0, i))) value = toInt(view.getValue(0, i));
+                else value = toInt(view.getValue(0, i) * 100);
+
+                console.log('key: ' + key + ' | value: ' + value);
+                
+                seriesArray.push({
+                    "type": "column",
+                    "name": key,
+                    "data": [value]
+                });
+
+                if (value > maxValue) {
+                    if (value <= 100) maxValue = 100;
+                    else maxValue = value;
+                }
+
+            }
+
+            console.log(maxValue);
+
+            var splineAverageData = {
+                name: 'Promedio Actual',
+                data: [indicatorsGoal[indicatorId].average],
+                marker: {
+                    //symbol: 'url(http://97.107.129.138/linha.png)'
+                    lineWidth: 2,
+                    lineColor: Highcharts.getOptions().colors[3],
+                    fillColor: 'white'
+                }
+            };
+
+            seriesArray.push(splineAverageData);
+
+            var chart;
+
+            chart = new Highcharts.Chart({
+                chart: {
+                    renderTo: 'container',
+                    marginTop: 20,
+                    width: 550
+                },
+                title: {
+                    text: ''
+                },
+                xAxis: {
+                    categories: [''],
+                    title: {
+                        text: null
+                    }
+                },
+                yAxis: {
+                    min: 0,
+                    max: maxValue,
+                    title: {
+                        text: 'Porcentaje',
+                    },
+                    labels: {
+                        overflow: 'justify'
+                    }
+                },
+                tooltip: {
+                    formatter: function() {
+                        var s;
+                        if (this.point.name) { // the pie chart
+                            s = '' + this.point.name + ': ' + this.y + ' fruits';
+                        } else {
+                            s = '' + this.series.name + ': ' + this.y;
+                        }
+                        return s;
+                    }
+                },
+                credits: {
+                    enabled: false
+                },
+                series: seriesArray
             });
 
-            var infoBoxGuatemalaOptions = infoBoxOptions;
-            infoBoxGuatemalaOptions.content = infoBoxDefault.innerHTML.replace("{TITLE}", "Guatemala");
-            var infoBoxGuatemala = new InfoBox(infoBoxGuatemalaOptions);
 
-            google.maps.event.addListener(markerGuatemala,'click', (function(markerGuatemala) {
-              return function() {
-                  infoBoxGuatemala.open(map, this);
-              }
-            })(markerGuatemala));
-            /* END OF Markers */
-          }
+        }
+
+        function numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        function isInt(n) {
+           return n != 1 && n % 1 == 0;
+        }
+
+        function checkStatus(response) {
+
+            if (response.isError()) {
+                alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+                return false;
+            }
+
+            return true;
+        }
+    })();
+    </script>
+
+    <script>
+        (function(){
+            google.load("visualization", "1", {
+                packages: ["corechart"]
+            });
+
+            google.load('visualization', '1', {
+                packages: ['table']
+            });
+
+            var operations = {
+                "ME-G1001": {
+                    country: 'Mexico',
+                    start: "A120",
+                    end: "G156"
+                },
+                "BL-G1001": {
+                    country: 'Belize',
+                    start: "A63",
+                    end: "G99"
+                },
+                "ES-G1001": {
+                    country: 'El Salvador',
+                    start: "A68",
+                    end: "G104"
+                },
+                "HO-G1001": {
+                    country: 'Honduras',
+                    start: "A64",
+                    end: "G100"
+                },
+                "NI-G1001": {
+                    country: 'Nicaragua',
+                    start: "A67",
+                    end: "G103"
+                },
+                "PN-G1001": {
+                    country: 'Panama',
+                    start: "A52",
+                    end: "G88"
+                },
+                "GU-G1001": {
+                    country: 'Guatemala',
+                    start: "A54",
+                    end: "G90"
+                },
+                "CR-G1001": {
+                    country: 'Costa Rica',
+                    start: "A124",
+                    end: "G160"
+                }
+
+            };
+
+            $(document).ready(function() {
+                var DEFAULT = 'BL-G1001';
+                google.setOnLoadCallback(drawVisualization('BL-G1001'));
+                $("#operationList").val(DEFAULT).attr('selected', true);
+                $("#operationList").change(function() {
+                    drawVisualization($(this).val());
+                });
+            });
+
+            function drawVisualization(ope) {
+
+                var operationInfo = operations[ope];
+
+                var DATA_SOURCE_URL = 'https://docs.google.com/spreadsheet/tq?key=0AjFAkwSrq381dFJkZkd2YXdXLUNJdFlwTHRwb3NNOVE&sheet=' + operationInfo.country + '&range=' + operationInfo.start + ':' + operationInfo.end + '&pub=1';
+
+                //alert(DATA_SOURCE_URL);
+                var query = new google.visualization.Query(DATA_SOURCE_URL);
+
+                // Optional request to return only column C and the sum of column B, grouped by C members.
+                query.setQuery('select D, B, sum(G) group by D, B');
+
+                // Send the query with a callback function.
+                query.send(handleQueryResponse);
+
+            }
+
+            function handleQueryResponse(response) {
+
+                if (checkStatus(response)) {
+
+                    var data = response.getDataTable();
+
+                    var dataTable = new google.visualization.DataTable();
+                    dataTable.addColumn('string', 'Quarter');
+                    dataTable.addColumn('number', 'SM2015 Projected Disbursements (IT + PT)');
+                    dataTable.addColumn('number', 'SM2015 Actual Disbursements');
+                    dataTable.addColumn('number', 'Planned Financial Execution');
+                    dataTable.addColumn('number', 'Actual Financial Execution');
+
+                    var numRows = data.getNumberOfRows();
+                    var quarter = data.getValue(0, 0);
+                    var status = new Array();
+
+                    validateQuarter('2011Q4');
 
 
-          google.maps.event.addDomListener(window, 'load', initialize);
-      </script>
-      <div id="map-goals"></div>
-  </div>
+                    for (var i = 0; i < numRows; i++) {
+
+                        if (quarter.indexOf(data.getValue(i, 0)) != -1) {
+
+                            var type = data.getValue(i, 1);
+                            var value = data.getValue(i, 2);
+
+                            if (typeof status[type] !== 'undefined' && status[type] !== null) {
+
+                                if (type.indexOf("Actual") > -1) {
+                                    if (validateQuarter(quarter)) {
+                                        var newValue = status[type].value + value;
+                                        status[type] = {
+                                            value: newValue
+                                        };
+
+                                    }else{
+                                        status[type] = {
+                                            value: null
+                                        };
+                                        
+                                    }   
+                                } else {
+                                    var newValue = status[type].value + value;
+                                    status[type] = {
+                                        value: newValue
+                                    };
+                                }
+                            } else {
+                                status[type] = {
+                                    value: value
+                                };
+
+                            }
+
+                        } else {
+
+                            addRow(dataTable, quarter, status);
+
+                            quarter = data.getValue(i, 0);
+                            i--;
+                        }
+
+                    }
+
+                    addRow(dataTable, quarter, status);
+
+                    drawChart(dataTable, 'chart1', 'Country Disbursement tracking per Quarter ( US$ )');
+
+                }
+            }
+
+            function toInt(n) {
+                return Math.round(Number(n));
+            };
+
+            function validateQuarter(inQuarter) {
+
+                var now = new Date();
+                var currentQuarter = toInt((now.getMonth() + 3) / 3);
+                var nowYr = toInt(now.getFullYear());
+
+                var databaseYr = toInt(inQuarter.substring(0, inQuarter.lastIndexOf('Q')));
+                var databaseQuarter = toInt(inQuarter.substring(inQuarter.lastIndexOf('Q') + 1, inQuarter.lenght));
+
+                if (databaseYr < nowYr) {
+                    //alert(databaseYr + 'Q' + databaseQuarter);
+                    return true;
+
+                } else if (databaseYr == nowYr) {
+                    if (databaseQuarter <= currentQuarter) {
+                        //alert(databaseYr + 'Q' + databaseQuarter);
+                        return true;
+                    } else {
+                        return false;
+                    }
+
+                } else {
+                    return false
+                }
+
+            }
+
+            function addRow(dataTable, quarter, status) {
+                var sumDisbursement = status['SM2015 Projected Disbursements'] ? status['SM2015 Projected Disbursements'].value : 0;
+                var sumCounterpart = status['SM2015 Actual Disbursements'] ? status['SM2015 Actual Disbursements'].value : 0;
+                var sumSM2015Actual = status['Planned Financial Execution'] ? status['Planned Financial Execution'].value : 0;
+                var sumActualCountry = status['Actual Financial Execution'] ? status['Actual Financial Execution'].value : 0;
+
+                dataTable.addRow([quarter, sumDisbursement, sumCounterpart, sumSM2015Actual, sumActualCountry]);
+
+                // alert(sumActual);
+            }
+
+            function drawChart(data, visualizationTag, title) {
+
+                var options = {
+                    width: 800,
+                    height: 400,
+                    title: title,
+                    pointSize: '4',
+                    legend: {
+                        position: 'right'
+                    },
+                    animation: {
+                        duration: 1000,
+                        easing: 'in'
+                    },
+                    hAxis: {
+                        type: 'string',
+                        title: 'Quarter',
+                        titleTextStyle: {
+                            color: 'black'
+                        }
+                    },
+                    vAxis: {
+                        title: 'US$',
+                        titleTextStyle: {
+                            color: 'black'
+                        }
+                    },
+                    strictFirstColumnType: 'true'
+                }
+
+
+                var chart = new google.visualization.LineChart(document.getElementById('chart1'));
+                chart.draw(data, options);
+
+
+                var formatter = new google.visualization.NumberFormat({
+                    prefix: '$',
+                    negativeColor: 'red',
+                    negativeParens: true
+                });
+                formatter.format(data, 1);
+                formatter.format(data, 2);
+                formatter.format(data, 3);
+                formatter.format(data, 4);
+
+                var table = new google.visualization.Table(document.getElementById('chart2'));
+                table.draw(data, {
+                    allowHtml: true,
+                    showRowNumber: true
+                });
+
+
+            }
+
+            function checkStatus(response) {
+
+                if (response.isError()) {
+                    alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+                    return false;
+                }
+
+                return true;
+            }
+        })();
+    </script>
+{% endblock js_bottom %}
+
+{% block content %}
+<div class="map-container row-fluid spacing-bottom spacing-bottom">
+  <div id="map-goals"></div>
+</div>
 
 <div class="content">
-  <div class="graficos-triangulo"> 
-          <div class="row-fluid spacing-bottom">
-              <div class="span4">
-                  <div class="grid simple">
-                    <div class="grid-title no-border">
-                      <h4>Dropdown <span class="semi-bold">Controls</span></h4>
-                      <div class="tools"> <a class="collapse" href="javascript:;"></a> <a class="config" data-toggle="modal" href="#grid-config"></a> <a class="reload" href="javascript:;"></a> <a class="remove" href="javascript:;"></a> </div>
-                    </div>
-                    <div id="container0" class="grid-body no-border"></div>
-                  </div>
-              </div>
-              <div class="span4">
-                  <div class="grid simple">
-                    <div class="grid-title no-border">
-                      <h4>Dropdown <span class="semi-bold">Controls</span></h4>
-                      <div class="tools"> <a class="collapse" href="javascript:;"></a> <a class="config" data-toggle="modal" href="#grid-config"></a> <a class="reload" href="javascript:;"></a> <a class="remove" href="javascript:;"></a> </div>
-                    </div>
-                    <div id="container1" class="grid-body no-border"></div>
-                  </div>
-              </div>
-              <div class="span4">
-                  <div class="grid simple">
-                    <div class="grid-title no-border">
-                      <h4>Dropdown <span class="semi-bold">Controls</span></h4>
-                      <div class="tools"> <a class="collapse" href="javascript:;"></a> <a class="config" data-toggle="modal" href="#grid-config"></a> <a class="reload" href="javascript:;"></a> <a class="remove" href="javascript:;"></a> </div>
-                    </div>
-                    <div id="container2" class="grid-body no-border"></div>
-                  </div>
-              </div>
+    <div class="row-fluid">
+        <div class="grid simple">
+          <div class="grid-title no-border">
+            <h4>SM2015 Primeras Operaciones</h4>
+            <div class="tools"> <a class="collapse" href="javascript:;"></a> <a class="config" data-toggle="modal" href="#grid-config"></a> <a class="reload" href="javascript:;"></a> <a class="remove" href="javascript:;"></a> </div>
           </div>
-          <div class="row-fluid spacing-bottom">
-              <div class="span4">
-                  <div class="grid simple">
-                    <div class="grid-title no-border">
-                      <h4>Dropdown <span class="semi-bold">Controls</span></h4>
-                      <div class="tools"> <a class="collapse" href="javascript:;"></a> <a class="config" data-toggle="modal" href="#grid-config"></a> <a class="reload" href="javascript:;"></a> <a class="remove" href="javascript:;"></a> </div>
-                    </div>
-                    <div id="container3" class="grid-body no-border"></div>
-                  </div>
+          <div class="grid-body no-border">
+            <div class="row-fluid">
+              <div class="span3">
+                <div id="container0" style="min-width: 230px; width: 230px; height: 400px; margin: 0 auto"></div>
               </div>
-              <div class="span4">
-                  <div class="grid simple">
-                    <div class="grid-title no-border">
-                      <h4>Dropdown <span class="semi-bold">Controls</span></h4>
-                      <div class="tools"> <a class="collapse" href="javascript:;"></a> <a class="config" data-toggle="modal" href="#grid-config"></a> <a class="reload" href="javascript:;"></a> <a class="remove" href="javascript:;"></a> </div>
-                    </div>
-                    <div id="container4" class="grid-body no-border"></div>
-                  </div>
+              <div class="span3">
+                <div id="container1" style="min-width: 200px; height: 400px; margin: 0 auto"></div>
               </div>
-              <div class="span4">
-                  <div class="grid simple">
-                    <div class="grid-title no-border">
-                      <h4>Dropdown <span class="semi-bold">Controls</span></h4>
-                      <div class="tools"> <a class="collapse" href="javascript:;"></a> <a class="config" data-toggle="modal" href="#grid-config"></a> <a class="reload" href="javascript:;"></a> <a class="remove" href="javascript:;"></a> </div>
-                    </div>
-                    <div id="container5" class="grid-body no-border"></div>
-                  </div>
+              <div class="span3">
+                <div id="container2" style="min-width: 200px; height: 400px; margin: 0 auto"></div>
               </div>
-          <div class="row-fluid spacing-bottom 2col">
-              <div class="span4">
-                  <div class="grid simple">
-                    <div class="grid-title no-border">
-                      <h4>Dropdown <span class="semi-bold">Controls</span></h4>
-                      <div class="tools"> <a class="collapse" href="javascript:;"></a> <a class="config" data-toggle="modal" href="#grid-config"></a> <a class="reload" href="javascript:;"></a> <a class="remove" href="javascript:;"></a> </div>
-                    </div>
-                    <div id="container6" class="grid-body no-border"></div>
-                  </div>
+              <div class="span3">
+                <div id="container3" style="min-width: 200px; height: 400px; margin: 0 auto"></div>
               </div>
-              <div class="span4">
-                  <div class="grid simple">
-                    <div class="grid-title no-border">
-                      <h4>Dropdown <span class="semi-bold">Controls</span></h4>
-                      <div class="tools"> <a class="collapse" href="javascript:;"></a> <a class="config" data-toggle="modal" href="#grid-config"></a> <a class="reload" href="javascript:;"></a> <a class="remove" href="javascript:;"></a> </div>
-                    </div>
-                    <div id="container7" class="grid-body no-border"></div>
-                  </div>
-              </div>
+            </div>
           </div>
-  </div>
+        </div>
+    </div>
+
+    <div class="row-fluid">
+        <div class="span7">
+            <div class="grid simple">
+              <div class="grid-title no-border mujeres-inscritas">
+                <div class="tools"> <a class="collapse" href="javascript:;"></a> <a class="config" data-toggle="modal" href="#grid-config"></a> <a class="reload" href="javascript:;"></a> <a class="remove" href="javascript:;"></a> </div>
+                <h4>T1 2013: % de mujeres inscritas en control prenatal precoz (primeras 12 semanas)</h4>
+              </div>
+              <div class="grid-body no-border">
+                <div class="row-fluid">
+
+                    <table class="p5">
+                        <tbody>
+                            <tr>
+                                <td><div id="indicator-graph" class="Oqb">
+                                        <table class="in">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="Yf">
+                                                        <div id="container" style="height: 400px; margin: 0 auto"></div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="Jdb">
+                        <div id="miniTable" class="fZ">
+                            <table class="gc CQ" id="dataTable">
+                                <tbody id="inIndicator">
+                                    <tr>
+                                        <th class="Ru"></th>
+                                        <th class="uE ">Proxy - Coberturas institutionales calculados por el MINSAL</th>
+                                        <th class="Cw">Promedio Reportado</th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="span5">
+            <div class="grid simple">
+              <div class="grid-title no-border">
+                <h4>Objetivos</h4>
+                <div class="tools"> <a class="collapse" href="javascript:;"></a> <a class="config" data-toggle="modal" href="#grid-config"></a> <a class="reload" href="javascript:;"></a> <a class="remove" href="javascript:;"></a> </div>
+              </div>
+              <div class="grid-body no-border">
+                <div class="row-fluid">
+                    <!--<div id="dashboard">
+                      <table>
+                        <tr style='vertical-align: top;'>
+                          <td style='width: 160px; font-size: 0.9em;'>
+                            <div id="control1">
+                              <form>
+                                   <fieldset>
+                                      <legend>Country</legend>
+                                      <p>
+                                         <select id = "operationList">
+                                           <option value = "BL-G1001">Belize</option>
+                                           <option value = "CR-G1001">Costa Rica</option>
+                                           <option value = "ES-G1001">El Salvador</option>
+                                           <option value = "GU-G1001">Guatemala</option>
+                                           <option value = "HO-G1001">Honduras</option>
+                                           <option value = "NI-G1001">Nicaragua</option>
+                                           <option value = "ME-G1001">Mexico</option>
+                                           <option value = "PN-G1001">Panama</option>
+                                         </select>
+                                      </p>
+                                   </fieldset>
+                                </form>
+                                
+                             </div>
+                             <br />
+                            <div id="control2" style="display: none;"></div>
+                            <div id="control3"></div>
+                          </td>
+                          <td style='width: 410px'>
+                            <div style="float: left;" id="chart1"></div>
+                            <div style="float: left;" id="chart2"></div>
+                            <div style="float: left;" id="chart3"></div>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>-->
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
 </div>
 <!-- END PAGE --> 
 {% endblock %}

@@ -1,0 +1,22 @@
+<table class="table table-hover table-condensed table-bordered">
+    <thead>
+      <tr>
+        <th class="column-name">Objective</th>
+        <th class="column-name">Coordination Unit Milestone</th>
+        <th class="column-name">Quarter</th>
+        <th class="column-name">Status</th>
+        <th class="column-name">Observation</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for milestone in ucmilestones %}
+      <tr data-objid="{{milestone.id}}">
+        <td class="editable text" name="objective">{{milestone.objective}}</td>
+        <td class="editable text" name="coordination_unit_milestone">{{milestone.coordination_unit_milestone}}</td>
+        <td class="editable text" name="quarter">{{milestone.quarter}}</td>
+        <td class="editable text" name="status">{{milestone.status}}</td>
+        <td class="editable text" name="observation">{{milestone.observation}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+</table>
