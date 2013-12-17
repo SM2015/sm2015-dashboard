@@ -78,10 +78,14 @@ class UcMilestone(models.Model):
     def get_editable_fields(cls):
         return ('objective', 'coordination_unit_milestone', 'quarter', 'status', 'observation')
 
+    def __unicode__(self):
+        return self.coordination_unit_milestone
 
 class Objective(models.Model):
     objective = models.CharField(max_length=200, null=True, blank=True, default=None)
     
+    def __unicode__(self):
+        return self.objective
 
 class Sm2015Milestone(models.Model):
     objective = models.ForeignKey(Objective, null=True, blank=True, default=None)
@@ -93,3 +97,6 @@ class Sm2015Milestone(models.Model):
     @classmethod
     def get_editable_fields(cls):
         return ('hitos', 'status', 'observation')
+
+    def __unicode__(self):
+        return self.hitos

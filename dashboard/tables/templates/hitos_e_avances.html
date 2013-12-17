@@ -51,16 +51,6 @@
             {% else %}
             $(window).trigger("select-country", ["{{countries.0.name}}", "{{countries.0.slug}}"]);
             {% endif %}
-
-            $(".table-ucmilestones").dashboardTable("{% url 'table_render_ucmilestone' %}", {
-                title: "UcMilestone",
-                url_save: "{% url 'save_milestone_data' model_name='UcMilestone' %}"
-            });
-            $(".table-sm2015milestones").dashboardTable("{% url 'table_render_sm2015milestone' %}", {
-                title: "SM 2015 Milestone",
-                url_save: "{% url 'save_milestone_data' model_name='Sm2015Milestone' %}"
-            }, function(){
-            });
         });
     </script>
 {% endblock js_bottom %}

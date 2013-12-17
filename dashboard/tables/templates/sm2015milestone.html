@@ -1,0 +1,85 @@
+{% extends 'base_logado.html' %}
+{% load staticfiles %}
+
+{% block js_bottom %}
+    {{ block.super }}
+    
+    <!-- possiveis remocoes -->
+    <!-- 
+        <script src="{% static "assets/plugins/jquery-slider/jquery.sidr.min.js" %}" type="text/javascript"></script>
+
+
+        <script src="{% static "assets/plugins/jquery-numberAnimate/jquery.animateNumbers.js" %}" type="text/javascript"></script>
+    -->
+
+    <script src="{% static "assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js" %}" type="text/javascript"></script>
+    <script src="{% static "assets/plugins/bootstrap-select2/select2.min.js" %}" type="text/javascript"></script>
+    <script src="{% static "assets/plugins/jquery-datatable/js/jquery.dataTables.min.js" %}" type="text/javascript" ></script>
+    <script src="{% static "assets/plugins/jquery-datatable/extra/js/TableTools.min.js" %}" type="text/javascript" ></script>
+    <script type="text/javascript" src="{% static "assets/plugins/datatables-responsive/js/datatables.responsive.js" %}"></script>
+    <script type="text/javascript" src="{% static "assets/plugins/datatables-responsive/js/lodash.min.js" %}"></script>
+    <script src="{% static "assets/js/datatables.js" %}" type="text/javascript"></script>
+    <script src="{% static "js/dashboard-table.js" %}" type="text/javascript"></script>
+    <script src="{% static "js/django.csrf.js" %}" type="text/javascript"></script>
+    <script>
+        $(document).ready(function() {
+            $(".table-sm2015milestones").dashboardTable("{% url 'table_render_sm2015milestone' %}", {
+                title: "SM2015 Milestone",
+                url_save: "{% url 'save_milestone_data' model_name='Sm2015Milestone' %}"
+            });
+        });
+    </script>
+{% endblock js_bottom %}
+
+{% block css %}
+    {{ block.super }}
+    <style>
+        .title-select-pais { 
+            float: left;
+        }
+        .select-pais {
+            float: left;
+            margin: 5px 0 10px 10px;
+        }
+
+        .table-avances {}
+        .table-avances .avances-header {
+            background-color: #ECF0F2;
+            border-bottom: 1px solid #DDDDDD;
+            padding: 10px;
+            text-align: right;
+            width: 340px;
+        }
+        .table-avances .avances-value {
+            border-bottom: 1px solid #EEEEEE;
+            padding: 5px 20px;
+        }
+        .editable.combofield select {
+            font-size: 13px;
+            width: 85px;
+        }
+        button {
+            background-color: #D1DADE;
+            background-image: none !important;
+            border: medium none;
+            box-shadow: none;
+            color: #5E5E5E;
+            cursor: pointer;
+            display: inline-block;
+            font: 10px/20px "Helvetica Neue",Helvetica,Arial,sans-serif;
+            margin: 5px 2px 0 0;
+            padding: 3px 8px 4px;
+            text-align: center;
+            text-shadow: none;
+            transition: all 0.12s linear 0s !important;
+            vertical-align: middle;
+        }
+    </style>
+{% endblock css %}
+
+{% block content %}
+
+<div class="content">
+    <div class="table-sm2015milestones"></div>
+</div>
+{% endblock %}

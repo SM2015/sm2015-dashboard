@@ -1,0 +1,57 @@
+{% load humanize %}
+{% for avance in avances %}
+<div data-objid="{{avance.id}}">
+    <div class="span6">
+        <table class="table-bordered">
+            <tr>
+                <th class="avances-header">Cual es la fecha en que la información que está registrando fue actualizada</th>
+                <td class="avances-value">{{avance.fecha_de_actualizacion}}</td>
+            </tr>
+            <tr>
+                <th class="avances-header">Avances Fiscos Planificados (Meta Ejecución)</th>
+                <td class="avances-value editable text" name="avance_fisico_planificado">{{avance.avance_fisico_planificado}}%</td>
+            </tr>
+            <tr>
+                <th class="avances-header">Avances financieros  planificados (Ejecución financiera planificados)</th>
+                <td class="avances-value editable text" name="avance_financiero_planificado">{{avance.avance_financiero_planificado}}%</td>
+            </tr>
+            <tr>
+                <th class="avances-header">Monto total desembolsado (BID a PAIS)</th>
+                <td class="avances-value editable text" name="monto_desembolsado">${{avance.monto_desembolsado|intcomma}}</td>
+            </tr>
+            <tr>
+                <th class="avances-header">Avances Físicos reales (Avance en la ejecución real segun el PEP)</th>
+                <td class="avances-value editable text" name="avance_fisico_real">{{avance.avance_fisico_real}}%</td>
+            </tr>
+            <tr>
+                <th class="avances-header">Avances financieros actuales (Ejecución financiera real según el estados financieros del ejecutor hasta la fecha (%))</th>
+                <td class="avances-value editable text" name="avance_financiero_actual">{{avance.avance_financiero_actual}}%</td>
+            </tr>
+        </table>
+    </div>
+    <div class="span6">
+        <table class="table-bordered">
+            <tr>
+                <th class="avances-header">Monto Comprometido</th>
+                <td class="avances-value editable text" name="monto_comprometido">{{avance.monto_comprometido}}%</td>
+            </tr>
+            <tr>
+                <th class="avances-header">Avances Fiscos Planificados (Meta Ejecución): DE LA LINEA DE BASE ORIGINAL</th>
+                <td class="avances-value editable text" name="avances_fisicos_original_programado">{{avance.avances_fisicos_original_programado}}%</td>
+            </tr>
+            <tr>
+                <th class="avances-header">Avances financieros planificados (Ejecución financiera planificados) DEL LINEA DE BASE ORIGINAL</th>
+                <td class="avances-value editable text" name="avances_financieros_original_programado">{{avance.avances_financieros_original_programado|intcomma}}</td>
+            </tr>
+            <tr>
+                <th class="avances-header">Alertas temprana en general</th>
+                <td class="avances-value editable textarea" name="alerta">{{avance.alerta}}</td>
+            </tr>
+            <tr>
+                <th class="avances-header">Recomendaciones</th>
+                <td class="avances-value editable textarea" name="recomendacion">{{avance.recomendacion}}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+{% endfor %}

@@ -13,29 +13,6 @@ from tables.models import Hito, AvanceFisicoFinanciero, EstadoActual, UcMileston
 from tables import models as table_models
 
 @login_required
-def milestone(request):
-    context = RequestContext(request)
-
-    countries = context.get('user').dashboarduser.countries.all()
-    tables = []
-
-    for country in countries:
-        table = {
-            'country': country,
-            'hitos': Hito.objects.filter(country=country),
-            'avances': AvanceFisicoFinanciero.objects.filter(country=country),
-        }
-        tables.append(table)
-
-    return render_to_response("milestone.html", {
-        'context_instance': context,
-        'countries': countries,
-        'tables': tables,
-        'user_name': context.get('user').first_name,
-        'csrf_token': csrf(request)
-    })
-
-@login_required
 def save_milestone_data(request, model_name):
     try:
         value = ""
@@ -67,15 +44,29 @@ def save_milestone_data(request, model_name):
     return HttpResponse(value, content_type="application/json")
 
 @login_required
-def list_estado_actual(request):
-    estados_actuais = EstadoActual.objects.all()
-    list_estados = []
-    for estado in estados_actuais:
-        list_estados.append({
-            'name': estado.name,
-            'id': estado.id
-        })
-    return HttpResponse(json.dumps(list_estados), content_type="application/json")
+def hitos_e_avances(request):
+    context = RequestContext(request)
+    countries = context.get('user').dashboarduser.countries.all()
+
+    return render_to_response("hitos_e_avances.html", {
+        'countries': countries,
+    })
+
+@login_required
+def ucmilestone(request):
+    context = RequestContext(request)
+
+    return render_to_response("ucmilestone.html", {
+        'context': context,
+    })
+
+@login_required
+def sm2015milestone(request):
+    context = RequestContext(request)
+
+    return render_to_response("sm2015milestone.html", {
+        'context': context,
+    })
 
 @login_required
 def render_hitos(request, country_slug):
