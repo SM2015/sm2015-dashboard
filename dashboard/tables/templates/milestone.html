@@ -56,7 +56,11 @@
                 title: "UcMilestone",
                 url_save: "{% url 'save_milestone_data' model_name='UcMilestone' %}"
             });
-            
+            $(".table-sm2015milestones").dashboardTable("{% url 'table_render_sm2015milestone' %}", {
+                title: "SM 2015 Milestone",
+                url_save: "{% url 'save_milestone_data' model_name='Sm2015Milestone' %}"
+            }, function(){
+            });
         });
     </script>
 {% endblock js_bottom %}
@@ -134,6 +138,7 @@
     <div class="table-avances"></div>
     <div class="table-hitos"></div>
     <div class="table-ucmilestones"></div>
+    <div class="table-sm2015milestones"></div>
 
 </div>
 {% endblock %}

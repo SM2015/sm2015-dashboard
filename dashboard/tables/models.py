@@ -72,8 +72,24 @@ class UcMilestone(models.Model):
     coordination_unit_milestone = models.CharField(max_length=200, null=True, blank=True, default=None)
     quarter = models.CharField(max_length=200, null=True, blank=True, default=None)
     status = models.CharField(max_length=200, null=True, blank=True, default=None)
-    status_2 = models.CharField(max_length=200, null=True, blank=True, default=None)
+    observation = models.CharField(max_length=200, null=True, blank=True, default=None)
 
     @classmethod
     def get_editable_fields(cls):
-        return ('objective', 'coordination_unit_milestone', 'quarter', 'status', 'status_2')
+        return ('objective', 'coordination_unit_milestone', 'quarter', 'status', 'observation')
+
+
+class Objective(models.Model):
+    objective = models.CharField(max_length=200, null=True, blank=True, default=None)
+    
+
+class Sm2015Milestone(models.Model):
+    objective = models.ForeignKey(Objective, null=True, blank=True, default=None)
+
+    hitos = models.CharField(max_length=200, null=True, blank=True, default=None)
+    status = models.CharField(max_length=200, null=True, blank=True, default=None)
+    observation = models.CharField(max_length=200, null=True, blank=True, default=None)
+
+    @classmethod
+    def get_editable_fields(cls):
+        return ('hitos', 'status', 'observation')
