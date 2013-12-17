@@ -1,5 +1,6 @@
 # coding: utf-8
 import json
+import re
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
@@ -7,7 +8,7 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.core.context_processors import csrf
 from django.http import HttpResponse, Http404
 from django.template.loader import render_to_string
-from django.db.models import ForeignKey, FieldDoesNotExist
+from django.db.models import ForeignKey, FieldDoesNotExist, IntegerField
 from tables.models import Hito, AvanceFisicoFinanciero, EstadoActual, UcMilestone
 from tables import models as table_models
 
@@ -56,6 +57,8 @@ def save_milestone_data(request, model_name):
                     value = instance_related_model.name
             except AttributeError, e:
                 field = class_table._meta.get_field_by_name(field_name)[0]
+                if isinstance(field, IntegerField):
+                    value = re.sub("\D", "", value)
                 setattr(instance, field_name, value)
             except FieldDoesNotExist, e:
                 continue
@@ -94,6 +97,15 @@ def render_hitos(request, country_slug):
 
     rendered = render_to_string("tables/hitos.html", {
         'hitos': hitos
+    })
+    return HttpResponse(rendered, content_type="text/html")
+
+@login_required
+def render_avances_financeiros(request, country_slug):
+    avances = AvanceFisicoFinanciero.objects.filter(country__slug=country_slug)
+
+    rendered = render_to_string("tables/avances_financeiros.html", {
+        'avances': avances
     })
     return HttpResponse(rendered, content_type="text/html")
 

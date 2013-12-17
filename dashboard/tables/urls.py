@@ -10,5 +10,6 @@ urlpatterns = patterns('',
     url(r'^list/estado_actual/?$', views.list_estado_actual, name="list_estado_actual"),
 
     url(r'render/hitos/(?P<country_slug>[-\w]+)/?$', views.render_hitos, name="table_render_hitos"),
+    url(r'render/avances_financeiros/(?P<country_slug>[-\w]+)/?$', views.render_avances_financeiros, name="table_render_avances_financeiros"),
     url(r'render/ucmilestone/?$', views.render_ucmilestone, name="table_render_ucmilestone"),
 )

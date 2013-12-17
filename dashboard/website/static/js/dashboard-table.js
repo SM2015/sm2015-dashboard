@@ -18,7 +18,7 @@
             submitdata : function(value, settings) { 
                 var field = $(this).attr("name");
                 var data = {};
-                data['objid'] = $(this).parent().attr('data-objid');
+                data['objid'] = $(this).closest("[data-objid]").attr("data-objid");
                 data[field] = $(this).find("input").val();
                 return data;
             }
@@ -31,7 +31,7 @@
             submitdata : function(value, settings) { 
                 var field = $(this).attr("name");
                 var data = {};
-                data['objid'] = $(this).parent().attr('data-objid');
+                data['objid'] = $(this).closest("[data-objid]").attr("data-objid");
                 data[field] = $(this).find("textarea").val();
                 return data;
             }
@@ -48,7 +48,7 @@
                 submitdata : function(value, settings) { 
                     var field = $(this).attr("name");
                     var data = {};
-                    data['objid'] = $(this).parent().attr('data-objid');
+                    data['objid'] = $(this).closest("[data-objid]").attr("data-objid");
                     data[field] = $(this).find("select :selected").val();
                     return data;
                 }
