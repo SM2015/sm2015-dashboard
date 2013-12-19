@@ -106,7 +106,10 @@
                 </a>
                 <ul class="dropdown-menu  pull-right" role="menu" aria-labelledby="dropdownMenu">
                   <li class="divider"></li>                
+                  <li><a href="{% url 'change_password' user.id %}">Change Password</a></li>
+                  <li class="divider"></li>                
                   <li><a href="{% url 'dashboard_logout' %}"><i class="icon-off"></i>&nbsp;&nbsp;Log Out</a></li>
+
                </ul>
             </li> 
         </ul>
