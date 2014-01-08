@@ -62,6 +62,7 @@ def hitos_e_avances(request):
 
     return render_to_response("hitos_e_avances.html", {
         'countries': countries,
+        'context' : context,
     })
 
 @login_required
