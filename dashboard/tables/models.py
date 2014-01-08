@@ -1,13 +1,7 @@
 # coding: utf-8
 import inspect
 from django.db import models
-
-class Country(models.Model):
-    name = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=100)
-    
-    def __unicode__(self):
-        return self.name
+from core.models import Country
 
 class AvanceFisicoFinanciero(models.Model):
     country = models.ForeignKey(Country)

@@ -18,11 +18,26 @@ from django.template import RequestContext
 
 from website.forms import LoginForm, SetPasswordForm, ForgotPasswordForm
 from core.models import *
+from map.models import Map
 
 @login_required
 def index(request):
+    maps = Map.objects.all()
+    countries_map = []
+    for country_map in maps:
+        country = {
+            'lat': str(country_map.country.latlng.split(',')[0]),
+            'lng': str(country_map.country.latlng.split(',')[1]),
+            'name': str(country_map.country.name),
+            'goal': str(country_map.goal),
+            'short_description': str(country_map.short_description)
+        }
+        countries_map.append(country)
+
     context = RequestContext(request)
     context.update({'user_name': context.get('user').first_name})
+    context.update({'countries_map': countries_map})
+
     return render_to_response('index.html', context)
 
 def dashboard_login(request):

@@ -8,7 +8,13 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 
-from tables.models import Country
+class Country(models.Model):
+    name = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=100)
+    latlng = models.CharField(max_length=100, default='')
+    
+    def __unicode__(self):
+        return self.name
 
 class DashboardUser(models.Model):
     user = models.OneToOneField(User, verbose_name=u"Dashboard User")

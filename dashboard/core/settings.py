@@ -33,6 +33,7 @@ INSTALLED_APPS = (
     'core',
     'website',
     'tables',
+    'map',
 )
 
 MIDDLEWARE_CLASSES = (
