@@ -41,25 +41,18 @@ class SetPasswordForm(forms.Form):
     password         = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'password', 'size':20, 'maxlength':20}), max_length=100, label=u"password:")
     password_conf    = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'password confirmation', 'size':20, 'maxlength':20}), max_length=100, label=u"password confirmation:")
 
-    def validate(self, dashboard_user_id, *args, **kw):
+    def validate(self, forgot_password_token, *args, **kw):
         if self.is_valid():
             password = self.data.get('password')
             password_conf = self.data.get('password_conf')
         
-            if password == password_conf:
-                try:
-                    dashboarduser = DashboardUser.objects.get(id=dashboard_user_id)
-                    return True
-                except:
-                    self.errors.update({'invalid': 'This user does not exist.'})
-                    return False
-            else:
+            if password != password_conf:
                 self.errors.update({'invalid': 'Passwords miss match.'})
-        
+                return False
+            return True
         else:
             self.errors.update({'invalid': 'You can not leave a blank field.'})
-        
-        return False
+            return False
     
 class ForgotPasswordForm(forms.Form):
     email = forms.EmailField(label="e-mail:")
@@ -95,13 +88,12 @@ class ChangePasswordForm(forms.Form):
     new_password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'New Password', 'size':20, 'maxlength':20}), max_length=100, label=u"new password:")
     new_password_conf = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'New Password Confirmation', 'size':20, 'maxlength':20}), max_length=100, label=u"new password confirmation:")
 
-    def validate(self, user_id, *args, **kw):
+    def validate(self, user, *args, **kw):
         if self.is_valid():
             old_password = self.data.get('old_password')
             new_password = self.data.get('new_password')
             new_password_conf = self.data.get('new_password_conf')
             
-            user = User.objects.get(id=user_id)
             if user.check_password(old_password):
                 if new_password == new_password_conf:
                     return True

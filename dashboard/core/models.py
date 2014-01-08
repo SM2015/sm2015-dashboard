@@ -22,12 +22,43 @@ class DashboardUser(models.Model):
     forgot_password_token = models.CharField(max_length=100, null=True, blank=True, default=None)
     countries = models.ManyToManyField(Country)
     
-    def _generate_activation_key(self):
+    def _generate_token(self):
         hash_obj = hashlib.new('md5')
         hash_obj.update(str(random.random())+str(self.user.id))
         key = hash_obj.hexdigest()
         return key
         
+    def send_forgot_password_email(self):
+        self.forgot_password_token = self._generate_token()
+        self.save()
+
+        try:
+            to = self.user.email
+            from_email = settings.DEFAULT_FROM_EMAIL
+            subject = settings.DEFAULT_EMAIL_FORGOT_PASSWORD_SUBJECT
+            forgot_password_link = "%s/user/reset-password/token/%s/" % (settings.BASE_URL, self.forgot_password_token)
+            
+            body = u"Dear {name},".format(name=self.user.first_name)
+            body += u"To update your password access link below:"
+            body += u"{link}".format(link=forgot_password_link)
+            body += u"Graciously,"
+            body += u"Dashboard Team."
+            
+            body_html = u"Dear %s,<br /><br />".format(name=self.user.first_name)
+            body_html += u"To update your password access link below:<br /><br />"
+            body_html += u"<a href='{link}'>{link}</a><br /><br />".format(link=forgot_password_link)
+            body_html += u"Graciously,<br />"
+            body_html += u"Dashboard Team."
+
+            msg = EmailMultiAlternatives(subject, body, from_email, [to])
+            msg.attach_alternative(body_html, "text/html")
+            msg.send()
+            return True
+
+        except Exception:
+            logging.error("[FORGOT PASSWORD] - sending email failure.")
+            return False
+
     def send_register_confirmation_email(self, temp_password):
         try:
             to = self.user.email
@@ -42,7 +73,7 @@ class DashboardUser(models.Model):
             body += u"Graciously,"
             body += u"Dashboard Team."
             
-            body_html = u"Dear %s,<br /><br />" % self.user.first_name
+            body_html = u"Dear {name},<br /><br />".format(name=self.user.first_name)
             body_html += u"Here is your information account:<br />"
             body_html += u"Username: {username}<br />".format(username=self.user.username)
             body_html += u"Password: {password}<br /><br />".format(password=temp_password)
@@ -59,7 +90,7 @@ class DashboardUser(models.Model):
 
     def save(self, *args, **kw):
         if not self.id:
-            self.activation_key = self._generate_activation_key()
+            self.activation_key = self._generate_token()
         super(DashboardUser, self).save(*args, **kw)
 
     def __unicode__(self):

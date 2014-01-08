@@ -92,21 +92,21 @@
       <div class="pull-right"> 
         <div class="chat-toggler">	
                 <a href="#" class="dropdown-toggle" id="my-task-list">
-                    <div class="user-details"> 
+                    <div class="user-details">
                         <div class="username">
-                            Hola, <span class="bold">{{user_name}}</span>									
-                        </div>						
-                    </div> 
+                            Hola, <span class="bold">{{user.first_name}}</span>
+                        </div>
+                    </div>
                 </a>						
             </div>
          <ul class="nav quick-section ">
             <li class="quicklinks"> 
-                <a data-toggle="dropdown" class="dropdown-toggle  pull-right" href="#">						
-                    <div class="iconset top-settings-dark "></div> 	
+            <a data-toggle="dropdown" class="dropdown-toggle  pull-right" href="#">
+                    <div class="iconset top-settings-dark"></div>
                 </a>
                 <ul class="dropdown-menu  pull-right" role="menu" aria-labelledby="dropdownMenu">
                   <li class="divider"></li>                
-                  <li><a href="{% url 'change_password' context.user.id %}">Change Password</a></li>
+                  <li><a href="{% url 'change_password' %}">Change Password</a></li>
                   <li class="divider"></li>                
                   <li><a href="{% url 'dashboard_logout' %}"><i class="icon-off"></i>&nbsp;&nbsp;Log Out</a></li>
 
