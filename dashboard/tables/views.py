@@ -46,16 +46,6 @@ def save_milestone_data(request, model_name):
     return HttpResponse(value, content_type="application/json")
 
 @login_required
-def export(request, file_format):
-    exportDocx = ExportDocx()
-    path_docx = exportDocx.export()
-    open_file = open(path_docx, 'r')
-
-    response = HttpResponse(open_file.read(), content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
-    response['Content-Disposition'] = 'attachment; filename=file.docx'
-    return response
-
-@login_required
 def hitos_e_avances(request):
     context = RequestContext(request)
     countries = context.get('user').dashboarduser.countries.all()

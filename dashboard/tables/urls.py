@@ -15,6 +15,4 @@ urlpatterns = patterns('',
     url(r'render/avances_financeiros/(?P<country_slug>[-\w]+)/?$', views_render.render_avances_financeiros, name="table_render_avances_financeiros"),
     url(r'render/ucmilestone/?$', views_render.render_ucmilestone, name="table_render_ucmilestone"),
     url(r'render/sm2015milestone/?$', views_render.render_sm2015milestone, name="table_render_sm2015milestone"),
-
-    url(r'export/(?P<file_format>[\w]+)/test/?$', views.export, name="table_export"),
 )
