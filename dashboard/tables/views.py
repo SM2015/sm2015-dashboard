@@ -60,24 +60,18 @@ def hitos_e_avances(request):
     context = RequestContext(request)
     countries = context.get('user').dashboarduser.countries.all()
 
-    return render_to_response("hitos_e_avances.html", {
-        'countries': countries,
-        'context' : context,
-    })
+    context.update({'countries': countries})
+    return render_to_response("hitos_e_avances.html", context)
 
 @login_required
 def ucmilestone(request):
     context = RequestContext(request)
 
-    return render_to_response("ucmilestone.html", {
-        'context': context,
-    })
+    return render_to_response("ucmilestone.html", context)
 
 @login_required
 def sm2015milestone(request):
     context = RequestContext(request)
 
-    return render_to_response("sm2015milestone.html", {
-        'context': context,
-    })
+    return render_to_response("sm2015milestone.html", context)
 
