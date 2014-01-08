@@ -12,7 +12,6 @@ from django.template.loader import render_to_string
 from django.db.models import ForeignKey, FieldDoesNotExist, IntegerField
 from tables.models import Hito, AvanceFisicoFinanciero, EstadoActual, UcMilestone, Sm2015Milestone, Objective
 from tables import models as table_models
-from tables.export import ExportDocx
 
 @login_required
 def save_milestone_data(request, model_name):
