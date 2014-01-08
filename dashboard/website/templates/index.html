@@ -1,4 +1,5 @@
 {% extends 'base_logado.html' %}
+{% load staticfiles %}
 
 {% block css %}
     {{block.super}}
@@ -247,93 +248,19 @@
     </style>
 {% endblock css %}
 
-{% block js_top %}
-    {{block.super}}
-    <script>
-        var map;
-        function initialize() {
-          /* Geo LatLng */
-          var geoGuatemala = new google.maps.LatLng(15.961329,-90.981447);
-          /* END OF Geo LatLng */
-
-          var mapOptions = {
-            zoom: 4,
-            center: geoGuatemala
-          };
-          map = new google.maps.Map(document.getElementById('map-goals'), mapOptions);
-          var markerIcon = '/static/img/green_waypoint.png';
-
-          /* InfoWIdows */
-          var InfoBoxHTML = ''+
-            '<div class="content-info-window">'+
-                '<div class="arrow-container"></div>'+
-                '<div class="left-side">'+
-                    '<div class="main-info">'+
-                        '<h4 class="title-info">{TITLE}</h4>'+
-                        '<p class="desc">Meta: melhorar o acesso.</p>'+
-                    '</div>'+
-                    '<a class="more-info" href="#">Más infos</a>'+
-                '</div>'+
-                '<div class="right-side">'+
-                    '<div class="statistics">'+
-                        '<span class="label-stats">Objetivos</span>'+
-                    '</div>'+
-                '</div>'+
-            '</div>';
-
-          var infoBoxDefault = document.createElement("div");
-            infoBoxDefault.className = 'content-info-window'
-            infoBoxDefault.innerHTML = InfoBoxHTML;
-
-          var infoBoxOptions = {
-              disableAutoPan: true
-              ,maxWidth: 0
-              ,pixelOffset: new google.maps.Size(0, -140)
-              ,zIndex: null
-              ,boxStyle: {
-                width: '522px'
-              }
-              ,closeBoxMargin: "10px 40px 0px 0px"
-              ,closeBoxURL: "http://www.google.com/intl/en_us/mapfiles/close.gif"
-              ,infoBoxClearance: new google.maps.Size(1, 1)
-              ,isHidden: true
-              ,pane: "floatPane"
-              ,visible: true
-          };
-          /* END OF InfoWIdows */
-
-          /* Markers */
-          var markerGuatemala = new google.maps.Marker({
-              position: geoGuatemala,
-              map: map,
-              icon: markerIcon,
-              visible: true
-          });
-
-          var infoBoxGuatemalaOptions = infoBoxOptions;
-          infoBoxGuatemalaOptions.content = infoBoxDefault.innerHTML.replace("{TITLE}", "Guatemala");
-          var infoBoxGuatemala = new InfoBox(infoBoxGuatemalaOptions);
-
-          google.maps.event.addListener(markerGuatemala,'click', (function(markerGuatemala) {
-            return function() {
-                infoBoxGuatemala.open(map, this);
-            }
-          })(markerGuatemala));
-          /* END OF Markers */
-        }
-        google.maps.event.addDomListener(window, 'load', initialize);
-    </script>
-
-{% endblock js_top %}
-
 {% block js_bottom %}
     {{block.super}}
     <script type="text/javascript" src="http://www.google.com/jsapi"></script>
     <script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>
     <script type="text/javascript" src="http://code.highcharts.com/modules/exporting.js"></script>
     <script type="text/javascript" src="http://code.highcharts.com/highcharts-more.js"></script>
+    <script src="{% static "js/dashboard-map.js" %}" type="text/javascript"></script>
 
     <script>
+        $().ready(function(){
+            $("#map-goals").dashboardMap({{countries_map|safe}});
+        });
+
     (function(){
 google.load("visualization", "1", {
     packages: ["corechart"]

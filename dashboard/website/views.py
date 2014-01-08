@@ -15,14 +15,30 @@ from django.contrib import messages
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
+from django.forms.util import ErrorList
+from django.forms.forms import NON_FIELD_ERRORS
 
-from website.forms import LoginForm, SetPasswordForm, ForgotPasswordForm
+from website.forms import LoginForm, SetPasswordForm, ForgotPasswordForm, ChangePasswordForm
 from core.models import *
+from map.models import Map
 
 @login_required
 def index(request):
+    maps = Map.objects.all()
+    countries_map = []
+    for country_map in maps:
+        country = {
+            'lat': str(country_map.country.latlng.split(',')[0]),
+            'lng': str(country_map.country.latlng.split(',')[1]),
+            'name': str(country_map.country.name),
+            'goal': str(country_map.goal),
+            'short_description': str(country_map.short_description)
+        }
+        countries_map.append(country)
+
     context = RequestContext(request)
-    context.update({'user_name': context.get('user').first_name})
+    context.update({'countries_map': countries_map})
+    
     return render_to_response('index.html', context)
 
 def dashboard_login(request):
@@ -49,7 +65,6 @@ def dashboard_logout(request):
         logout(request)
     return redirect("dashboard_login")
 
-@login_required
 def forgot_password(request):
     context = RequestContext(request)
     
@@ -57,104 +72,62 @@ def forgot_password(request):
         form_forgot_password = ForgotPasswordForm()
     else:
         form_forgot_password = ForgotPasswordForm(request.POST)
-        if form_forgot_password.is_valid():
-            try:
-                usuario = User.objects.get(email=request.POST.get('email'))
-                if usuario.is_active:
-                    
-                    dashboard_user = get_object_or_404(DashboardUser, user=usuario)
-                    forgot_password_token = _get_hash(dashboard_user)
-                    dashboard_user.forgot_password_token = forgot_password_token
-                    dashboard_user.save()
-                    
-                    response = _send_forgot_password_email(request, forgot_password_token, dashboard_user)
+        if form_forgot_password.validate():
+            
+            dashboard_user = DashboardUser.objects.get(user__email=request.POST.get('email'))
+            response_email = dashboard_user.send_forgot_password_email()
 
-                    if response:
-                        messages.error(request, 'We sent you an email with instructions.')
-                        context.update({'sent': True})
-                    else:
-                        messages.error(request, 'Something bad happened. Try again, please.')
-                else:
-                    context.update({
-                        'inactive_user': True,
-                        'email': usuario.email
-                    })
-                    
-            except User.DoesNotExist:
-                messages.error(request, 'It seems that this email don\'t exists.')
-        else:
-            messages.error(request, 'That\'s not a valid email.')
+            if not response_email:
+                form_forgot_password.errors.update({'invalid': u"Something bad happened. Try again, please."})
+            else:
+                form_forgot_password.errors.update({'success': u"We sent you an email with instructions."})
     
-    context.update({'form': form_forgot_password})           
+    context.update({'form': form_forgot_password})
     
     return render_to_response('forgot_password.html',
                           context_instance=context)
 
-def _send_forgot_password_email(request, forgot_password_token, dashboard_user):
+def reset_password(request, forgot_password_token):
+
     try:
-        to = dashboard_user.user.email
-        from_email = settings.DEFAULT_FROM_EMAIL
-        subject = settings.DEFAULT_EMAIL_FORGOT_PASSWORD_SUBJECT
-        forgot_password_link = "%s/user/%d/reset_password/token/%s/" % (settings.BASE_URL, dashboard_user.id, forgot_password_token)
+        usuario = DashboardUser.objects.get(forgot_password_token=forgot_password_token)
+        context = RequestContext(request)
+        context.update({'forgot_password_token': forgot_password_token})
         
-        body = u"Dear %s," % dashboard_user.user.first_name
-        body += u"To update your password access link below:"
-        body += u"%s" % forgot_password_link
-        body += u"Graciously,"
-        body += u"Dashboard Team."
-        
-        body_html = u"Dear %s,<br /><br />" % dashboard_user.user.first_name
-        body_html += u"To update your password access link below:<br /><br />"
-        body_html += u"<a href='%s'>%s</a><br /><br />" % (forgot_password_link, forgot_password_link)
-        body_html += u"Graciously,<br />"
-        body_html += u"Dashboard Team."
+        if request.method == "GET":
+            set_password_form = SetPasswordForm()
+        else:
+            set_password_form = SetPasswordForm(request.POST)
+            if set_password_form.validate(forgot_password_token):
+                usuario.user.set_password(request.POST.get('password'))
+                usuario.forgot_password_token = None
+                usuario.save()
+                usuario.user.save()
 
-        msg = EmailMultiAlternatives(subject, body, from_email, [to])
-        msg.attach_alternative(body_html, "text/html")
-        msg.send()
+                return redirect('dashboard_login')
 
-    except Exception:
-        logging.error("[FORGOT PASSWORD] - sending email failure.")
-        return False
-    
-    return True
+        context.update({'form': set_password_form})
+        return render_to_response('reset_password.html',
+                              context_instance=context)
+
+    except DashboardUser.DoesNotExist:
+        return redirect('dashboard_login')
 
 @login_required
-def reset_password(request, dashboard_user_id, forgot_password_token):
-    dashboard_user = get_object_or_404(DashboardUser, id=dashboard_user_id)
-    
-    if forgot_password_token != dashboard_user.forgot_password_token:
-        return redirect("dashboard_login")
-    
+def change_password(request):
     context = RequestContext(request)
-    reset_password_form = SetPasswordForm()
+    usuario = context.get('user')
     
-    context.update({
-        'form': reset_password_form, 
-        'menuchef_user_id':dashboard_user_id, 
-        'forgot_password_token':forgot_password_token
-        })
+    if request.method == "GET":
+        change_password_form = ChangePasswordForm()
+    else:
+        change_password_form = ChangePasswordForm(request.POST)
 
-    if request.method == "POST":
-        password = request.POST.get('password')
-        password_conf = request.POST.get('password_conf')
-        
-        if password == "" or password_conf == "":
-            messages.error(request, 'invalid passwords.')
-            return render_to_response("reset_password.html", context_instance=context)
-            
-        if password != password_conf:
-            messages.error(request, 'The passwords need to be the same.')
-            return render_to_response("reset_password.html", context_instance=context)
+        if change_password_form.validate(usuario):
+            usuario.set_password(request.POST.get('new_password'))
+            usuario.save()
+            change_password_form.errors.update({'success': u"Password changed!"})
 
-        dashboard_user.user.set_password(password)
-        dashboard_user.forgot_password_token = None
-        dashboard_user.user.save()
-        
-        dashboard_user.save()
-        
-        messages.success(request, 'Your password has been updated.')
-        return redirect("dashboard_login")
-        
-    
-    return render_to_response("reset_password.html", context_instance=context)
+    context.update({'form': change_password_form})
+    return render_to_response('change_password.html',
+                          context_instance=context)
