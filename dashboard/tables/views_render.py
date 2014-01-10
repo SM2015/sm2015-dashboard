@@ -7,6 +7,7 @@ from tables.models import Hito, AvanceFisicoFinanciero, EstadoActual, UcMileston
 
 @login_required
 def render_hitos(request, country_slug):
+    export_word = request.GET.get('word', False)
     hitos = Hito.objects.filter(country__slug=country_slug)
     estados_actuais = EstadoActual.objects.all()
     options_estados_actuais = {}
@@ -23,7 +24,8 @@ def render_hitos(request, country_slug):
         hito.options_estados_actuais = options_estados_actuais
 
     rendered = render_to_string("tables/hitos.html", {
-        'hitos': hitos
+        'hitos': hitos,
+        'export_word': export_word
     })
     return HttpResponse(rendered, content_type="text/html")
 
