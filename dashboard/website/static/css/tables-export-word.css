@@ -1,0 +1,6 @@
+td, th {
+    display: none;
+}
+td.word, th.word {
+    display: block;
+}

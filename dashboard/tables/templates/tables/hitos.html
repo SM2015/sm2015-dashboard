@@ -1,7 +1,10 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 <table class="table table-hover table-condensed table-bordered">
     <thead>
       <tr>
-        <th class="column-name">Indicador de Pago</th>
+        <th class="column-name word">Indicador de Pago</th>
         <th class="column-name">Hito</th>
         <th class="column-name">Trimestre</th>
         <th class="column-name">Audiencia</th>
@@ -15,7 +18,7 @@
     <tbody>
       {% for hito in hitos %}
       <tr data-objid="{{hito.id}}">
-        <td class="" name="indicador_de_pago">{{hito.indicador_de_pago}}</td>
+        <td class="word" name="indicador_de_pago">{{hito.indicador_de_pago}}</td>
         <td class="" name="hito">{{hito.hito}}</td>
         <td class="" name="trimestre">{{hito.trimestre}}</td>
         <td class="" name="audiencia">{{hito.audiencia.all|join:", "}}</td>
@@ -28,3 +31,32 @@
       {% endfor %}
     </tbody>
 </table>
+{% if export_word %}
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var td_elems = document.getElementsByTagName("td");
+    var th_elems = document.getElementsByTagName("th");
+    var elems_to_remove = [];
+
+    for(var i=0; i < td_elems.length; ++i){
+        var elem = td_elems[i];
+        if(elem.className.indexOf('word') == '-1'){
+            elems_to_remove.push(elem);
+        }
+    }
+
+    for(var i=0; i < th_elems.length; ++i){
+        var elem = th_elems[i];
+        if(elem.className.indexOf('word') == '-1'){
+            elems_to_remove.push(elem);
+        }
+    }
+
+    for(var i=0; i < elems_to_remove.length; ++i){
+        elems_to_remove[i].remove();
+    }
+});
+</script>
+{% endif %}
+
