@@ -88,11 +88,5 @@ class DashboardUser(models.Model):
             logging.exception("[registration] - Error sending email.")
             return False
 
-    def save(self, *args, **kw):
-        if not self.id:
-            self.activation_key = self._generate_token()
-        super(DashboardUser, self).save(*args, **kw)
-
     def __unicode__(self):
         return self.user.first_name
-

@@ -31,27 +31,33 @@ def render_hitos(request, country_slug):
 
 @login_required
 def render_avances_financeiros(request, country_slug):
+    export_word = request.GET.get('word', False)
     avances = AvanceFisicoFinanciero.objects.filter(country__slug=country_slug)
 
     rendered = render_to_string("tables/avances_financeiros.html", {
-        'avances': avances
+        'avances': avances,
+        'export_word': export_word
     })
     return HttpResponse(rendered, content_type="text/html")
 
 @login_required
 def render_ucmilestone(request):
+    export_word = request.GET.get('word', False)
     ucmilestones = UcMilestone.objects.all()
 
     rendered = render_to_string("tables/ucmilestone.html", {
-        'ucmilestones': ucmilestones
+        'ucmilestones': ucmilestones,
+        'export_word': export_word
     })
     return HttpResponse(rendered, content_type="text/html")
 
 @login_required
 def render_sm2015milestone(request):
+    export_word = request.GET.get('word', False)
     sm2015milestones = Sm2015Milestone.objects.all()
 
     rendered = render_to_string("tables/sm2015milestone.html", {
-        'sm2015milestones': sm2015milestones
+        'sm2015milestones': sm2015milestones,
+        'export_word': export_word
     })
     return HttpResponse(rendered, content_type="text/html")

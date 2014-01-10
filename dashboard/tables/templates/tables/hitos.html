@@ -1,11 +1,27 @@
 {% load staticfiles %}
 <!DOCTYPE html>
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+
+<p>
+    <div><strong>División de Protección Social y Salud, SCL/SPH</strong></div>
+    <div><strong>Iniciativa Salud Mesoamérica 2015, SM2015</strong></div>
+    <div><strong>Conclusiones de la reunión realizada el: 3 de diciembre</strong></div>
+</p>
+<br />
+<p>
+    <div><strong>Operación:</strong> ES-G1001</div>
+    <div><strong>Tipo de Reunión:</strong> Seguimiento Mensual de la Ejecución</div>
+    <div><strong>Participantes:</strong> Luis Tejerina, Ferdinando Regalia, Emma Iriarte</div>
+</p>
+
+<br />
+
 <table class="table table-hover table-condensed table-bordered">
+    <caption><strong>Hitos</strong></caption>
     <thead>
       <tr>
         <th class="column-name word">Indicador de Pago</th>
-        <th class="column-name">Hito</th>
+        <th class="column-name word">Hito</th>
         <th class="column-name">Trimestre</th>
         <th class="column-name">Audiencia</th>
         <th class="column-name">Estado Actual</th>
@@ -19,7 +35,7 @@
       {% for hito in hitos %}
       <tr data-objid="{{hito.id}}">
         <td class="word" name="indicador_de_pago">{{hito.indicador_de_pago}}</td>
-        <td class="" name="hito">{{hito.hito}}</td>
+        <td class="word" name="hito">{{hito.hito}}</td>
         <td class="" name="trimestre">{{hito.trimestre}}</td>
         <td class="" name="audiencia">{{hito.audiencia.all|join:", "}}</td>
         <td class="editable select" name="estado_actual" data-options="{{hito.options_estados_actuais}}">{{hito.estado_actual.name}}</td>
@@ -31,32 +47,31 @@
       {% endfor %}
     </tbody>
 </table>
+
 {% if export_word %}
-
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    var td_elems = document.getElementsByTagName("td");
-    var th_elems = document.getElementsByTagName("th");
-    var elems_to_remove = [];
+    document.addEventListener('DOMContentLoaded', function() {
+        var td_elems = document.getElementsByTagName("td");
+        var th_elems = document.getElementsByTagName("th");
+        var elems_to_remove = [];
 
-    for(var i=0; i < td_elems.length; ++i){
-        var elem = td_elems[i];
-        if(elem.className.indexOf('word') == '-1'){
-            elems_to_remove.push(elem);
+        for(var i=0; i < td_elems.length; ++i){
+            var elem = td_elems[i];
+            if(elem.className.indexOf('word') == '-1'){
+                elems_to_remove.push(elem);
+            }
         }
-    }
 
-    for(var i=0; i < th_elems.length; ++i){
-        var elem = th_elems[i];
-        if(elem.className.indexOf('word') == '-1'){
-            elems_to_remove.push(elem);
+        for(var i=0; i < th_elems.length; ++i){
+            var elem = th_elems[i];
+            if(elem.className.indexOf('word') == '-1'){
+                elems_to_remove.push(elem);
+            }
         }
-    }
 
-    for(var i=0; i < elems_to_remove.length; ++i){
-        elems_to_remove[i].remove();
-    }
-});
+        for(var i=0; i < elems_to_remove.length; ++i){
+            elems_to_remove[i].remove();
+        }
+    });
 </script>
 {% endif %}
-
