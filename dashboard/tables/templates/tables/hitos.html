@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 
+{% if export_word %}
 <p>
     <div><strong>División de Protección Social y Salud, SCL/SPH</strong></div>
     <div><strong>Iniciativa Salud Mesoamérica 2015, SM2015</strong></div>
@@ -15,9 +16,12 @@
 </p>
 
 <br />
+{% endif %}
 
 <table class="table table-hover table-condensed table-bordered">
+    {% if export_word %}
     <caption><strong>Hitos</strong></caption>
+    {% endif %}
     <thead>
       <tr>
         <th class="column-name word">Indicador de Pago</th>
