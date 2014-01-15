@@ -21,18 +21,30 @@ from django.forms.forms import NON_FIELD_ERRORS
 from website.forms import LoginForm, SetPasswordForm, ForgotPasswordForm, ChangePasswordForm
 from core.models import *
 from map.models import Map
+from tables.models import AvanceFisicoFinanciero
 
 @login_required
 def index(request):
     maps = Map.objects.all()
     countries_map = []
     for country_map in maps:
+        table_avances = AvanceFisicoFinanciero.objects.get(country=country_map.country)
+        variation_physical = table_avances.avance_fisico_planificado - table_avances.avance_fisico_real
+        variation_financial = table_avances.avance_financiero_planificado - table_avances.avance_financiero_actual
+        if variation_physical <= 25 and variation_financial <= 25:
+            pin_color = 'green'
+        elif variation_physical >= 25 or variation_financial >= 25:
+            pin_color = 'yellow'
+        elif variation_physical >= 25 and variation_financial >= 25:
+            pin_color = 'red'
+
         country = {
             'lat': str(country_map.country.latlng.split(',')[0]),
             'lng': str(country_map.country.latlng.split(',')[1]),
             'name': str(country_map.country.name),
             'goal': str(country_map.goal),
-            'short_description': str(country_map.short_description)
+            'short_description': str(country_map.short_description),
+            'pin_color': pin_color
         }
         countries_map.append(country)
 

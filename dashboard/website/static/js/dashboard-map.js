@@ -2,7 +2,9 @@
     var dashboardMap = function(wrapper, countries){
         var self = this;
         this.map;
-        this.markerIcon = '/static/img/green_waypoint.png';
+        this.greenMarkerIcon = '/static/img/green_waypoint.png';
+        this.yellowMarkerIcon = '/static/img/yellow_waypoint.png';
+        this.redMarkerIcon = '/static/img/red_waypoint.png';
         this.wrapper = wrapper;
         this.countries = countries;
 
@@ -32,11 +34,20 @@
     dashboardMap.prototype.getCountriesMarkers = function(callback){
         var self = this, countries = [];
         $.each(this.countries, function(i, country){
+            var icon = '';
+            if(country.pin_color == 'green'){
+                icon = self.greenMarkerIcon;
+            } else if(country.pin_color == 'yellow'){
+                icon = self.yellowMarkerIcon;
+            } else if(country.pin_color == 'red'){
+                icon = self.redMarkerIcon;
+            }
+
             var latLng = new google.maps.LatLng(country.lat, country.lng),
                 marker = new google.maps.Marker({
                     position: latLng,
                     map: self.map,
-                    icon: self.markerIcon,
+                    icon: icon,
                     visible: true
                 });
 

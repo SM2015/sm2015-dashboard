@@ -55,11 +55,9 @@ def hitos_e_avances(request):
 @login_required
 def ucmilestone(request):
     context = RequestContext(request)
-
     return render_to_response("ucmilestone.html", context)
 
 @login_required
 def sm2015milestone(request):
     context = RequestContext(request)
-
     return render_to_response("sm2015milestone.html", context)

@@ -65,16 +65,6 @@
             };
             var tableElement = this.$wrapper.find("table");
             tableElement.dataTable({
-                "sDom": "<'row-fluid'<'span6'l T><'span6'f>r>t<'row-fluid'<'span12'p i>>",
-                    "oTableTools": {
-                    "aButtons": [
-                        {
-                            "sExtends":    "collection",
-                            "sButtonText": "<i class='icon-cloud-download'></i>",
-                            "aButtons":    [ "csv", "xls", "pdf", "copy"]
-                        }
-                    ]
-                },
                 "sPaginationType": "bootstrap",
                  "aoColumnDefs": [
                   { 'bSortable': false, 'aTargets': [ 0 ] }
@@ -129,7 +119,15 @@
             });
             self.bindElements();
             self.bindDataTable();
+            if(self.opts.url_export){
+                self.insertExportLinkInTable();
+            }
         });
+    }
+
+    dashboardTable.prototype.insertExportLinkInTable = function(){
+        var html_link = '<a href="'+this.opts.url_export+'" style="margin-left:20px; line-height:30px; color: #555">Click to Export to Word</a>';
+        this.$wrapper.find('.dataTables_length').append(html_link);
     }
 
     dashboardTable.prototype.refresh = function(){

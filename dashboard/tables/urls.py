@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, include, url
-from tables import views, views_render
+from tables import views, views_render, views_export
 
 from django.contrib import admin
 admin.autodiscover()
@@ -15,4 +15,6 @@ urlpatterns = patterns('',
     url(r'render/avances_financeiros/(?P<country_slug>[-\w]+)/?$', views_render.render_avances_financeiros, name="table_render_avances_financeiros"),
     url(r'render/ucmilestone/?$', views_render.render_ucmilestone, name="table_render_ucmilestone"),
     url(r'render/sm2015milestone/?$', views_render.render_sm2015milestone, name="table_render_sm2015milestone"),
+
+    url(r'render/export/hitos_y_avances/(?P<country_slug>[-\w]+)/?$', views_export.render_export_hitos_and_avances, name="table_export_hitos_and_avances"),
 )

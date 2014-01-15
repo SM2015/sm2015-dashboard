@@ -3,14 +3,6 @@
 
 {% block js_bottom %}
     {{ block.super }}
-    
-    <!-- possiveis remocoes -->
-    <!-- 
-        <script src="{% static "assets/plugins/jquery-slider/jquery.sidr.min.js" %}" type="text/javascript"></script>
-
-
-        <script src="{% static "assets/plugins/jquery-numberAnimate/jquery.animateNumbers.js" %}" type="text/javascript"></script>
-    -->
 
     <script src="{% static "assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js" %}" type="text/javascript"></script>
     <script src="{% static "assets/plugins/bootstrap-select2/select2.min.js" %}" type="text/javascript"></script>
@@ -28,7 +20,8 @@
 
                 $(".table-hitos").dashboardTable("/tables/render/hitos/"+country_slug, {
                     title: "Hitos",
-                    url_save: "{% url 'save_milestone_data' model_name='Hito' %}"
+                    url_save: "{% url 'save_milestone_data' model_name='Hito' %}",
+                    url_export: "/tables/render/export/hitos_y_avances/"+country_slug
                 });
 
                 $(".table-avances").dashboardTable("/tables/render/avances_financeiros/"+country_slug, {
