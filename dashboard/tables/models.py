@@ -67,11 +67,11 @@ class Hito(models.Model):
 
 class UcMilestone(models.Model):
     language = models.ForeignKey(Language, default=1)
-    objective = models.CharField(max_length=200, null=True, blank=True, default=None)
-    coordination_unit_milestone = models.CharField(max_length=200, null=True, blank=True, default=None)
+    objective = models.CharField(max_length=300, null=True, blank=True, default=None)
+    coordination_unit_milestone = models.CharField(max_length=500, null=True, blank=True, default=None)
     quarter = models.CharField(max_length=200, null=True, blank=True, default=None)
     status = models.CharField(max_length=200, null=True, blank=True, default=None)
-    observation = models.CharField(max_length=200, null=True, blank=True, default=None)
+    observation = models.CharField(max_length=500, null=True, blank=True, default=None)
 
     @classmethod
     def get_editable_fields(cls):

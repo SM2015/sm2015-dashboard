@@ -21,9 +21,9 @@ class Command(BaseCommand):
 
                 UcMilestone.objects.create(
                     language = language,
-                    objective = columns[0],
-                    coordination_unit_milestone = columns[1],
-                    quarter = columns[2],
-                    status = columns[3],
-                    observation = columns[4]
+                    objective = columns[0].replace(';',','),
+                    coordination_unit_milestone = columns[1].replace(';',','),
+                    quarter = columns[2].replace(';',','),
+                    status = columns[3].replace(';',','),
+                    observation = columns[4].replace(';',',')
                 )
