@@ -12,8 +12,9 @@
 }
 .content-info-window .left-side {
     float: left;
-    padding-left:25px;
-    width: 287px;
+    padding-left: 25px;
+    padding-right: 20px;
+    width: 267px;
 }
 .content-info-window .left-side .main-info {
     height: 175px;
