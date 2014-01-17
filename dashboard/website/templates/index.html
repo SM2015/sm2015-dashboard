@@ -244,7 +244,22 @@
         background-color:#ffffcc;
         cursor:pointer
     }
+
+    .graph-triangle-container {
+        height: 270px;
+        margin-bottom: 40px;
+        overflow: hidden;
+        position: relative;
+    }
+    .graph-triangle-wrapper .hide-graph-triangle {
+        cursor: pointer;
+        height: 50px;
+        text-align: right;
+    }
         
+    .span4.first-column {
+        margin-left: 0;
+    }
     </style>
 {% endblock css %}
 
@@ -261,6 +276,25 @@
         $().ready(function(){
             $(".graph-triangle-container").graficoTrianguloPorPais('{% url "get_triangle_graph_countries" %}');
             $("#map-goals").dashboardMap({{countries_map|safe}});
+
+            $(".hide-graph-triangle.show-more").live('click', function(){
+                $(".graph-triangle-container").animate({
+                    height: '100%'
+                }, 1000, function(){
+                    $(".hide-graph-triangle").removeClass("show-more");
+                    $(".hide-graph-triangle").addClass("show-less");
+                    $(".hide-graph-triangle").text("Show Less")
+                });
+            });
+            $(".hide-graph-triangle.show-less").live('click', function(){
+                $(".graph-triangle-container").animate({
+                    height: '270px'
+                }, 1000, function(){
+                    $(".hide-graph-triangle").removeClass("show-less");
+                    $(".hide-graph-triangle").addClass("show-more");
+                    $(".hide-graph-triangle").text("Show More")
+                });
+            });
         });
     </script>
 
@@ -490,6 +524,7 @@
           </div>
           <div class="grid-body no-border">
             <div class="row-fluid graph-triangle-container"></div>
+            <div class="hide-graph-triangle show-more">Show More</div>
           </div>
         </div>
     </div>

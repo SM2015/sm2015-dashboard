@@ -12,7 +12,7 @@
 
     function createDivTriangle(id_div, $wrapper, position){
         var class_first = '';
-        if(parseInt(position)+1 == 1 || (parseInt(position)+1) % 4 == 0){
+        if(parseInt(position) == 0 || (parseInt(position)) % 3 == 0){
             class_first = 'first-column';
         }
         
