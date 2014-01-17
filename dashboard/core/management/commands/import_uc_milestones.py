@@ -8,7 +8,7 @@ class Command(BaseCommand):
 
     def handle(self, lang, file_name, *args, **options):
         language = Language.objects.get(acronym=lang)
-        path = "{root}/../db/csv/{file_name}".format(root=os.path.realpath('./'), file_name=file_name)
+        path = "{root}/core/csv/{file_name}".format(root=os.path.realpath('./'), file_name=file_name)
 
         file_obj = open(path, 'r')
         file_content = file_obj.read()
