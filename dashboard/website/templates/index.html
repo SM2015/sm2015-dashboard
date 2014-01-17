@@ -482,7 +482,18 @@
 </div>
 
 <style>
-    
+.graph-triangle-wrapper {
+    height:100px;
+    position:relative;
+}
+.graph-triangle-wrapper .hide-graph-triangle {
+    background-color: gray;
+    bottom:0;
+    height: 50px;
+    position: absolute;
+    width: 100%;
+}
+
 </style>
 <div class="content">
     <div class="row-fluid graph-triangle-wrapper">
@@ -493,7 +504,7 @@
           </div>
           <div class="grid-body no-border">
             <div class="row-fluid graph-triangle-container"></div>
-            <div class="hide-graph-triangle">Show more</div>
+            <div class="hide-graph-triangle"></div>
           </div>
         </div>
     </div>
