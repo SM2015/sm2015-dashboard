@@ -1,20 +1,21 @@
 # coding: utf-8
 import inspect
 from django.db import models
-from core.models import Country
+from core.models import Country, Language
 
 class AvanceFisicoFinanciero(models.Model):
     country = models.ForeignKey(Country)
+    language = models.ForeignKey(Language, default=1)
 
     fecha_de_actualizacion = models.DateField()
-    avance_fisico_planificado = models.IntegerField(null=True, blank=True, default=None)
-    avance_financiero_planificado = models.IntegerField(null=True, blank=True, default=None)
-    avance_fisico_real = models.IntegerField(null=True, blank=True, default=None)
-    avance_financiero_actual = models.IntegerField(null=True, blank=True, default=None)
-    avances_fisicos_original_programado = models.IntegerField(null=True, blank=True, default=None)
-    avances_financieros_original_programado = models.IntegerField(null=True, blank=True, default=None)
-    monto_comprometido = models.IntegerField(null=True, blank=True, default=None)
-    monto_desembolsado = models.IntegerField(null=True, blank=True, default=None)
+    avance_fisico_planificado = models.FloatField(null=True, blank=True, default=None)
+    avance_financiero_planificado = models.FloatField(null=True, blank=True, default=None)
+    avance_fisico_real = models.FloatField(null=True, blank=True, default=None)
+    avance_financiero_actual = models.FloatField(null=True, blank=True, default=None)
+    avances_fisicos_original_programado = models.FloatField(null=True, blank=True, default=None)
+    avances_financieros_original_programado = models.FloatField(null=True, blank=True, default=None)
+    monto_comprometido = models.FloatField(null=True, blank=True, default=None)
+    monto_desembolsado = models.FloatField(null=True, blank=True, default=None)
 
     alerta = models.TextField(null=True, blank=True, default=None)
     recomendacion = models.TextField(null=True, blank=True, default=None)
@@ -30,12 +31,14 @@ class AvanceFisicoFinanciero(models.Model):
         return self.country.name
 
 class Audiencia(models.Model):
+    language = models.ForeignKey(Language, default=1)
     name = models.CharField(max_length=100)
 
     def __unicode__(self):
         return self.name
 
 class EstadoActual(models.Model):
+    language = models.ForeignKey(Language, default=1)
     name = models.CharField(max_length=100)
 
     def __unicode__(self):
@@ -43,6 +46,7 @@ class EstadoActual(models.Model):
 
 class Hito(models.Model):
     country = models.ForeignKey(Country)
+    language = models.ForeignKey(Language, default=1)
 
     indicador_de_pago = models.CharField(max_length=200, null=True, blank=True, default=None)
     hito = models.CharField(max_length=200, null=True, blank=True, default=None)
@@ -62,6 +66,7 @@ class Hito(models.Model):
         return self.country.name
 
 class UcMilestone(models.Model):
+    language = models.ForeignKey(Language, default=1)
     objective = models.CharField(max_length=200, null=True, blank=True, default=None)
     coordination_unit_milestone = models.CharField(max_length=200, null=True, blank=True, default=None)
     quarter = models.CharField(max_length=200, null=True, blank=True, default=None)
@@ -76,6 +81,7 @@ class UcMilestone(models.Model):
         return self.coordination_unit_milestone
 
 class Objective(models.Model):
+    language = models.ForeignKey(Language, default=1)
     objective = models.CharField(max_length=200, null=True, blank=True, default=None)
     
     def __unicode__(self):
@@ -83,6 +89,7 @@ class Objective(models.Model):
 
 class Sm2015Milestone(models.Model):
     objective = models.ForeignKey(Objective, null=True, blank=True, default=None)
+    language = models.ForeignKey(Language, default=1)
 
     hitos = models.CharField(max_length=200, null=True, blank=True, default=None)
     status = models.CharField(max_length=200, null=True, blank=True, default=None)

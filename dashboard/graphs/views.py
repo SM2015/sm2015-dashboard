@@ -4,11 +4,12 @@ from django.shortcuts import render
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from core.models import Country
 
 @login_required
 def get_triangle_graph_countries(request):
     context = RequestContext(request)
-    countries = context.get('user').dashboarduser.countries.all()
+    countries = Country.objects.all()
     return_data = []
 
     for country in countries:

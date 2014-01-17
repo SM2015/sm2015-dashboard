@@ -1,20 +1,26 @@
 (function( $ ){
     function loadGraphs($wrapper, url){
-        $wrapper.remove();
+        $wrapper.find("*").remove();
         $.getJSON(url, function(data){
-            $.each(data, function(){
+            $.each(data, function(i){
                 var div_triangle_id = 'graph-triangle-' + this.country_slug;
-                createDivTriangle(div_triangle_id, $wrapper);
+                createDivTriangle(div_triangle_id, $wrapper,i);
                 drawSpider('#'+div_triangle_id, this.country, this.triangle_categories, this.series);
             });
         });
     }
 
-    function createDivTriangle(id_div, $wrapper){
+    function createDivTriangle(id_div, $wrapper, position){
+        var class_first = '';
+        if(parseInt(position)+1 == 1 || (parseInt(position)+1) % 4 == 0){
+            class_first = 'first-column';
+        }
+        
         var html_div = ''+
-            '<div class="span4">'+
+            '<div class="span4 '+class_first+'">'+
               '<div id="'+id_div+'" style="min-width: 230px; height: 400px; margin: 0 auto"></div>'+
             '</div>';
+
         $wrapper.append(html_div);
     }
 

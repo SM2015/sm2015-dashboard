@@ -8,6 +8,13 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 
+class Language(models.Model):
+    name = models.CharField(max_length=100)
+    acronym = models.CharField(max_length=2)
+
+    def __unicode__(self):
+        return self.name
+
 class Country(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=100)
