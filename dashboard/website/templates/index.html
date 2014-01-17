@@ -266,6 +266,214 @@
 
     <script>
     (function(){
+        google.load('visualization', '1', {
+            packages: ['table']
+        });
+
+        var countries = {
+            "Belize": {
+                start: "B3",
+                end: "D20",
+                worksheet: "LiST2 BE"
+            },
+            "Costa Rica": {
+                start: "B3",
+                end: "D20",
+                worksheet: "LiST2 CR"
+            },
+            "El Salvador": {
+                start: "B3",
+                end: "D20",
+                worksheet: "LiST2 ES"
+            },
+            "Guatemala": {
+                start: "B3",
+                end: "D20",
+                worksheet: "LiST2 GU"
+            },
+            "Honduras": {
+                start: "B3",
+                end: "D20",
+                worksheet: "LiST2 HO"
+            },
+            "Mexico": {
+                start: "B3",
+                end: "D20",
+                worksheet: "LiST2 MEX"
+            },
+            "Nicaragua": {
+                start: "B3",
+                end: "D20",
+                worksheet: "LiST2 NI"
+            },
+            "Panama": {
+                start: "B3",
+                end: "D20",
+                worksheet: "LiST2 PN"
+           }
+        };
+
+        $(document).ready(function() {
+            var DEFAULT = 'Nicaragua';
+            $("#countryList").val(DEFAULT).attr('selected', true);
+            drawVisualization(DEFAULT);
+            $("#countryList").change(function() {
+                drawVisualization($(this).val());
+            });
+        });
+
+        function drawVisualization(country) {
+
+
+            var country = countries[country];
+
+            var DATA_SOURCE_URL = 'https://docs.google.com/spreadsheet/tq?key=0Ak2_oq8RFFO9dFI3YmNVZ3JrOFpkQ3ZMVnRiTmlRWnc&sheet=' + country.worksheet + '&range=' + country.start + ':' + country.end + '&pub=1';
+
+            var query = new google.visualization.Query(DATA_SOURCE_URL);
+
+            query.send(handleQueryResponse);
+
+        }
+
+        function handleQueryResponse(response) {
+
+            if (checkStatus(response)) {
+
+                var data = response.getDataTable();
+
+                drawChart(data, 'container', 'Mortality rate reduction in children under 5yrs attributed to the intervention', 'This graphic shows how many lives each intervention could save');
+
+            }
+        }
+
+        function drawChart(data, div, title, subtitle) {
+
+            var numRows = data.getNumberOfRows();
+
+            var seriesArray = [];
+            var pieChartData = [];
+
+            for (var i = 0; i < numRows; i++) {
+
+                var key = data.getValue(i, 0);
+                var valuePie = data.getValue(i, 1);
+                var value = data.getValue(i, 2);
+
+                seriesArray.push({
+                    "name": key,
+                    "data": [value]
+                });
+
+                pieChartData.push({
+                    "name": key,
+                    "y": valuePie
+                });
+
+            }
+
+            var pieChartConfigurationData = {
+                type: 'pie',
+                name: '% reducción mortalidad',
+                data: pieChartData,
+                center: [400, 120],
+                size: 160,
+                showInLegend: false,
+                dataLabels: {
+                    enabled: false
+                }
+            };
+
+            seriesArray.push(pieChartConfigurationData);
+
+            var chart;
+            $(document).ready(function() {
+                chart = new Highcharts.Chart({
+                    chart: {
+                        renderTo: 'container',
+                        type: 'bar'
+                    },
+
+                    title: {
+                        text: title
+                    },
+                    subtitle: {
+                        text: subtitle
+                    },
+
+                    labels: {
+                        items: [{
+                            html: '% reducción mortalidad',
+                            style: {
+                                left: '280px',
+                                top: '18px',
+                                color: 'black'
+                            }}]
+                    },
+
+                    xAxis: {
+                        categories: [''],
+                        title: {
+                            text: null
+                        }
+                    },
+
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: 'Lives Saved',
+                            align: 'high'
+                        },
+                        labels: {
+                            overflow: 'justify'
+                        }
+                    },
+
+                    tooltip: {
+                        formatter: function() {
+                            var s;
+                            if (this.point.name) { // the pie chart
+                                s = '' + this.point.name + ': ' + this.y + ' ';
+                            } else {
+                                s = '' + this.series.name + ': ' + this.y;
+                            }
+                            return s;
+                        }
+
+
+                    },
+
+                    plotOptions: {
+                        bar: {
+                            dataLabels: {
+                                enabled: true
+                            }
+                        }
+                    },
+
+                    credits: {
+                        enabled: false
+                    },
+
+                    series: seriesArray
+
+                });
+            });
+
+        };
+
+        function checkStatus(response) {
+
+            if (response.isError()) {
+                alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+                return false;
+            }
+
+            return true;
+        }
+    })();
+
+
+    (function(){
         google.load("visualization", "1", {
             packages: ["corechart"]
         });
@@ -783,6 +991,9 @@
   <div id="map-goals"></div>
 </div>
 
+<style>
+
+</style>
 <div class="content">
     <div class="row-fluid">
         <div class="grid simple">
@@ -792,100 +1003,55 @@
           </div>
           <div class="grid-body no-border">
             <div class="row-fluid graph-triangle-container"></div>
+            <div class="hide-graph-triangle"></div>
           </div>
         </div>
     </div>
 
     <div class="row-fluid">
-        <div class="span7">
-            <div class="grid simple">
-              <div class="grid-title no-border mujeres-inscritas">
-                <div class="tools"> <a class="collapse" href="javascript:;"></a> <a class="config" data-toggle="modal" href="#grid-config"></a> <a class="reload" href="javascript:;"></a> <a class="remove" href="javascript:;"></a> </div>
-                <h4>T1 2013: % de mujeres inscritas en control prenatal precoz (primeras 12 semanas)</h4>
-              </div>
-              <div class="grid-body no-border">
-                <div class="row-fluid">
-
-                    <table class="p5">
-                        <tbody>
-                            <tr>
-                                <td><div id="indicator-graph" class="Oqb">
-                                        <table class="in">
-                                            <tbody>
-                                                <tr>
-                                                    <td class="Yf">
-                                                        <div id="container" style="height: 400px; margin: 0 auto"></div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <div class="Jdb">
-                        <div id="miniTable" class="fZ">
-                            <table class="gc CQ" id="dataTable">
-                                <tbody id="inIndicator">
-                                    <tr>
-                                        <th class="Ru"></th>
-                                        <th class="uE ">Proxy - Coberturas institutionales calculados por el MINSAL</th>
-                                        <th class="Cw">Promedio Reportado</th>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-              </div>
-            </div>
-        </div>
-        <div class="span5">
+        <div class="span12">
             <div class="grid simple">
               <div class="grid-title no-border">
-                <h4>Objetivos</h4>
                 <div class="tools"> <a class="collapse" href="javascript:;"></a> <a class="config" data-toggle="modal" href="#grid-config"></a> <a class="reload" href="javascript:;"></a> <a class="remove" href="javascript:;"></a> </div>
+                <h4></h4>
               </div>
               <div class="grid-body no-border">
                 <div class="row-fluid">
-                    <!--<div id="dashboard">
-                      <table>
-                        <tr style='vertical-align: top;'>
-                          <td style='width: 160px; font-size: 0.9em;'>
-                            <div id="control1">
-                              <form>
-                                   <fieldset>
-                                      <legend>Country</legend>
-                                      <p>
-                                         <select id = "operationList">
-                                           <option value = "BL-G1001">Belize</option>
-                                           <option value = "CR-G1001">Costa Rica</option>
-                                           <option value = "ES-G1001">El Salvador</option>
-                                           <option value = "GU-G1001">Guatemala</option>
-                                           <option value = "HO-G1001">Honduras</option>
-                                           <option value = "NI-G1001">Nicaragua</option>
-                                           <option value = "ME-G1001">Mexico</option>
-                                           <option value = "PN-G1001">Panama</option>
-                                         </select>
-                                      </p>
-                                   </fieldset>
-                                </form>
-                                
-                             </div>
-                             <br />
-                            <div id="control2" style="display: none;"></div>
-                            <div id="control3"></div>
-                          </td>
-                          <td style='width: 410px'>
-                            <div style="float: left;" id="chart1"></div>
-                            <div style="float: left;" id="chart2"></div>
-                            <div style="float: left;" id="chart3"></div>
-                          </td>
-                        </tr>
-                      </table>
-                    </div>-->
+                    <div id="dashboard">
+                          <table>
+                            <tr style='vertical-align: top;'>
+                              <td style='width: 160px; font-size: 0.9em;'>
+                                <div id="control1">
+                                  <form>
+                                       <fieldset>
+                                          <legend>Country</legend>
+                                          <p>
+                                             <select id = "countryList">
+                                               <option value = "Belize">Belize</option>
+                                               <option value = "Costa Rica">Costa Rica</option>
+                                               <option value = "El Salvador">El Salvador</option>
+                                               <option value = "GU-G1001">Guatemala</option>
+                                               <option value = "HO-G1001">Honduras</option>
+                                               <option value = "NI-G1001">Nicaragua</option>
+                                               <option value = "ME-G1001">Mexico</option>
+                                               <option value = "PN-G1001">Panama</option>
+                                             </select>
+                                          </p>
+                                       </fieldset>
+                                    </form>
+                                    
+                                 </div>
+                                <div id="control2" style="display: none;"></div>
+                                <div id="control3"></div>
+                              </td>
+                              <td style='width: 620px'>
+                                <div id="container" style="min-width: 450px; height: 600px;"></div>
+                                <div style="float: left;" id="chart2"></div>
+                                <div style="float: left;" id="chart3"></div>
+                              </td>
+                            </tr>
+                          </table>
+                    </div>
                 </div>
               </div>
             </div>
