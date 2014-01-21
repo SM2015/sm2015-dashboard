@@ -101,3 +101,22 @@ class Sm2015Milestone(models.Model):
 
     def __unicode__(self):
         return self.hitos
+
+class GrantsFinances(models.Model):
+    period = models.CharField(max_length=200, default=None, null=True, blank=True)
+    contribution_accumulated_bmgf = models.FloatField(default=None, null=True, blank=True)
+    contribution_accumulated_icss = models.FloatField(default=None, null=True, blank=True)
+    contribution_spanish_government = models.FloatField(default=None, null=True, blank=True)
+    korean_tc_accumulated = models.FloatField(default=None, null=True, blank=True)
+    contribution_donates = models.FloatField(default=None, null=True, blank=True)
+    contribution_real_bmgf = models.FloatField(default=None, null=True, blank=True)
+    contribution_real_icss = models.FloatField(default=None, null=True, blank=True)
+    contribution_real_gos = models.FloatField(default=None, null=True, blank=True)
+    korea_actual = models.FloatField(default=None, null=True, blank=True)
+
+    @classmethod
+    def get_editable_fields(cls):
+        return ('',)
+
+    def __unicode__(self):
+        return self.period

@@ -1,0 +1,74 @@
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<style>
+    .column-name{
+        text-transform: uppercase;
+    }
+</style>
+
+<table class="table table-hover table-condensed table-bordered">
+    <thead>
+        <tr>
+            <th class="column-name first"></th>
+            {% for row in grants_finances %}
+            <th class="column-name">{{row.period}}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td class="column-name">Contribución acumulada bmgf</td>
+        {% for row in table.contribution_accumulated_bmgf %}
+        <td>{{row}}</td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td class="column-name">Contribución acumulada icss</td>
+        {% for row in table.contribution_accumulated_icss %}
+        <td>{{row}}</td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td class="column-name">Contribución gobierno de españa/Pronóstico</td>
+        {% for row in table.contribution_spanish_government %}
+        <td>{{row}}</td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td class="column-name">Korean TC FC/Accumulated</td>
+        {% for row in table.korean_tc_accumulated %}
+        <td>{{row}}</td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td class="column-name">Contribuciones de los donantes (por cartas-acuerdo)</td>
+        {% for row in table.contribution_donates %}
+        <td>{{row}}</td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td class="column-name">BMGF Contribución real</td>
+        {% for row in table.contribution_real_bmgf %}
+        <td>{{row}}</td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td class="column-name">ICSS Contribución real</td>
+        {% for row in table.contribution_real_icss %}
+        <td>{{row}}</td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td class="column-name">GOS Contribución real</td>
+        {% for row in table.contribution_real_gos %}
+        <td>{{row}}</td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td class="column-name">Korea Actual</td>
+        {% for row in table.korea_actual %}
+        <td>{{row}}</td>
+        {% endfor %}
+      </tr>
+    </tbody>
+</table>

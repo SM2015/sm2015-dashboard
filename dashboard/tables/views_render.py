@@ -3,7 +3,8 @@ from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, Http404
 
-from tables.models import Hito, AvanceFisicoFinanciero, EstadoActual, UcMilestone, Sm2015Milestone, Objective
+from tables.models import Hito, AvanceFisicoFinanciero, EstadoActual, UcMilestone, \
+        Sm2015Milestone, Objective, GrantsFinances
 
 @login_required
 def render_hitos(request, country_slug):
@@ -51,5 +52,31 @@ def render_sm2015milestone(request):
 
     rendered = render_to_string("tables/sm2015milestone.html", {
         'sm2015milestones': sm2015milestones,
+    })
+    return HttpResponse(rendered, content_type="text/html")
+
+@login_required
+def render_grants_finances(request):
+    grants_finances = GrantsFinances.objects.all()
+
+    table = {
+        'contribution_accumulated_bmgf': [],
+        'contribution_accumulated_icss': [],
+        'contribution_spanish_government': [],
+        'korean_tc_accumulated': [],
+        'contribution_donates': [],
+        'contribution_real_bmgf': [],
+        'contribution_real_icss': [],
+        'contribution_real_gos': [],
+        'korea_actual': []
+    }
+
+    for obj in grants_finances:
+        for field in table.keys():
+            table[field].append(getattr(obj, field))
+
+    rendered = render_to_string("tables/grants_finances.html", {
+        'grants_finances': grants_finances,
+        'table': table
     })
     return HttpResponse(rendered, content_type="text/html")

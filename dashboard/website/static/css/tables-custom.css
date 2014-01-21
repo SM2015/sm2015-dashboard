@@ -1,0 +1,28 @@
+.editable.combofield select {
+    font-size: 13px;
+    width: 85px;
+}
+button {
+    background-color: #D1DADE;
+    background-image: none !important;
+    border: medium none;
+    box-shadow: none;
+    color: #5E5E5E;
+    cursor: pointer;
+    display: inline-block;
+    font: 10px/20px "Helvetica Neue",Helvetica,Arial,sans-serif;
+    margin: 5px 2px 0 0;
+    padding: 3px 8px 4px;
+    text-align: center;
+    text-shadow: none;
+    transition: all 0.12s linear 0s !important;
+    vertical-align: middle;
+}
+.grid-title h4 {
+    font-size: 26px;
+    font-weight: lighter;
+    margin: 13px 0 0 11px;
+}
+.grid.simple .grid-body {
+    border-top:none;
+}

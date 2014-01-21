@@ -50,6 +50,7 @@
 
 {% block css %}
     {{ block.super }}
+    <link href="{% static "css/tables-custom.css" %}" rel="stylesheet" type="text/css"/>
     <style>
         .title-select-pais { 
             float: left;
@@ -70,26 +71,6 @@
         .table-avances .avances-value {
             border-bottom: 1px solid #EEEEEE;
             padding: 5px 20px;
-        }
-        .editable.combofield select {
-            font-size: 13px;
-            width: 85px;
-        }
-        button {
-            background-color: #D1DADE;
-            background-image: none !important;
-            border: medium none;
-            box-shadow: none;
-            color: #5E5E5E;
-            cursor: pointer;
-            display: inline-block;
-            font: 10px/20px "Helvetica Neue",Helvetica,Arial,sans-serif;
-            margin: 5px 2px 0 0;
-            padding: 3px 8px 4px;
-            text-align: center;
-            text-shadow: none;
-            transition: all 0.12s linear 0s !important;
-            vertical-align: middle;
         }
     </style>
 {% endblock css %}

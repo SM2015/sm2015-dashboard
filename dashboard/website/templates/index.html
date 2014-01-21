@@ -274,7 +274,7 @@
 
     <script>
         $().ready(function(){
-            $(".graph-triangle-container").graficoTrianguloPorPais('{% url "get_triangle_graph_countries" %}');
+            $(".graph-triangle-wrapper").graficoTrianguloPorPais('{% url "get_triangle_graph_countries" %}');
             $("#map-goals").dashboardMap({{countries_map|safe}});
 
             $(".hide-graph-triangle.show-more").live('click', function(){

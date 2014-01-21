@@ -1,16 +1,18 @@
 (function( $ ){
     function loadGraphs($wrapper, url){
-        $wrapper.find("*").remove();
+        $container_graphs = $wrapper.find(".graph-triangle-container");
+        $container_graphs.find("*").remove();
+
         $.getJSON(url, function(data){
             $.each(data, function(i){
                 var div_triangle_id = 'graph-triangle-' + this.country_slug;
-                createDivTriangle(div_triangle_id, $wrapper,i);
+                createDivTriangle(div_triangle_id, $container_graphs,i);
                 drawSpider('#'+div_triangle_id, this.country, this.triangle_categories, this.series);
             });
         });
     }
 
-    function createDivTriangle(id_div, $wrapper, position){
+    function createDivTriangle(id_div, $container, position){
         var class_first = '';
         if(parseInt(position) == 0 || (parseInt(position)) % 3 == 0){
             class_first = 'first-column';
@@ -21,7 +23,7 @@
               '<div id="'+id_div+'" style="min-width: 230px; height: 400px; margin: 0 auto"></div>'+
             '</div>';
 
-        $wrapper.append(html_div);
+        $container.append(html_div);
     }
 
     function drawSpider(div, country, categoriesArray, seriesArray) {
@@ -133,7 +135,12 @@
     }
 
     $.fn.graficoTrianguloPorPais = function(url_dados_grafico) {
+        var wrapper = this;
         loadGraphs( this, url_dados_grafico );
+
+        $(this).find(".reload").click(function(){
+            loadGraphs( wrapper, url_dados_grafico );
+        });
         return this;
     };
 }( jQuery ));

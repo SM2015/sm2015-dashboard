@@ -36,6 +36,7 @@ def save_milestone_data(request, model_name):
                 field = class_table._meta.get_field_by_name(field_name)[0]
                 if isinstance(field, IntegerField):
                     value = re.sub("\D", "", value)
+                import ipdb; ipdb.set_trace()
                 setattr(instance, field_name, value)
             except FieldDoesNotExist, e:
                 continue
@@ -61,3 +62,8 @@ def ucmilestone(request):
 def sm2015milestone(request):
     context = RequestContext(request)
     return render_to_response("sm2015milestone.html", context)
+
+@login_required
+def grants_finances(request):
+    context = RequestContext(request)
+    return render_to_response("grants_finances.html", context)
