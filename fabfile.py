@@ -155,3 +155,13 @@ def collect_static(site):
     with cd("{project_path}/src/{site}".format(project_path=PROJECT_PATH, site=site)):
         sudo('{project_path}/virtualenv/bin/python manage.py collectstatic --noinput --settings=core.settings_wsgi' \
             .format(project_path=PROJECT_PATH))
+
+def run_command(site, command, *args):
+    comando = "{command} {args}".format(command=command, args=" ".join(args))
+
+    print(green("Running command: python manage.py {comando} --settings=core.settings_wsgi" \
+            .format(comando=comando)))
+
+    with cd("{project_path}/src/{site}".format(project_path=PROJECT_PATH, site=site)):
+        sudo('{project_path}/virtualenv/bin/python manage.py {comando} --settings=core.settings_wsgi' \
+            .format(project_path=PROJECT_PATH, comando=comando))

@@ -120,3 +120,12 @@ class GrantsFinances(models.Model):
 
     def __unicode__(self):
         return self.period
+
+class Operation(models.Model):
+    country = models.ForeignKey(Country)
+
+    starting_date = models.DateField()
+    finish_date = models.DateField()
+
+    def __unicode__(self):
+        return self.country
