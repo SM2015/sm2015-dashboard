@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load i18n %}
 <!DOCTYPE html>
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 <head>
@@ -42,6 +43,26 @@
 <link href="{% static "css/custom-sm2012.css" %}" rel="stylesheet" type="text/css"/>
 <link href="{% static "css/maps-custom.css" %}" rel="stylesheet" type="text/css"/>
 <link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+<style>
+    .lang-container {
+        float: left;
+        margin-right: 45px;
+        margin-top: 8px;
+    }
+    .header .lang-container a {
+        color: #EEEEEE;
+        display: inline-block;
+        font-size: 12px;
+    }
+    .header .lang-container a:hover {
+        color: white;
+    }
+    .lang-container .separator {
+        color: #EEE;
+        float: left;
+        margin: 0 5px;
+    }
+</style>
 {% endblock css %}
 
 {% block js_top %}
@@ -90,16 +111,18 @@
      <!-- END TOP NAVIGATION MENU -->
      <!-- BEGIN CHAT TOGGLER -->
       <div class="pull-right"> 
-        <div class="chat-toggler">	
-                <a href="#" class="dropdown-toggle" id="my-task-list">
-                    <div class="user-details">
-                        <div class="username">
-                            Hola, <span class="bold">{{user.first_name}}</span>
-                        </div>
+        <div class="chat-toggler">
+
+            {% include 'change_language.html' %}
+            <a href="#" class="dropdown-toggle" id="my-task-list">
+                <div class="user-details">
+                    <div class="username">
+                        {% trans "Hola" %}, <span class="bold">{{user.first_name}}</span>
                     </div>
-                </a>						
-            </div>
-         <ul class="nav quick-section ">
+                </div>
+            </a>						
+        </div>
+        <ul class="nav quick-section ">
             <li class="quicklinks"> 
             <a data-toggle="dropdown" class="dropdown-toggle  pull-right" href="#">
                     <div class="iconset top-settings-dark"></div>
@@ -139,7 +162,7 @@
       <li class="start "> <a href="{% url 'grants_finances' %}"> <i class="icon-custom-gantz"></i> <span class="title">Financiación</span></a> </li>
       <li class="start "> <a href="#"> <i class="icon-custom-sm"></i> <span class="title">SM2015</span></a> </li>
       <li class="start "> <a href="#"> <i class="icon-custom-reports"></i> <span class="title">Informes</span></a> </li>
-      <li class="start "> <a href="#"> <i class="icon-custom-db"></i> <span class="title">Base de datos</span> <span class="arrow "></span></a>
+      <li class="start "> <a href="#"> <i class="icon-custom-db"></i> <span class="title">{% trans "Base de datos" %}</span> <span class="arrow "></span></a>
         <ul class="sub-menu">
           <li> <a href="{% url 'hitos_e_avances' %}"> Ejecución Financiera y Hitos </a> </li>
           <li> <a href="{% url 'ucmilestone' %}"> Coordination Unit Milestone </a> </li>
@@ -189,6 +212,16 @@
 <script src="{% static "assets/js/demo.js" %}" type="text/javascript"></script> 
 <!-- END CORE TEMPLATE JS --> 
 
+<script>
+    $().ready(function(){
+        $(".change-lang").click(function(event){
+            event.preventDefault();
+            var lang = $(this).attr("name");
+            $(".lang-name").val(lang);
+            $(".form-change-lang").submit();
+        });
+    });
+</script>
 {% endblock js_bottom %}
 </body>
 </html>

@@ -7,3 +7,4 @@ libmysqlclient-dev
 python-mysqldb
 uwsgi-plugin-python
 language-pack-id
+gettext

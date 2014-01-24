@@ -8,7 +8,8 @@ from tables.models import Hito, AvanceFisicoFinanciero, EstadoActual, UcMileston
 
 @login_required
 def render_hitos(request, country_slug):
-    hitos = Hito.objects.filter(country__slug=country_slug)
+
+    hitos = Hito.objects.filter(country__slug=country_slug, language__acronym=request.LANGUAGE_CODE)
     estados_actuais = EstadoActual.objects.all()
     options_estados_actuais = {}
     hitos_estados_actuais = {}
@@ -30,7 +31,7 @@ def render_hitos(request, country_slug):
 
 @login_required
 def render_avances_financeiros(request, country_slug):
-    avances = AvanceFisicoFinanciero.objects.filter(country__slug=country_slug)
+    avances = AvanceFisicoFinanciero.objects.filter(country__slug=country_slug, language__acronym=request.LANGUAGE_CODE)
 
     rendered = render_to_string("tables/avances_financeiros.html", {
         'avances': avances,
@@ -39,7 +40,7 @@ def render_avances_financeiros(request, country_slug):
 
 @login_required
 def render_ucmilestone(request):
-    ucmilestones = UcMilestone.objects.all()
+    ucmilestones = UcMilestone.objects.filter(language__acronym=request.LANGUAGE_CODE)
 
     rendered = render_to_string("tables/ucmilestone.html", {
         'ucmilestones': ucmilestones,
@@ -48,7 +49,7 @@ def render_ucmilestone(request):
 
 @login_required
 def render_sm2015milestone(request):
-    sm2015milestones = Sm2015Milestone.objects.all()
+    sm2015milestones = Sm2015Milestone.objects.filter(language__acronym=request.LANGUAGE_CODE)
 
     rendered = render_to_string("tables/sm2015milestone.html", {
         'sm2015milestones': sm2015milestones,

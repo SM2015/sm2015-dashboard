@@ -1,0 +1,14 @@
+{% load i18n %}
+
+{% get_available_languages as LANGUAGES %}
+
+<div class="lang-container">
+    <form action="/i18n/setlang/" class="form-change-lang" method="post">
+        <input type="hidden" class="lang-name" name="language" value="" />
+         {% csrf_token %}
+        {% for lang in LANGUAGES %}
+        <a href="#" class="change-lang" name="{{lang.0}}">{{lang.1}}</a>
+        {% if not forloop.last %} <span class="separator">|</span> {% endif %}
+        {% endfor %}
+    </form>
+</div>

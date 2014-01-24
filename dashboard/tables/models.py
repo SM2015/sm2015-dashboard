@@ -128,4 +128,4 @@ class Operation(models.Model):
     finish_date = models.DateField()
 
     def __unicode__(self):
-        return self.country
+        return self.country.name

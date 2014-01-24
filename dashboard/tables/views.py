@@ -36,7 +36,6 @@ def save_milestone_data(request, model_name):
                 field = class_table._meta.get_field_by_name(field_name)[0]
                 if isinstance(field, IntegerField):
                     value = re.sub("\D", "", value)
-                import ipdb; ipdb.set_trace()
                 setattr(instance, field_name, value)
             except FieldDoesNotExist, e:
                 continue
