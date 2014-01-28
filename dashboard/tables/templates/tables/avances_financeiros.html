@@ -3,7 +3,7 @@
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 
 {% for avance in avances %}
-<div data-objid="{{avance.id}}">
+<div data-objid="{{avance.id}}" data-model="AvanceFisicoFinanciero">
     <div class="span6">
         <table class="table-bordered">
             <tr>
@@ -36,7 +36,7 @@
         <table class="table-bordered">
             <tr>
                 <th class="avances-header">Monto Comprometido</th>
-                <td class="avances-value editable text" name="monto_comprometido">{{avance.monto_comprometido}}%</td>
+                <td class="avances-value editable text" name="monto_comprometido">${{avance.monto_comprometido|intcomma}}</td>
             </tr>
             <tr>
                 <th class="avances-header">Avances Fiscos Planificados (Meta Ejecución): DE LA LINEA DE BASE ORIGINAL</th>
@@ -44,7 +44,7 @@
             </tr>
             <tr>
                 <th class="avances-header">Avances financieros planificados (Ejecución financiera planificados) DEL LINEA DE BASE ORIGINAL</th>
-                <td class="avances-value editable text" name="avances_financieros_original_programado">{{avance.avances_financieros_original_programado|intcomma}}</td>
+                <td class="avances-value editable text" name="avances_financieros_original_programado">{{avance.avances_financieros_original_programado|intcomma}}%</td>
             </tr>
             <tr>
                 <th class="avances-header">Alertas temprana en general</th>

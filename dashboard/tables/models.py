@@ -102,24 +102,51 @@ class Sm2015Milestone(models.Model):
     def __unicode__(self):
         return self.hitos
 
-class GrantsFinances(models.Model):
-    period = models.CharField(max_length=200, default=None, null=True, blank=True)
-    contribution_accumulated_bmgf = models.FloatField(default=None, null=True, blank=True)
-    contribution_accumulated_icss = models.FloatField(default=None, null=True, blank=True)
-    contribution_spanish_government = models.FloatField(default=None, null=True, blank=True)
-    korean_tc_accumulated = models.FloatField(default=None, null=True, blank=True)
-    contribution_donates = models.FloatField(default=None, null=True, blank=True)
-    contribution_real_bmgf = models.FloatField(default=None, null=True, blank=True)
-    contribution_real_icss = models.FloatField(default=None, null=True, blank=True)
-    contribution_real_gos = models.FloatField(default=None, null=True, blank=True)
-    korea_actual = models.FloatField(default=None, null=True, blank=True)
+class GrantsFinancesType(models.Model):
+    name = models.CharField(max_length=200, default='')
+    uuid = models.CharField(max_length=200, default='')
+
+    def __unicode__(self):
+        return self.name
+
+class GrantsFinancesOrigin(models.Model):
+    name = models.CharField(max_length=200, default='')
+    uuid = models.CharField(max_length=200, default='')
+
+    def __unicode__(self):
+        return self.name
+
+class GrantsFinancesFields(models.Model):
+    name = models.CharField(max_length=200, default='')
+    field_type = models.ForeignKey(GrantsFinancesType, null=True)
+    field_origin = models.ForeignKey(GrantsFinancesOrigin, null=True)
 
     @classmethod
     def get_editable_fields(cls):
-        return ('',)
+        return ('name', 'field_origin', 'field_type')
 
     def __unicode__(self):
-        return self.period
+        return self.name
+
+    class Meta:
+        verbose_name_plural = u'Grants & Finances Fields'
+        verbose_name = u'Grants & Finances Fields'
+
+class GrantsFinances(models.Model):
+    period = models.CharField(max_length=200, default=None, null=True, blank=True)
+    field = models.ForeignKey(GrantsFinancesFields, null=True)
+    value = models.FloatField(default=0)
+
+    @classmethod
+    def get_editable_fields(cls):
+        return ('value',)
+
+    def __unicode__(self):
+        return self.field.name
+
+    class Meta:
+        verbose_name_plural = u'Grants & Finances'
+        verbose_name = u'Grants & Finances'
 
 class Operation(models.Model):
     country = models.ForeignKey(Country)

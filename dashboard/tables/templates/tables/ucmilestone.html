@@ -10,7 +10,7 @@
     </thead>
     <tbody>
       {% for milestone in ucmilestones %}
-      <tr data-objid="{{milestone.id}}">
+      <tr data-objid="{{milestone.id}}" data-model="UcMilestone">
         <td class="editable text" name="objective">{{milestone.objective}}</td>
         <td class="editable text" name="coordination_unit_milestone">{{milestone.coordination_unit_milestone}}</td>
         <td class="editable text" name="quarter">{{milestone.quarter}}</td>

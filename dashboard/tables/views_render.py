@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, Http404
 
 from tables.models import Hito, AvanceFisicoFinanciero, EstadoActual, UcMilestone, \
-        Sm2015Milestone, Objective, GrantsFinances
+        Sm2015Milestone, Objective, GrantsFinances, GrantsFinancesFields
 
 @login_required
 def render_hitos(request, country_slug):
@@ -58,26 +58,34 @@ def render_sm2015milestone(request):
 
 @login_required
 def render_grants_finances(request):
-    grants_finances = GrantsFinances.objects.all()
+    grants_periods = GrantsFinances.objects.values('period').order_by('period')
+    grants_fields = GrantsFinancesFields.objects.all().order_by('name')
+    table = []
+    periods = []
 
-    table = {
-        'contribution_accumulated_bmgf': [],
-        'contribution_accumulated_icss': [],
-        'contribution_spanish_government': [],
-        'korean_tc_accumulated': [],
-        'contribution_donates': [],
-        'contribution_real_bmgf': [],
-        'contribution_real_icss': [],
-        'contribution_real_gos': [],
-        'korea_actual': []
-    }
+    for row in grants_periods:
+        if not row['period'] in periods:
+            periods.append(row['period'])
 
-    for obj in grants_finances:
-        for field in table.keys():
-            table[field].append(getattr(obj, field))
+    for field in grants_fields:
+        grants_of_field = GrantsFinances.objects.filter(field__id=field.id).order_by('period')
+        values = []
+
+        for grant in grants_of_field:
+            values.append({
+                'value': grant.value,
+                'id': grant.id,
+                'period': grant.period
+            })
+
+        table.append({
+            'name': field.name,
+            'id': field.id,
+            'values': values
+        })
 
     rendered = render_to_string("tables/grants_finances.html", {
-        'grants_finances': grants_finances,
+        'periods': periods,
         'table': table
     })
     return HttpResponse(rendered, content_type="text/html")

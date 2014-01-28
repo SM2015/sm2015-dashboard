@@ -3,21 +3,51 @@
 
 {% block js_bottom %}
     {{ block.super }}
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>
+    <script type="text/javascript" src="http://code.highcharts.com/modules/exporting.js"></script>
+    <script type="text/javascript" src="http://code.highcharts.com/highcharts-more.js"></script>
     <script src="{% static "assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js" %}" type="text/javascript"></script>
     <script src="{% static "assets/plugins/bootstrap-select2/select2.min.js" %}" type="text/javascript"></script>
     <script src="{% static "assets/plugins/jquery-datatable/js/jquery.dataTables.min.js" %}" type="text/javascript" ></script>
     <script src="{% static "assets/plugins/jquery-datatable/extra/js/TableTools.min.js" %}" type="text/javascript" ></script>
     <script type="text/javascript" src="{% static "assets/plugins/datatables-responsive/js/datatables.responsive.js" %}"></script>
     <script type="text/javascript" src="{% static "assets/plugins/datatables-responsive/js/lodash.min.js" %}"></script>
+    <script src="{% static "assets/plugins/jquery-flot/jquery.flot.js" %}" type="text/javascript" ></script>
+    <script src="{% static "assets/plugins/jquery-flot/jquery.flot.time.min.js" %}" type="text/javascript" ></script>
+    <script src="{% static "assets/plugins/jquery-flot/jquery.flot.selection.min.js" %}" type="text/javascript" ></script>
+    <script src="{% static "assets/plugins/jquery-flot/jquery.flot.animator.min.js" %}" type="text/javascript" ></script>
+    <script src="{% static "assets/plugins/jquery-flot/jquery.flot.orderBars.js" %}" type="text/javascript" ></script>
+    <script src="{% static "assets/plugins/jquery-sparkline/jquery-sparkline.js" %}" type="text/javascript" ></script>
+    
     <script src="{% static "assets/js/datatables.js" %}" type="text/javascript"></script>
+    
     <script src="{% static "js/dashboard-table.js" %}" type="text/javascript"></script>
+    <script src="{% static "js/dashboard-tile.js" %}" type="text/javascript"></script>
+    <script src="{% static "js/dashboard-chart-flot.js" %}" type="text/javascript"></script>
+    <script src="{% static "js/grafico-disbursement-pais.js" %}" type="text/javascript"></script>
     <script src="{% static "js/django.csrf.js" %}" type="text/javascript"></script>
     <script>
         $(document).ready(function() {
             $(".table-grants-finances").dashboardTable("{% url 'table_render_grants_finances' %}", {
                 title: "Grants & Finances",
-                url_save: "{% url 'save_milestone_data' model_name='GrantsFinances' %}"
+                url_save: "{% url 'save_milestone_data' %}"
             });
+
+            var origins = {{origins|safe}};
+            $(origins).each(function(i, origin){
+                $(".tiles-container").dashboardTile(origin);
+            });
+
+            $(".chart-flot-container").dashboardChartFlot("{% url 'chart_flot' uuid_type='GRANTS_TYPE_REAL' %}", {
+                name: 'Real'    
+            });
+
+            $(".chart-flot-container").dashboardChartFlot("{% url 'chart_flot' uuid_type='GRANTS_TYPE_EXPECTED' %}", {
+                name: 'Expected'    
+            });
+
+            $(".chart-disbursement-container").graficoDisbursement();
         });
     </script>
 {% endblock js_bottom %}
@@ -41,98 +71,18 @@
 
 {% block content %}
 <div class="content">
-		<div class="page-title">	
-			<h3>Donors Disbursment Performance</h3>		
-		</div>
-	   <div id="container">
-		<div class="row-fluid spacing-bottom 2col">	
-			<div class="span3 ">	
-				<div class="tiles green added-margin">
-				  <div class="tiles-body">
-					<div class="controller">								
-						<a href="javascript:;" class="reload"></a>
-						<a href="javascript:;" class="remove"></a>		
-					</div>		
-					<div class="tiles-title">
-                        <strong>BMGF</strong> TOTAL
-					</div>	
-					<div class="heading">
-					<span class="animate-number" data-value="26,8" data-animation-duration="1200">0</span>
-											
-					</div>
-					<div class="progress transparent progress-white progress-small no-radius">
-						<div class="bar animate-progress-bar" data-percentage="26.8%"></div>
-					</div>					
-					<div class="description"><i class="icon-custom-up"></i><span class="text-white mini-description ">&nbsp; 4% higher <span class="blend">than last month</span></span></div>
-					</div>	
-				</div>
-			</div>
-			<div class="span3 ">
-				<div class="tiles red added-margin">
-				 <div class="tiles-body">
-					<div class="controller">								
-						<a href="javascript:;" class="reload"></a>
-						<a href="javascript:;" class="remove"></a>									
-					</div>		
-					<div class="tiles-title">
-                        <strong>ICSS</strong> TOTAL
-					</div>	
-					<div class="heading">
-						<span class="animate-number" data-value="2545665" data-animation-duration="1000">0</span>	
-					</div>
-					<div class="progress transparent progress-white progress-small no-radius">
-							<div class="bar animate-progress-bar" data-percentage="79%" ></div>
-					</div>				
-					<div class="description"><i class="icon-custom-up"></i><span class="text-white mini-description ">&nbsp; 2% higher <span class="blend">than last month</span></span></div>	
-				 </div>
-				</div>
-			</div>
-			<div class="span3 ">
-				<div class="tiles yellow added-margin">
-				<div class="tiles-body">
-					<div class="controller">								
-							<a href="javascript:;" class="reload"></a>
-							<a href="javascript:;" class="remove"></a>										
-						</div>	
-					<div class="tiles-title">
-                        <strong>AECID</strong> TOTAL
-					</div>	
-					<div class="heading">
-						<span class="animate-number" data-value="14500" data-animation-duration="1200">0</span>	
-					</div>
-					<div class="progress transparent progress-white progress-small no-radius">
-						<div class="bar animate-progress-bar" data-percentage="45%" ></div>
-					</div>
-					<div class="description"><i class="icon-custom-up"></i><span class="text-white mini-description ">&nbsp; 5% higher <span class="blend">than last month</span></span></div>	
-				</div>
-				</div>
-		
-			</div> 
-			<div class="span3">
-				<div class="tiles green added-margin">
-				  <div class="tiles-body">
-					<div class="controller">								
-						<a href="javascript:;" class="reload"></a>
-						<a href="javascript:;" class="remove"></a>									
-					</div>		
-					<div class="tiles-title">
-                        <strong>KOREA</strong> TOTAL
-					</div>	
-					<div class="row-fluid">
-						<div class="heading">
-							<span class="animate-number" data-value="1600" data-animation-duration="700">0</span>	
-						</div>
-						<div class="progress transparent progress-white progress-small no-radius">
-							<div class="bar animate-progress-bar" data-percentage="12%"></div>
-						</div>
-					</div>
-					<div class="description"><i class="icon-custom-up"></i><span class="text-white mini-description ">&nbsp; 3% higher <span class="blend">than last month</span></span></div>
-					
-				 </div>
-				</div>
-			</div>			
-		</div>  
+    <div class="page-title">	
+        <h3>Donors Disbursment Performance</h3>		
+    </div>
+    <div id="container">
+        <div class="row-fluid spacing-bottom 2col tiles-container"></div>			
+    </div>  
+
+    <div class="row-fluid chart-flot-container"></div>
+
+    <div class="row-fluid chart-disbursement-container"></div>
 
     <div class="table-grants-finances"></div>
+
 </div>
 {% endblock %}

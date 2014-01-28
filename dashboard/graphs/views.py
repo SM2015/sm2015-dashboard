@@ -27,6 +27,8 @@ def get_triangle_graph_countries(request):
 
             total_days_left = operation.finish_date - datetime.date(datetime.today())
             total_days_left = total_days_left.days
+            if total_days_left < 0:
+                total_days_let = 0
 
             time_remaining = total_days_operation / total_days_left
             avance_tiempo = round(100 - time_remaining, 2)
@@ -55,7 +57,7 @@ def get_triangle_graph_countries(request):
                {'name': 'Ejecución Actual', 'data': [avance_tiempo, financiera.get('actual'), fisica.get('actual')], 'pointPlacement': 'on'},
                {'name': 'Ejecución Programada', 'data': [avance_tiempo, financiera.get('programada'), fisica.get('programada')], 'pointPlacement': 'on'},
                {'name': 'Ejecución Original Programada', 'data': [avance_tiempo, financiera.get('original_programada'), fisica.get('original_programada')], 'pointPlacement': 'on'},
-               {'name': '$ Comprometido', 'data': [avance_tiempo, financiera.get('monto_comprometido'), fisica.get('monto_comprometido')], 'pointPlacement': 'on'}
+               {'name': '$ Comprometido', 'data': ['-', '-', '-'], 'pointPlacement': 'on'}
             ]
         }
         return_data.append(dict_country)

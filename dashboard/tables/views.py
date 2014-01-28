@@ -2,6 +2,7 @@
 import json
 import re
 from django.shortcuts import render
+from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
@@ -9,12 +10,17 @@ from django.core.context_processors import csrf
 from django.core.servers.basehttp import FileWrapper
 from django.http import HttpResponse, Http404
 from django.template.loader import render_to_string
-from django.db.models import ForeignKey, FieldDoesNotExist, IntegerField
-from tables.models import Hito, AvanceFisicoFinanciero, EstadoActual, UcMilestone, Sm2015Milestone, Objective
+from django.db.models import ForeignKey, FieldDoesNotExist, IntegerField, FloatField
+from tables.models import Hito, AvanceFisicoFinanciero, EstadoActual, UcMilestone, Sm2015Milestone, Objective, \
+        GrantsFinancesOrigin, GrantsFinancesFields, GrantsFinances, GrantsFinancesType
 from tables import models as table_models
 
 @login_required
-def save_milestone_data(request, model_name):
+def save_milestone_data(request):
+    model_name = request.POST.get('model')
+    if not model_name:
+        raise Http404
+
     try:
         value = ""
         class_table = getattr(table_models, model_name)
@@ -34,9 +40,14 @@ def save_milestone_data(request, model_name):
                     value = instance_related_model.name
             except AttributeError, e:
                 field = class_table._meta.get_field_by_name(field_name)[0]
+
                 if isinstance(field, IntegerField):
-                    value = re.sub("\D", "", value)
-                setattr(instance, field_name, value)
+                    real_value = re.sub("\D", "", value)
+                elif isinstance(field, FloatField):
+                    real_value = re.search('[\d\.\,]+', value).group(0).replace('.', '').replace(',','.')
+                else:
+                    real_value = value
+                setattr(instance, field_name, real_value)
             except FieldDoesNotExist, e:
                 continue
     
@@ -65,4 +76,66 @@ def sm2015milestone(request):
 @login_required
 def grants_finances(request):
     context = RequestContext(request)
+    grants_origins = GrantsFinancesOrigin.objects.all()
+    origins_values = []
+    for origin in grants_origins:
+        origins_values.append({
+            'uuid': str(origin.uuid),
+            'name': str(origin.name),
+            'url_ongoing': reverse('grants_finances_ongoing', args=[origin.uuid])
+        })
+
+    context.update({'origins': origins_values})
     return render_to_response("grants_finances.html", context)
+
+@login_required
+def grants_finances_ongoing(request, uuid_origin):
+    try:
+        grant_origin = GrantsFinancesOrigin.objects.get(uuid=uuid_origin)
+        grant_type_real = GrantsFinancesType.objects.get(uuid='GRANTS_TYPE_REAL')
+        grant_type_expected = GrantsFinancesType.objects.get(uuid='GRANTS_TYPE_EXPECTED')
+        grant_field_real = GrantsFinancesFields.objects.get(field_origin=grant_origin, field_type=grant_type_real)
+        grant_field_expected = GrantsFinancesFields.objects.get(field_origin=grant_origin, field_type=grant_type_expected)
+
+        grants_real = GrantsFinances.objects.filter(field=grant_field_real)
+        grants_expected = GrantsFinances.objects.filter(field=grant_field_expected)
+
+        real_accumulated = 0
+        expected_accumulated = 0
+
+        for grant in grants_real:
+            real_accumulated += grant.value
+
+        for grant in grants_expected:
+            expected_accumulated += grant.value
+
+        values = {
+            'accumulated': real_accumulated,
+            'percentage': float("%.2f" % ((real_accumulated/expected_accumulated) * 100)),
+            'dpi': float("%.1f" % (real_accumulated/expected_accumulated)),
+            'dv':  expected_accumulated - real_accumulated
+        }
+
+        return HttpResponse(json.dumps(values), content_type="application/json")
+
+    except GrantsFinancesOrigin.DoesNotExist:
+        raise Http404
+
+    except GrantsFinancesFields.DoesNotExist:
+        raise Http404
+
+@login_required
+def chart_flot(request, uuid_type):
+    grant_type = GrantsFinancesType.objects.get(uuid=uuid_type)
+    grant_fields = GrantsFinancesFields.objects.filter(field_type=grant_type)
+    origins = {}
+
+    for field in grant_fields:
+        grants = GrantsFinances.objects.filter(field=field)
+        for grant in grants:
+            key = grant.field.field_origin.name
+            if not origins.get(key):
+                origins.update({"%s" % key: []})
+            origins[key].append([int(grant.period), grant.value])
+
+    return HttpResponse(json.dumps(origins), content_type="application/json")

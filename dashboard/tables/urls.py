@@ -5,7 +5,7 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^save-milestone-data/(?P<model_name>\w+)/?$', views.save_milestone_data, name="save_milestone_data"),
+    url(r'^save-milestone-data/?$', views.save_milestone_data, name="save_milestone_data"),
     
     url(r'^hitos_e_avances/?$', views.hitos_e_avances, name="hitos_e_avances"),
     url(r'^ucmilestone/?$', views.ucmilestone, name="ucmilestone"),
@@ -19,4 +19,7 @@ urlpatterns = patterns('',
     url(r'render/grants_finances/?$', views_render.render_grants_finances, name="table_render_grants_finances"),
 
     url(r'render/export/hitos_y_avances/(?P<country_slug>[-\w]+)/?$', views_export.render_export_hitos_and_avances, name="table_export_hitos_and_avances"),
+
+    url(r'grants_finances/ongoing/(?P<uuid_origin>[\_A-Z]+)/?$', views.grants_finances_ongoing, name="grants_finances_ongoing"),
+    url(r'chart_flot/(?P<uuid_type>[\_A-Z]+)/?$', views.chart_flot, name="chart_flot"),
 )

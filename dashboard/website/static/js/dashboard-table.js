@@ -19,6 +19,7 @@
                 var field = $(this).attr("name");
                 var data = {};
                 data['objid'] = $(this).closest("[data-objid]").attr("data-objid");
+                data['model'] = $(this).closest("[data-model]").attr("data-model");
                 data[field] = $(this).find("input").val();
                 return data;
             }
@@ -32,6 +33,7 @@
                 var field = $(this).attr("name");
                 var data = {};
                 data['objid'] = $(this).closest("[data-objid]").attr("data-objid");
+                data['model'] = $(this).closest("[data-model]").attr("data-model");
                 data[field] = $(this).find("textarea").val();
                 return data;
             }
@@ -49,6 +51,7 @@
                     var field = $(this).attr("name");
                     var data = {};
                     data['objid'] = $(this).closest("[data-objid]").attr("data-objid");
+                    data['model'] = $(this).closest("[data-model]").attr("data-model");
                     data[field] = $(this).find("select :selected").val();
                     return data;
                 }
@@ -69,7 +72,7 @@
                  "aoColumnDefs": [
                   { 'bSortable': false, 'aTargets': [ 0 ] }
                 ],
-                "aaSorting": [[ 1, "asc" ]],
+                "aaSorting": [[ 0, "asc" ]],
                 "oLanguage": {
                     "sLengthMenu": "_MENU_ ",
                     "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries"

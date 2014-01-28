@@ -16,7 +16,7 @@
         $(document).ready(function() {
             $(".table-ucmilestones").dashboardTable("{% url 'table_render_ucmilestone' %}", {
                 title: "Coordination Unit Milestone",
-                url_save: "{% url 'save_milestone_data' model_name='UcMilestone' %}"
+                url_save: "{% url 'save_milestone_data' %}"
             });
         });
     </script>

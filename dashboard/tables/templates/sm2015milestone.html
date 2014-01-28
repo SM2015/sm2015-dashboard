@@ -16,7 +16,7 @@
         $(document).ready(function() {
             $(".table-sm2015milestones").dashboardTable("{% url 'table_render_sm2015milestone' %}", {
                 title: "SM2015 Milestone",
-                url_save: "{% url 'save_milestone_data' model_name='Sm2015Milestone' %}"
+                url_save: "{% url 'save_milestone_data' %}"
             });
         });
     </script>
