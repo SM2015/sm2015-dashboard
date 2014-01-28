@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-24 15:09+0000\n"
+"POT-Creation-Date: 2014-01-28 10:49+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,9 +17,33 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: tables/templates/change_list.html:44
+msgid "Import Excel"
+msgstr "Cargar Excel"
+
 #: website/templates/base_logado.html:120
 msgid "Hola"
 msgstr "Hello"
+
+#: website/templates/base_logado.html:160
+msgid "Mi Tablero"
+msgstr "Dashboard"
+
+#: website/templates/base_logado.html:161
+msgid "Paises"
+msgstr "Countries"
+
+#: website/templates/base_logado.html:162
+msgid "Financiación"
+msgstr "Financing"
+
+#: website/templates/base_logado.html:163
+msgid "SM2015"
+msgstr "SM2015"
+
+#: website/templates/base_logado.html:164
+msgid "Informes"
+msgstr "Informations"
 
 #: website/templates/base_logado.html:165
 msgid "Base de datos"
