@@ -68,15 +68,22 @@ def render_grants_finances(request):
             periods.append(row['period'])
 
     for field in grants_fields:
-        grants_of_field = GrantsFinances.objects.filter(field__id=field.id).order_by('period')
         values = []
+        for period in periods:
+            grant = GrantsFinances.objects.filter(field__id=field.id).filter(period=period)
 
-        for grant in grants_of_field:
-            values.append({
-                'value': grant.value,
-                'id': grant.id,
-                'period': grant.period
-            })
+            if grant:
+                values.append({
+                    'value': grant[0].value,
+                    'id': grant[0].id,
+                    'period': grant[0].period
+                })
+            else:
+                values.append({
+                    'value': '',
+                    'id': '',
+                    'period': ''
+                })
 
         table.append({
             'name': field.name,
