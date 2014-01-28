@@ -37,6 +37,7 @@
     <li>
         <form enctype="multipart/form-data" action="{% url 'table_import_excel' %}" method="post" class="form-upload-excel">
             <input class="excel-file" type="file" name='excel' />
+            <input type="hidden" name="app_name" value="{{cl.opts}}" />
             {% csrf_token %}
             <input type="submit" />
         </form>

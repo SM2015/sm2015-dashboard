@@ -9,7 +9,8 @@ class HitoAdmin(admin.ModelAdmin):
     list_display = ('country', 'indicador_de_pago')
 
 class GrantsFinancesAdmin(admin.ModelAdmin):
-    list_display = ('period', )
+    list_display = ('period', 'field')
+    change_list_template = 'change_list.html'
 
 class UcMilestoneAdmin(admin.ModelAdmin):
     list_display = ('coordination_unit_milestone', 'quarter', 'language',)

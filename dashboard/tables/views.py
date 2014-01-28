@@ -143,6 +143,11 @@ def chart_flot(request, uuid_type):
 @login_required
 def import_excel(request):
     uploaded_file = request.FILES.get('excel')
-    UcMilestone.upload_excel(uploaded_file)
+    app_name = request.POST.get('app_name')
+
+    if app_name == 'tables.grantsfinances':
+        GrantsFinances.upload_excel(uploaded_file)
+    elif app_name == 'tables.ucmilestone':
+        UcMilestone.upload_excel(uploaded_file)
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

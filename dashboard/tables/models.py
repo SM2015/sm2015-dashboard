@@ -172,6 +172,50 @@ class GrantsFinances(models.Model):
     def get_editable_fields(cls):
         return ('value',)
 
+    @classmethod
+    def upload_excel(cls, uploaded_file):
+        wb = load_workbook(uploaded_file)
+        sheet = wb.get_sheet_by_name('D.1.1.')
+
+        bmgf_origin = GrantsFinancesOrigin.objects.get(uuid="GRANTS_ORIGIN_BMFG")
+        icss_origin = GrantsFinancesOrigin.objects.get(uuid="GRANTS_ORIGIN_ICSS")
+        gos_origin = GrantsFinancesOrigin.objects.get(uuid="GRANTS_ORIGIN_GOS")
+        korean_origin = GrantsFinancesOrigin.objects.get(uuid="GRANTS_ORIGIN_KOREAN")
+
+        real_type =  GrantsFinancesType.objects.get(uuid="GRANTS_TYPE_REAL")
+        expected_type =  GrantsFinancesType.objects.get(uuid="GRANTS_TYPE_EXPECTED")
+
+        columns_index = {
+                'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7,
+                'I': 8, 'J': 9, 'K': 10, 'L': 11, 'M': 12, 'N': 13, 'O': 14, 
+                'P': 15, 'Q': 16, 'R': 17, 'S': 18, 'T': 19, 'U': 20, 'V': 21, 
+                'W': 22, 'X': 23, 'Y': 24, 'Z': 25
+        }
+        map_rows = {
+            5: {'field': GrantsFinancesFields.objects.get(field_origin=bmgf_origin, field_type=expected_type)},
+            9: {'field': GrantsFinancesFields.objects.get(field_origin=icss_origin, field_type=expected_type)},       
+            11: {'field': GrantsFinancesFields.objects.get(field_origin=gos_origin, field_type=expected_type)},       
+            13: {'field': GrantsFinancesFields.objects.get(field_origin=korean_origin, field_type=expected_type)},       
+            18: {'field': GrantsFinancesFields.objects.get(field_origin=bmgf_origin, field_type=real_type)},       
+            22: {'field': GrantsFinancesFields.objects.get(field_origin=icss_origin, field_type=real_type)},       
+            24: {'field': GrantsFinancesFields.objects.get(field_origin=gos_origin, field_type=real_type)},      
+            26: {'field': GrantsFinancesFields.objects.get(field_origin=korean_origin, field_type=real_type)}       
+        }
+        
+        period_row = sheet.rows[2]
+        for row in sheet.rows:
+            try:
+                map_row = map_rows[row[0].row]
+                for cell in row:
+                    if cell.column not in ['A', 'B'] and cell.value:
+                        cls.objects.create(
+                            period = period_row[columns_index[cell.column]].value,
+                            field = map_row['field'],
+                            value = cell.value
+                        ) 
+            except KeyError:
+                continue
+
     def __unicode__(self):
         return self.field.name
 
