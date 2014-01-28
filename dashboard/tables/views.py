@@ -8,7 +8,7 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
 from django.core.context_processors import csrf
 from django.core.servers.basehttp import FileWrapper
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.template.loader import render_to_string
 from django.db.models import ForeignKey, FieldDoesNotExist, IntegerField, FloatField
 from tables.models import Hito, AvanceFisicoFinanciero, EstadoActual, UcMilestone, Sm2015Milestone, Objective, \
@@ -139,3 +139,10 @@ def chart_flot(request, uuid_type):
             origins[key].append([int(grant.period), grant.value])
 
     return HttpResponse(json.dumps(origins), content_type="application/json")
+
+@login_required
+def import_excel(request):
+    uploaded_file = request.FILES.get('excel')
+    UcMilestone.upload_excel(uploaded_file)
+
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

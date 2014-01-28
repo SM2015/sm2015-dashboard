@@ -1,5 +1,6 @@
 # coding: utf-8
 import inspect
+from openpyxl import load_workbook
 from django.db import models
 from core.models import Country, Language
 
@@ -72,6 +73,36 @@ class UcMilestone(models.Model):
     quarter = models.CharField(max_length=200, null=True, blank=True, default=None)
     status = models.CharField(max_length=200, null=True, blank=True, default=None)
     observation = models.CharField(max_length=500, null=True, blank=True, default=None)
+
+    @classmethod
+    def upload_excel(cls, uploaded_file):
+        wb = load_workbook(uploaded_file)
+        sheet_en = wb.get_sheet_by_name('UC Milestones_en-US')
+        sheet_es = wb.get_sheet_by_name('UC Milestones_es-ES')
+        language_en = Language.objects.get(acronym='en')
+        language_es = Language.objects.get(acronym='es')
+
+        for row in sheet_en.rows:
+            if not row[0].row == 1 and row[0].value:
+                cls.objects.create(
+                    language = language_en,
+                    objective = row[0].value,
+                    coordination_unit_milestone = row[1].value,
+                    quarter = row[2].value,
+                    status = row[3].value,
+                    observation = row[4].value
+                )
+
+        for row in sheet_es.rows:
+            if not row[0].row == 1 and row[0].value:
+                cls.objects.create(
+                    language = language_es,
+                    objective = row[0].value,
+                    coordination_unit_milestone = row[1].value,
+                    quarter = row[2].value,
+                    status = row[3].value,
+                    observation = row[4].value
+                )
 
     @classmethod
     def get_editable_fields(cls):
