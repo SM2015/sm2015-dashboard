@@ -136,7 +136,8 @@ def chart_flot(request, uuid_type):
             key = grant.field.field_origin.name
             if not origins.get(key):
                 origins.update({"%s" % key: []})
-            origins[key].append([int(grant.period), grant.value])
+            period = grant.period.replace("Q",".").replace("I", '1').replace("II", '2').replace("III", '3')
+            origins[key].append([float(period), grant.value])
 
     return HttpResponse(json.dumps(origins), content_type="application/json")
 
