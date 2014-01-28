@@ -20,7 +20,7 @@
         <tr>
             <td data-objid="{{field.id}}" data-model="GrantsFinancesFields" class="editable text" name="name">{{field.name}}</td>
             {% for value in field.values %}
-            <td data-objid="{{value.id}}" data-model="GrantsFinances" class="editable text" name="value">{{value.value}}</td>
+            <td data-objid="{{value.id}}" data-model="GrantsFinances" class="{% if value.value %}editable text{% endif %}" name="value">{{value.value}}</td>
             {% endfor %}
         </tr>
         {% endfor %}
