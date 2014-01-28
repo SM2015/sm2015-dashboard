@@ -13,7 +13,7 @@
                 '</div>'+
                 '<div class="grid-body no-border">'+
                   '<div class="row-fluid">'+
-                    '<div class="placeholder" style="width:460px;height:250px;"></div>'+
+                    '<div class="placeholder" style="width:450px;height:250px;"></div>'+
                     '<div class="row-fluid">'+
                       '<div class="span6">'+
                         '<div class="mini-chart-wrapper">'+
