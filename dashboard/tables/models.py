@@ -173,6 +173,16 @@ class GrantsFinances(models.Model):
         return ('value',)
 
     @classmethod
+    def get_periods(cls):
+        grants_periods = GrantsFinances.objects.values('period').order_by('period')
+        periods = []
+
+        for row in grants_periods:
+            if not row['period'] in periods:
+                periods.append(row['period'])
+        return periods
+
+    @classmethod
     def upload_excel(cls, uploaded_file):
         wb = load_workbook(uploaded_file)
         sheet = wb.get_sheet_by_name('D.1.1.')

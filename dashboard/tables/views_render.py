@@ -58,14 +58,9 @@ def render_sm2015milestone(request):
 
 @login_required
 def render_grants_finances(request):
-    grants_periods = GrantsFinances.objects.values('period').order_by('period')
     grants_fields = GrantsFinancesFields.objects.all().order_by('name')
     table = []
-    periods = []
-
-    for row in grants_periods:
-        if not row['period'] in periods:
-            periods.append(row['period'])
+    periods = GrantsFinances.get_periods()
 
     for field in grants_fields:
         values = []

@@ -13,7 +13,7 @@
                 '</div>'+
                 '<div class="grid-body no-border">'+
                   '<div class="row-fluid">'+
-                    '<div class="placeholder" style="width:450px;height:250px;"></div>'+
+                    '<div class="placeholder" style="width:450px;height:250px;position:relative"></div>'+
                     '<div class="row-fluid">'+
                       '<div class="span6">'+
                         '<div class="mini-chart-wrapper">'+
@@ -37,16 +37,19 @@
     
     dashboardChartFlot.prototype.loadChart = function(){
         var self = this;
+        var colors = ["red", "gray", "green", "blue"];
+
         $.getJSON(this.url, function(response){
             var rows_flot = [];
             var totals = [];
-            $.each(response, function(i, origin_data){
+            var count = 0;
+            $.each(response, function(origin_name, origin_data){
                 var row = {
                     data: origin_data,
                     animator: {steps: 60, duration: 1000, start:0}, 		
-                    lines: {lineWidth:2},	
-                    shadowSize:0,
-                    color: '#f35958'
+                    lines: {lineWidth:2, show: true},	
+                    shadowSize: 1,
+                    color: colors[count],
                 };
                 rows_flot.push(row);
 
@@ -56,6 +59,7 @@
                     }
                     totals[i2]+=data_per_period[1];
                 });
+                count++;
             });
             self.plotChart(rows_flot);
             self.plotMiniChart(totals);
@@ -99,7 +103,7 @@
                     }
                 },
                 grid: {
-                    backgroundColor: { colors: [ "#fff", "#fff" ] },
+                    backgroundColor: { colors: [ "#fff", "#eee" ] },
                     borderWidth:1,borderColor:"#f0f0f0",
                     margin:0,
                     minBorderMargin:0,							
@@ -107,8 +111,7 @@
                     hoverable: true,
                     clickable: true,
                     mouseActiveRadius:6
-                },
-                legend: { show: false}
+                }
             }
         );
         if(this.$element){

@@ -110,10 +110,10 @@ def grants_finances_ongoing(request, uuid_origin):
             expected_accumulated += grant.value
 
         values = {
-            'accumulated': real_accumulated,
+            'accumulated': float("%.2f" % real_accumulated),
             'percentage': float("%.2f" % ((real_accumulated/expected_accumulated) * 100)),
             'dpi': float("%.1f" % (real_accumulated/expected_accumulated)),
-            'dv':  expected_accumulated - real_accumulated
+            'dv':  float("%.2f" % (expected_accumulated - real_accumulated))
         }
 
         return HttpResponse(json.dumps(values), content_type="application/json")
@@ -129,15 +129,34 @@ def chart_flot(request, uuid_type):
     grant_type = GrantsFinancesType.objects.get(uuid=uuid_type)
     grant_fields = GrantsFinancesFields.objects.filter(field_type=grant_type)
     origins = {}
+    periods = GrantsFinances.get_periods()
 
     for field in grant_fields:
         grants = GrantsFinances.objects.filter(field=field)
         for grant in grants:
-            key = grant.field.field_origin.name
-            if not origins.get(key):
-                origins.update({"%s" % key: []})
+            origin_name = grant.field.field_origin.name
+            if not origins.get(origin_name):
+                origins.update({"%s" % origin_name: []})
             period = grant.period.replace("Q",".").replace("I", '1').replace("II", '2').replace("III", '3')
-            origins[key].append([float(period), grant.value])
+            origins[origin_name].append([float(period), grant.value])
+
+
+    for origin_name in origins:
+        periods_is_in = []
+        for flot_row in origins[origin_name]:
+            period_row = flot_row[0]
+            for period in periods:
+                period = period.replace("Q",".").replace("I", '1').replace("II", '2').replace("III", '3')
+                if float(period) == period_row:
+                    periods_is_in.append(period)
+        
+        for period in periods:
+            period = period.replace("Q",".").replace("I", '1').replace("II", '2').replace("III", '3')
+            if period not in periods_is_in:
+                origins[origin_name].append([float(period), 0])
+
+        # Ordena Origin por periodo
+        origins[origin_name].sort(key=lambda x: float(x[0]))
 
     return HttpResponse(json.dumps(origins), content_type="application/json")
 
