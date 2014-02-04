@@ -8,7 +8,7 @@ class AvanceFisicoFinanciero(models.Model):
     country = models.ForeignKey(Country)
     language = models.ForeignKey(Language, default=1)
 
-    fecha_de_actualizacion = models.DateField()
+    fecha_de_actualizacion = models.DateField(null=True, default=None, blank=True)
     avance_fisico_planificado = models.FloatField(null=True, blank=True, default=None)
     avance_financiero_planificado = models.FloatField(null=True, blank=True, default=None)
     avance_fisico_real = models.FloatField(null=True, blank=True, default=None)
@@ -20,6 +20,57 @@ class AvanceFisicoFinanciero(models.Model):
 
     alerta = models.TextField(null=True, blank=True, default=None)
     recomendacion = models.TextField(null=True, blank=True, default=None)
+
+    @classmethod
+    def upload_excel(cls, uploaded_file):
+        wb = load_workbook(uploaded_file, data_only=True)
+        sheets = [
+            {'country': Country.objects.get(slug='belize'), 'sheet': wb.get_sheet_by_name('Belize') },
+            {'country': Country.objects.get(slug='costa-rica'), 'sheet': wb.get_sheet_by_name('Costa Rica') },
+            {'country': Country.objects.get(slug='el-salvador'), 'sheet': wb.get_sheet_by_name('El Salvador') },
+            {'country': Country.objects.get(slug='guatemala'), 'sheet': wb.get_sheet_by_name('Guatemala') },
+            {'country': Country.objects.get(slug='honduras'), 'sheet': wb.get_sheet_by_name('Honduras') },
+            {'country': Country.objects.get(slug='mexico'), 'sheet': wb.get_sheet_by_name('Mexico') },
+            {'country': Country.objects.get(slug='nicaragua'), 'sheet': wb.get_sheet_by_name('Nicaragua') },
+            {'country': Country.objects.get(slug='panama'), 'sheet': wb.get_sheet_by_name('Panama') }
+        ]
+        
+        language_es = Language.objects.get(acronym='es')
+
+        for sheet in sheets:
+            real_sheet = sheet.get('sheet')
+            country = sheet.get('country')
+
+            try:
+                fecha_de_actualizacion = real_sheet.rows[0][2].value.date()
+            except AttributeError:
+                fecha_de_actualizacion = None
+
+            try:
+                alerta = real_sheet.rows[0][11].value
+            except IndexError:
+                alerta = ''
+
+            try:
+                recomendacion = real_sheet.rows[1][11].value
+            except IndexError:
+                recomendacion = ''
+
+            cls.objects.create(
+                language = language_es,
+                country = country,
+                fecha_de_actualizacion = fecha_de_actualizacion,
+                avance_fisico_planificado = real_sheet.rows[0][4].value,
+                avance_financiero_planificado = real_sheet.rows[0][6].value,
+                avance_fisico_real = real_sheet.rows[1][4].value,
+                avance_financiero_actual = real_sheet.rows[1][6].value,
+                avances_fisicos_original_programado = real_sheet.rows[0][9].value,
+                avances_financieros_original_programado = real_sheet.rows[1][9].value,
+                monto_comprometido = real_sheet.rows[1][7].value,
+                monto_desembolsado = real_sheet.rows[1][2].value,
+                alerta = alerta,
+                recomendacion = recomendacion 
+            )
 
     @classmethod
     def get_editable_fields(cls):
@@ -49,15 +100,70 @@ class Hito(models.Model):
     country = models.ForeignKey(Country)
     language = models.ForeignKey(Language, default=1)
 
-    indicador_de_pago = models.CharField(max_length=200, null=True, blank=True, default=None)
-    hito = models.CharField(max_length=200, null=True, blank=True, default=None)
+    indicador_de_pago = models.CharField(max_length=500, null=True, blank=True, default=None)
+    hito = models.CharField(max_length=500, null=True, blank=True, default=None)
     trimestre = models.CharField(max_length=200, null=True, blank=True, default=None)
     audiencia = models.ManyToManyField(Audiencia)
-    estado_actual = models.ForeignKey(EstadoActual)
+    estado_actual = models.ForeignKey(EstadoActual, null=True, blank=True, default=None)
     alerta_notas = models.TextField(null=True, blank=True)
     recomendacion = models.TextField(null=True, blank=True)
     acuerdo = models.TextField(null=True, blank=True)
-    actividad_en_poa = models.CharField(max_length=200, null=True, blank=True, default=None)
+    actividad_en_poa = models.CharField(max_length=500, null=True, blank=True, default=None)
+
+    @classmethod
+    def upload_excel(cls, uploaded_file):
+        wb = load_workbook(uploaded_file, data_only=True)
+        sheets = [
+            {'country': Country.objects.get(slug='belize'), 'sheet': wb.get_sheet_by_name('Belize') },
+            {'country': Country.objects.get(slug='costa-rica'), 'sheet': wb.get_sheet_by_name('Costa Rica') },
+            {'country': Country.objects.get(slug='el-salvador'), 'sheet': wb.get_sheet_by_name('El Salvador') },
+            {'country': Country.objects.get(slug='guatemala'), 'sheet': wb.get_sheet_by_name('Guatemala') },
+            {'country': Country.objects.get(slug='honduras'), 'sheet': wb.get_sheet_by_name('Honduras') },
+            {'country': Country.objects.get(slug='mexico'), 'sheet': wb.get_sheet_by_name('Mexico') },
+            {'country': Country.objects.get(slug='nicaragua'), 'sheet': wb.get_sheet_by_name('Nicaragua') },
+            {'country': Country.objects.get(slug='panama'), 'sheet': wb.get_sheet_by_name('Panama') }
+        ]
+        
+        language_es = Language.objects.get(acronym='es')
+
+        for sheet in sheets:
+            real_sheet = sheet.get('sheet')
+            country = sheet.get('country')
+
+            for row in real_sheet.rows:
+                if row[0].row >= 6 and (row[1].value or row[2].value):
+                    if row[4].value == 'Completed' or row[4].value == 'Cumplido':
+                        estado_actual = EstadoActual.objects.get(name='Cumplido')
+                    elif row[4].value == 'In Progress' or row[4].value == 'En proceso':
+                        estado_actual = EstadoActual.objects.get(name='En proceso')
+                    elif row[4].value == 'Delayed' or row[4].value == 'Retrasado':
+                        estado_actual = EstadoActual.objects.get(name='Retrasado')
+                    else:
+                        estado_actual = None
+
+                    hito = cls.objects.create(
+                        language = language_es,
+                        country = country,
+                        indicador_de_pago = row[1].value,
+                        hito = row[2].value,
+                        trimestre = row[3].value,
+                        estado_actual = estado_actual,
+                        alerta_notas = row[6].value,
+                        recomendacion = row[7].value,
+                        acuerdo = row[8].value,
+                        actividad_en_poa = row[9].value
+                    )
+
+                    if row[5].value:
+                        text_audiencias = row[5].value.replace(' ', '').split(',')
+                        for i in xrange(0, len(text_audiencias)):
+                            audiencia_str = text_audiencias[i].replace('Country', 'Pais').replace('Donors', 'Donantes')
+                            text_audiencias[i] = audiencia_str
+
+                        audiencias = Audiencia.objects.filter(name__in=text_audiencias)
+                        for audiencia in audiencias:
+                            hito.audiencia.add(audiencia)
+                        hito.save()
 
     @classmethod
     def get_editable_fields(cls):
@@ -76,7 +182,7 @@ class UcMilestone(models.Model):
 
     @classmethod
     def upload_excel(cls, uploaded_file):
-        wb = load_workbook(uploaded_file)
+        wb = load_workbook(uploaded_file, data_only=True)
         sheet_en = wb.get_sheet_by_name('UC Milestones_en-US')
         sheet_es = wb.get_sheet_by_name('UC Milestones_es-ES')
         language_en = Language.objects.get(acronym='en')
@@ -122,9 +228,49 @@ class Sm2015Milestone(models.Model):
     objective = models.ForeignKey(Objective, null=True, blank=True, default=None)
     language = models.ForeignKey(Language, default=1)
 
-    hitos = models.CharField(max_length=200, null=True, blank=True, default=None)
+    hitos = models.CharField(max_length=500, null=True, blank=True, default=None)
     status = models.CharField(max_length=200, null=True, blank=True, default=None)
-    observation = models.CharField(max_length=200, null=True, blank=True, default=None)
+    observation = models.CharField(max_length=500, null=True, blank=True, default=None)
+
+    @classmethod
+    def upload_excel(cls, uploaded_file):
+        wb = load_workbook(uploaded_file, data_only=True)
+        sheet_en = wb.get_sheet_by_name('SM2015 Milestones_en-US')
+        sheet_es = wb.get_sheet_by_name('SM2015 Milestones_es-ES')
+        language_en = Language.objects.get(acronym='en')
+        language_es = Language.objects.get(acronym='es')
+
+        for row in sheet_en.rows:
+            if not row[0].row == 1 and row[1].value:
+                if row[0].value:
+                    try:
+                        objective = Objective.objects.get(objective=row[0].value)
+                    except:
+                        objective = Objective.objects.create(objective=row[0].value, language=language_en)
+
+                cls.objects.create(
+                    language = language_en,
+                    objective = objective,
+                    hitos = row[1].value,
+                    status = row[2].value,
+                    observation = row[3].value
+                )
+
+        for row in sheet_es.rows:
+            if not row[0].row == 1 and row[1].value:
+                if row[0].value:
+                    try:
+                        objective = Objective.objects.get(objective=row[0].value)
+                    except:
+                        objective = Objective.objects.create(objective=row[0].value, language=language_es)
+
+                cls.objects.create(
+                    language = language_es,
+                    objective = objective,
+                    hitos = row[1].value,
+                    status = row[2].value,
+                    observation = row[3].value
+                )
 
     @classmethod
     def get_editable_fields(cls):
@@ -184,7 +330,7 @@ class GrantsFinances(models.Model):
 
     @classmethod
     def upload_excel(cls, uploaded_file):
-        wb = load_workbook(uploaded_file)
+        wb = load_workbook(uploaded_file, data_only=True)
         sheet = wb.get_sheet_by_name('D.1.1.')
 
         bmgf_origin = GrantsFinancesOrigin.objects.get(uuid="GRANTS_ORIGIN_BMFG")

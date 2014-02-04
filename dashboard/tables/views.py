@@ -110,7 +110,7 @@ def grants_finances_ongoing(request, uuid_origin):
             expected_accumulated += grant.value
 
         values = {
-            'accumulated': float("%.2f" % real_accumulated),
+            'accumulated': float("%.2f" % (real_accumulated * 1000000)),
             'percentage': float("%.2f" % ((real_accumulated/expected_accumulated) * 100)),
             'dpi': float("%.1f" % (real_accumulated/expected_accumulated)),
             'dv':  float("%.2f" % (expected_accumulated - real_accumulated))
@@ -169,5 +169,11 @@ def import_excel(request):
         GrantsFinances.upload_excel(uploaded_file)
     elif app_name == 'tables.ucmilestone':
         UcMilestone.upload_excel(uploaded_file)
+    elif app_name == 'tables.avancefisicofinanciero':
+        AvanceFisicoFinanciero.upload_excel(uploaded_file)
+    elif app_name == 'tables.hito':
+        Hito.upload_excel(uploaded_file)
+    elif app_name == 'tables.sm2015milestone':
+       Sm2015Milestone.upload_excel(uploaded_file)
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

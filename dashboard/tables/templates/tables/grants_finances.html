@@ -24,5 +24,13 @@
             {% endfor %}
         </tr>
         {% endfor %}
+        <tr>
+            <td style="background-color: #fafafa;" class=""><strong>Total Expected</strong></td>
+            <td style="background-color: #fafafa; text-align:right" class="" colspan="{{totals.periods}}">{{totals.expected}}</td>
+        </tr>
+        <tr>
+            <td style="background-color: #fafafa;" class=""><strong>Total Real</strong></td>
+            <td style="background-color: #fafafa; text-align:right" class="" colspan="{{totals.periods}}">{{totals.real}}</td>
+        </tr>
     </tbody>
 </table>

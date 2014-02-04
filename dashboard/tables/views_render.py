@@ -61,6 +61,11 @@ def render_grants_finances(request):
     grants_fields = GrantsFinancesFields.objects.all().order_by('name')
     table = []
     periods = GrantsFinances.get_periods()
+    totals = {
+        'expected': 0,
+        'real': 0,
+        'periods': len(periods)
+    }
 
     for field in grants_fields:
         values = []
@@ -73,12 +78,18 @@ def render_grants_finances(request):
                     'id': grant[0].id,
                     'period': grant[0].period
                 })
+
+                if grant[0].field.field_type.uuid == 'GRANTS_TYPE_REAL':
+                    totals['real'] += grant[0].value
+                elif grant[0].field.field_type.uuid == 'GRANTS_TYPE_EXPECTED':
+                    totals['expected'] += grant[0].value
             else:
                 values.append({
                     'value': '',
                     'id': '',
                     'period': ''
                 })
+
 
         table.append({
             'name': field.name,
@@ -88,6 +99,7 @@ def render_grants_finances(request):
 
     rendered = render_to_string("tables/grants_finances.html", {
         'periods': periods,
-        'table': table
+        'table': table,
+        'totals': totals
     })
     return HttpResponse(rendered, content_type="text/html")

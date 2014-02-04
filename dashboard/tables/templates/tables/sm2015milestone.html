@@ -13,7 +13,7 @@
         <td class="" name="objective">{{sm2015milestone.objective.objective}}</td>
         <td class="editable text" name="hitos">{{sm2015milestone.hitos}}</td>
         <td class="editable text" name="status">{{sm2015milestone.status}}</td>
-        <td class="editable text" name="observation">{{sm2015milestone.observation}}</td>
+        <td class="editable text" name="observation">{% if sm2015milestone.observation%}{{sm2015milestone.observation}}{% endif %}</td>
       </tr>
       {% endfor %}
     </tbody>
