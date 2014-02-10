@@ -61,11 +61,10 @@ def render_grants_finances(request):
     grants_fields = GrantsFinancesFields.objects.all().order_by('name')
     table = []
     periods = GrantsFinances.get_periods()
-    totals = {
-        'expected': 0,
-        'real': 0,
-        'periods': len(periods)
-    }
+
+    totals = {}
+    for period in periods:
+        totals.update({"{0}".format(period): {'real': 0, 'expected': 0}})
 
     for field in grants_fields:
         values = []
@@ -80,9 +79,9 @@ def render_grants_finances(request):
                 })
 
                 if grant[0].field.field_type.uuid == 'GRANTS_TYPE_REAL':
-                    totals['real'] += grant[0].value
+                    totals[period]['real'] += grant[0].value
                 elif grant[0].field.field_type.uuid == 'GRANTS_TYPE_EXPECTED':
-                    totals['expected'] += grant[0].value
+                    totals[period]['expected'] += grant[0].value
             else:
                 values.append({
                     'value': '',
@@ -90,12 +89,26 @@ def render_grants_finances(request):
                     'period': ''
                 })
 
-
         table.append({
             'name': field.name,
             'id': field.id,
             'values': values
         })
+
+    values_expected = []
+    values_real = []
+    period_before = None
+    for period in periods:
+        if period_before:
+            totals[period]['expected'] += totals[period_before]['expected']
+            totals[period]['real'] += totals[period_before]['real']
+
+        values_expected.append({'value': totals[period]['expected']})
+        values_real.append({'value': totals[period]['real']})
+        period_before = period
+
+    table.append({'name': 'Total Expected Donors Inflow', 'values': values_expected, 'highlight': True})
+    table.append({'name': 'Total Cummulative Donors Inflow', 'values': values_real, 'highlight': True})
 
     rendered = render_to_string("tables/grants_finances.html", {
         'periods': periods,

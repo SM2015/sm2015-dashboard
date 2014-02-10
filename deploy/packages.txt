@@ -8,3 +8,4 @@ python-mysqldb
 uwsgi-plugin-python
 language-pack-id
 gettext
+phantomjs

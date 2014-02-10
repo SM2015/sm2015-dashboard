@@ -37,21 +37,28 @@
     
     dashboardChartFlot.prototype.loadChart = function(){
         var self = this;
-        var colors = ["red", "gray", "green", "blue"];
+        var colors = ["#f66", "#888", "#9c9", "#66f"];
 
         $.getJSON(this.url, function(response){
             var rows_flot = [];
             var totals = [];
             var count = 0;
             $.each(response, function(origin_name, origin_data){
-                var row = {
+                var row_line = {
                     data: origin_data,
                     animator: {steps: 60, duration: 1000, start:0}, 		
-                    lines: {lineWidth:2, show: true},	
-                    shadowSize: 1,
+                    lines: {lineWidth:2},	
+                    shadowSize: 0,
                     color: colors[count],
                 };
-                rows_flot.push(row);
+                var row_point = {
+                    data: origin_data,
+                    points: { show: true, fill: true, radius: 6, fillColor: colors[count], lineWidth:3 },
+                    color: "#fff",
+                    shadowSize: 0,
+                };
+                rows_flot.push(row_line)
+                rows_flot.push(row_point);
 
                 $.each(origin_data, function(i2, data_per_period){
                     if(!totals[i2]){
@@ -103,7 +110,7 @@
                     }
                 },
                 grid: {
-                    backgroundColor: { colors: [ "#fff", "#eee" ] },
+                    backgroundColor: { colors: [ "#fff", "#fff" ] },
                     borderWidth:1,borderColor:"#f0f0f0",
                     margin:0,
                     minBorderMargin:0,							

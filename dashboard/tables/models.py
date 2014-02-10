@@ -363,7 +363,7 @@ class GrantsFinances(models.Model):
             try:
                 map_row = map_rows[row[0].row]
                 for cell in row:
-                    if cell.column not in ['A', 'B'] and cell.value:
+                    if cell.column not in ['A', 'B'] and (cell.value or cell.value == 0):
                         cls.objects.create(
                             period = period_row[columns_index[cell.column]].value,
                             field = map_row['field'],
@@ -382,6 +382,7 @@ class GrantsFinances(models.Model):
 class Operation(models.Model):
     country = models.ForeignKey(Country)
 
+    name = models.CharField(max_length=100, default='')
     starting_date = models.DateField()
     finish_date = models.DateField()
 

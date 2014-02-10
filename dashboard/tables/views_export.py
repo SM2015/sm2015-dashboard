@@ -4,13 +4,16 @@ from django.contrib.auth.decorators import login_required
 from django.template.loader import render_to_string
 from django.shortcuts import HttpResponse
 from django.template import RequestContext
-from tables.models import Hito, AvanceFisicoFinanciero, EstadoActual
+from tables.models import Hito, AvanceFisicoFinanciero, EstadoActual, Operation
+from graphs.models import TriangleGraph
+from core.models import Country
 
 @login_required
 def render_export_hitos_and_avances(request, country_slug):
     context = RequestContext(request)
     hitos = Hito.objects.filter(country__slug=country_slug)
     estados_actuais = EstadoActual.objects.all()
+    country = Country.objects.get(slug=country_slug)
     options_estados_actuais = {}
     hitos_estados_actuais = {}
     for estado in estados_actuais:
@@ -24,10 +27,15 @@ def render_export_hitos_and_avances(request, country_slug):
         })
         hito.options_estados_actuais = options_estados_actuais
 
-    avances = AvanceFisicoFinanciero.objects.filter(country__slug=country_slug)
+    avances = AvanceFisicoFinanciero.objects.filter(country=country)
 
     context.update({'hitos': hitos})
     context.update({'avances': avances})
+    context.update({'operation': Operation.objects.get(country=country)})
+
+    triangle_path = TriangleGraph.export_graph(country=country)
+
+    context.update({'triangle_graph': triangle_path})
 
     rendered = render_to_string("tables/word/hitos_and_avances.html", context)
 
