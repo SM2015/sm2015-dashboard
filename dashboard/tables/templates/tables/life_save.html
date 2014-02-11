@@ -1,0 +1,27 @@
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<style>
+    .column-name{
+        text-transform: uppercase;
+    }
+</style>
+
+<table class="table table-hover table-condensed table-bordered">
+    <thead>
+        <tr>
+            <th class="column-name first">Intervención</th>
+            <th class="column-name">Abbr</th>
+            <th class="column-name">Porcentaje de la reducción en la mortalidad de menores de cinco años atribuible a la intervención</th>
+            <th class="column-name">Número de vidas salvadas</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for row in table %}
+        <tr>
+            {% for field in row %}
+            <td data-objid="{{field.id}}" {% if field.highlight %}style="background-color: #fafafa;font-weight:bold"{% endif %} data-model="{{field.model}}" class="{% if field.id %}editable text{% endif %}" name="{{field.name}}">{{field.value}}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

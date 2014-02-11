@@ -2,8 +2,23 @@
 import os
 from datetime import datetime
 from django.db import models
-from tables.models import AvanceFisicoFinanciero, Operation
+from tables.models import AvanceFisicoFinanciero, Operation, LifeSave
 
+class LiveSaveGraph(object):
+    @classmethod
+    def get_values_graph(cls, country):
+        life_saves = LifeSave.objects.filter(country=country)
+        data = {
+            'series': [],
+            'pie': []
+        }
+
+        for obj in life_saves:
+            data['series'].append({"name": obj.field.abbr, "data": [obj.number_saving]})
+            data['pie'].append({"name": obj.field.abbr, "y": obj.percentage})
+
+        return data
+    
 class TriangleGraph(object):
 
     @classmethod

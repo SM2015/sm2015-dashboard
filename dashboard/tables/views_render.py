@@ -4,7 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, Http404
 
 from tables.models import Hito, AvanceFisicoFinanciero, EstadoActual, UcMilestone, \
-        Sm2015Milestone, Objective, GrantsFinances, GrantsFinancesFields
+        Sm2015Milestone, Objective, GrantsFinances, GrantsFinancesFields, \
+        LifeSaveField, LifeSave
 
 @login_required
 def render_hitos(request, country_slug):
@@ -114,5 +115,28 @@ def render_grants_finances(request):
         'periods': periods,
         'table': table,
         'totals': totals
+    })
+    return HttpResponse(rendered, content_type="text/html")
+
+@login_required
+def render_life_save(request, country_slug):
+    fields = LifeSaveField.objects.all().order_by('name')
+    table = []
+
+    for field in fields:
+        life_save = LifeSave.objects.filter(field__id=field.id).filter(country__slug=country_slug)
+
+        if life_save:
+            life_save = life_save[0]
+
+            table.append([
+                {'value': field.name, 'id': field.id, 'model': 'LifeSaveField', 'name':'name'},
+                {'value': field.abbr, 'id': field.id, 'model': 'LifeSaveField', 'name':'abbr'},
+                {'value': life_save.percentage, 'id': life_save.id, 'model': 'LifeSave', 'name':'percentage'},
+                {'value': life_save.number_saving, 'id': life_save.id, 'model': 'LifeSave', 'name':'number_saving'}
+            ])
+
+    rendered = render_to_string("tables/life_save.html", {
+        'table': table,
     })
     return HttpResponse(rendered, content_type="text/html")

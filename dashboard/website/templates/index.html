@@ -300,110 +300,26 @@
 
     <script>
     (function(){
-        google.load('visualization', '1', {
-            packages: ['table']
-        });
-
-        var countries = {
-            "Belize": {
-                start: "B3",
-                end: "D20",
-                worksheet: "LiST2 BE"
-            },
-            "Costa Rica": {
-                start: "B3",
-                end: "D20",
-                worksheet: "LiST2 CR"
-            },
-            "El Salvador": {
-                start: "B3",
-                end: "D20",
-                worksheet: "LiST2 ES"
-            },
-            "Guatemala": {
-                start: "B3",
-                end: "D20",
-                worksheet: "LiST2 GU"
-            },
-            "Honduras": {
-                start: "B3",
-                end: "D20",
-                worksheet: "LiST2 HO"
-            },
-            "Mexico": {
-                start: "B3",
-                end: "D20",
-                worksheet: "LiST2 MEX"
-            },
-            "Nicaragua": {
-                start: "B3",
-                end: "D20",
-                worksheet: "LiST2 NI"
-            },
-            "Panama": {
-                start: "B3",
-                end: "D20",
-                worksheet: "LiST2 PN"
-           }
-        };
-
         $(document).ready(function() {
-            var DEFAULT = 'Nicaragua';
-            $("#countryList").val(DEFAULT).attr('selected', true);
-            drawVisualization(DEFAULT);
+            $("#countryList option:first").attr("selected", true);
+            drawVisualization($("#countryList option:first").val());
+
             $("#countryList").change(function() {
                 drawVisualization($(this).val());
             });
         });
 
-        function drawVisualization(country) {
+        function drawVisualization(country_slug) {
 
-
-            var country = countries[country];
-
-            var DATA_SOURCE_URL = 'https://docs.google.com/spreadsheet/tq?key=0Ak2_oq8RFFO9dFI3YmNVZ3JrOFpkQ3ZMVnRiTmlRWnc&sheet=' + country.worksheet + '&range=' + country.start + ':' + country.end + '&pub=1';
-
-            var query = new google.visualization.Query(DATA_SOURCE_URL);
-
-            query.send(handleQueryResponse);
-
-        }
-
-        function handleQueryResponse(response) {
-
-            if (checkStatus(response)) {
-
-                var data = response.getDataTable();
-
+            $.getJSON("graphs/life_save/" + country_slug + '/', function(data){
                 drawChart(data, 'container', 'Mortality rate reduction in children under 5yrs attributed to the intervention', 'This graphic shows how many lives each intervention could save');
-
-            }
+            });
         }
 
         function drawChart(data, div, title, subtitle) {
 
-            var numRows = data.getNumberOfRows();
-
-            var seriesArray = [];
-            var pieChartData = [];
-
-            for (var i = 0; i < numRows; i++) {
-
-                var key = data.getValue(i, 0);
-                var valuePie = data.getValue(i, 1);
-                var value = data.getValue(i, 2);
-
-                seriesArray.push({
-                    "name": key,
-                    "data": [value]
-                });
-
-                pieChartData.push({
-                    "name": key,
-                    "y": valuePie
-                });
-
-            }
+            var seriesArray = data.series;
+            var pieChartData = data.pie;
 
             var pieChartConfigurationData = {
                 type: 'pie',
@@ -494,18 +410,7 @@
             });
 
         };
-
-        function checkStatus(response) {
-
-            if (response.isError()) {
-                alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
-                return false;
-            }
-
-            return true;
-        }
     })();
-
     </script>
 
 {% endblock js_bottom %}
@@ -548,14 +453,9 @@
                                           <legend>Country</legend>
                                           <p>
                                              <select id = "countryList">
-                                               <option value = "Belize">Belize</option>
-                                               <option value = "Costa Rica">Costa Rica</option>
-                                               <option value = "El Salvador">El Salvador</option>
-                                               <option value = "GU-G1001">Guatemala</option>
-                                               <option value = "HO-G1001">Honduras</option>
-                                               <option value = "NI-G1001">Nicaragua</option>
-                                               <option value = "ME-G1001">Mexico</option>
-                                               <option value = "PN-G1001">Panama</option>
+                                               {% for country in countries_user %}
+                                               <option value = "{{country.slug}}">{{country.name}}</option>
+                                               {% endfor %}
                                              </select>
                                           </p>
                                        </fieldset>

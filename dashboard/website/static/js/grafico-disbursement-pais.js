@@ -117,6 +117,7 @@
         var operationInfo = operations[ope];
 
         var DATA_SOURCE_URL = 'https://docs.google.com/spreadsheet/tq?key=0AjFAkwSrq381dFJkZkd2YXdXLUNJdFlwTHRwb3NNOVE&sheet=' + operationInfo.country + '&range=' + operationInfo.start + ':' + operationInfo.end + '&pub=1';
+        console.log(DATA_SOURCE_URL);
 
         //alert(DATA_SOURCE_URL);
         var query = new google.visualization.Query(DATA_SOURCE_URL);
@@ -134,6 +135,7 @@
         if (checkStatus(response)) {
 
             var data = response.getDataTable();
+            console.log(data);
 
             var dataTable = new google.visualization.DataTable();
             dataTable.addColumn('string', 'Quarter');
@@ -196,6 +198,7 @@
 
             addRow(dataTable, quarter, status);
 
+            console.log(dataTable)
             drawChart(dataTable, 'chart1', 'Country Disbursement tracking per Quarter ( US$ )');
 
         }

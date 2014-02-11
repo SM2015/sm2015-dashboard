@@ -1,5 +1,6 @@
 # coding: utf-8
 import inspect
+import re
 from openpyxl import load_workbook
 from django.db import models
 from core.models import Country, Language
@@ -388,3 +389,69 @@ class Operation(models.Model):
 
     def __unicode__(self):
         return self.country.name
+
+class LifeSaveField(models.Model):
+    name = models.CharField(max_length=500, default='', null=True)
+    abbr = models.CharField(max_length=200, default='', null=True)
+
+    @classmethod
+    def get_editable_fields(cls):
+        return ('name', 'abbr')
+
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = u'LiSTs Fields'
+        verbose_name = u'LiST Fields'
+
+class LifeSave(models.Model):
+    country = models.ForeignKey(Country)
+    field = models.ForeignKey(LifeSaveField, null=True)
+
+    percentage = models.FloatField(default=0)
+    number_saving = models.IntegerField(default=0)
+
+    @classmethod
+    def upload_excel(cls, uploaded_file):
+        wb = load_workbook(uploaded_file, data_only=True)
+        sheets = [
+            {'country': Country.objects.get(slug='costa-rica'), 'sheet': wb.get_sheet_by_name('LiST2 CR') },
+            {'country': Country.objects.get(slug='nicaragua'), 'sheet': wb.get_sheet_by_name('LiST2 NI') }
+        ]
+        
+        for sheet in sheets:
+            real_sheet = sheet.get('sheet')
+            country = sheet.get('country')
+            
+            for row in real_sheet.rows:
+                if row[0].row >= 3 and row[0].row <= 21:
+                    try:
+                        field = LifeSaveField.objects.get(name=row[0].value, abbr=row[1].value)
+                    except:
+                        field = LifeSaveField.objects.create(name=row[0].value, abbr=row[1].value)
+
+                    number_saving = re.sub("\D", "", str(row[3].value))
+                    percentage = re.sub("\D", "", str(row[2].value))
+                    if percentage == '':
+                        percentage = 0
+                    if number_saving == '':
+                        number_saving = 0
+
+                    cls.objects.create(
+                        country = country,
+                        field = field,
+                        percentage = int(percentage),
+                        number_saving = int(number_saving)
+                    )
+
+    def __unicode__(self):
+        return self.country.name
+
+    @classmethod
+    def get_editable_fields(cls):
+        return ('percentage', 'number_saving')
+
+    class Meta:
+        verbose_name_plural = u'LiSTs'
+        verbose_name = u'LiST'

@@ -12,7 +12,7 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.template.loader import render_to_string
 from django.db.models import ForeignKey, FieldDoesNotExist, IntegerField, FloatField
 from tables.models import Hito, AvanceFisicoFinanciero, EstadoActual, UcMilestone, Sm2015Milestone, Objective, \
-        GrantsFinancesOrigin, GrantsFinancesFields, GrantsFinances, GrantsFinancesType
+        GrantsFinancesOrigin, GrantsFinancesFields, GrantsFinances, GrantsFinancesType, LifeSave
 from tables import models as table_models
 
 @login_required
@@ -87,6 +87,14 @@ def grants_finances(request):
 
     context.update({'origins': origins_values})
     return render_to_response("grants_finances.html", context)
+
+@login_required
+def life_save(request):
+    context = RequestContext(request)
+    countries = context.get('user').dashboarduser.countries.all()
+
+    context.update({'countries': countries})
+    return render_to_response("life_save.html", context)
 
 @login_required
 def grants_finances_ongoing(request, uuid_origin):
@@ -175,5 +183,7 @@ def import_excel(request):
         Hito.upload_excel(uploaded_file)
     elif app_name == 'tables.sm2015milestone':
        Sm2015Milestone.upload_excel(uploaded_file)
+    elif app_name == 'tables.lifesave':
+       LifeSave.upload_excel(uploaded_file)
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

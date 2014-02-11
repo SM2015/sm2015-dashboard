@@ -3,7 +3,6 @@
 
 {% block js_bottom %}
     {{ block.super }}
-
     <script src="{% static "assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js" %}" type="text/javascript"></script>
     <script src="{% static "assets/plugins/bootstrap-select2/select2.min.js" %}" type="text/javascript"></script>
     <script src="{% static "assets/plugins/jquery-datatable/js/jquery.dataTables.min.js" %}" type="text/javascript" ></script>
@@ -13,23 +12,14 @@
     <script src="{% static "assets/js/datatables.js" %}" type="text/javascript"></script>
     <script src="{% static "js/dashboard-table.js" %}" type="text/javascript"></script>
     <script src="{% static "js/django.csrf.js" %}" type="text/javascript"></script>
-    <script src="{% static "assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js" %}" type="text/javascript"></script>
-    <script src="{% static "js/jquery.jeditable.datepicker.js" %}" type="text/javascript"></script>
     <script>
         $(document).ready(function() {
             $(window).bind("select-country", function(elem, country, country_slug){
                 $(".country-name").text(country);
 
-                $(".table-hitos").dashboardTable("/tables/render/hitos/"+country_slug, {
-                    title: "Hitos",
-                    url_save: "{% url 'save_milestone_data' %}",
-                    url_export: "/tables/render/export/hitos_y_avances/"+country_slug
-                });
-
-                $(".table-avances").dashboardTable("/tables/render/avances_financeiros/"+country_slug, {
-                    title: "Avance fisico financieros",
-                    url_save: "{% url 'save_milestone_data' %}",
-                    vertical: true
+                $(".table-life-save").dashboardTable("/tables/render/life_save/"+country_slug, {
+                    title: "LiST",
+                    url_save: "{% url 'save_milestone_data' %}"
                 });
             });
             $("select[name='select-pais']").change(function(){
@@ -47,13 +37,14 @@
             $(window).trigger("select-country", ["{{countries.0.name}}", "{{countries.0.slug}}"]);
             {% endif %}
         });
+        $(document).ready(function() {
+        });
     </script>
 {% endblock js_bottom %}
 
 {% block css %}
     {{ block.super }}
     <link href="{% static "css/tables-custom.css" %}" rel="stylesheet" type="text/css"/>
-    <link href="{% static "assets/plugins/bootstrap-datepicker/css/datepicker.css" %}" rel="stylesheet" type="text/css"/>
     <style>
         .title-select-pais { 
             float: left;
@@ -101,8 +92,6 @@
         </div>
       </div>
     </div>
-
-    <div class="table-avances"></div>
-    <div class="table-hitos"></div>
+    <div class="table-life-save"></div>
 </div>
 {% endblock %}

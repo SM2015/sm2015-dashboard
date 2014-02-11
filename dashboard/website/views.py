@@ -51,8 +51,12 @@ def index(request):
         except AvanceFisicoFinanciero.DoesNotExist:
             continue
 
+
     context = RequestContext(request)
+    countries_user = context.get('user').dashboarduser.countries.all()
+
     context.update({'countries_map': countries_map})
+    context.update({'countries_user': countries_user})
     
     return render_to_response('index.html', context)
 

@@ -1,3 +1,26 @@
+$.editable.addInputType('date', {
+    element: function(settings, original){
+        var $input = $('<input type="text" class="span12">');
+        $input.attr('autocomplete','off');
+    	$(this).append($input);
+    	return $input;
+    },
+    plugin: function(settings, original) {
+    	var form = this;
+
+        $(this).find('input').datepicker({
+            autoclose: true,
+            todayHighlight: true
+        });
+
+        $(window).bind("day-clicked", function(){
+            $(this).find('input').blur();
+            console.log("BLUR!");
+        });
+
+    }
+});
+
 (function ( $ ) {
     var dashboardTable = function( wrapper, url, opts ) {
         this.$wrapper = wrapper;
@@ -11,7 +34,20 @@
         var self = this,
             $textfields = this.$wrapper.find(".editable.text"),
             $textareafields = this.$wrapper.find(".editable.textarea"),
-            $selectfields = this.$wrapper.find(".editable.select");
+            $selectfields = this.$wrapper.find(".editable.select"),
+            $datefields = this.$wrapper.find(".editable.date");
+
+        /*$datefields.editable(self.opts.url_save, {
+            type: 'datepicker',
+            submitdata : function(value, settings) { 
+                var field = $(this).attr("name");
+                var data = {};
+                data['objid'] = $(this).closest("[data-objid]").attr("data-objid");
+                data['model'] = $(this).closest("[data-model]").attr("data-model");
+                data[field] = $(this).find("input").val();
+                return data;
+            }
+        });*/
 
         $textfields.editable(self.opts.url_save, {
             height: 27,
