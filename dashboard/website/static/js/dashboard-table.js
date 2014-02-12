@@ -37,7 +37,7 @@ $.editable.addInputType('date', {
             $selectfields = this.$wrapper.find(".editable.select"),
             $datefields = this.$wrapper.find(".editable.date");
 
-        /*$datefields.editable(self.opts.url_save, {
+        $datefields.editable(self.opts.url_save, {
             type: 'datepicker',
             submitdata : function(value, settings) { 
                 var field = $(this).attr("name");
@@ -47,7 +47,7 @@ $.editable.addInputType('date', {
                 data[field] = $(this).find("input").val();
                 return data;
             }
-        });*/
+        });
 
         $textfields.editable(self.opts.url_save, {
             height: 27,

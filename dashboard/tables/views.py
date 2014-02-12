@@ -1,6 +1,8 @@
 # coding: utf-8
 import json
 import re
+from datetime import datetime
+from django.utils.translation import ugettext as _
 from django.shortcuts import render
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
@@ -10,7 +12,7 @@ from django.core.context_processors import csrf
 from django.core.servers.basehttp import FileWrapper
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.template.loader import render_to_string
-from django.db.models import ForeignKey, FieldDoesNotExist, IntegerField, FloatField
+from django.db.models import ForeignKey, FieldDoesNotExist, IntegerField, FloatField, DateField
 from tables.models import Hito, AvanceFisicoFinanciero, EstadoActual, UcMilestone, Sm2015Milestone, Objective, \
         GrantsFinancesOrigin, GrantsFinancesFields, GrantsFinances, GrantsFinancesType, LifeSave
 from tables import models as table_models
@@ -45,6 +47,12 @@ def save_milestone_data(request):
                     real_value = re.sub("\D", "", value)
                 elif isinstance(field, FloatField):
                     real_value = re.search('[\d\.\,]+', value).group(0).replace('.', '').replace(',','.')
+                elif isinstance(field, DateField):
+                    real_value = datetime.strptime(value, "%m/%d/%Y").date()
+
+                    date_str = real_value.strftime("%d de {MONTH} de %Y").lstrip("0")
+                    month_translated = _(real_value.strftime("%B"))
+                    value = date_str.replace("{MONTH}", month_translated)
                 else:
                     real_value = value
                 setattr(instance, field_name, real_value)

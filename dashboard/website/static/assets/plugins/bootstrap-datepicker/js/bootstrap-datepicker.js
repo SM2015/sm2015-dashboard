@@ -309,7 +309,6 @@
 			this.place();
 			this._attachSecondaryEvents();
 			if (e) {
-				e.preventDefault();
 			}
 			this._trigger('show');
 		},
@@ -730,7 +729,6 @@
 		},
 
 		click: function(e) {
-			e.preventDefault();
 			var target = $(e.target).closest('span, td, th');
 			if (target.length == 1) {
 				switch(target[0].nodeName.toLowerCase()) {
@@ -914,7 +912,6 @@
 			switch(e.keyCode){
 				case 27: // escape
 					this.hide();
-					e.preventDefault();
 					break;
 				case 37: // left
 				case 39: // right
@@ -939,7 +936,6 @@
 						this.viewDate = newViewDate;
 						this.setValue();
 						this.update();
-						e.preventDefault();
 						dateChanged = true;
 					}
 					break;
@@ -966,13 +962,11 @@
 						this.viewDate = newViewDate;
 						this.setValue();
 						this.update();
-						e.preventDefault();
 						dateChanged = true;
 					}
 					break;
 				case 13: // enter
 					this.hide();
-					e.preventDefault();
 					break;
 				case 9: // tab
 					this.hide();
@@ -1383,7 +1377,6 @@
 		function(e){
 			var $this = $(this);
 			if ($this.data('datepicker')) return;
-			e.preventDefault();
 			// component click requires us to explicitly show it
 			$this.datepicker('show');
 		}
