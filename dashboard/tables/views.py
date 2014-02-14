@@ -150,12 +150,14 @@ def chart_flot(request, uuid_type):
 
     for field in grant_fields:
         grants = GrantsFinances.objects.filter(field=field)
+        accumulated_value = 0
         for grant in grants:
             origin_name = grant.field.field_origin.name
             if not origins.get(origin_name):
                 origins.update({"%s" % origin_name: []})
             period = grant.period.replace("Q",".").replace("I", '1').replace("II", '2').replace("III", '3')
-            origins[origin_name].append([float(period), grant.value])
+            accumulated_value += grant.value
+            origins[origin_name].append([float(period), accumulated_value])
 
 
     for origin_name in origins:

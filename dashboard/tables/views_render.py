@@ -69,20 +69,22 @@ def render_grants_finances(request):
 
     for field in grants_fields:
         values = []
+        accumulated_value = 0
         for period in periods:
             grant = GrantsFinances.objects.filter(field__id=field.id).filter(period=period)
-
+            
             if grant:
+                accumulated_value += grant[0].value
                 values.append({
-                    'value': grant[0].value,
+                    'value': accumulated_value,
                     'id': grant[0].id,
                     'period': grant[0].period
                 })
 
                 if grant[0].field.field_type.uuid == 'GRANTS_TYPE_REAL':
-                    totals[period]['real'] += grant[0].value
+                    totals[period]['real'] += accumulated_value
                 elif grant[0].field.field_type.uuid == 'GRANTS_TYPE_EXPECTED':
-                    totals[period]['expected'] += grant[0].value
+                    totals[period]['expected'] += accumulated_value
             else:
                 values.append({
                     'value': '',

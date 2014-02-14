@@ -33,8 +33,6 @@ def render_export_hitos_and_avances(request, country_slug):
     context.update({'avances': avances})
     context.update({'operation': Operation.objects.get(country=country)})
 
-    context.update({'triangle_graph': triangle_path})
-
     rendered = render_to_string("tables/word/hitos_and_avances.html", context)
 
     response = HttpResponse(mimetype='text/html')
