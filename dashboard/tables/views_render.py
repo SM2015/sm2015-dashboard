@@ -61,7 +61,7 @@ def render_sm2015milestone(request):
 def render_grants_finances(request):
     grants_fields = GrantsFinancesFields.objects.all().order_by('name')
     table = []
-    periods = GrantsFinances.get_periods()
+    periods = GrantsFinances.get_periods()[:14]
 
     totals = {}
     for period in periods:

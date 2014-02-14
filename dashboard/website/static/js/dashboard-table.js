@@ -104,8 +104,8 @@ $.editable.addInputType('date', {
             };
             var tableElement = this.$wrapper.find("table");
             tableElement.dataTable({
-                "bScrollCollapse": true,
-                "sScrollX": "100%",
+                //"bScrollCollapse": true,
+                //"sScrollX": "100%",
                 "sPaginationType": "bootstrap",
                  "aoColumnDefs": [
                   { 'bSortable': false, 'aTargets': [ 0 ] }
