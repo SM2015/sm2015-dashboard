@@ -61,12 +61,13 @@ class TriangleGraph(object):
     @classmethod
     def export_graph(cls, country):
         path_options_highcharts = TriangleGraph.export_graph_options(country=country)
-        path_chart = "{root}/graphs/files/chart-{country_name}.png".format(root=os.path.realpath('./'), country_name=country.slug)
+        file_name = "chart-{country_name}.png".format(country_name=country.slug)
+        path_chart = "{root}/{file_name}".format(root=os.path.realpath('./'), file_name=file_name)
 
         os.system("phantomjs {root}/website/static/js/highcharts/highcharts-convert.js "\
                 "-infile {options_path} -outfile {path_chart}  -scale 5 -width 280"
                 .format(root=os.path.realpath('./'), country_name=country.slug, path_chart=path_chart, options_path=path_options_highcharts))
-        return path_chart
+        return path_chart, file_name
 
     @classmethod
     def export_graph_options(cls, country):

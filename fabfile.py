@@ -84,7 +84,6 @@ def configure_uwsgi():
     restart_uwsgi()
 
 def restart_uwsgi():
-    run("touch {project_path}/run/uwsgi.pid".format(project_path=PROJECT_PATH))
     sudo("{project_path}/virtualenv/bin/uwsgi --reload {project_path}/run/uwsgi.pid".format(project_path=PROJECT_PATH))
 
 def configure_locale():

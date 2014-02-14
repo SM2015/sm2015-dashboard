@@ -12,6 +12,8 @@
     <script src="{% static "assets/js/datatables.js" %}" type="text/javascript"></script>
     <script src="{% static "js/dashboard-table.js" %}" type="text/javascript"></script>
     <script src="{% static "js/django.csrf.js" %}" type="text/javascript"></script>
+    <script src="{% static "assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js" %}" type="text/javascript"></script>
+    <script src="{% static "js/jquery.jeditable.datepicker.js" %}" type="text/javascript"></script>
     <script>
         $(document).ready(function() {
             $(".table-ucmilestones").dashboardTable("{% url 'table_render_ucmilestone' %}", {
