@@ -12,7 +12,7 @@ from graphs.models import TriangleGraph
 from core.models import Country
 
 @login_required
-def render_export_hitos_and_avances(request, country_slug):
+def render_export_hitos_and_avances_refactory(request, country_slug):
     context = RequestContext(request)
     hitos = Hito.objects.filter(country__slug=country_slug)
     estados_actuais = EstadoActual.objects.all()
@@ -91,7 +91,7 @@ def render_export_hitos_and_avances(request, country_slug):
              wordrelationships_v, path)
 
 @login_required
-def render_export_hitos_and_avances2(request, country_slug):
+def render_export_hitos_and_avances(request, country_slug):
     context = RequestContext(request)
     hitos = Hito.objects.filter(country__slug=country_slug)
     estados_actuais = EstadoActual.objects.all()
