@@ -76,7 +76,7 @@ def render_grants_finances(request):
             if grant:
                 accumulated_value += grant[0].value
                 values.append({
-                    'value': accumulated_value,
+                    'value': "%.1f" % accumulated_value,
                     'id': grant[0].id,
                     'period': grant[0].period
                 })
@@ -106,8 +106,8 @@ def render_grants_finances(request):
             totals[period]['expected'] += totals[period_before]['expected']
             totals[period]['real'] += totals[period_before]['real']
 
-        values_expected.append({'value': totals[period]['expected']})
-        values_real.append({'value': totals[period]['real']})
+        values_expected.append({'value': "%.1f" % totals[period]['expected']})
+        values_real.append({'value': "%.1f" % totals[period]['real']})
         period_before = period
 
     table.append({'name': 'Total Expected Donors Inflow', 'values': values_expected, 'highlight': True})

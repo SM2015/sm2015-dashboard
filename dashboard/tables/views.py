@@ -128,7 +128,7 @@ def grants_finances_ongoing(request, uuid_origin):
 
         values = {
             'accumulated': float("%.2f" % (real_accumulated * 1000000)),
-            'percentage': float("%.2f" % (real_accumulated/expected_accumulated)),
+            'percentage': float("%.2f" % ((real_accumulated/expected_accumulated) * 100)),
             'dpi': float("%.1f" % (real_accumulated/expected_accumulated)),
             'dv':  float("%.2f" % (expected_accumulated - real_accumulated))
         }
