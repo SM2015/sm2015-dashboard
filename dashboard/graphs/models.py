@@ -2,9 +2,46 @@
 import os
 from datetime import datetime
 from django.db import models
-from tables.models import AvanceFisicoFinanciero, Operation, LifeSave
+from tables.models import AvanceFisicoFinanciero, Operation, LifeSave, \
+        CountryDisbursement
+
+class CountryDisbursementGraph(object):
+
+    @classmethod
+    def get_values_graph(cls, country):
+        objs = CountryDisbursement.objects.filter(country=country).order_by('quarter')
+        data = {
+            "cols": [{
+                 "id": "D",
+                 "label": "Quarter",
+                 "type": "string",
+                 "pattern": ""
+             }, {
+                 "id": "B",
+                 "label": "Whos in Charge",
+                 "type": "string",
+                 "pattern": ""
+             }, {
+                 "id": "sum-G",
+                 "label": "sum Amount (US$)",
+                 "type": "number",
+                 "pattern": ""
+             }],
+             "rows": [],
+             "p": None
+        }
+
+        for obj in objs:
+            data['rows'].append({"c": [
+                {"v": obj.quarter}, 
+                {"v": obj.charger.name}, 
+                {"v": obj.amount}
+            ]})
+
+        return data
 
 class LiveSaveGraph(object):
+
     @classmethod
     def get_values_graph(cls, country):
         life_saves = LifeSave.objects.filter(country=country)

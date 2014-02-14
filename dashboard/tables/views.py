@@ -14,7 +14,8 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.template.loader import render_to_string
 from django.db.models import ForeignKey, FieldDoesNotExist, IntegerField, FloatField, DateField
 from tables.models import Hito, AvanceFisicoFinanciero, EstadoActual, UcMilestone, Sm2015Milestone, Objective, \
-        GrantsFinancesOrigin, GrantsFinancesFields, GrantsFinances, GrantsFinancesType, LifeSave
+        GrantsFinancesOrigin, GrantsFinancesFields, GrantsFinances, GrantsFinancesType, LifeSave, \
+        CountryDisbursement
 from tables import models as table_models
 
 @login_required
@@ -193,5 +194,7 @@ def import_excel(request):
        Sm2015Milestone.upload_excel(uploaded_file)
     elif app_name == 'tables.lifesave':
        LifeSave.upload_excel(uploaded_file)
+    elif app_name == 'tables.countrydisbursement':
+       CountryDisbursement.upload_excel(uploaded_file)
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

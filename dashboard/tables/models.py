@@ -388,7 +388,7 @@ class Operation(models.Model):
     finish_date = models.DateField()
 
     def __unicode__(self):
-        return self.country.name
+        return self.name
 
 class LifeSaveField(models.Model):
     name = models.CharField(max_length=500, default='', null=True)
@@ -455,3 +455,77 @@ class LifeSave(models.Model):
     class Meta:
         verbose_name_plural = u'LiSTs'
         verbose_name = u'LiST'
+
+class CountryDisbursementCharger(models.Model):
+    name = models.CharField(max_length=200)
+
+    def __unicode__(self):
+        return self.name
+
+class CountryDisbursement(models.Model):
+    country = models.ForeignKey(Country, default=None, null=True)
+    operation = models.ForeignKey(Operation, default=None, null=True)
+    charger = models.ForeignKey(CountryDisbursementCharger, default=None, null=True)
+
+    year = models.CharField(max_length=4, default='', null=True)
+    quarter = models.CharField(max_length=7, default='', null=True)
+    date = models.DateField(default=None, null=True)
+    description = models.CharField(max_length=300, default='', null=True)
+    amount = models.FloatField(default=0)
+
+    def __unicode__(self):
+        return self.country.name
+
+    @classmethod
+    def get_editable_fields(cls):
+        return ('year', 'quarter', 'date', 'description', 'amount')
+
+    @classmethod
+    def upload_excel(cls, uploaded_file):
+        wb = load_workbook(uploaded_file, data_only=True)
+        sheets = [
+            {'country': Country.objects.get(slug='belize'), 'sheet': wb.get_sheet_by_name('Belize'), 'row_starts': 64, 'row_ends': 99 },
+            {'country': Country.objects.get(slug='costa-rica'), 'sheet': wb.get_sheet_by_name('Costa Rica'), 'row_starts': 125, 'row_ends': 160 },
+            {'country': Country.objects.get(slug='el-salvador'), 'sheet': wb.get_sheet_by_name('El Salvador'), 'row_starts': 69, 'row_ends': 104 },
+            {'country': Country.objects.get(slug='guatemala'), 'sheet': wb.get_sheet_by_name('Guatemala'), 'row_starts': 55, 'row_ends': 90 },
+            {'country': Country.objects.get(slug='honduras'), 'sheet': wb.get_sheet_by_name('Honduras'), 'row_starts': 65, 'row_ends': 100 },
+            {'country': Country.objects.get(slug='mexico'), 'sheet': wb.get_sheet_by_name('Mexico'), 'row_starts': 121 , 'row_ends': 156 },
+            {'country': Country.objects.get(slug='nicaragua'), 'sheet': wb.get_sheet_by_name('Nicaragua'), 'row_starts': 68, 'row_ends': 103 },
+            {'country': Country.objects.get(slug='panama'), 'sheet': wb.get_sheet_by_name('Panama'), 'row_starts': 53, 'row_ends': 88 }
+        ]
+        
+        for sheet in sheets:
+            real_sheet = sheet.get('sheet')
+            country = sheet.get('country')
+            
+            for row in real_sheet.rows:
+                if row[0].row >= sheet.get('row_starts') and row[0].row <= sheet.get('row_ends'):
+                    try:
+                        operation = Operation.objects.get(name=row[2].value)
+                    except Operation.DoesNotExist:
+                        operation = None
+
+                    try:
+                        charger = CountryDisbursementCharger.objects.get(name=row[1].value)
+                    except CountryDisbursementCharger.DoesNotExist:
+                        charger = CountryDisbursementCharger.objects.create(name=row[1].value)
+
+                    try:
+                        date = row[4].value.date()
+                    except AttributeError:
+                        date = None
+            
+                    amount = re.sub("\D", "", str(row[6].value))
+                    if amount == '':
+                        amount = 0
+
+                    cls.objects.create(
+                        country = country,
+                        operation = operation,
+                        charger = charger,
+                        year = row[0].value,
+                        quarter = row[3].value,
+                        date = date,
+                        description = row[5].value,
+                        amount = amount
+                    )

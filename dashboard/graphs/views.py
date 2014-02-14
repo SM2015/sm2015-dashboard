@@ -6,8 +6,8 @@ from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from core.models import Country
-from tables.models import AvanceFisicoFinanciero, Operation, LifeSave
-from graphs.models import TriangleGraph, LiveSaveGraph
+from tables.models import AvanceFisicoFinanciero, Operation
+from graphs.models import TriangleGraph, LiveSaveGraph, CountryDisbursementGraph
 
 @login_required
 def get_triangle_graph_countries(request):
@@ -27,5 +27,14 @@ def get_life_save(request, country_slug):
     country = Country.objects.get(slug=country_slug)
     
     return_data = LiveSaveGraph.get_values_graph(country=country)
+
+    return HttpResponse(json.dumps(return_data), content_type="application/json")
+
+@login_required
+def get_country_disbursement(request, country_slug):
+    context = RequestContext(request)
+    country = Country.objects.get(slug=country_slug)
+    
+    return_data = CountryDisbursementGraph.get_values_graph(country=country)
 
     return HttpResponse(json.dumps(return_data), content_type="application/json")
