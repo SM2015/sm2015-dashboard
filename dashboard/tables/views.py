@@ -173,8 +173,13 @@ def chart_flot(request, uuid_type):
 
         # Ordena Origin por periodo
         origins[origin_name].sort(key=lambda x: float(x[0]))
-        for origin in origins:
-            import ipdb; ipdb.set_trace()
+        for origin_name in origins:
+            accumulated_value = 0
+            for origin in origins[origin_name]:
+                origin_value = origin[1]
+                accumulated_value += origin_value
+                origins[origin_name]
+
 
     return HttpResponse(json.dumps(origins), content_type="application/json")
 
