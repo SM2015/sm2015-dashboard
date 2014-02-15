@@ -28,7 +28,7 @@
                         '<div class="progress transparent progress-white progress-small no-radius">'+
                             '<div class="bar animate-progress-bar" data-percentage="{TILE_PERCENTAGE}%"></div>'+
                         '</div>'+
-                        '<div class="description"><i class="icon-custom-up"></i><span class="text-white mini-description ">&nbsp; {TILE_DV}% <span class="blend">variance from expected</span></span></div>'+
+                        '<div class="description"><i class="icon-custom-{UP_OR_DOWN}"></i><span class="text-white mini-description ">&nbsp; {TILE_DV}% <span class="blend">variance from expected</span></span></div>'+
                         '</div>	'+
                     '</div>'+
                 '</div>';
@@ -46,6 +46,12 @@
                     .replace("{TILE_VALUE}", response.accumulated)
                     .replace("{TILE_PERCENTAGE}", response.percentage)
                     .replace("{TILE_DV}", response.dv);
+
+            if (response.dv < 0){
+              html = html.replace("{UP_OR_DOWN}", "down");
+            } else {
+              html = html.replace("{UP_OR_DOWN}", "up");
+            }
 
             var $html = $(html);
 
