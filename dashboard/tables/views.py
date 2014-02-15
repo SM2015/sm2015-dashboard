@@ -150,15 +150,12 @@ def chart_flot(request, uuid_type):
 
     for field in grant_fields:
         grants = GrantsFinances.objects.filter(field=field)
-        accumulated_value = 0
         for grant in grants:
             origin_name = grant.field.field_origin.name
             if not origins.get(origin_name):
                 origins.update({"%s" % origin_name: []})
             period = grant.period.replace("Q",".").replace("I", '1').replace("II", '2').replace("III", '3')
-            accumulated_value += grant.value
-            origins[origin_name].append([float(period), accumulated_value])
-
+            origins[origin_name].append([float(period), grant.value])
 
     for origin_name in origins:
         periods_is_in = []
@@ -176,6 +173,8 @@ def chart_flot(request, uuid_type):
 
         # Ordena Origin por periodo
         origins[origin_name].sort(key=lambda x: float(x[0]))
+        for origin in origins:
+            import ipdb; ipdb.set_trace()
 
     return HttpResponse(json.dumps(origins), content_type="application/json")
 

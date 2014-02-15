@@ -82,9 +82,9 @@ def render_grants_finances(request):
                 })
 
                 if grant[0].field.field_type.uuid == 'GRANTS_TYPE_REAL':
-                    totals[period]['real'] += accumulated_value
+                    totals[period]['real'] += grant[0].value
                 elif grant[0].field.field_type.uuid == 'GRANTS_TYPE_EXPECTED':
-                    totals[period]['expected'] += accumulated_value
+                    totals[period]['expected'] += grant[0].value
             else:
                 values.append({
                     'value': '',
