@@ -62,11 +62,13 @@ class TriangleGraph(object):
     def export_graph(cls, country):
         path_options_highcharts = TriangleGraph.export_graph_options(country=country)
         file_name = "chart-{country_name}.png".format(country_name=country.slug)
-        path_chart = "{root}/{file_name}".format(root=os.path.realpath('./'), file_name=file_name)
+
+        dir_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        path_chart = "{root}/{file_name}".format(root=dir_path, file_name=file_name)
 
         os.system("phantomjs {root}/website/static/js/highcharts/highcharts-convert.js "\
-                "-infile {options_path} -outfile {path_chart}  -scale 1 -width 350"
-                .format(root=os.path.realpath('./'), country_name=country.slug, path_chart=path_chart, options_path=path_options_highcharts))
+                "-infile {options_path} -outfile {path_chart}  -scale 3 -width 350"
+                .format(root=dir_path, country_name=country.slug, path_chart=path_chart, options_path=path_options_highcharts))
         return path_chart, file_name
 
     @classmethod
@@ -115,7 +117,8 @@ class TriangleGraph(object):
             "}" % (country.name, unicode(cls.get_triangle_categories()),\
                  "<", ">", "<", ">", "<", ">", "<", ">", unicode(cls.get_triangle_series(country=country)))
             
-        path = "{root}/graphs/files/options-{country_name}.js".format(root=os.path.realpath('./'), country_name=country.slug)
+        dir_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'graphs', 'files')
+        path = "{dir_path}/options-{country_name}.js".format(dir_path=dir_path, country_name=country.slug)
         file_obj = open(path, 'w')
         file_obj.write(options)
         file_obj.close()
