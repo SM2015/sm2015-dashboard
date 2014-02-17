@@ -49,11 +49,13 @@ def render_ucmilestone(request):
     return HttpResponse(rendered, content_type="text/html")
 
 @login_required
-def render_sm2015milestone(request):
-    sm2015milestones = Sm2015Milestone.objects.filter(language__acronym=request.LANGUAGE_CODE)
+def render_sm2015milestone(request, year):
+    sm2015milestones = Sm2015Milestone.objects \
+                        .filter(language__acronym=request.LANGUAGE_CODE) \
+                        .filter(date__year=int(year))
 
     rendered = render_to_string("tables/sm2015milestone.html", {
-        'sm2015milestones': sm2015milestones,
+        'sm2015milestones': sm2015milestones
     })
     return HttpResponse(rendered, content_type="text/html")
 
@@ -71,14 +73,14 @@ def render_grants_finances(request):
         values = []
         accumulated_value = 0
         for period in periods:
-            grant = GrantsFinances.objects.filter(field__id=field.id).filter(period=period)
+            grant = GrantsFinances.objects.filter(field__id=field.id).filter(quarter__name=period)
             
             if grant:
                 accumulated_value += grant[0].value
                 values.append({
                     'value': "%.1f" % accumulated_value,
                     'id': grant[0].id,
-                    'period': grant[0].period
+                    'period': grant[0].quarter.name
                 })
 
                 if grant[0].field.field_type.uuid == 'GRANTS_TYPE_REAL':

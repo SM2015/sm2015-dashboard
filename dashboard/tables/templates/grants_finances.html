@@ -41,13 +41,10 @@
                 $(".tiles-container").dashboardTile(origin);
             });
 
-            $(".chart-flot-container").dashboardChartFlot("{% url 'chart_flot' uuid_type='GRANTS_TYPE_REAL' %}", {
-                name: 'Real'    
-            });
-
-            $(".chart-flot-container").dashboardChartFlot("{% url 'chart_flot' uuid_type='GRANTS_TYPE_EXPECTED' %}", {
-                name: 'Expected'    
-            });
+            $(".chart-flot-container").dashboardChartFlot([
+              { url: "{% url 'chart_flot' uuid_origin='GRANTS_ORIGIN_BMFG' %}", name: 'BMFG'},
+              { url: "{% url 'chart_flot' uuid_origin='GRANTS_ORIGIN_ICSS' %}", name: 'ICSS'},
+            ]);
 
             $(".chart-disbursement-container").graficoDisbursement();
         });

@@ -11,7 +11,7 @@ class HitoAdmin(admin.ModelAdmin):
     change_list_template = 'change_list.html'
 
 class GrantsFinancesAdmin(admin.ModelAdmin):
-    list_display = ('period', 'field')
+    list_display = ('quarter', 'field')
     change_list_template = 'change_list.html'
 
 class UcMilestoneAdmin(admin.ModelAdmin):

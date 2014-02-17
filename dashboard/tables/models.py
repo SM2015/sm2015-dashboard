@@ -5,6 +5,39 @@ from openpyxl import load_workbook
 from django.db import models
 from core.models import Country, Language
 
+class Quarter(models.Model):
+    name = models.CharField(max_length=7, default='')
+
+    @classmethod
+    def normalize_name(cls, name):
+        if name:
+            if type(name) is int:
+                name = "{0}Q4".format(name)
+            else:
+                # Caso: 2012QI
+                name = name.lower() \
+                        .replace("iii", "3") \
+                        .replace("ii", "2") \
+                        .replace("i", "1")
+
+                # Casos: "Q1 2012" ou "T1 2012"
+                try:
+                    if (name[0].lower() == 'q' or name[0].lower() == 't') and int(name[1]):
+                        name = name.replace(' ', '')
+                        name = "{0}{1}{2}".format(name[2:], name[0], name[1])
+                except ValueError:
+                    pass
+
+            return name.upper()
+        else:
+            return None
+
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        ordering = ['name']
+
 class AvanceFisicoFinanciero(models.Model):
     country = models.ForeignKey(Country)
     language = models.ForeignKey(Language, default=1)
@@ -100,10 +133,10 @@ class EstadoActual(models.Model):
 class Hito(models.Model):
     country = models.ForeignKey(Country)
     language = models.ForeignKey(Language, default=1)
+    quarter = models.ForeignKey(Quarter)
 
     indicador_de_pago = models.CharField(max_length=500, null=True, blank=True, default=None)
     hito = models.CharField(max_length=500, null=True, blank=True, default=None)
-    trimestre = models.CharField(max_length=200, null=True, blank=True, default=None)
     audiencia = models.ManyToManyField(Audiencia)
     estado_actual = models.ForeignKey(EstadoActual, null=True, blank=True, default=None)
     alerta_notas = models.TextField(null=True, blank=True)
@@ -133,30 +166,69 @@ class Hito(models.Model):
 
             for row in real_sheet.rows:
                 if row[0].row >= 6 and (row[1].value or row[2].value):
-                    if row[4].value == 'Completed' or row[4].value == 'Cumplido':
-                        estado_actual = EstadoActual.objects.get(name='Cumplido')
-                    elif row[4].value == 'In Progress' or row[4].value == 'En proceso':
-                        estado_actual = EstadoActual.objects.get(name='En proceso')
-                    elif row[4].value == 'Delayed' or row[4].value == 'Retrasado':
-                        estado_actual = EstadoActual.objects.get(name='Retrasado')
+                    if country.slug in ['el-salvador', 'mexico']:
+                        indicador_de_pago_str = row[1].value
+                        hito_str = row[3].value
+                        quarter_str = row[4].value
+                        audiencias_str = row[5].value 
+                        estado_actual_str = row[6].value
+                        alerta_notas_str = row[7].value
+                        recomendacion_str = row[8].value
+                        acuerdo_str = row[9].value
+                        actividad_en_poa_str = row[10].value
+                    elif country.slug in ['belize']:
+                        indicador_de_pago_str = row[1].value
+                        hito_str = row[2].value
+                        quarter_str = row[3].value
+                        audiencias_str = row[5].value 
+                        estado_actual_str = row[4].value
+                        alerta_notas_str = row[6].value
+                        recomendacion_str = row[7].value
+                        acuerdo_str = row[8].value
+                        actividad_en_poa_str = row[9].value
                     else:
+                        indicador_de_pago_str = row[1].value
+                        hito_str = row[2].value
+                        quarter_str = row[3].value
+                        audiencias_str = row[4].value 
+                        estado_actual_str = row[5].value
+                        alerta_notas_str = row[6].value
+                        recomendacion_str = row[7].value
+                        acuerdo_str = row[8].value
+                        actividad_en_poa_str = row[9].value
+                        
+                    try:
+                        if estado_actual_str.lower() == 'completed' or estado_actual_str.lower() == 'cumplido':
+                            estado_actual = EstadoActual.objects.get(name='Cumplido')
+                        elif estado_actual_str.lower() == 'in progress' or estado_actual_str.lower() == 'en proceso':
+                            estado_actual = EstadoActual.objects.get(name='En proceso')
+                        elif estado_actual_str.lower() == 'delayed' or estado_actual_str.lower() == 'retrasado':
+                            estado_actual = EstadoActual.objects.get(name='Retrasado')
+                        else:
+                            estado_actual = None
+                    except AttributeError:
                         estado_actual = None
+
+                    try:
+                        quarter = Quarter.objects.get(name=Quarter.normalize_name(quarter_str))
+                    except:
+                        quarter = Quarter.objects.create(name=Quarter.normalize_name(quarter_str))
 
                     hito = cls.objects.create(
                         language = language_es,
                         country = country,
-                        indicador_de_pago = row[1].value,
-                        hito = row[2].value,
-                        trimestre = row[3].value,
+                        indicador_de_pago = indicador_de_pago_str,
+                        hito = hito_str,
+                        quarter = quarter,
                         estado_actual = estado_actual,
-                        alerta_notas = row[6].value,
-                        recomendacion = row[7].value,
-                        acuerdo = row[8].value,
-                        actividad_en_poa = row[9].value
+                        alerta_notas = alerta_notas_str,
+                        recomendacion = recomendacion_str,
+                        acuerdo = acuerdo_str,
+                        actividad_en_poa = actividad_en_poa_str
                     )
 
-                    if row[5].value:
-                        text_audiencias = row[5].value.replace(' ', '').split(',')
+                    if audiencias_str:
+                        text_audiencias = audiencias_str.replace(' ', '').split(',')
                         for i in xrange(0, len(text_audiencias)):
                             audiencia_str = text_audiencias[i].replace('Country', 'Pais').replace('Donors', 'Donantes')
                             text_audiencias[i] = audiencia_str
@@ -174,10 +246,11 @@ class Hito(models.Model):
         return self.country.name
 
 class UcMilestone(models.Model):
+    quarter = models.ForeignKey(Quarter)
     language = models.ForeignKey(Language, default=1)
+
     objective = models.CharField(max_length=300, null=True, blank=True, default=None)
     coordination_unit_milestone = models.CharField(max_length=500, null=True, blank=True, default=None)
-    quarter = models.CharField(max_length=200, null=True, blank=True, default=None)
     status = models.CharField(max_length=200, null=True, blank=True, default=None)
     observation = models.CharField(max_length=500, null=True, blank=True, default=None)
 
@@ -191,22 +264,33 @@ class UcMilestone(models.Model):
 
         for row in sheet_en.rows:
             if not row[0].row == 1 and row[0].value:
+
+                try:
+                    quarter = Quarter.objects.get(name=Quarter.normalize_name(row[2].value))
+                except:
+                    quarter = Quarter.objects.create(name=Quarter.normalize_name(row[2].value))
+
                 cls.objects.create(
                     language = language_en,
                     objective = row[0].value,
                     coordination_unit_milestone = row[1].value,
-                    quarter = row[2].value,
+                    quarter = quarter,
                     status = row[3].value,
                     observation = row[4].value
                 )
 
         for row in sheet_es.rows:
             if not row[0].row == 1 and row[0].value:
+                try:
+                    quarter = Quarter.objects.get(name=Quarter.normalize_name(row[2].value))
+                except:
+                    quarter = Quarter.objects.create(name=Quarter.normalize_name(row[2].value))
+
                 cls.objects.create(
                     language = language_es,
                     objective = row[0].value,
                     coordination_unit_milestone = row[1].value,
-                    quarter = row[2].value,
+                    quarter = quarter,
                     status = row[3].value,
                     observation = row[4].value
                 )
@@ -229,6 +313,7 @@ class Sm2015Milestone(models.Model):
     objective = models.ForeignKey(Objective, null=True, blank=True, default=None)
     language = models.ForeignKey(Language, default=1)
 
+    date = models.DateField(null=True, default=None)
     hitos = models.CharField(max_length=500, null=True, blank=True, default=None)
     status = models.CharField(max_length=200, null=True, blank=True, default=None)
     observation = models.CharField(max_length=500, null=True, blank=True, default=None)
@@ -311,7 +396,7 @@ class GrantsFinancesFields(models.Model):
         verbose_name = u'Grants & Finances Fields'
 
 class GrantsFinances(models.Model):
-    period = models.CharField(max_length=200, default=None, null=True, blank=True)
+    quarter = models.ForeignKey(Quarter)
     field = models.ForeignKey(GrantsFinancesFields, null=True)
     value = models.FloatField(default=0)
 
@@ -321,12 +406,9 @@ class GrantsFinances(models.Model):
 
     @classmethod
     def get_periods(cls):
-        grants_periods = GrantsFinances.objects.values('period').order_by('period')
         periods = []
-
-        for row in grants_periods:
-            if not row['period'] in periods:
-                periods.append(row['period'])
+        for quarter_dict in GrantsFinances.objects.values('quarter__name').order_by('quarter__name').distinct():
+            periods.append(quarter_dict['quarter__name'])
         return periods
 
     @classmethod
@@ -365,8 +447,13 @@ class GrantsFinances(models.Model):
                 map_row = map_rows[row[0].row]
                 for cell in row:
                     if cell.column not in ['A', 'B'] and (cell.value or cell.value == 0):
+                        try:
+                            quarter = Quarter.objects.get(name=Quarter.normalize_name(period_row[columns_index[cell.column]].value))
+                        except:
+                            quarter = Quarter.objects.create(name=Quarter.normalize_name(period_row[columns_index[cell.column]].value))
+
                         cls.objects.create(
-                            period = period_row[columns_index[cell.column]].value,
+                            quarter = quarter,
                             field = map_row['field'],
                             value = cell.value
                         ) 
@@ -465,10 +552,10 @@ class CountryDisbursementCharger(models.Model):
 class CountryDisbursement(models.Model):
     country = models.ForeignKey(Country, default=None, null=True)
     operation = models.ForeignKey(Operation, default=None, null=True)
+    quarter = models.ForeignKey(Quarter)
     charger = models.ForeignKey(CountryDisbursementCharger, default=None, null=True)
 
     year = models.CharField(max_length=4, default='', null=True)
-    quarter = models.CharField(max_length=7, default='', null=True)
     date = models.DateField(default=None, null=True)
     description = models.CharField(max_length=300, default='', null=True)
     amount = models.FloatField(default=0)
@@ -511,6 +598,11 @@ class CountryDisbursement(models.Model):
                         charger = CountryDisbursementCharger.objects.create(name=row[1].value)
 
                     try:
+                        quarter = Quarter.objects.get(name=Quarter.normalize_name(row[3].value))
+                    except:
+                        quarter = Quarter.objects.create(name=Quarter.normalize_name(row[3].value))
+
+                    try:
                         date = row[4].value.date()
                     except AttributeError:
                         date = None
@@ -524,7 +616,7 @@ class CountryDisbursement(models.Model):
                         operation = operation,
                         charger = charger,
                         year = row[0].value,
-                        quarter = row[3].value,
+                        quarter = quarter,
                         date = date,
                         description = row[5].value,
                         amount = amount

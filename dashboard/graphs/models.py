@@ -33,7 +33,7 @@ class CountryDisbursementGraph(object):
 
         for obj in objs:
             data['rows'].append({"c": [
-                {"v": obj.quarter}, 
+                {"v": obj.quarter.name}, 
                 {"v": obj.charger.name}, 
                 {"v": obj.amount}
             ]})

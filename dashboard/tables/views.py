@@ -80,6 +80,13 @@ def ucmilestone(request):
 @login_required
 def sm2015milestone(request):
     context = RequestContext(request)
+    dates = []
+
+    for row in Sm2015Milestone.objects.values('date').distinct():
+        if row['date']:
+            dates.append(row['date'].year)
+
+    context.update({'dates': dates})
     return render_to_response("sm2015milestone.html", context)
 
 @login_required
@@ -142,46 +149,27 @@ def grants_finances_ongoing(request, uuid_origin):
         raise Http404
 
 @login_required
-def chart_flot(request, uuid_type):
-    grant_type = GrantsFinancesType.objects.get(uuid=uuid_type)
-    grant_fields = GrantsFinancesFields.objects.filter(field_type=grant_type)
-    origins = {}
-    periods = GrantsFinances.get_periods()
+def chart_flot(request, uuid_origin):
+    grants = GrantsFinances.objects.filter(field__field_origin__uuid=uuid_origin).order_by('quarter')
 
-    for field in grant_fields:
-        grants = GrantsFinances.objects.filter(field=field)
-        for grant in grants:
-            origin_name = grant.field.field_origin.name
-            if not origins.get(origin_name):
-                origins.update({"%s" % origin_name: []})
-            period = grant.period.replace("Q",".").replace("I", '1').replace("II", '2').replace("III", '3')
-            origins[origin_name].append([float(period), grant.value])
+    data = {
+        'expected': [],
+        'real': []
+    }
 
-    for origin_name in origins:
-        periods_is_in = []
-        for flot_row in origins[origin_name]:
-            period_row = flot_row[0]
-            for period in periods:
-                period = period.replace("Q",".").replace("I", '1').replace("II", '2').replace("III", '3')
-                if float(period) == period_row:
-                    periods_is_in.append(period)
-        
-        for period in periods:
-            period = period.replace("Q",".").replace("I", '1').replace("II", '2').replace("III", '3')
-            if period not in periods_is_in:
-                origins[origin_name].append([float(period), 0])
+    accumulated_real = 0
+    accumulated_expected = 0
+    for grant in grants:
+        period = float(grant.quarter.name.replace('Q','.'))
+        if grant.field.field_type.uuid == 'GRANTS_TYPE_REAL':
+            accumulated_real += grant.value
+            data['real'].append([period, accumulated_real])
 
-        # Ordena Origin por periodo
-        origins[origin_name].sort(key=lambda x: float(x[0]))
-        for origin_name in origins:
-            accumulated_value = 0
-            for origin in origins[origin_name]:
-                origin_value = origin[1]
-                accumulated_value += origin_value
-                origins[origin_name]
+        elif grant.field.field_type.uuid == 'GRANTS_TYPE_EXPECTED':
+            accumulated_expected += grant.value
+            data['expected'].append([period, accumulated_expected])
 
-
-    return HttpResponse(json.dumps(origins), content_type="application/json")
+    return HttpResponse(json.dumps(data), content_type="application/json")
 
 @login_required
 def import_excel(request):
