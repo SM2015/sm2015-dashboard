@@ -1,4 +1,5 @@
 # coding: utf-8
+import os
 from datetime import date
 import codecs
 from docx import *
@@ -75,7 +76,7 @@ def render_export_hitos_and_avances(request, country_slug):
     body = document.xpath('/w:document/w:body', namespaces=nsprefixes)[0]
 
     # Add BID logo
-    relationships, picpara = picture(relationships, 'logo-bid.png', '')
+    relationships, picpara = picture(relationships, './logo-bid.png', '')
     body.append(picpara)
 
     # First Heading
@@ -111,7 +112,7 @@ def render_export_hitos_and_avances(request, country_slug):
 
     # Add Triangle Graph
     body.append(heading(u"Gráficos del Tablero de Control", 1))
-    relationships, picpara = picture(relationships, triangle_file_name, '')
+    relationships, picpara = picture(relationships, "./{0}".format(triangle_file_name), '')
     body.append(picpara)
 
     # HITOS
