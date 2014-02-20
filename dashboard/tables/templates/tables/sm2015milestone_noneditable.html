@@ -1,0 +1,29 @@
+<style>
+  .bg-completed { background-color: #32FF33; }
+  .bg-progress { background-color: #FEFF00; }
+</style>
+<table class="table table-hover table-condensed table-bordered">
+    <thead>
+      <tr>
+        <th class="column-name">Id</th>
+        <th class="column-name">Objective</th>
+        <th class="column-name">Hitos</th>
+        <th class="column-name">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for sm2015milestone in sm2015milestones %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td class="" name="objective">{{sm2015milestone.objective.objective}}</td>
+        <td class="" name="hitos">{{sm2015milestone.hitos}}</td>
+        <td class="
+          {% ifequal sm2015milestone.status|lower 'in progress' %}bg-progress{% endifequal %}
+          {% ifequal sm2015milestone.status|lower 'en proceso' %}bg-progress{% endifequal %}
+          {% ifequal sm2015milestone.status|lower 'completed' %}bg-completed{% endifequal %}
+          {% ifequal sm2015milestone.status|lower 'finalizado' %}bg-completed{% endifequal %}
+          " name="status" nowrap>{{sm2015milestone.status}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+</table>

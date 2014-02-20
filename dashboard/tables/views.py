@@ -78,6 +78,11 @@ def ucmilestone(request):
     return render_to_response("ucmilestone.html", context)
 
 @login_required
+def ucmilestone_noneditable(request):
+    context = RequestContext(request)
+    return render_to_response("ucmilestone_noneditable.html", context)
+
+@login_required
 def sm2015milestone(request):
     context = RequestContext(request)
     dates = []
@@ -88,6 +93,18 @@ def sm2015milestone(request):
 
     context.update({'dates': dates})
     return render_to_response("sm2015milestone.html", context)
+
+@login_required
+def sm2015milestone_noneditable(request):
+    context = RequestContext(request)
+    dates = []
+
+    for row in Sm2015Milestone.objects.values('date').distinct():
+        if row['date']:
+            dates.append(row['date'].year)
+
+    context.update({'dates': dates})
+    return render_to_response("sm2015milestone_noneditable.html", context)
 
 @login_required
 def grants_finances(request):

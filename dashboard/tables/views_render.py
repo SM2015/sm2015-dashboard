@@ -49,12 +49,32 @@ def render_ucmilestone(request):
     return HttpResponse(rendered, content_type="text/html")
 
 @login_required
+def render_ucmilestone_noneditable(request):
+    ucmilestones = UcMilestone.objects.filter(language__acronym=request.LANGUAGE_CODE)
+
+    rendered = render_to_string("tables/ucmilestone_noneditable.html", {
+        'ucmilestones': ucmilestones,
+    })
+    return HttpResponse(rendered, content_type="text/html")
+
+@login_required
 def render_sm2015milestone(request, year):
     sm2015milestones = Sm2015Milestone.objects \
                         .filter(language__acronym=request.LANGUAGE_CODE) \
                         .filter(date__year=int(year))
 
     rendered = render_to_string("tables/sm2015milestone.html", {
+        'sm2015milestones': sm2015milestones
+    })
+    return HttpResponse(rendered, content_type="text/html")
+
+@login_required
+def render_sm2015milestone_noneditable(request, year):
+    sm2015milestones = Sm2015Milestone.objects \
+                        .filter(language__acronym=request.LANGUAGE_CODE) \
+                        .filter(date__year=int(year))
+
+    rendered = render_to_string("tables/sm2015milestone_noneditable.html", {
         'sm2015milestones': sm2015milestones
     })
     return HttpResponse(rendered, content_type="text/html")
