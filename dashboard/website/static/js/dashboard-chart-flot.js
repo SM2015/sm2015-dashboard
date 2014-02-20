@@ -18,7 +18,7 @@
                       '<div class="span12">'+
                         '<div class="mini-chart-wrapper">'+
                           '<div class="chart-details-wrapper">'+
-                            '<div class="chartname"> Total </div>'+
+                            '<div class="chartname"> </div>'+
                             '<div class="chart-value"></div>'+
                           '</div>'+
                           '<div class="mini-chart">'+
@@ -59,8 +59,8 @@
             var totals = [];
             var count = 0;
             var colors = {
-              'expected': '#99f',
-              'real': '#9f9'
+              'expected': '#ddd',
+              'real': '#5c5'
             }
 
             var row_line_expected = {
@@ -95,46 +95,12 @@
             rows_flot.push(row_point_expected)
             rows_flot.push(row_point_real);
 
-            /*$.each(response.real, function(i, data_per_period){
-                if(!totals[i]){
-                    totals[i] = 0;
-                }
-                totals[i]+=data_per_period[1];
-            });*/
-
-            /*
-            $.each(response, function(type, origin_data){
-                var row_line = {
-                    data: origin_data,
-                    animator: {steps: 60, duration: 1000, start:0}, 		
-                    lines: {lineWidth:2},	
-                    shadowSize: 0,
-                    color: colors[count],
-                };
-                var row_point = {
-                    data: origin_data,
-                    points: { show: true, fill: true, radius: 6, fillColor: colors[count], lineWidth:3 },
-                    color: "#fff",
-                    shadowSize: 0,
-                };
-                rows_flot.push(row_line)
-                rows_flot.push(row_point);
-
-                $.each(origin_data, function(i2, data_per_period){
-                    if(!totals[i2]){
-                        totals[i2] = 0;
-                    }
-                    totals[i2]+=data_per_period[1];
-                });
-                count++;
-            });
-            */
-            self.plotChart(rows_flot, url);
+            self.plotChart(rows_flot, url, response.periods);
             self.plotMiniChart(totals);
         });
     }
 
-    dashboardChartFlot.prototype.plotChart = function(rows, url){
+    dashboardChartFlot.prototype.plotChart = function(rows, url, periods){
         var self = this;
         var html = this.html;
         var $newElement = $(html);
@@ -144,14 +110,16 @@
             rows,
             {	
                 xaxis: {
-                    tickDecimals: 0,
+                  labelWidth: 100,
+                    ticks: periods,
+                    tickFormatter: 'string',
                     font :{
                         lineHeight: 13,
                         style: "normal",
                         weight: "bold",
                         family: "sans-serif",
                         variant: "small-caps",
-                        color: "#6F7B8A"
+                        color: "#6F7B8A",
                     }
                 },
                 yaxis: {
@@ -179,6 +147,31 @@
                 }
             }
         );
+      
+        $newElement.bind("plothover", function (event, pos, item) {
+          if (item) {
+            var period = String(item.datapoint[0]).replace(".", "Q"),
+                value = item.datapoint[1] * 1000000;
+      
+            $("#tooltip").html(period + ": " + value)
+                          .css({ top: item.pageY+5, left: item.pageX+5 })
+                          .fadeIn(200);
+          } else {
+            $("#tooltip").hide();
+          }
+        });
+
+        $("<div id='tooltip'></div>").css({
+            position: "absolute",
+            display: "none",
+            border: "1px solid #fdd",
+            padding: "2px",
+            "background-color": "#fee",
+            "z-index":"99999",
+            opacity: 0.80
+        }).appendTo("body");
+
+
         if(this.$element){
             this.$element.replaceWith($newElement);
         } else {
@@ -208,7 +201,7 @@
         $.each(totals, function(){
             total+=this;
         });
-        this.$element.find(".chart-details-wrapper").find(".chart-value").text(total);
+        //this.$element.find(".chart-details-wrapper").find(".chart-value").text(total);
     }
 
     $.fn.dashboardChartFlot = function(urls) {

@@ -44,6 +44,8 @@
             $(".chart-flot-container").dashboardChartFlot([
               { url: "{% url 'chart_flot' uuid_origin='GRANTS_ORIGIN_BMFG' %}", name: 'BMFG'},
               { url: "{% url 'chart_flot' uuid_origin='GRANTS_ORIGIN_ICSS' %}", name: 'ICSS'},
+              { url: "{% url 'chart_flot' uuid_origin='GRANTS_ORIGIN_GOS' %}", name: 'GoS'},
+              { url: "{% url 'chart_flot' uuid_origin='GRANTS_ORIGIN_KOREAN' %}", name: 'Korean'},
             ]);
 
             $(".chart-disbursement-container").graficoDisbursement();

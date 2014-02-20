@@ -171,13 +171,20 @@ def chart_flot(request, uuid_origin):
 
     data = {
         'expected': [],
-        'real': []
+        'real': [],
+        'periods': []
     }
 
-    accumulated_real = 0
-    accumulated_expected = 0
+    accumulated_real = 0;
+    accumulated_expected = 0;
+    periods_control = [];
     for grant in grants:
         period = float(grant.quarter.name.replace('Q','.'))
+
+        if period not in periods_control:
+            periods_control.append(period)
+            data['periods'].append([period, grant.quarter.name[4:]])
+
         if grant.field.field_type.uuid == 'GRANTS_TYPE_REAL':
             accumulated_real += grant.value
             data['real'].append([period, accumulated_real])
