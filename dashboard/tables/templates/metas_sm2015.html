@@ -18,8 +18,13 @@
         $(document).ready(function() {
             $(window).bind("select-date", function(elem, v_date){
               $(".table-sm2015milestones").dashboardTable("/tables/render/sm2015milestone-noneditable/" + v_date, {
-                  title: "SM2015 Milestone",
-                  url_save: "{% url 'save_milestone_data' %}"
+                  title: "Objetivos y Hitos SM2015",
+                  url_save: "{% url 'save_milestone_data' %}",
+              });
+
+              $(".table-ucmilestones").dashboardTable("/tables/render/ucmilestone-noneditable/" + v_date, {
+                  title: "Objetivos y Hitos de la Unidad Coordinadora",
+                  url_save: "{% url 'save_milestone_data' %}",
               });
             });
 
@@ -45,6 +50,14 @@
             float: left;
             margin: 5px 0 10px 10px;
         }
+        .table-ucmilestones h4 {
+          font-size: 18px;
+        }
+        .table-sm2015milestones div.dataTables_filter label input,
+        .table-ucmilestones div.dataTables_filter label input {
+          margin-left: 8px;
+          width: 145px;
+        }
     </style>
 {% endblock css %}
 
@@ -68,6 +81,9 @@
       </div>
     </div>
 
-    <div class="table-sm2015milestones"></div>
+    <div class="row-fluid">
+      <div class="table-sm2015milestones span6"></div>
+      <div class="table-ucmilestones span6"></div>
+    </div>
 </div>
 {% endblock %}

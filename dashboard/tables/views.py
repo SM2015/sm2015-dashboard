@@ -3,20 +3,17 @@ import json
 import re
 from datetime import datetime
 from django.utils.translation import ugettext as _
-from django.shortcuts import render
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
-from django.core.context_processors import csrf
-from django.core.servers.basehttp import FileWrapper
 from django.http import HttpResponse, Http404, HttpResponseRedirect
-from django.template.loader import render_to_string
 from django.db.models import ForeignKey, FieldDoesNotExist, IntegerField, FloatField, DateField
 from tables.models import Hito, AvanceFisicoFinanciero, EstadoActual, UcMilestone, Sm2015Milestone, Objective, \
         GrantsFinancesOrigin, GrantsFinancesFields, GrantsFinances, GrantsFinancesType, LifeSave, \
         CountryDisbursement
 from tables import models as table_models
+
 
 @login_required
 def save_milestone_data(request):
@@ -33,7 +30,7 @@ def save_milestone_data(request):
         raise Http404
 
     for field_name in class_table.get_editable_fields():
-        if request.POST.get(field_name, None) != None:
+        if request.POST.get(field_name, None) is not None:
             value = request.POST.get(field_name)
             try:
                 field = getattr(class_table, field_name)
@@ -57,12 +54,13 @@ def save_milestone_data(request):
                 else:
                     real_value = value
                 setattr(instance, field_name, real_value)
-            except FieldDoesNotExist, e:
+            except FieldDoesNotExist:
                 continue
-    
+
     instance.save()
 
     return HttpResponse(value, content_type="application/json")
+
 
 @login_required
 def hitos_e_avances(request):
@@ -72,39 +70,41 @@ def hitos_e_avances(request):
     context.update({'countries': countries})
     return render_to_response("hitos_e_avances.html", context)
 
+
 @login_required
 def ucmilestone(request):
     context = RequestContext(request)
+    dates = UcMilestone.get_dates()
+    context.update({'dates': dates})
     return render_to_response("ucmilestone.html", context)
 
-@login_required
-def ucmilestone_noneditable(request):
-    context = RequestContext(request)
-    return render_to_response("ucmilestone_noneditable.html", context)
 
 @login_required
 def sm2015milestone(request):
     context = RequestContext(request)
-    dates = []
-
-    for row in Sm2015Milestone.objects.values('date').distinct():
-        if row['date']:
-            dates.append(row['date'].year)
-
+    dates = Sm2015Milestone.get_dates()
     context.update({'dates': dates})
     return render_to_response("sm2015milestone.html", context)
 
-@login_required
-def sm2015milestone_noneditable(request):
-    context = RequestContext(request)
-    dates = []
 
-    for row in Sm2015Milestone.objects.values('date').distinct():
-        if row['date']:
-            dates.append(row['date'].year)
+@login_required
+def metas_sm2015(request):
+    context = RequestContext(request)
+    dates_sm2015milestone = Sm2015Milestone.get_dates()
+    dates_ucmilestone = UcMilestone.get_dates()
+
+    dates = []
+    for date in dates_ucmilestone:
+        if date not in dates:
+            dates.append(date)
+
+    for date in dates_sm2015milestone:
+        if date not in dates:
+            dates.append(date)
 
     context.update({'dates': dates})
-    return render_to_response("sm2015milestone_noneditable.html", context)
+    return render_to_response("metas_sm2015.html", context)
+
 
 @login_required
 def grants_finances(request):
@@ -183,7 +183,12 @@ def chart_flot(request, uuid_origin):
 
         if period not in periods_control:
             periods_control.append(period)
-            data['periods'].append([period, grant.quarter.name[4:]])
+            if len(grant.quarter.name) == 4:
+                period_label = grant.quarter.name
+            else: 
+                period_label = grant.quarter.name[4:]
+            
+            data['periods'].append([period, period_label])
 
         if grant.field.field_type.uuid == 'GRANTS_TYPE_REAL':
             accumulated_real += grant.value

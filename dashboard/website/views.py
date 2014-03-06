@@ -23,6 +23,7 @@ from core.models import *
 from map.models import Map
 from tables.models import AvanceFisicoFinanciero
 
+
 @login_required
 def index(request):
     maps = Map.objects.all()

@@ -1,26 +1,3 @@
-$.editable.addInputType('date', {
-    element: function(settings, original){
-        var $input = $('<input type="text" class="span12">');
-        $input.attr('autocomplete','off');
-    	$(this).append($input);
-    	return $input;
-    },
-    plugin: function(settings, original) {
-    	var form = this;
-
-        $(this).find('input').datepicker({
-            autoclose: true,
-            todayHighlight: true
-        });
-
-        $(window).bind("day-clicked", function(){
-            $(this).find('input').blur();
-            console.log("BLUR!");
-        });
-
-    }
-});
-
 (function ( $ ) {
     var dashboardTable = function( wrapper, url, opts ) {
         this.$wrapper = wrapper;
@@ -135,7 +112,7 @@ $.editable.addInputType('date', {
         var self = this,
             html_box = ""+
                 '<div class="row-fluid">'+
-                  '<div class="span12">'+
+                  '<div class="span{{COLUMNS}}">'+
                     '<div class="grid simple ">'+
                       '<div class="grid-title">'+
                         '<h4>{{TITLE_PLACEHOLDER}}</h4>'+
@@ -152,6 +129,8 @@ $.editable.addInputType('date', {
             title = this.opts.title || '';
 
         html_box = html_box.replace("{{TITLE_PLACEHOLDER}}", title);
+        html_box = html_box.replace("{{COLUMNS}}", this.opts.columns_size || '12')
+
         this.loadTable(function(table_html){
             html_box = html_box.replace("{{TABLE_PLACEHOLDER}}", table_html);
             self.$wrapper.html(html_box);

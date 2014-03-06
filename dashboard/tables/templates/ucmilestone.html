@@ -16,10 +16,22 @@
     <script src="{% static "js/jquery.jeditable.datepicker.js" %}" type="text/javascript"></script>
     <script>
         $(document).ready(function() {
-            $(".table-ucmilestones").dashboardTable("{% url 'table_render_ucmilestone' %}", {
-                title: "Coordination Unit Milestone",
-                url_save: "{% url 'save_milestone_data' %}"
+            $(window).bind("select-date", function(elem, v_date){
+              $(".table-ucmilestones").dashboardTable("/tables/render/ucmilestone/" + v_date, {
+                  title: "Objetivos y Hitos de la Unidad Coordinadora",
+                  url_save: "{% url 'save_milestone_data' %}",
+              });
             });
+
+            $("select[name='select-date']").change(function(){
+              var v_date = $(this).find(":selected").val();
+              $(window).trigger("select-date", [v_date]);
+            });
+          
+            $("select[name='select-date'] option:first").attr("selected", true);
+            $(window).trigger("select-date", ["{{dates.0}}"]);
+        });
+        $(document).ready(function() {
         });
     </script>
 {% endblock js_bottom %}
@@ -27,11 +39,36 @@
 {% block css %}
     {{ block.super }}
     <link href="{% static "css/tables-custom.css" %}" rel="stylesheet" type="text/css"/>
+    <style>
+        .title-select-date { 
+            float: left;
+        }
+        .select-date {
+            float: left;
+            margin: 5px 0 10px 10px;
+        }
+    </style>
 {% endblock css %}
 
 {% block content %}
 
 <div class="content">
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="grid simple ">
+          <div class="grid-body ">
+            <div class="row-fluid clearfix">
+                <h4 class="title-select-date">Seleccione una Data - </h4>
+                <select name="select-date" class="select-date">
+                    {% for v_date in dates %}
+                    <option value="{{v_date}}">{{v_date}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="table-ucmilestones"></div>
 
 </div>

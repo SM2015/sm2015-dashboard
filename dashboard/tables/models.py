@@ -1,9 +1,9 @@
 # coding: utf-8
-import inspect
 import re
 from openpyxl import load_workbook
 from django.db import models
 from core.models import Country, Language
+
 
 class Quarter(models.Model):
     name = models.CharField(max_length=7, default='')
@@ -12,13 +12,13 @@ class Quarter(models.Model):
     def normalize_name(cls, name):
         if name:
             if type(name) is int:
-                name = "{0}Q4".format(name)
+                name = "{0}".format(name)
             else:
                 # Caso: 2012QI
                 name = name.lower() \
-                        .replace("iii", "3") \
-                        .replace("ii", "2") \
-                        .replace("i", "1")
+                           .replace("iii", "3") \
+                           .replace("ii", "2") \
+                           .replace("i", "1")
 
                 # Casos: "Q1 2012" ou "T1 2012"
                 try:
@@ -37,6 +37,7 @@ class Quarter(models.Model):
 
     class Meta:
         ordering = ['name']
+
 
 class AvanceFisicoFinanciero(models.Model):
     country = models.ForeignKey(Country)
@@ -59,16 +60,16 @@ class AvanceFisicoFinanciero(models.Model):
     def upload_excel(cls, uploaded_file):
         wb = load_workbook(uploaded_file, data_only=True)
         sheets = [
-            {'country': Country.objects.get(slug='belize'), 'sheet': wb.get_sheet_by_name('Belize') },
-            {'country': Country.objects.get(slug='costa-rica'), 'sheet': wb.get_sheet_by_name('Costa Rica') },
-            {'country': Country.objects.get(slug='el-salvador'), 'sheet': wb.get_sheet_by_name('El Salvador') },
-            {'country': Country.objects.get(slug='guatemala'), 'sheet': wb.get_sheet_by_name('Guatemala') },
-            {'country': Country.objects.get(slug='honduras'), 'sheet': wb.get_sheet_by_name('Honduras') },
-            {'country': Country.objects.get(slug='mexico'), 'sheet': wb.get_sheet_by_name('Mexico') },
-            {'country': Country.objects.get(slug='nicaragua'), 'sheet': wb.get_sheet_by_name('Nicaragua') },
-            {'country': Country.objects.get(slug='panama'), 'sheet': wb.get_sheet_by_name('Panama') }
+            {'country': Country.objects.get(slug='belize'), 'sheet': wb.get_sheet_by_name('Belize')},
+            {'country': Country.objects.get(slug='costa-rica'), 'sheet': wb.get_sheet_by_name('Costa Rica')},
+            {'country': Country.objects.get(slug='el-salvador'), 'sheet': wb.get_sheet_by_name('El Salvador')},
+            {'country': Country.objects.get(slug='guatemala'), 'sheet': wb.get_sheet_by_name('Guatemala')},
+            {'country': Country.objects.get(slug='honduras'), 'sheet': wb.get_sheet_by_name('Honduras')},
+            {'country': Country.objects.get(slug='mexico'), 'sheet': wb.get_sheet_by_name('Mexico')},
+            {'country': Country.objects.get(slug='nicaragua'), 'sheet': wb.get_sheet_by_name('Nicaragua')},
+            {'country': Country.objects.get(slug='panama'), 'sheet': wb.get_sheet_by_name('Panama')}
         ]
-        
+
         language_es = Language.objects.get(acronym='es')
 
         for sheet in sheets:
@@ -90,28 +91,26 @@ class AvanceFisicoFinanciero(models.Model):
             except IndexError:
                 recomendacion = ''
 
-            cls.objects.create(
-                language = language_es,
-                country = country,
-                fecha_de_actualizacion = fecha_de_actualizacion,
-                avance_fisico_planificado = real_sheet.rows[0][4].value,
-                avance_financiero_planificado = real_sheet.rows[0][6].value,
-                avance_fisico_real = real_sheet.rows[1][4].value,
-                avance_financiero_actual = real_sheet.rows[1][6].value,
-                avances_fisicos_original_programado = real_sheet.rows[0][9].value,
-                avances_financieros_original_programado = real_sheet.rows[1][9].value,
-                monto_comprometido = real_sheet.rows[1][7].value,
-                monto_desembolsado = real_sheet.rows[1][2].value,
-                alerta = alerta,
-                recomendacion = recomendacion 
-            )
+            cls.objects.create(language = language_es,
+                               country = country,
+                               fecha_de_actualizacion = fecha_de_actualizacion,
+                               avance_fisico_planificado = real_sheet.rows[0][4].value,
+                               avance_financiero_planificado = real_sheet.rows[0][6].value,
+                               avance_fisico_real = real_sheet.rows[1][4].value,
+                               avance_financiero_actual = real_sheet.rows[1][6].value,
+                               avances_fisicos_original_programado = real_sheet.rows[0][9].value,
+                               avances_financieros_original_programado = real_sheet.rows[1][9].value,
+                               monto_comprometido = real_sheet.rows[1][7].value,
+                               monto_desembolsado = real_sheet.rows[1][2].value,
+                               alerta = alerta,
+                               recomendacion = recomendacion)
 
     @classmethod
     def get_editable_fields(cls):
         return ('fecha_de_actualizacion', 'avance_fisico_planificado', 'avance_financiero_planificado',
-        'avance_fisico_real','avance_financiero_actual','avances_fisicos_original_programado',
-        'avances_financieros_original_programado','monto_desembolsado','monto_comprometido',
-        'alerta','recomendacion')
+        'avance_fisico_real', 'avance_financiero_actual', 'avances_fisicos_original_programado',
+        'avances_financieros_original_programado', 'monto_desembolsado', 'monto_comprometido',
+        'alerta', 'recomendacion')
 
     def __unicode__(self):
         return self.country.name
@@ -196,7 +195,7 @@ class Hito(models.Model):
                         recomendacion_str = row[7].value
                         acuerdo_str = row[8].value
                         actividad_en_poa_str = row[9].value
-                        
+
                     try:
                         if estado_actual_str.lower() == 'completed' or estado_actual_str.lower() == 'cumplido':
                             estado_actual = EstadoActual.objects.get(name='Cumplido')
@@ -249,10 +248,19 @@ class UcMilestone(models.Model):
     quarter = models.ForeignKey(Quarter)
     language = models.ForeignKey(Language, default=1)
 
+    date = models.DateField(null=True, default=None)
     objective = models.CharField(max_length=300, null=True, blank=True, default=None)
     coordination_unit_milestone = models.CharField(max_length=500, null=True, blank=True, default=None)
     status = models.CharField(max_length=200, null=True, blank=True, default=None)
     observation = models.CharField(max_length=500, null=True, blank=True, default=None)
+
+    @classmethod
+    def get_dates(cls):
+        dates = []
+        for row in cls.objects.values('date').distinct():
+            if row['date']:
+                dates.append(row['date'].year)
+        return dates
 
     @classmethod
     def upload_excel(cls, uploaded_file):
@@ -317,6 +325,14 @@ class Sm2015Milestone(models.Model):
     hitos = models.CharField(max_length=500, null=True, blank=True, default=None)
     status = models.CharField(max_length=200, null=True, blank=True, default=None)
     observation = models.CharField(max_length=500, null=True, blank=True, default=None)
+
+    @classmethod
+    def get_dates(cls):
+        dates = []
+        for row in cls.objects.values('date').distinct():
+            if row['date']:
+                dates.append(row['date'].year)
+        return dates
 
     @classmethod
     def upload_excel(cls, uploaded_file):
