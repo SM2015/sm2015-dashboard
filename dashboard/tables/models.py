@@ -3,6 +3,7 @@ import re
 from openpyxl import load_workbook
 from django.db import models
 from core.models import Country, Language
+from datetime import date
 
 
 class Quarter(models.Model):
@@ -263,31 +264,19 @@ class UcMilestone(models.Model):
         return dates
 
     @classmethod
-    def upload_excel(cls, uploaded_file):
+    def upload_excel(cls, uploaded_file, sheet_name, sheet_lang):
         wb = load_workbook(uploaded_file, data_only=True)
-        sheet_en = wb.get_sheet_by_name('UC Milestones_en-US')
-        sheet_es = wb.get_sheet_by_name('UC Milestones_es-ES')
-        language_en = Language.objects.get(acronym='en')
-        language_es = Language.objects.get(acronym='es')
+        sheet = wb.get_sheet_by_name(sheet_name)
+        language = Language.objects.get(acronym=sheet_lang)
 
-        for row in sheet_en.rows:
-            if not row[0].row == 1 and row[0].value:
+        date_field = None
+        test_find_year = re.search('(2010|2011|2012|2013|2014|2015)',
+                                   sheet_name)
+        if test_find_year:
+            year = int(test_find_year.group(0))
+            date_field = date(year, 1, 1)
 
-                try:
-                    quarter = Quarter.objects.get(name=Quarter.normalize_name(row[2].value))
-                except:
-                    quarter = Quarter.objects.create(name=Quarter.normalize_name(row[2].value))
-
-                cls.objects.create(
-                    language = language_en,
-                    objective = row[0].value,
-                    coordination_unit_milestone = row[1].value,
-                    quarter = quarter,
-                    status = row[3].value,
-                    observation = row[4].value
-                )
-
-        for row in sheet_es.rows:
+        for row in sheet.rows:
             if not row[0].row == 1 and row[0].value:
                 try:
                     quarter = Quarter.objects.get(name=Quarter.normalize_name(row[2].value))
@@ -295,12 +284,13 @@ class UcMilestone(models.Model):
                     quarter = Quarter.objects.create(name=Quarter.normalize_name(row[2].value))
 
                 cls.objects.create(
-                    language = language_es,
-                    objective = row[0].value,
-                    coordination_unit_milestone = row[1].value,
-                    quarter = quarter,
-                    status = row[3].value,
-                    observation = row[4].value
+                    date=date_field,
+                    language=language,
+                    objective=row[0].value,
+                    coordination_unit_milestone=row[1].value,
+                    quarter=quarter,
+                    status=row[3].value,
+                    observation=row[4].value
                 )
 
     @classmethod
@@ -335,43 +325,36 @@ class Sm2015Milestone(models.Model):
         return dates
 
     @classmethod
-    def upload_excel(cls, uploaded_file):
+    def upload_excel(cls, uploaded_file, sheet_name, sheet_lang):
         wb = load_workbook(uploaded_file, data_only=True)
-        sheet_en = wb.get_sheet_by_name('SM2015 Milestones_en-US')
-        sheet_es = wb.get_sheet_by_name('SM2015 Milestones_es-ES')
-        language_en = Language.objects.get(acronym='en')
-        language_es = Language.objects.get(acronym='es')
+        sheet = wb.get_sheet_by_name(sheet_name)
+        language = Language.objects.get(acronym=sheet_lang)
 
-        for row in sheet_en.rows:
+        date_field = None
+        test_find_year = re.search('(2010|2011|2012|2013|2014|2015)',
+                                   sheet_name)
+        if test_find_year:
+            year = int(test_find_year.group(0))
+            date_field = date(year, 1, 1)
+
+        for row in sheet.rows:
             if not row[0].row == 1 and row[1].value:
                 if row[0].value:
                     try:
-                        objective = Objective.objects.get(objective=row[0].value)
+                        objective = Objective.objects.get(objective=
+                                                          row[0].value)
                     except:
-                        objective = Objective.objects.create(objective=row[0].value, language=language_en)
+                        objective = Objective.objects.create(objective=
+                                                             row[0].value,
+                                                             language=language)
 
                 cls.objects.create(
-                    language = language_en,
-                    objective = objective,
-                    hitos = row[1].value,
-                    status = row[2].value,
-                    observation = row[3].value
-                )
-
-        for row in sheet_es.rows:
-            if not row[0].row == 1 and row[1].value:
-                if row[0].value:
-                    try:
-                        objective = Objective.objects.get(objective=row[0].value)
-                    except:
-                        objective = Objective.objects.create(objective=row[0].value, language=language_es)
-
-                cls.objects.create(
-                    language = language_es,
-                    objective = objective,
-                    hitos = row[1].value,
-                    status = row[2].value,
-                    observation = row[3].value
+                    date=date_field,
+                    language=language,
+                    objective=objective,
+                    hitos=row[1].value,
+                    status=row[2].value,
+                    observation=row[3].value
                 )
 
     @classmethod

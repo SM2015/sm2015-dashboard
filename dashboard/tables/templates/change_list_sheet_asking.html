@@ -1,0 +1,58 @@
+{% extends "admin/change_list.html" %}
+{% load i18n admin_static admin_list %}
+
+{% block result_list %}
+  {% if action_form and actions_on_top and cl.full_result_count %}{% admin_actions %}{% endif %}
+  {% result_list cl %}
+  {% if action_form and actions_on_bottom and cl.full_result_count %}{% admin_actions %}{% endif %}
+{% endblock %}
+
+{% block extrastyle %}
+    {{block.super}}
+    <style>
+        .form-upload-excel {display:none;}
+    </style>
+{% endblock %}
+
+{% block extrahead %}
+    {{block.super}}
+    <script>
+        (function($) {
+            $().ready(function(){
+                $(".importlink").click(function(event){
+                    event.preventDefault();
+                    sheet = prompt("What is the Sheet's name?");
+                    if(sheet == null || sheet == ""){
+                      return;
+                    }
+                    lang = prompt("Which language, EN or ES (empty if None)?");
+                    
+                    $(document.getElementById("sheet-name")).val(sheet);
+                    $(document.getElementById("sheet-lang")).val(lang);
+                    $(".excel-file").click();
+                });
+                
+                $(".excel-file").change(function(){
+                    $(".form-upload-excel").submit();
+                });
+            });
+        })(django.jQuery);
+    </script>
+{% endblock %}
+
+{% block object-tools-items %}
+    {{block.super}}
+    <li>
+        <form enctype="multipart/form-data" action="{% url 'table_import_excel' %}" method="post" class="form-upload-excel">
+            <input class="excel-file" type="file" name='excel' />
+            <input type="hidden" name="app_name" value="{{cl.opts}}" />
+            <input type="hidden" name="sheet_name" id="sheet-name" value="" />
+            <input type="hidden" name="sheet_lang" id="sheet-lang" value="" />
+            {% csrf_token %}
+            <input type="submit" />
+        </form>
+      <a href="{% url 'table_import_excel' %}" class="importlink">
+          {% blocktrans with cl.opts.verbose_name as name %}Import Excel{% endblocktrans %}
+      </a>
+    </li>
+{% endblock %}

@@ -139,20 +139,21 @@ def render_export_hitos_and_avances(request, country_slug):
                         Cell(BlockText(u'Recomendación')),
                         Cell(BlockText(u'Acuerdo'))])
     for hito in hitos:
-        audiencias = []
-        for audiencia in hito.audiencia.all():
-            audiencias.append(audiencia.name)
+        if hito.alerta_notas or hito.recomendacion:
+            audiencias = []
+            for audiencia in hito.audiencia.all():
+                audiencias.append(audiencia.name)
 
-        table_hitos.add_row([
-            Cell(BlockText(hito.indicador_de_pago)),
-            Cell(BlockText(hito.hito)),
-            Cell(BlockText(hito.quarter.name)),
-            Cell(BlockText(", ".join(audiencias))),
-            Cell(BlockText(hito.estado_actual.name)),
-            Cell(BlockText(hito.alerta_notas or '')),
-            Cell(BlockText(hito.recomendacion or '')),
-            Cell(BlockText(hito.acuerdo or ''))
-        ])
+            table_hitos.add_row([
+                Cell(BlockText(hito.indicador_de_pago)),
+                Cell(BlockText(hito.hito)),
+                Cell(BlockText(hito.quarter.name)),
+                Cell(BlockText(", ".join(audiencias))),
+                Cell(BlockText(hito.estado_actual.name)),
+                Cell(BlockText(hito.alerta_notas or '')),
+                Cell(BlockText(hito.recomendacion or '')),
+                Cell(BlockText(hito.acuerdo or ''))
+            ])
     document.append(table_hitos)
 
     # Save our document

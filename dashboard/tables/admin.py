@@ -16,13 +16,13 @@ class GrantsFinancesAdmin(admin.ModelAdmin):
 
 class UcMilestoneAdmin(admin.ModelAdmin):
     list_display = ('coordination_unit_milestone', 'quarter', 'language',)
-    change_list_template = 'change_list.html'
+    change_list_template = 'change_list_sheet_asking.html'
 
 class AvanceFisicoFinancieroAdmin(admin.ModelAdmin):
     change_list_template = 'change_list.html'
 
 class Sm2015MilestoneAdmin(admin.ModelAdmin):
-    change_list_template = 'change_list.html'
+    change_list_template = 'change_list_sheet_asking.html'
 
 class LifeSaveAdmin(admin.ModelAdmin):
     list_display = ('country', 'field')

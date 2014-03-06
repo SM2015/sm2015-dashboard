@@ -200,24 +200,33 @@ def chart_flot(request, uuid_origin):
 
     return HttpResponse(json.dumps(data), content_type="application/json")
 
+
 @login_required
 def import_excel(request):
-    uploaded_file = request.FILES.get('excel')
     app_name = request.POST.get('app_name')
+    sheet_args = {
+        'uploaded_file': request.FILES.get('excel'),
+    }
+    sheet_name = request.POST.get('sheet_name')
+    sheet_lang = request.POST.get('sheet_lang').lower().replace(' ', '')
+    if sheet_name:
+        sheet_args.update({'sheet_name': sheet_name})
+    if sheet_lang:
+        sheet_args.update({'sheet_lang': sheet_lang})
 
     if app_name == 'tables.grantsfinances':
-        GrantsFinances.upload_excel(uploaded_file)
+        GrantsFinances.upload_excel(**sheet_args)
     elif app_name == 'tables.ucmilestone':
-        UcMilestone.upload_excel(uploaded_file)
+        UcMilestone.upload_excel(**sheet_args)
     elif app_name == 'tables.avancefisicofinanciero':
-        AvanceFisicoFinanciero.upload_excel(uploaded_file)
+        AvanceFisicoFinanciero.upload_excel(**sheet_args)
     elif app_name == 'tables.hito':
-        Hito.upload_excel(uploaded_file)
+        Hito.upload_excel(**sheet_args)
     elif app_name == 'tables.sm2015milestone':
-       Sm2015Milestone.upload_excel(uploaded_file)
+        Sm2015Milestone.upload_excel(**sheet_args)
     elif app_name == 'tables.lifesave':
-       LifeSave.upload_excel(uploaded_file)
+        LifeSave.upload_excel(**sheet_args)
     elif app_name == 'tables.countrydisbursement':
-       CountryDisbursement.upload_excel(uploaded_file)
+        CountryDisbursement.upload_excel(**sheet_args)
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
