@@ -115,14 +115,14 @@ def upload(site):
     today = datetime.now().strftime('%Y%m%d-%H%M%S')
     commit_id = str(local('git rev-parse HEAD', True)).strip()
     current = "%s-%s" % (today, commit_id[:8])
-    
+   
     # upload site
     local("git archive --format=tar --prefix={site}/ HEAD:{path}/ | gzip > /tmp/{site}.tgz".format(site=site, path=site))
     put("/tmp/{site}.tgz".format(site=site), "/tmp/")
     run("tar -C /tmp -xzf /tmp/{site}.tgz".format(site=site))
     sudo("rm -rf {project_path}/src/{site}".format(site=site, project_path=PROJECT_PATH))
     sudo("mv /tmp/{site} {project_path}/src/".format(site=site, project_path=PROJECT_PATH))
-    run("rm /tmp/{site}.tgz".format(site=site)) 
+    run("rm /tmp/{site}.tgz".format(site=site))
     local("rm /tmp/{site}.tgz".format(site=site))
 
     with cd("{project_path}/src/{site}/core/".format(site=site, project_path=PROJECT_PATH)):
@@ -132,7 +132,7 @@ def _is_valid_app(app_name):
     try:
         exec("from %s import migrations" % app_name)
     except ImportError:
-        return False        
+        return False
     return True
 
 def migrate(site):
@@ -143,12 +143,12 @@ def migrate(site):
     settings = mod.settings
 
     with cd("{project_path}/src/{site}".format(project_path=PROJECT_PATH, site=site)):
-        run('{project_path}/virtualenv/bin/python manage.py syncdb --settings=core.settings_wsgi'.format(project_path=PROJECT_PATH))
+        sudo('{project_path}/virtualenv/bin/python manage.py syncdb --settings=core.settings_wsgi'.format(project_path=PROJECT_PATH))
 
         for app in settings.INSTALLED_APPS:
             if _is_valid_app(app):
                 print(green("Migrate app {app}".format(app=app)))
-                run('{project_path}/virtualenv/bin/python manage.py migrate {app} --settings=core.settings_wsgi' \
+                sudo('{project_path}/virtualenv/bin/python manage.py migrate {app} --settings=core.settings_wsgi' \
                     .format(app=app, project_path=PROJECT_PATH))
 
 def collect_static(site):

@@ -1,9 +1,8 @@
 # coding: utf-8
 import os
 from datetime import datetime
-from django.db import models
 from tables.models import AvanceFisicoFinanciero, Operation, LifeSave, \
-        CountryDisbursement
+    CountryDisbursement
 
 class CountryDisbursementGraph(object):
 
@@ -33,8 +32,8 @@ class CountryDisbursementGraph(object):
 
         for obj in objs:
             data['rows'].append({"c": [
-                {"v": obj.quarter.name}, 
-                {"v": obj.charger.name}, 
+                {"v": obj.quarter.name},
+                {"v": obj.charger.name},
                 {"v": obj.amount}
             ]})
 
@@ -55,7 +54,7 @@ class LiveSaveGraph(object):
             data['pie'].append({"name": obj.field.abbr, "y": obj.percentage})
 
         return data
-    
+
 class TriangleGraph(object):
 
     @classmethod
@@ -64,11 +63,11 @@ class TriangleGraph(object):
         file_name = "chart-{country_name}.png".format(country_name=country.slug)
 
         dir_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        path_chart = "{root}/{file_name}".format(root=dir_path, file_name=file_name)
+        path_chart = "{root}/tables/files/{file_name}".format(root=dir_path, file_name=file_name)
 
         os.system("phantomjs {root}/website/static/js/highcharts/highcharts-convert.js "\
-                "-infile {options_path} -outfile {path_chart}  -scale 3 -width 350"
-                .format(root=dir_path, country_name=country.slug, path_chart=path_chart, options_path=path_options_highcharts))
+                  "-infile {options_path} -outfile {path_chart}  -scale 3 -width 350"
+                  .format(root=dir_path, country_name=country.slug, path_chart=path_chart, options_path=path_options_highcharts))
         return path_chart, file_name
 
     @classmethod
@@ -116,7 +115,7 @@ class TriangleGraph(object):
                 "series: %s"\
             "}" % (country.name, unicode(cls.get_triangle_categories()),\
                  "<", ">", "<", ">", "<", ">", "<", ">", unicode(cls.get_triangle_series(country=country)))
-            
+
         dir_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'graphs', 'files')
         path = "{dir_path}/options-{country_name}.js".format(dir_path=dir_path, country_name=country.slug)
         file_obj = open(path, 'w')
@@ -145,7 +144,7 @@ class TriangleGraph(object):
         except AvanceFisicoFinanciero.DoesNotExist:
             return []
 
-        try: 
+        try:
             operation = Operation.objects.get(country=country)
             total_days_operation = operation.finish_date - operation.starting_date
             total_days_operation = total_days_operation.days

@@ -1,0 +1,43 @@
+{% extends 'base_logado.html' %}
+{% load staticfiles %}
+
+{% block js_bottom %}
+    {{ block.super }}
+    <script src="{% static "js/dashboard-tile.js" %}" type="text/javascript"></script>
+    <script src="{% static "js/django.csrf.js" %}" type="text/javascript"></script>
+    <script>
+        $(document).ready(function() {
+            var origins = {{origins|safe}};
+            $(origins).each(function(i, origin){
+                $(".tiles-container").dashboardTile(origin);
+            });
+        });
+    </script>
+{% endblock js_bottom %}
+
+{% block css %}
+    {{ block.super }}
+    <style>
+        .tiles .tiles-title {
+            font-size: 18px;
+            font-weight: lighter;
+        }
+        .tiles .tiles-title strong {
+            font-weight: 600;
+        }
+        .tiles.yellow {
+            background-color: #E0B500;
+        }
+    </style>
+{% endblock css %}
+
+{% block content %}
+<div class="content">
+    <div class="page-title">	
+        <h3>Country Operation Financial Execution Performance</h3>		
+    </div>
+    <div id="container">
+        <div class="row-fluid spacing-bottom 2col tiles-container"></div>			
+    </div>  
+</div>
+{% endblock %}

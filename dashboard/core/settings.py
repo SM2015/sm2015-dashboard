@@ -34,6 +34,7 @@ INSTALLED_APPS = (
     'website',
     'tables',
     'map',
+    'countries',
 )
 
 MIDDLEWARE_CLASSES = (
