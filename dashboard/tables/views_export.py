@@ -18,6 +18,7 @@ from core.models import Country
 @login_required
 def render_export_hitos_and_avances(request, country_slug):
     context = RequestContext(request)
+    root_dir_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     hitos = Hito.objects.filter(country__slug=country_slug)
     estados_actuais = EstadoActual.objects.all()
     country = Country.objects.get(slug=country_slug)
@@ -39,7 +40,7 @@ def render_export_hitos_and_avances(request, country_slug):
 
     # DOCX
     document = Docx()
-    logo_bid = Image("{root}/tables/files/logo-bid.png".format(root=os.path.realpath('./')))
+    logo_bid = Image("{root}/tables/files/logo-bid.png".format(root=root_dir_path))
     document.append(logo_bid)
 
     # Heading
@@ -92,7 +93,7 @@ def render_export_hitos_and_avances(request, country_slug):
     document.append(Break())
     # Add Triangle Graph
     document.append(Block(InlineText(u"Gráficos del Tablero de Control", size=12, font='Times New Roman', bold=True), align='center'))
-    document.append(Image("{root}/tables/files/{triangle}".format(root=os.path.realpath('./'), triangle=triangle_file_name), align='center'))
+    document.append(Image("{0}".format(triangle_path), align='center'))
 
     document.append(Break())
     # HITOS
@@ -132,7 +133,7 @@ def render_export_hitos_and_avances(request, country_slug):
     document.append(table_hitos)
 
     # Save our document
-    path = "{root}/tables/files/{country_slug}_hitos_y_avances.docx".format(country_slug=country_slug, root=os.path.realpath('./'))
+    path = "{root}/tables/files/{country_slug}_hitos_y_avances.docx".format(country_slug=country_slug, root=root_dir_path)
     document.save(path)
 
     file_docx = open(path, 'r')

@@ -38,7 +38,7 @@ def server_configuration():
     configure_uwsgi()
 
 def deploy(site='dashboard'):
-    upload(site)
+    #upload(site)
     install_requirements()
     migrate(site)
     collect_static(site)
@@ -105,7 +105,7 @@ def install_requirements():
     with cd(PROJECT_PATH):
         for line in open(requirements_path):
             package = line.replace("\n", "")
-            run('virtualenv/bin/pip install {package}'.format(package=package), shell=False)
+            sudo('virtualenv/bin/pip install {package}'.format(package=package), shell=False)
 
 def upload(site):
 
@@ -115,7 +115,7 @@ def upload(site):
     today = datetime.now().strftime('%Y%m%d-%H%M%S')
     commit_id = str(local('git rev-parse HEAD', True)).strip()
     current = "%s-%s" % (today, commit_id[:8])
-   
+
     # upload site
     local("git archive --format=tar --prefix={site}/ HEAD:{path}/ | gzip > /tmp/{site}.tgz".format(site=site, path=site))
     put("/tmp/{site}.tgz".format(site=site), "/tmp/")
