@@ -20,7 +20,7 @@
         
         var html_div = ''+
             '<div class="span4 '+class_first+'">'+
-              '<div id="'+id_div+'" style="min-width: 230px; height: 400px; margin: 0 auto"></div>'+
+              '<div id="'+id_div+'" style="height: 400px; margin: 0 auto"></div>'+
             '</div>';
 
         $container.append(html_div);
@@ -48,7 +48,7 @@
                 labels: {
                     style: {
                         color: '#000',
-                        font: '11px Trebuchet MS, Verdana, sans-serif'
+                        font: '10px Trebuchet MS, Verdana, sans-serif'
                     }
                 },
                 title: {
@@ -95,30 +95,19 @@
             chart: {
                 polar: true,
                 type: 'line',
-                marginLeft: 10,
-                marginRight: 10,
             },
             title: {
                 text: country + ' Primera Operación SM2015'
             },
-            pane: {
-                size: '85%'
-            },
             xAxis: {
                 categories: categoriesArray,
                 tickmarkPlacement: 'on',
+                offset: 20,
                 lineWidth: 0,
-                labels: {
-                    style: {
-                        width: '30px'
-                    }
-                }
             },
             yAxis: {
                 gridLineInterpolation: 'polygon',
                 lineWidth: 0,
-                min: 0,
-                width: 30
             },
             tooltip: {
                 shared: true,
