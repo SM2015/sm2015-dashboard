@@ -11,8 +11,9 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.db.models import ForeignKey, FieldDoesNotExist, IntegerField, FloatField, DateField
 from tables.models import Hito, AvanceFisicoFinanciero, EstadoActual, UcMilestone, Sm2015Milestone, Objective, \
         GrantsFinancesOrigin, GrantsFinancesFields, GrantsFinances, GrantsFinancesType, LifeSave, \
-        CountryDisbursement
+        CountryDisbursement, CountryOperation
 from tables import models as table_models
+from core.models import Country
 
 
 @login_required
@@ -166,6 +167,23 @@ def grants_finances_ongoing(request, uuid_origin):
         raise Http404
 
 @login_required
+def countries_ongoing(request, country_slug):
+    try:
+        country = Country.objects.get(slug=country_slug)
+        last_quarter = CountryOperation.get_last_quarter(country=country)
+        values = {
+            'accumulated': float("%.2f" % (last_quarter.it_disbursements_actual)),
+            'percentage': float("%.2f" % ((last_quarter.it_disbursements_actual/last_quarter.it_disbursements_planned) * 100)),
+            'dpi': float("%.1f" % (last_quarter.it_disbursements_actual/last_quarter.it_disbursements_planned)),
+            'dv':  float("%.2f" % (last_quarter.it_disbursements_actual - last_quarter.it_disbursements_planned))
+        }
+
+        return HttpResponse(json.dumps(values), content_type="application/json")
+
+    except Country.DoesNotExist:
+        raise Http404
+
+@login_required
 def chart_flot(request, uuid_origin):
     grants = GrantsFinances.objects.filter(field__field_origin__uuid=uuid_origin).order_by('quarter')
 
@@ -207,8 +225,8 @@ def import_excel(request):
     sheet_args = {
         'uploaded_file': request.FILES.get('excel'),
     }
-    sheet_name = request.POST.get('sheet_name')
-    sheet_lang = request.POST.get('sheet_lang').lower().replace(' ', '')
+    sheet_name = request.POST.get('sheet_name', '')
+    sheet_lang = request.POST.get('sheet_lang', '').lower().replace(' ', '')
     if sheet_name:
         sheet_args.update({'sheet_name': sheet_name})
     if sheet_lang:
@@ -228,5 +246,7 @@ def import_excel(request):
         LifeSave.upload_excel(**sheet_args)
     elif app_name == 'tables.countrydisbursement':
         CountryDisbursement.upload_excel(**sheet_args)
+    elif app_name == 'tables.countryoperation':
+        CountryOperation.upload_excel(**sheet_args)
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

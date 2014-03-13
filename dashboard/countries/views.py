@@ -3,20 +3,19 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
-from tables.models import GrantsFinancesOrigin
+from core.models import Country
 
 
 @login_required
 def countries(request):
     context = RequestContext(request)
-    grants_origins = GrantsFinancesOrigin.objects.all()
-    origins_values = []
-    for origin in grants_origins:
-        origins_values.append({
-            'uuid': str(origin.uuid),
-            'name': str(origin.name),
-            'url_ongoing': reverse('grants_finances_ongoing', args=[origin.uuid])
+    countries = Country.objects.all()
+    countries_values = []
+    for country in countries:
+        countries_values.append({
+            'name': str(country.name),
+            'url_ongoing': reverse('countries_ongoing', args=[country.slug])
         })
 
-    context.update({'origins': origins_values})
+    context.update({'countries': countries_values})
     return render_to_response("countries.html", context)

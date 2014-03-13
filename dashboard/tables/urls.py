@@ -42,6 +42,8 @@ urlpatterns = patterns(
         name="table_render_grants_finances"),
     url(r'render/life_save/(?P<country_slug>[-\w]+)/?$',
         views_render.render_life_save, name="table_render_life_save"),
+    url(r'render/country_operation/?$',
+        views_render.render_country_operation, name="table_render_country_operation"),
 
     url(r'render/export/hitos_y_avances/(?P<country_slug>[-\w]+)/?$',
         views_export.render_export_hitos_and_avances,
@@ -49,6 +51,8 @@ urlpatterns = patterns(
 
     url(r'grants_finances/ongoing/(?P<uuid_origin>[\_A-Z]+)/?$',
         views.grants_finances_ongoing, name="grants_finances_ongoing"),
+    url(r'country/ongoing/(?P<country_slug>[\_\-a-z]+)/?$',
+        views.countries_ongoing, name="countries_ongoing"),
     url(r'chart_flot/(?P<uuid_origin>[\_A-Z]+)/?$',
         views.chart_flot, name="chart_flot"),
 

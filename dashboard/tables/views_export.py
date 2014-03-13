@@ -96,21 +96,16 @@ def render_export_hitos_and_avances(request, country_slug):
     document.append(Image("{0}".format(triangle_path), align='center'))
 
     document.append(Break())
+
     # HITOS
-    document.append(Block(InlineText(u"ALERTAS TEMPRANAS Y ESTADO DE LOS HITOS", size=12, font='Times New Roman', bold=True), align='center'))
-    table_hitos = Table(width="100%", padding='3pt')
-    table_hitos.add_row([Cell(Block(InlineText(u'Indicador de Pago', bold=True, font='Times New Roman', size=10), align='center')),
-                         Cell(Block(InlineText(u'Hito', bold=True, font='Times New Roman', size=10), align='center')),
-                         Cell(Block(InlineText(u'Trimestre', bold=True, font='Times New Roman', size=10), align='center')),
-                         Cell(Block(InlineText(u'Audiencia', bold=True, font='Times New Roman', size=10), align='center')),
-                         Cell(Block(InlineText(u'Estado Actual', bold=True, font='Times New Roman', size=10), align='center')),
-                         Cell(Block(InlineText(u'Alerta/Notas', bold=True, font='Times New Roman', size=10), align='center')),
-                         Cell(Block(InlineText(u'Recomendación', bold=True, font='Times New Roman', size=10), align='center')),
-                         Cell(Block(InlineText(u'Acuerdo', bold=True, font='Times New Roman', size=10), align='center'))])
+    is_avaliable_hito = False
     for hito in hitos:
-        audiencias = []
-        for audiencia in hito.audiencia.all():
-            audiencias.append(audiencia.name)
+        if hito.recomendacion or hito.alerta_notas:
+            is_avaliable_hito = True
+
+            audiencias = []
+            for audiencia in hito.audiencia.all():
+                audiencias.append(audiencia.name)
 
             bg_estado = '#FFFFFF'
             if hito.estado_actual.name == 'Cumplido':
@@ -120,17 +115,30 @@ def render_export_hitos_and_avances(request, country_slug):
             elif hito.estado_actual.name == 'En proceso':
                 bg_estado = '#FEFF00'
 
-        table_hitos.add_row([
-            Cell(BlockText(hito.indicador_de_pago, font='Times New Roman', size=10)),
-            Cell(BlockText(hito.hito, font='Times New Roman', size=10)),
-            Cell(BlockText(hito.quarter.name, font='Times New Roman', size=10)),
-            Cell(BlockText(", ".join(audiencias), font='Times New Roman', size=10)),
-            Cell(BlockText(hito.estado_actual.name, font='Times New Roman', size=10), bgcolor=bg_estado),
-            Cell(BlockText(hito.alerta_notas or '', font='Times New Roman', size=10)),
-            Cell(BlockText(hito.recomendacion or '', font='Times New Roman', size=10)),
-            Cell(BlockText(hito.acuerdo or '', font='Times New Roman', size=10))
-        ])
-    document.append(table_hitos)
+            table_hitos.add_row([
+                Cell(BlockText(hito.indicador_de_pago, font='Times New Roman', size=10)),
+                Cell(BlockText(hito.hito, font='Times New Roman', size=10)),
+                Cell(BlockText(hito.quarter.name, font='Times New Roman', size=10)),
+                Cell(BlockText(", ".join(audiencias), font='Times New Roman', size=10)),
+                Cell(BlockText(hito.estado_actual.name, font='Times New Roman', size=10), bgcolor=bg_estado),
+                Cell(BlockText(hito.alerta_notas or '', font='Times New Roman', size=10)),
+                Cell(BlockText(hito.recomendacion or '', font='Times New Roman', size=10)),
+                Cell(BlockText(hito.acuerdo or '', font='Times New Roman', size=10))
+            ])
+
+    if is_avaliable_hito:
+        document.append(Block(InlineText(u"ALERTAS TEMPRANAS Y ESTADO DE LOS HITOS", size=12, font='Times New Roman', bold=True), align='center'))
+        table_hitos = Table(width="100%", padding='3pt')
+        table_hitos.add_row([Cell(Block(InlineText(u'Indicador de Pago', bold=True, font='Times New Roman', size=10), align='center')),
+                             Cell(Block(InlineText(u'Hito', bold=True, font='Times New Roman', size=10), align='center')),
+                             Cell(Block(InlineText(u'Trimestre', bold=True, font='Times New Roman', size=10), align='center')),
+                             Cell(Block(InlineText(u'Audiencia', bold=True, font='Times New Roman', size=10), align='center')),
+                             Cell(Block(InlineText(u'Estado Actual', bold=True, font='Times New Roman', size=10), align='center')),
+                             Cell(Block(InlineText(u'Alerta/Notas', bold=True, font='Times New Roman', size=10), align='center')),
+                             Cell(Block(InlineText(u'Recomendación', bold=True, font='Times New Roman', size=10), align='center')),
+                             Cell(Block(InlineText(u'Acuerdo', bold=True, font='Times New Roman', size=10), align='center'))])
+
+        document.append(table_hitos)
 
     # Save our document
     path = "{root}/tables/files/{country_slug}_hitos_y_avances.docx".format(country_slug=country_slug, root=root_dir_path)

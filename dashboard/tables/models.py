@@ -620,3 +620,114 @@ class CountryDisbursement(models.Model):
                         description = row[5].value,
                         amount = amount
                     )
+
+
+class CountryOperationIT(models.Model):
+    country = models.ForeignKey(Country, default=None, null=True)
+    it = models.FloatField(default=0)
+
+    def __unicode__(self):
+        return self.country.name
+
+    @classmethod
+    def get_editable_fields(cls):
+        return ('it',)
+
+
+class CountryOperation(models.Model):
+    country = models.ForeignKey(Country, default=None, null=True)
+    quarter = models.ForeignKey(Quarter)
+
+    it_disbursements_planned = models.FloatField(default=0)
+    it_disbursements_actual = models.FloatField(default=0)
+    it_execution_planned = models.FloatField(default=0)
+    it_execution_actual = models.FloatField(default=0)
+
+    def __unicode__(self):
+        return self.country.name
+
+    @classmethod
+    def get_editable_fields(cls):
+        return ('it_disbursements_planned', 'it_disbursements_actual',
+                'it_execution_planned', 'it_execution_actual')
+
+    @classmethod
+    def get_last_quarter(cls, country):
+        return cls.objects.filter(country=country).order_by('-quarter')[0]
+
+    @classmethod
+    def upload_excel(cls, uploaded_file):
+        wb = load_workbook(uploaded_file, data_only=True)
+        sheet = wb.get_sheet_by_name('Quarterly Performance')
+        countries = {}
+
+        for row in sheet.rows:
+            country = None
+            if row[0].row >= 5 and row[0].row <= 8:
+                country = Country.objects.get(slug='mexico')
+            elif row[0].row >= 9 and row[0].row <= 12:
+                country = Country.objects.get(slug='belize')
+            elif row[0].row >= 13 and row[0].row <= 16:
+                country = Country.objects.get(slug='el-salvador')
+            elif row[0].row >= 17 and row[0].row <= 20:
+                country = Country.objects.get(slug='costa-rica')
+            elif row[0].row >= 21 and row[0].row <= 24:
+                country = Country.objects.get(slug='honduras')
+            elif row[0].row >= 25 and row[0].row <= 28:
+                country = Country.objects.get(slug='guatemala')
+            elif row[0].row >= 29 and row[0].row <= 32:
+                country = Country.objects.get(slug='nicaragua')
+            elif row[0].row >= 33 and row[0].row <= 36:
+                country = Country.objects.get(slug='panama')
+            elif row[0].row == 4:
+                quarters = {}
+                for cell in row[5:13]:
+                    quarters[cell.column] = cell.value
+
+            if country:
+                try:
+                    CountryOperationIT.objects.get(country=country)
+                except CountryOperationIT.DoesNotExist:
+                    CountryOperationIT.objects.create(country=country, it=row[2].value)
+
+                if not countries.has_key(country.name):
+                    countries[country.name] = {}
+
+                if row[0].row in [5, 9, 13, 17, 21, 25, 29, 33]:
+                    for cell in row[5:13]:
+                        quarter = quarters[cell.column]
+                        countries[country.name][quarter] = {}
+                        countries[country.name][quarter]['country'] = country
+                        countries[country.name][quarter]['it_disbursements_planned'] = cell.value
+
+                elif row[0].row in [6, 10, 14, 18, 22, 26, 30, 34]:
+                    for cell in row[5:13]:
+                        quarter = quarters[cell.column]
+                        countries[country.name][quarter]['it_disbursements_actual'] = cell.value
+
+                elif row[0].row in [7, 11, 15, 19, 23, 27, 31, 35]:
+                    for cell in row[5:13]:
+                        quarter = quarters[cell.column]
+                        countries[country.name][quarter]['it_execution_planned'] = cell.value
+
+                elif row[0].row in [8, 12, 16, 20, 24, 28, 32, 36]:
+                    for cell in row[5:13]:
+                        quarter = quarters[cell.column]
+                        countries[country.name][quarter]['it_execution_actual'] = cell.value
+
+        for country_name in countries:
+            quarters = countries[country_name]
+            for quarter_name in quarters:
+                row = quarters[quarter_name]
+
+                try:
+                    quarter = Quarter.objects.get(name=Quarter.normalize_name(quarter_name))
+                except:
+                    quarter = Quarter.objects.create(name=Quarter.normalize_name(quarter_name))
+
+                cls.objects.create(country=row['country'],
+                                   quarter=quarter,
+                                   it_disbursements_planned=row['it_disbursements_planned'],
+                                   it_disbursements_actual=row['it_disbursements_actual'],
+                                   it_execution_planned=row['it_execution_planned'],
+                                   it_execution_actual=row['it_execution_actual'])
