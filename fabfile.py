@@ -105,7 +105,7 @@ def install_requirements():
     with cd(PROJECT_PATH):
         for line in open(requirements_path):
             package = line.replace("\n", "")
-            sudo('virtualenv/bin/pip install {package}'.format(package=package), shell=False)
+            run('virtualenv/bin/pip install {package}'.format(package=package), shell=False)
 
 def upload(site):
 

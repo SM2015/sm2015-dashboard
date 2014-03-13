@@ -1,0 +1,31 @@
+{% load humanize %}
+<table class="table table-hover table-condensed table-bordered">
+    <thead>
+      <tr>
+        <th class="column-name"></th>
+        <th class="column-name">IT (US$ million)</th>
+        <th class="column-name"></th>
+        <th class="column-name"></th>
+        {% for quarter in quarters %}
+        <th class="column-name">{{quarter.quarter__name}}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in table %}
+      <tr data-objid="{{milestone.id}}" data-model="CountryOperation">
+        {% if forloop.counter == 0 or forloop.counter0|divisibleby:4 %}
+        <td class=" text" name="country" rowspan="4">{{row.country}}</td>
+        <td class=" text" name="it" rowspan="4">{{row.it}}</td>
+        {% endif %}
+        {% if forloop.counter == 0 or forloop.counter0|divisibleby:2 %}
+        <td class="text" name="" rowspan="2">{{row.field.parent_name}}</td>
+        {% endif %}
+        <td class="text" name="">{{row.field.name}}</td>
+        {% for value in row.values %}
+          <td class=" text" name="value">{{value|intcomma}}</td>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </tbody>
+</table>
