@@ -8,10 +8,12 @@ from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponse, Http404, HttpResponseRedirect
-from django.db.models import ForeignKey, FieldDoesNotExist, IntegerField, FloatField, DateField
-from tables.models import Hito, AvanceFisicoFinanciero, EstadoActual, UcMilestone, Sm2015Milestone, Objective, \
-        GrantsFinancesOrigin, GrantsFinancesFields, GrantsFinances, GrantsFinancesType, LifeSave, \
-        CountryDisbursement, CountryOperation
+from django.db.models import ForeignKey, FieldDoesNotExist, IntegerField, \
+    FloatField, DateField
+from tables.models import Hito, AvanceFisicoFinanciero, UcMilestone, \
+    Sm2015Milestone, GrantsFinancesOrigin, GrantsFinancesFields, \
+    GrantsFinances, GrantsFinancesType, LifeSave, CountryDisbursement, \
+    CountryOperation
 from tables import models as table_models
 from core.models import Country
 
@@ -39,13 +41,13 @@ def save_milestone_data(request):
                     instance_related_model = field.field.related.parent_model.objects.get(id=value)
                     setattr(instance, field_name, instance_related_model)
                     value = instance_related_model.name
-            except AttributeError, e:
+            except AttributeError:
                 field = class_table._meta.get_field_by_name(field_name)[0]
 
                 if isinstance(field, IntegerField):
                     real_value = re.sub("\D", "", value)
                 elif isinstance(field, FloatField):
-                    real_value = re.search('[\d\.\,]+', value).group(0).replace('.', '').replace(',','.')
+                    real_value = re.search('[\d\.\,]+', value).group(0).replace('.', '').replace(',', '')
                 elif isinstance(field, DateField):
                     real_value = datetime.strptime(value, "%m/%d/%Y").date()
 

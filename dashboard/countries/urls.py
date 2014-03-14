@@ -6,6 +6,8 @@ admin.autodiscover()
 
 urlpatterns = patterns(
     '',
-    url(r'/?$',
+    url(r'^/?$',
         views.countries, name="countries"),
+    url(r'^country_details/?$',
+        views.country_details, name="countries_details"),
 )

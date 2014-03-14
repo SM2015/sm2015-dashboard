@@ -19,3 +19,10 @@ def countries(request):
 
     context.update({'countries': countries_values})
     return render_to_response("countries.html", context)
+
+
+@login_required
+def country_details(request):
+    context = RequestContext(request)
+
+    return render_to_response("country_details.html", context)

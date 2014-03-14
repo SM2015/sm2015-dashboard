@@ -1,0 +1,148 @@
+{% extends 'base_logado.html' %}
+{% load staticfiles %}
+
+{% block js_bottom %}
+    {{ block.super }}
+    <script src="{% static "assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js" %}" type="text/javascript"></script>
+    <script src="{% static "assets/plugins/bootstrap-select2/select2.min.js" %}" type="text/javascript"></script>
+    <script src="{% static "assets/plugins/jquery-datatable/js/jquery.dataTables.min.js" %}" type="text/javascript" ></script>
+    <script src="{% static "assets/plugins/jquery-datatable/extra/js/TableTools.min.js" %}" type="text/javascript" ></script>
+    <script type="text/javascript" src="{% static "assets/plugins/datatables-responsive/js/datatables.responsive.js" %}"></script>
+    <script type="text/javascript" src="{% static "assets/plugins/datatables-responsive/js/lodash.min.js" %}"></script>
+    <script src="{% static "assets/plugins/jquery-flot/jquery.flot.js" %}" type="text/javascript" ></script>
+    <script src="{% static "assets/plugins/jquery-flot/jquery.flot.time.min.js" %}" type="text/javascript" ></script>
+    <script src="{% static "assets/plugins/jquery-flot/jquery.flot.selection.min.js" %}" type="text/javascript" ></script>
+    <script src="{% static "assets/plugins/jquery-flot/jquery.flot.animator.min.js" %}" type="text/javascript" ></script>
+    <script src="{% static "assets/plugins/jquery-flot/jquery.flot.orderBars.js" %}" type="text/javascript" ></script>
+    <script src="{% static "assets/plugins/jquery-sparkline/jquery-sparkline.js" %}" type="text/javascript" ></script>
+    
+    <script src="{% static "assets/js/datatables.js" %}" type="text/javascript"></script>
+    
+    <script src="{% static "js/dashboard-table.js" %}" type="text/javascript"></script>
+    <script src="{% static "js/dashboard-tile.js" %}" type="text/javascript"></script>
+    <script src="{% static "js/dashboard-chart-flot.js" %}" type="text/javascript"></script>
+    <script src="{% static "js/django.csrf.js" %}" type="text/javascript"></script>
+    <script src="{% static "assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js" %}" type="text/javascript"></script>
+    <script src="{% static "js/jquery.jeditable.datepicker.js" %}" type="text/javascript"></script>
+    <script src="{% static "assets/plugins/boostrap-form-wizard/js/jquery.bootstrap.wizard.min.js" %}" type="text/javascript"></script>
+    <script src="{% static "assets/plugins/bootstrap-select2/select2.min.js" type="text/javascript" %}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#rootwizard').bootstrapWizard({
+                  'tabClass': 'form-wizard',
+                  'onNext': function(tab, navigation, index) {
+                    $('#rootwizard').find('.form-wizard').children('li').eq(index-1).addClass('complete');
+                    $('#rootwizard').find('.form-wizard').children('li').eq(index-1).find('.step').html('<i class="icon-ok"></i>');	
+                    if(index == 3){
+                      $(".table-country-operation").dashboardTable("{% url 'table_render_country_operation' %}", {
+                          title: "Country Details",
+                          url_save: "{% url 'save_milestone_data' %}"
+                      });
+                    }
+                  }
+             });
+            $(".select-beauty").select2();
+        });
+    </script>
+{% endblock js_bottom %}
+
+{% block css %}
+    {{ block.super }}
+    <link href="{% static "css/tables-custom.css" %}" rel="stylesheet" type="text/css"/>
+{% endblock css %}
+
+{% block content %}
+<div class="content">
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="grid simple transparent">
+          <div class="grid-title">
+            <h4>Country <span class="semi-bold">Details</span></h4>
+            <div class="tools"> <a href="javascript:;" class="collapse"></a> <a href="#grid-config" data-toggle="modal" class="config"></a> <a href="javascript:;" class="reload"></a> <a href="javascript:;" class="remove"></a> </div>
+          </div>
+          <div class="grid-body ">
+            <div class="row-fluid">
+              <form id="commentForm">
+                <div id="rootwizard" class="span12">
+                  <div class="form-wizard-steps">
+                    <ul class="wizard-steps">
+                      <li class="" data-target="#step1"> <a href="#tab1" data-toggle="tab"> <span class="step">1</span> <span class="title">Location</span> </a> </li>
+                      <li data-target="#step2" class=""> <a href="#tab2" data-toggle="tab"> <span class="step">2</span> <span class="title">Indicadores</span> </a> </li>
+                      <li data-target="#step3" class=""> <a href="#tab3" data-toggle="tab"> <span class="step">3</span> <span class="title">Nivel</span> </a> </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="tab-content transparent">
+                    <div class="tab-pane" id="tab1"> <br>
+                      <h4 class="semi-bold">Step 1 - <span class="light">Location</span></h4>
+                      <br>
+                      <div class="row-fluid">
+                        <div class="span6">
+                          <select class="select-beauty" style="width:100%">
+                            <optgroup label="North America">
+                            <option value="mexico">Mexico</option>
+                            </optgroup>
+                            <optgroup label="Central America">
+                            <option value="belize">Belize</option>
+                            </optgroup>
+                          </select>
+                        </div>
+                        <div class="span6">
+                          <select class="select-beauty"  style="width:100%">
+                            <option value="-1">Todos</option>
+                            <option value="chipias">Chipias</option>
+                            <option value="jur-san-cristobal">Jur. San Cristóbal</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="tab-pane" id="tab2"> <br>
+                      <h4 class="semi-bold">Step 2 - <span class="light">Indicadores</span></h4>
+                      <br>
+                      <div class="row-fluid">
+                        <div class="span6">
+                          <select class="select-beauty" style="width:100%">
+                            <option value="-1">Todos</option>
+                            <option value="12">Mujeres en edad reproductiva (15-49) que en su embarazo más reciente en los últimos dos años recibieron por lo menos 5 atenciones prenatales realizado por médico, enfermera o COCS de acuerdo a las mejores prácticas.</option>
+                          </select>
+                        </div>
+                        <div class="span6">
+                          <select class="select-beauty"  style="width:100%">
+                            <option value="-1">Todos</option>
+                            <option value="12.1">Promedio de consultas prenatales</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="tab-pane" id="tab3"> <br>
+                      <h4 class="semi-bold">Step 3 - <span class="light">Nivel</span></h4>
+                      <br>
+                      <div class="row-fluid">
+                        <div class="span6">
+                          <select class="select-beauty"  style="width:100%">
+                            <option value="-1">Todos</option>
+                            <option value="estatal">Estatal</option>
+                            <option value="jurisdiccion">Jurisdiccion</option>
+                            <option value="municipio">Municipio</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <ul class="wizard wizard-actions">
+                      <li class="previous first" style="display:none;"><a href="javascript:;" class="btn">&nbsp;&nbsp;First&nbsp;&nbsp;</a></li>
+                      <li class="previous"><a href="javascript:;" class="btn">&nbsp;&nbsp;Previous&nbsp;&nbsp;</a></li>
+                      <li class="next last" style="display:none;"><a href="javascript:;" class="btn btn-primary">&nbsp;&nbsp;Last&nbsp;&nbsp;</a></li>
+                      <li class="next"><a href="javascript:;" class="btn btn-primary">&nbsp;&nbsp;Next&nbsp;&nbsp;</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-country-operation"></div>
+</div>
+{% endblock %}

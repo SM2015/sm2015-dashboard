@@ -43,7 +43,8 @@ urlpatterns = patterns(
     url(r'render/life_save/(?P<country_slug>[-\w]+)/?$',
         views_render.render_life_save, name="table_render_life_save"),
     url(r'render/country_operation/?$',
-        views_render.render_country_operation, name="table_render_country_operation"),
+        views_render.render_country_operation,
+        name="table_render_country_operation"),
 
     url(r'render/export/hitos_y_avances/(?P<country_slug>[-\w]+)/?$',
         views_export.render_export_hitos_and_avances,
