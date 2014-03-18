@@ -10,10 +10,11 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.db.models import ForeignKey, FieldDoesNotExist, IntegerField, \
     FloatField, DateField
+from django.template.defaultfilters import slugify
 from tables.models import Hito, AvanceFisicoFinanciero, UcMilestone, \
     Sm2015Milestone, GrantsFinancesOrigin, GrantsFinancesFields, \
     GrantsFinances, GrantsFinancesType, LifeSave, CountryDisbursement, \
-    CountryOperation
+    CountryOperation, CountryDetails
 from tables import models as table_models
 from core.models import Country
 
@@ -29,7 +30,7 @@ def save_milestone_data(request):
         class_table = getattr(table_models, model_name)
         instance = get_object_or_404(class_table, id=request.POST.get('objid'))
 
-    except AttributeError, e:
+    except AttributeError:
         raise Http404
 
     for field_name in class_table.get_editable_fields():
@@ -228,11 +229,14 @@ def import_excel(request):
         'uploaded_file': request.FILES.get('excel'),
     }
     sheet_name = request.POST.get('sheet_name', '')
-    sheet_lang = request.POST.get('sheet_lang', '').lower().replace(' ', '')
+    sheet_lang = request.POST.get('sheet_lang', '').lower().strip()
+    sheet_country = request.POST.get('sheet_country', '').lower().strip()
     if sheet_name:
         sheet_args.update({'sheet_name': sheet_name})
     if sheet_lang:
         sheet_args.update({'sheet_lang': sheet_lang})
+    if sheet_country:
+        sheet_args.update({'sheet_country': slugify(sheet_country)})
 
     if app_name == 'tables.grantsfinances':
         GrantsFinances.upload_excel(**sheet_args)
@@ -250,5 +254,7 @@ def import_excel(request):
         CountryDisbursement.upload_excel(**sheet_args)
     elif app_name == 'tables.countryoperation':
         CountryOperation.upload_excel(**sheet_args)
+    elif app_name == 'tables.countrydetails':
+        CountryDetails.upload_excel(**sheet_args)
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

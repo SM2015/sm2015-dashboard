@@ -26,6 +26,11 @@
                       return;
                     }
                     lang = prompt("Which language, EN or ES (empty if None)?");
+                    {% if ask_country %}
+                    country = prompt("Which country? (Options are: Belize, Costa Rica, El Salvador, " + 
+                                     "Guatemala, Honduras, Mexico, Nicaragua or Panama)");
+                    $(document.getElementById("sheet-country")).val(country);
+                    {% endif %}
                     
                     $(document.getElementById("sheet-name")).val(sheet);
                     $(document.getElementById("sheet-lang")).val(lang);
@@ -48,6 +53,7 @@
             <input type="hidden" name="app_name" value="{{cl.opts}}" />
             <input type="hidden" name="sheet_name" id="sheet-name" value="" />
             <input type="hidden" name="sheet_lang" id="sheet-lang" value="" />
+            <input type="hidden" name="sheet_country" id="sheet-country" value="" />
             {% csrf_token %}
             <input type="submit" />
         </form>

@@ -28,12 +28,20 @@
     <script src="{% static "assets/plugins/bootstrap-select2/select2.min.js" type="text/javascript" %}"></script>
     <script>
         $(document).ready(function() {
+            $select_country = $(document.getElementById('country'));
+            $select_isech = $(document.getElementById('isech'));
+            $select_pago = $(document.getElementById('pago'));
+            $select_level = $(document.getElementById('level'));
+            $select_location = $(document.getElementById('location'));
+            $form = $(document.getElementById("countryDetailsForm"));
+
             $('#rootwizard').bootstrapWizard({
                   'tabClass': 'form-wizard',
                   'onNext': function(tab, navigation, index) {
                     $('#rootwizard').find('.form-wizard').children('li').eq(index-1).addClass('complete');
                     $('#rootwizard').find('.form-wizard').children('li').eq(index-1).find('.step').html('<i class="icon-ok"></i>');	
-                    if(index == 3){
+                    if(index == 2){
+                      console.log($form.serialize());
                       $(".table-country-operation").dashboardTable("{% url 'table_render_country_operation' %}", {
                           title: "Country Details",
                           url_save: "{% url 'save_milestone_data' %}"
@@ -42,6 +50,80 @@
                   }
              });
             $(".select-beauty").select2();
+
+
+            var listLevel = function(){
+              $.getJSON("{% url 'country_list_level' %}?" + $form.serialize(), function(response){
+                var options = ['<option value="">-- choose a level --</option>',
+                               '<option value="-1">All</option>'];
+                $.each(response, function(){
+                  options.push('<option value="'+this.id+'">'+this.name+'</option>');
+                });
+                $select_level.html(options);
+                $select_level.select2();
+              });
+            }
+            
+            var listIsech = function(){
+              $.getJSON("{% url 'country_list_isech' %}?" + $form.serialize(), function(response){
+                var options = ['<option value="">-- choose a isech --</option>',
+                               '<option value="-1">All</option>'];
+                $.each(response, function(){
+                  options.push('<option value="'+this.id+'">'+this.name+'</option>');
+                });
+                $select_isech.html(options);
+                $select_isech.select2();
+              });
+            }
+            
+            var listPago = function(){
+              $.getJSON("{% url 'country_list_pago' %}?" + $form.serialize(), function(response){
+                var options = ['<option value="">-- choose a pago --</option>',
+                               '<option value="-1">All</option>'];
+                $.each(response, function(){
+                  options.push('<option value="'+this.id+'">'+this.name+'</option>');
+                });
+                $select_pago.html(options);
+                $select_pago.select2();
+              });
+            }
+
+            var listLocation = function(){
+              $.getJSON("{% url 'country_list_location' %}?" + $form.serialize(), function(response){
+                var options = ['<option value="">-- choose a location --</option>',
+                               '<option value="-1">All</option>'];
+                $.each(response, function(){
+                  options.push('<option value="'+this+'">'+this+'</option>');
+                });
+                $select_location.html(options);
+                $select_location.select2();
+              });
+            }
+
+            $select_country.change(function(){
+              if(this.value){
+                listLevel();
+                $select_level.removeAttr("disabled");
+              }  
+            });
+            $select_level.change(function(){
+              if(this.value){
+                listLocation();
+                $select_location.removeAttr("disabled");
+              }  
+            });
+            $select_location.change(function(){
+              if(this.value){
+                listPago();
+                $select_pago.removeAttr("disabled");
+              }  
+            });
+            $select_pago.change(function(){
+              if(this.value){
+                listIsech();
+                $select_isech.removeAttr("disabled");
+              }  
+            });
         });
     </script>
 {% endblock js_bottom %}
@@ -62,13 +144,12 @@
           </div>
           <div class="grid-body ">
             <div class="row-fluid">
-              <form id="commentForm">
+              <form id="countryDetailsForm">
                 <div id="rootwizard" class="span12">
                   <div class="form-wizard-steps">
                     <ul class="wizard-steps">
                       <li class="" data-target="#step1"> <a href="#tab1" data-toggle="tab"> <span class="step">1</span> <span class="title">Location</span> </a> </li>
                       <li data-target="#step2" class=""> <a href="#tab2" data-toggle="tab"> <span class="step">2</span> <span class="title">Indicadores</span> </a> </li>
-                      <li data-target="#step3" class=""> <a href="#tab3" data-toggle="tab"> <span class="step">3</span> <span class="title">Nivel</span> </a> </li>
                     </ul>
                     <div class="clearfix"></div>
                   </div>
@@ -77,21 +158,22 @@
                       <h4 class="semi-bold">Step 1 - <span class="light">Location</span></h4>
                       <br>
                       <div class="row-fluid">
-                        <div class="span6">
-                          <select class="select-beauty" style="width:100%">
-                            <optgroup label="North America">
-                            <option value="mexico">Mexico</option>
-                            </optgroup>
-                            <optgroup label="Central America">
-                            <option value="belize">Belize</option>
-                            </optgroup>
+                        <div class="span4">
+                          <select class="select-beauty" id="country" name="country" style="width:100%">
+                            <option value="">-- choose a country here --</option>
+                            {% for c in countries %}
+                            <option value="{{c.country__id}}">{{c.country__name}}</option>
+                            {% endfor %}
                           </select>
                         </div>
-                        <div class="span6">
-                          <select class="select-beauty"  style="width:100%">
-                            <option value="-1">Todos</option>
-                            <option value="chipias">Chipias</option>
-                            <option value="jur-san-cristobal">Jur. San Cristóbal</option>
+                        <div class="span4">
+                          <select class="select-beauty" id="level" name="level" style="width:100%" disabled="1">
+                            <option value="">-- choose a country first --</option>
+                          </select>
+                        </div>
+                        <div class="span4">
+                          <select class="select-beauty" id="location" name="location" style="width:100%" disabled="1">
+                            <option value="">-- choose a level first --</option>
                           </select>
                         </div>
                       </div>
@@ -101,29 +183,13 @@
                       <br>
                       <div class="row-fluid">
                         <div class="span6">
-                          <select class="select-beauty" style="width:100%">
-                            <option value="-1">Todos</option>
-                            <option value="12">Mujeres en edad reproductiva (15-49) que en su embarazo más reciente en los últimos dos años recibieron por lo menos 5 atenciones prenatales realizado por médico, enfermera o COCS de acuerdo a las mejores prácticas.</option>
+                          <select class="select-beauty" id="pago" name="pago" style="width:100%" disabled="1">
+                            <option value="">-- choose a location first --</option>
                           </select>
                         </div>
                         <div class="span6">
-                          <select class="select-beauty"  style="width:100%">
-                            <option value="-1">Todos</option>
-                            <option value="12.1">Promedio de consultas prenatales</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="tab-pane" id="tab3"> <br>
-                      <h4 class="semi-bold">Step 3 - <span class="light">Nivel</span></h4>
-                      <br>
-                      <div class="row-fluid">
-                        <div class="span6">
-                          <select class="select-beauty"  style="width:100%">
-                            <option value="-1">Todos</option>
-                            <option value="estatal">Estatal</option>
-                            <option value="jurisdiccion">Jurisdiccion</option>
-                            <option value="municipio">Municipio</option>
+                          <select class="select-beauty" id="isech" name="isech" style="width:100%" disabled="1">
+                            <option value="">-- choose a pago first --</option>
                           </select>
                         </div>
                       </div>

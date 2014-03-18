@@ -731,3 +731,121 @@ class CountryOperation(models.Model):
                                    it_disbursements_actual=row['it_disbursements_actual'],
                                    it_execution_planned=row['it_execution_planned'],
                                    it_execution_actual=row['it_execution_actual'])
+
+
+class CountryDetailsIsech(models.Model):
+    name = models.CharField(max_length=500, default='', null=True)
+    numero = models.FloatField(default=None, null=True)
+
+    def __unicode__(self):
+        return self.name
+
+class CountryDetailsLevel(models.Model):
+    name = models.CharField(max_length=500, default='', null=True)
+
+    def __unicode__(self):
+        return self.name
+
+class CountryDetailsPago(models.Model):
+    name = models.CharField(max_length=500, default='', null=True)
+    numero = models.IntegerField(default=None, null=True)
+
+    def __unicode__(self):
+        return self.name[:150]
+
+
+class CountryDetails(models.Model):
+    country = models.ForeignKey(Country, default=None, null=True)
+    pago = models.ForeignKey(CountryDetailsPago, default=None, null=True)
+    isech = models.ForeignKey(CountryDetailsIsech, default=None, null=True)
+    level = models.ForeignKey(CountryDetailsLevel, default=None, null=True)
+
+    location = models.CharField(max_length=300, default='', null=True)
+
+    def __unicode__(self):
+        return self.country.name
+
+    @classmethod
+    def get_editable_fields(cls):
+        return ('pago', 'isech',
+                'level', 'location')
+
+    @classmethod
+    def upload_excel(cls, uploaded_file, sheet_name, sheet_country, **kw):
+        wb = load_workbook(uploaded_file, data_only=True)
+        sheet = wb.get_sheet_by_name(sheet_name)
+        country = Country.objects.get(slug=sheet_country)
+        for row in sheet.rows:
+            if row[0].row == 6:
+                quarters = []
+                for row in row[6:]:
+                    try:
+                        quarter_name = row.value.strip()[::-1][:7][::-1]
+                        quarter_normalized_name = Quarter.normalize_name(quarter_name)
+                        # Verifica se a string se trata de um quarter
+                        int(quarter_normalized_name[:4])
+                        int(quarter_normalized_name[5])
+                        quarter = Quarter.objects.get_or_create(name=quarter_normalized_name)[0]
+                        if quarter not in quarters:
+                            quarters.append(quarter)
+                    except (ValueError, AttributeError):
+                        continue
+
+            elif row[0].row >= 7 and type(row[0].value) is int:
+                try:
+                    pago = CountryDetailsPago.objects.get(numero=row[0].value)
+                except CountryDetailsPago.DoesNotExist:
+                    pago = CountryDetailsPago.objects.create(numero=row[0].value,
+                                                             name=row[1].value)
+
+                try:
+                    isech = CountryDetailsIsech.objects.get(numero=row[2].value)
+                except CountryDetailsIsech.DoesNotExist:
+                    isech = CountryDetailsIsech.objects.create(numero=row[2].value,
+                                                               name=row[3].value)
+
+                try:
+                    level = CountryDetailsLevel.objects.get(name=row[4].value)
+                except CountryDetailsLevel.DoesNotExist:
+                    level = CountryDetailsLevel.objects.create(name=row[4].value)
+
+                country_detail = cls.objects.create(country=country,
+                                                    pago=pago,
+                                                    isech=isech,
+                                                    level=level,
+                                                    location=row[5].value)
+
+                last_value_column = 6
+                for quarter in quarters:
+                    cells_value = row[last_value_column:][:3]
+                    numerador_reportado = cells_value[0].value
+                    if type(numerador_reportado) not in [int, float]:
+                        numerador_reportado = None
+
+                    denominador_reportado = cells_value[1].value
+                    if type(denominador_reportado) not in [int, float]:
+                        denominador_reportado = None
+
+                    CountryDetailsValues.objects.create(
+                        country_detail=country_detail,
+                        numerador_reportado=numerador_reportado,
+                        denominador_reportado=denominador_reportado,
+                        quarter=quarter
+                    )
+                    last_value_column += 3
+
+
+class CountryDetailsValues(models.Model):
+    country_detail = models.ForeignKey(CountryDetails)
+    numerador_reportado = models.FloatField(default=None, null=True)
+    denominador_reportado = models.FloatField(default=None, null=True)
+    quarter = models.ForeignKey(Quarter)
+
+    def __unicode__(self):
+        return "{0} - {1}".format(self.country_detail.country,
+                                  self.quarter)
+
+    @classmethod
+    def get_editable_fields(cls):
+        return ('numerador_reportado', 'denominador_reportado',
+                'quarter')
