@@ -771,6 +771,13 @@ class CountryDetails(models.Model):
                 'level', 'location')
 
     @classmethod
+    def get_periods(cls):
+        periods = []
+        for quarter_dict in CountryDetailsValues.objects.values('quarter__name').order_by('quarter__name').distinct():
+            periods.append(quarter_dict['quarter__name'])
+        return periods
+
+    @classmethod
     def upload_excel(cls, uploaded_file, sheet_name, sheet_country, **kw):
         wb = load_workbook(uploaded_file, data_only=True)
         sheet = wb.get_sheet_by_name(sheet_name)

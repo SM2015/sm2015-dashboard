@@ -34,6 +34,8 @@
             $select_level = $(document.getElementById('level'));
             $select_location = $(document.getElementById('location'));
             $form = $(document.getElementById("countryDetailsForm"));
+            
+            $select_country.find('option:first').attr('selected', true);
 
             $('#rootwizard').bootstrapWizard({
                   'tabClass': 'form-wizard',
@@ -41,8 +43,7 @@
                     $('#rootwizard').find('.form-wizard').children('li').eq(index-1).addClass('complete');
                     $('#rootwizard').find('.form-wizard').children('li').eq(index-1).find('.step').html('<i class="icon-ok"></i>');	
                     if(index == 2){
-                      console.log($form.serialize());
-                      $(".table-country-operation").dashboardTable("{% url 'table_render_country_operation' %}", {
+                      $(".table-country-operation").dashboardTable("{% url 'table_render_country_details' %}?" + $form.serialize(), {
                           title: "Country Details",
                           url_save: "{% url 'save_milestone_data' %}"
                       });

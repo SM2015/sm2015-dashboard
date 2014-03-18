@@ -5,7 +5,9 @@ from django.http import HttpResponse
 
 from tables.models import Hito, AvanceFisicoFinanciero, EstadoActual, UcMilestone, \
         Sm2015Milestone, Objective, GrantsFinances, GrantsFinancesFields, \
-        LifeSaveField, LifeSave, CountryOperation, CountryOperationIT
+        LifeSaveField, LifeSave, CountryOperation, CountryOperationIT, \
+        CountryDetails, CountryDetailsValues
+from countries.views import _get_obj_filtered_api
 
 
 @login_required
@@ -241,3 +243,50 @@ def render_country_operation(request):
         'total': total
     })
     return HttpResponse(rendered, content_type="text/html")
+
+@login_required
+def render_country_details(request):
+    country_details = _get_obj_filtered_api(request)
+    table = []
+    periods = CountryDetails.get_periods()
+
+    for country_detail in country_details.all():
+        row_values = []
+        for period in periods:
+            values = []
+            country_values = CountryDetailsValues.objects \
+                                                 .filter(country_detail=country_detail) \
+                                                 .filter(quarter__name=period)
+
+            if country_values:
+                values = country_values[0]
+                field_values = {}
+                field_values['id'] = values.id
+                field_values['numerador_value'] = values.numerador_reportado or ''
+                field_values['denominador_value'] = values.denominador_reportado or ''
+                if values.numerador_reportado and values.denominador_reportado:
+                    field_values['percentage'] = values.numerador_reportado/values.denominador_reportado
+                else:
+                    field_values['percentage'] = ''
+            else:
+                field_values['id'] = ''
+                field_values['numerador_value'] = ''
+                field_values['denominador_value'] = ''
+                field_values['percentage'] = ''
+
+            row_values.append(field_values)
+
+        table.append({
+            'pago': country_detail.pago,
+            'isech': country_detail.isech,
+            'level': country_detail.level,
+            'location': country_detail.location,
+            'values': row_values
+        })
+
+    rendered = render_to_string("tables/country_details.html", {
+        'periods': periods,
+        'table': table
+    })
+    return HttpResponse(rendered, content_type="text/html")
+
