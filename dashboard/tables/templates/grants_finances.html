@@ -25,7 +25,6 @@
     <script src="{% static "js/dashboard-table.js" %}" type="text/javascript"></script>
     <script src="{% static "js/dashboard-tile.js" %}" type="text/javascript"></script>
     <script src="{% static "js/dashboard-chart-flot.js" %}" type="text/javascript"></script>
-    <script src="{% static "js/grafico-disbursement-pais.js" %}" type="text/javascript"></script>
     <script src="{% static "js/django.csrf.js" %}" type="text/javascript"></script>
     <script src="{% static "assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js" %}" type="text/javascript"></script>
     <script src="{% static "js/jquery.jeditable.datepicker.js" %}" type="text/javascript"></script>
@@ -47,8 +46,6 @@
               { url: "{% url 'chart_flot' uuid_origin='GRANTS_ORIGIN_GOS' %}", name: 'GoS'},
               { url: "{% url 'chart_flot' uuid_origin='GRANTS_ORIGIN_KOREAN' %}", name: 'Korean'},
             ]);
-
-            $(".chart-disbursement-container").graficoDisbursement();
         });
     </script>
 {% endblock js_bottom %}
@@ -82,9 +79,5 @@
     <div class="table-grants-finances"></div>
 
     <div class="row-fluid chart-flot-container"></div>
-
-    <div class="row-fluid chart-disbursement-container"></div>
-
-
 </div>
 {% endblock %}

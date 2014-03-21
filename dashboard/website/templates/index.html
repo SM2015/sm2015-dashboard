@@ -302,7 +302,8 @@
     (function(){
         $(document).ready(function() {
             $("#countryList option:first").attr("selected", true);
-            drawVisualization($("#countryList option:first").val());
+            //drawVisualization($("#countryList option:first").val());
+            drawVisualization("nicaragua");
 
             $("#countryList").change(function() {
                 drawVisualization($(this).val());
@@ -451,12 +452,13 @@
                                   <form>
                                        <fieldset>
                                           <legend>Country</legend>
-                                          <p>
-                                             <select id = "countryList">
+                                          <p style="font-size:18px;">
+                                             <!--<select id = "countryList">
                                                {% for country in countries_user %}
                                                <option value = "{{country.slug}}">{{country.name}}</option>
                                                {% endfor %}
-                                             </select>
+                                             </select>-->
+                                             Nicarágua
                                           </p>
                                        </fieldset>
                                     </form>

@@ -161,17 +161,18 @@ class TriangleGraph(object):
             avance_tiempo = 0
 
         financiera = {
-            'actual': avances.avance_financiero_actual,
-            'programada': avances.avance_financiero_planificado,
-            'original_programada': avances.avances_financieros_original_programado,
-            'monto_comprometido': avances.monto_comprometido
+            'actual': avances.avance_financiero_actual or '',
+            'programada': avances.avance_financiero_planificado or '',
+            'original_programada': avances.avances_financieros_original_programado or '',
+            'monto_comprometido': avances.monto_comprometido or ''
         }
         fisica = {
-            'actual': avances.avance_fisico_real,
-            'programada': avances.avance_fisico_planificado,
-            'original_programada': avances.avances_fisicos_original_programado,
-            'monto_comprometido': avances.monto_comprometido
+            'actual': avances.avance_fisico_real or '',
+            'programada': avances.avance_fisico_planificado or '',
+            'original_programada': avances.avances_fisicos_original_programado or '',
+            'monto_comprometido': avances.monto_comprometido or ''
         }
+
         return [
            {'name': 'Ejecucion Actual', 'data': [avance_tiempo, financiera.get('actual'), fisica.get('actual')], 'pointPlacement': 'on'},
            {'name': 'Ejecucion Programada', 'data': [avance_tiempo, financiera.get('programada'), fisica.get('programada')], 'pointPlacement': 'on'},

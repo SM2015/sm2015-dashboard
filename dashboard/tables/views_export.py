@@ -63,9 +63,12 @@ def render_export_hitos_and_avances(request, country_slug):
         avance = avances[0]
         document.append(Block(InlineText("AVANCE FISICO Y FINANCIERO", size=12, font='Times New Roman', bold=True), align='center'))
 
-        fecha_de_actualization_str = avance.fecha_de_actualizacion.strftime("%d de {MONTH} de %Y").lstrip("0")
-        month_translated = _(avance.fecha_de_actualizacion.strftime("%B"))
-        fecha_de_actualization_str = fecha_de_actualization_str.replace("{MONTH}", month_translated)
+        if avance.fecha_de_actualizacion:
+            fecha_de_actualization_str = avance.fecha_de_actualizacion.strftime("%d de {MONTH} de %Y").lstrip("0")
+            month_translated = _(avance.fecha_de_actualizacion.strftime("%B"))
+            fecha_de_actualization_str = fecha_de_actualization_str.replace("{MONTH}", month_translated)
+        else:
+            fecha_de_actualization_str = ''
 
         row1 = [Cell(BlockText(u'¿Cuándo fue la última vez que actualizó los datos?', bold=True, font='Times New Roman', size=10)),
                 Cell(BlockText(u'Avances Fiscos Planificados (Meta Ejecución)', bold=True, font='Times New Roman', size=10)),
@@ -99,6 +102,16 @@ def render_export_hitos_and_avances(request, country_slug):
 
     # HITOS
     is_avaliable_hito = False
+    table_hitos = Table(width="100%", padding='3pt')
+    table_hitos.add_row([Cell(Block(InlineText(u'Indicador de Pago', bold=True, font='Times New Roman', size=10), align='center')),
+                         Cell(Block(InlineText(u'Hito', bold=True, font='Times New Roman', size=10), align='center')),
+                         Cell(Block(InlineText(u'Trimestre', bold=True, font='Times New Roman', size=10), align='center')),
+                         Cell(Block(InlineText(u'Audiencia', bold=True, font='Times New Roman', size=10), align='center')),
+                         Cell(Block(InlineText(u'Estado Actual', bold=True, font='Times New Roman', size=10), align='center')),
+                         Cell(Block(InlineText(u'Alerta/Notas', bold=True, font='Times New Roman', size=10), align='center')),
+                         Cell(Block(InlineText(u'Recomendación', bold=True, font='Times New Roman', size=10), align='center')),
+                         Cell(Block(InlineText(u'Acuerdo', bold=True, font='Times New Roman', size=10), align='center'))])
+
     for hito in hitos:
         if hito.recomendacion or hito.alerta_notas:
             is_avaliable_hito = True
@@ -128,16 +141,6 @@ def render_export_hitos_and_avances(request, country_slug):
 
     if is_avaliable_hito:
         document.append(Block(InlineText(u"ALERTAS TEMPRANAS Y ESTADO DE LOS HITOS", size=12, font='Times New Roman', bold=True), align='center'))
-        table_hitos = Table(width="100%", padding='3pt')
-        table_hitos.add_row([Cell(Block(InlineText(u'Indicador de Pago', bold=True, font='Times New Roman', size=10), align='center')),
-                             Cell(Block(InlineText(u'Hito', bold=True, font='Times New Roman', size=10), align='center')),
-                             Cell(Block(InlineText(u'Trimestre', bold=True, font='Times New Roman', size=10), align='center')),
-                             Cell(Block(InlineText(u'Audiencia', bold=True, font='Times New Roman', size=10), align='center')),
-                             Cell(Block(InlineText(u'Estado Actual', bold=True, font='Times New Roman', size=10), align='center')),
-                             Cell(Block(InlineText(u'Alerta/Notas', bold=True, font='Times New Roman', size=10), align='center')),
-                             Cell(Block(InlineText(u'Recomendación', bold=True, font='Times New Roman', size=10), align='center')),
-                             Cell(Block(InlineText(u'Acuerdo', bold=True, font='Times New Roman', size=10), align='center'))])
-
         document.append(table_hitos)
 
     # Save our document

@@ -3,6 +3,7 @@
 
 {% block js_bottom %}
     {{ block.super }}
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
     <script src="{% static "assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js" %}" type="text/javascript"></script>
     <script src="{% static "assets/plugins/bootstrap-select2/select2.min.js" %}" type="text/javascript"></script>
     <script src="{% static "assets/plugins/jquery-datatable/js/jquery.dataTables.min.js" %}" type="text/javascript" ></script>
@@ -21,6 +22,7 @@
     <script src="{% static "js/dashboard-table.js" %}" type="text/javascript"></script>
     <script src="{% static "js/dashboard-tile.js" %}" type="text/javascript"></script>
     <script src="{% static "js/dashboard-chart-flot.js" %}" type="text/javascript"></script>
+    <script src="{% static "js/grafico-disbursement-pais.js" %}" type="text/javascript"></script>
     <script src="{% static "js/django.csrf.js" %}" type="text/javascript"></script>
     <script src="{% static "assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js" %}" type="text/javascript"></script>
     <script src="{% static "js/jquery.jeditable.datepicker.js" %}" type="text/javascript"></script>
@@ -39,6 +41,8 @@
                 title: "Country Operation",
                 url_save: "{% url 'save_milestone_data' %}"
             });
+
+            $(".chart-disbursement-container").graficoDisbursement();
         });
     </script>
 {% endblock js_bottom %}
@@ -71,5 +75,7 @@
     </div>  
 
     <div class="table-country-operation"></div>
+
+    <div class="row-fluid chart-disbursement-container"></div>
 </div>
 {% endblock %}
