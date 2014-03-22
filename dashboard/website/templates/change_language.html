@@ -1,5 +1,4 @@
 {% load i18n %}
-{% load language %}
 
 {% get_available_languages as LANGUAGES %}
 
@@ -8,7 +7,7 @@
         <input type="hidden" class="lang-name" name="language" value="" />
          {% csrf_token %}
         {% for lang in LANGUAGES %}
-          {% if current_lang == lang.0 %}
+          {% if CURRENT_LANGUAGE == lang.0 %}
             <strong><a href="#" class="change-lang" name="{{lang.0}}">{{lang.1}}</a></strong>
           {% else %}
             <a href="#" class="change-lang" name="{{lang.0}}">{{lang.1}}</a>

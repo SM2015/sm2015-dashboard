@@ -26,16 +26,49 @@
     <script src="{% static "js/django.csrf.js" %}" type="text/javascript"></script>
     <script src="{% static "assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js" %}" type="text/javascript"></script>
     <script src="{% static "js/jquery.jeditable.datepicker.js" %}" type="text/javascript"></script>
+    <script src="{% static "assets/plugins/ios-switch/ios7-switch.js" %}" type="text/javascript"></script>
     <script>
         $(document).ready(function() {
-            var countries = {{countries|safe}};
-            $(countries).each(function(i, origin){
-              if(i <= 3){
-                $(".tiles-container01").dashboardTile(origin);
+            var Switch = require('ios7-switch'),
+                         checkbox = document.querySelector('.ios'),
+                         mySwitch = new Switch(checkbox),
+                         turned_on = false;
+
+            mySwitch.el.addEventListener('click', function(e){
+              e.preventDefault();
+              mySwitch.toggle();
+              if(turned_on == false){
+                turned_on = true;
+                showExecution();
               } else {
-                $(".tiles-container02").dashboardTile(origin);
+                turned_on = false;
+                showDisbursement();
               }
-            });
+            }, false);
+
+            var countries_disbursement = {{countries_disbursement|safe}};
+            var countries_execution = {{countries_execution|safe}};
+
+            var showDisbursement = function(){
+              $(countries_disbursement).each(function(i, origin){
+                if(i <= 3){
+                  $(".tiles-container01").html("").dashboardTile(origin);
+                } else {
+                  $(".tiles-container02").html("").dashboardTile(origin);
+                }
+              });
+            }
+
+            var showExecution = function(){
+              $(countries_execution).each(function(i, origin){
+                if(i <= 3){
+                  $(".tiles-container01").html("").dashboardTile(origin);
+                } else {
+                  $(".tiles-container02").html("").dashboardTile(origin);
+                }
+              });
+            }
+            showDisbursement();
 
             $(".table-country-operation").dashboardTable("{% url 'table_render_country_operation' %}", {
                 title: "Country Operation",
@@ -50,6 +83,7 @@
 {% block css %}
     {{ block.super }}
     <link href="{% static "css/tables-custom.css" %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static "assets/plugins/ios-switch/ios7-switch.css" %}" rel="stylesheet" type="text/css" media="screen" charset="utf-8">
     <style>
         .tiles .tiles-title {
             font-size: 18px;
@@ -61,13 +95,43 @@
         .tiles.yellow {
             background-color: #E0B500;
         }
+
+        .slide-primary {
+          cursor: pointer;
+          float: left;
+        }
+        .switch-left {
+          float: left;
+          font-size: 18px;
+          height: 45px;
+          line-height: 54px;
+          margin-right: 15px;
+        }
+        .switch-right {
+          float: left;
+          font-size: 18px;
+          height: 45px;
+          line-height: 54px;
+          margin-left: 15px;
+        }
     </style>
 {% endblock css %}
 
 {% block content %}
 <div class="content">
-    <div class="page-title">	
+    <div class="page-title row-fluid">	
+      <div class="span8">
         <h3>Country Operation Financial Execution Performance</h3>		
+      </div>
+      <div class="span4">
+        <div class="slide-success">
+          <span class="switch-left">Disbursement</span>
+          <div class="slide-primary">
+            <input type="checkbox" class="ios" name="switch" style="display: none;">
+          </div>
+          <span class="switch-right">Execution</span>
+        </div>
+      </div>
     </div>
     <div id="container">
         <div class="row-fluid spacing-bottom 2col tiles-container01"></div>			

@@ -411,6 +411,14 @@ class GrantsFinances(models.Model):
         return periods
 
     @classmethod
+    def get_accumulated(cls, uuid_origin, uuid_type):
+        accumulated = 0
+        field = GrantsFinancesFields.objects.filter(field_type__uuid=uuid_type).filter(field_origin__uuid=uuid_origin)
+        for grant in cls.objects.filter(field=field):
+            accumulated += grant.value
+        return accumulated
+
+    @classmethod
     def upload_excel(cls, uploaded_file):
         wb = load_workbook(uploaded_file, data_only=True)
         sheet = wb.get_sheet_by_name('D.1.1.')

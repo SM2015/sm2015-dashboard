@@ -152,9 +152,9 @@ class TriangleGraph(object):
             total_days_left = operation.finish_date - datetime.date(datetime.today())
             total_days_left = total_days_left.days
             if total_days_left < 0:
-                total_days_let = 0
-
-            time_remaining = total_days_operation / total_days_left
+                time_remaining = 0
+            else:
+                time_remaining = total_days_operation / total_days_left
             avance_tiempo = round(100 - time_remaining, 2)
 
         except Operation.DoesNotExist:

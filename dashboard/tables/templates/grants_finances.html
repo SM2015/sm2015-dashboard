@@ -40,12 +40,12 @@
                 $(".tiles-container").dashboardTile(origin);
             });
 
-            $(".chart-flot-container").dashboardChartFlot([
-              { url: "{% url 'chart_flot' uuid_origin='GRANTS_ORIGIN_BMFG' %}", name: 'BMFG'},
-              { url: "{% url 'chart_flot' uuid_origin='GRANTS_ORIGIN_ICSS' %}", name: 'ICSS'},
-              { url: "{% url 'chart_flot' uuid_origin='GRANTS_ORIGIN_GOS' %}", name: 'GoS'},
-              { url: "{% url 'chart_flot' uuid_origin='GRANTS_ORIGIN_KOREAN' %}", name: 'Korean'},
-            ]);
+            $(".chart-flot-container-real").dashboardChartFlot("{% url 'chart_flot' uuid_type='GRANTS_TYPE_REAL' %}", {
+              title: 'Real'  
+            });
+            $(".chart-flot-container-expected").dashboardChartFlot("{% url 'chart_flot' uuid_type='GRANTS_TYPE_EXPECTED' %}", {
+              title: 'Expected'
+            });
         });
     </script>
 {% endblock js_bottom %}
@@ -78,6 +78,9 @@
 
     <div class="table-grants-finances"></div>
 
-    <div class="row-fluid chart-flot-container"></div>
+    <div class="row-fluid">
+      <div class="chart-flot-container-real span6"></div>
+      <div class="chart-flot-container-expected span6"></div>
+    </div>
 </div>
 {% endblock %}

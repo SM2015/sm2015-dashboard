@@ -170,15 +170,22 @@ def grants_finances_ongoing(request, uuid_origin):
         raise Http404
 
 @login_required
-def countries_ongoing(request, country_slug):
+def countries_ongoing(request, country_slug, values_type):
     try:
         country = Country.objects.get(slug=country_slug)
         last_quarter = CountryOperation.get_last_quarter(country=country)
+        if values_type == 'disbursement':
+            actual = last_quarter.it_disbursements_actual
+            planned = last_quarter.it_disbursements_planned
+        elif values_type == 'execution':
+            actual = last_quarter.it_execution_actual
+            planned = last_quarter.it_execution_planned
+
         values = {
-            'accumulated': float("%.2f" % (last_quarter.it_disbursements_actual)),
-            'percentage': float("%.2f" % ((last_quarter.it_disbursements_actual/last_quarter.it_disbursements_planned) * 100)),
-            'dpi': float("%.1f" % (last_quarter.it_disbursements_actual/last_quarter.it_disbursements_planned)),
-            'dv':  float("%.2f" % (last_quarter.it_disbursements_actual - last_quarter.it_disbursements_planned))
+            'accumulated': float("%.2f" % actual),
+            'percentage': float("%.2f" % ((actual / planned) * 100)),
+            'dpi': float("%.1f" % (actual / planned)),
+            'dv':  float("%.2f" % (actual - planned))
         }
 
         return HttpResponse(json.dumps(values), content_type="application/json")
@@ -186,39 +193,31 @@ def countries_ongoing(request, country_slug):
     except Country.DoesNotExist:
         raise Http404
 
+
 @login_required
-def chart_flot(request, uuid_origin):
-    grants = GrantsFinances.objects.filter(field__field_origin__uuid=uuid_origin).order_by('quarter')
+def chart_flot(request, uuid_type):
+    values = []
+    origins = []
+    grants_origins = GrantsFinancesOrigin.objects.all()
+    for i in xrange(0, len(grants_origins)):
+        origin = grants_origins[i]
+        accumulated = GrantsFinances.get_accumulated(origin.uuid, uuid_type)
+        values.append(accumulated)
+        origins.append(origin.name)
 
-    data = {
-        'expected': [],
-        'real': [],
-        'periods': []
-    }
+    ordered_values = []
+    ordered_origins = []
+    count = 0
+    while values:
+        biggest_value = min(values)
+        index_biggest_value = values.index(biggest_value)
+        origin_biggest_value = origins.pop(index_biggest_value)
 
-    accumulated_real = 0;
-    accumulated_expected = 0;
-    periods_control = [];
-    for grant in grants:
-        period = float(grant.quarter.name.replace('Q','.'))
+        ordered_values.append([values.pop(index_biggest_value), count])
+        ordered_origins.append([count, origin_biggest_value])
+        count += 1
 
-        if period not in periods_control:
-            periods_control.append(period)
-            if len(grant.quarter.name) == 4:
-                period_label = grant.quarter.name
-            else: 
-                period_label = grant.quarter.name[4:]
-            
-            data['periods'].append([period, period_label])
-
-        if grant.field.field_type.uuid == 'GRANTS_TYPE_REAL':
-            accumulated_real += grant.value
-            data['real'].append([period, accumulated_real])
-
-        elif grant.field.field_type.uuid == 'GRANTS_TYPE_EXPECTED':
-            accumulated_expected += grant.value
-            data['expected'].append([period, accumulated_expected])
-
+    data = {'values': ordered_values, 'origins': ordered_origins}
     return HttpResponse(json.dumps(data), content_type="application/json")
 
 

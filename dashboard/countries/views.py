@@ -13,14 +13,21 @@ from tables.models import CountryDetails
 def countries(request):
     context = RequestContext(request)
     countries = Country.objects.all()
-    countries_values = []
+    countries_disbursement_values = []
+    countries_execution_values = []
+
     for country in countries:
-        countries_values.append({
+        countries_disbursement_values.append({
             'name': str(country.name),
-            'url_ongoing': reverse('countries_ongoing', args=[country.slug])
+            'url_ongoing': reverse('countries_ongoing', args=[country.slug, 'disbursement'])
+        })
+        countries_execution_values.append({
+            'name': str(country.name),
+            'url_ongoing': reverse('countries_ongoing', args=[country.slug, 'execution'])
         })
 
-    context.update({'countries': countries_values})
+    context.update({'countries_disbursement': countries_disbursement_values,
+                    'countries_execution': countries_execution_values})
     return render_to_response("countries.html", context)
 
 
