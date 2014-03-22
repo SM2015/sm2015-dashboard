@@ -33,6 +33,7 @@
             $select_pago = $(document.getElementById('pago'));
             $select_level = $(document.getElementById('level'));
             $select_location = $(document.getElementById('location'));
+            $select_quarter = $(document.getElementById('quarter'));
             $form = $(document.getElementById("countryDetailsForm"));
             
             $select_country.find('option:first').attr('selected', true);
@@ -42,7 +43,7 @@
                   'onNext': function(tab, navigation, index) {
                     $('#rootwizard').find('.form-wizard').children('li').eq(index-1).addClass('complete');
                     $('#rootwizard').find('.form-wizard').children('li').eq(index-1).find('.step').html('<i class="icon-ok"></i>');	
-                    if(index == 2){
+                    if(index == 3){
                       $(".table-country-operation").dashboardTable("{% url 'table_render_country_details' %}?" + $form.serialize(), {
                           title: "Country Details",
                           url_save: "{% url 'save_milestone_data' %}"
@@ -67,25 +68,35 @@
             
             var listIsech = function(){
               $.getJSON("{% url 'country_list_isech' %}?" + $form.serialize(), function(response){
-                var options = ['<option value="">-- choose a isech --</option>',
-                               '<option value="-1">All</option>'];
+                var elements = [];
                 $.each(response, function(){
-                  options.push('<option value="'+this.id+'">'+this.name+'</option>');
+                  var checkbox = ''+
+                     '<div class="row-fluid">'+
+                     '<div class="checkbox check-success">'+
+                      '<input id="checkbox-isech-'+this.id+'" name="isech" type="checkbox" value="'+this.id+'">'+
+                      '<label for="checkbox-isech-'+this.id+'">'+this.name+'</label>'+
+                     '</div>'+
+                     '</div>';
+                  elements.push(checkbox);
                 });
-                $select_isech.html(options);
-                $select_isech.select2();
+                $select_isech.html(elements);
               });
             }
             
             var listPago = function(){
               $.getJSON("{% url 'country_list_pago' %}?" + $form.serialize(), function(response){
-                var options = ['<option value="">-- choose a pago --</option>',
-                               '<option value="-1">All</option>'];
+                var elements = [];
                 $.each(response, function(){
-                  options.push('<option value="'+this.id+'">'+this.name+'</option>');
+                  var checkbox = ''+
+                     '<div class="row-fluid">'+
+                     '<div class="checkbox check-success">'+
+                      '<input id="checkbox-pago-'+this.id+'" name="pago" type="checkbox" value="'+this.id+'">'+
+                      '<label for="checkbox-pago-'+this.id+'">'+this.name+'</label>'+
+                     '</div>'+
+                     '</div>';
+                  elements.push(checkbox);
                 });
-                $select_pago.html(options);
-                $select_pago.select2();
+                $select_pago.html(elements);
               });
             }
 
@@ -98,6 +109,23 @@
                 });
                 $select_location.html(options);
                 $select_location.select2();
+              });
+            }
+
+            var listQuarter = function(){
+              $.getJSON("{% url 'country_list_quarter' %}?" + $form.serialize(), function(response){
+                var elements = [];
+                $.each(response, function(){
+                  var checkbox = ''+
+                     '<div class="row-fluid">'+
+                     '<div class="checkbox check-success">'+
+                      '<input id="checkbox-quarter-'+this.id+'" name="quarter" type="checkbox" value="'+this.id+'">'+
+                      '<label for="checkbox-quarter-'+this.id+'">'+this.name+'</label>'+
+                     '</div>'+
+                     '</div>';
+                  elements.push(checkbox);
+                });
+                $select_quarter.html(elements);
               });
             }
 
@@ -119,11 +147,9 @@
                 $select_pago.removeAttr("disabled");
               }  
             });
-            $select_pago.change(function(){
-              if(this.value){
-                listIsech();
-                $select_isech.removeAttr("disabled");
-              }  
+            $select_pago.find("input[type='checkbox']").live('change', function(){
+              listIsech();
+              listQuarter();
             });
         });
     </script>
@@ -132,6 +158,13 @@
 {% block css %}
     {{ block.super }}
     <link href="{% static "css/tables-custom.css" %}" rel="stylesheet" type="text/css"/>
+    <style>
+      .list-selects {
+        height: 200px;
+        padding-top: 10px;
+        overflow: auto;
+      }
+    </style>
 {% endblock css %}
 
 {% block content %}
@@ -151,6 +184,7 @@
                     <ul class="wizard-steps">
                       <li class="" data-target="#step1"> <a href="#tab1" data-toggle="tab"> <span class="step">1</span> <span class="title">Location</span> </a> </li>
                       <li data-target="#step2" class=""> <a href="#tab2" data-toggle="tab"> <span class="step">2</span> <span class="title">Indicadores</span> </a> </li>
+                      <li data-target="#step3" class=""> <a href="#tab3" data-toggle="tab"> <span class="step">3</span> <span class="title">Periodo</span> </a> </li>
                     </ul>
                     <div class="clearfix"></div>
                   </div>
@@ -184,14 +218,28 @@
                       <br>
                       <div class="row-fluid">
                         <div class="span6">
-                          <select class="select-beauty" id="pago" name="pago" style="width:100%" disabled="1">
-                            <option value="">-- choose a location first --</option>
-                          </select>
+                          <h4 class="semi-bold">Choose a Pago</span></h4>
+                          <div class="list-selects" id="pago">
+                            <span>choose a location first</span>
+                          </div>
                         </div>
                         <div class="span6">
-                          <select class="select-beauty" id="isech" name="isech" style="width:100%" disabled="1">
-                            <option value="">-- choose a pago first --</option>
-                          </select>
+                          <h4 class="semi-bold">Choose a Isech</span></h4>
+                          <div class="list-selects" id="isech">
+                            <span>choose a pago first</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="tab-pane" id="tab3"> <br>
+                      <h4 class="semi-bold">Step 3 - <span class="light">Periodo</span></h4>
+                      <br>
+                      <div class="row-fluid">
+                        <div class="span6">
+                          <h4 class="semi-bold">Choose a Period</span></h4>
+                          <div class="list-selects" id="quarter">
+                            <span>choose a pago first</span>
+                          </div>
                         </div>
                       </div>
                     </div>

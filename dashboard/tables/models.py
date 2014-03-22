@@ -779,11 +779,21 @@ class CountryDetails(models.Model):
                 'level', 'location')
 
     @classmethod
-    def get_periods(cls):
-        periods = []
-        for quarter_dict in CountryDetailsValues.objects.values('quarter__name').order_by('quarter__name').distinct():
-            periods.append(quarter_dict['quarter__name'])
+    def get_periods(cls, queryset=None):
+        if not queryset:
+            periods = []
+            for quarter_dict in CountryDetailsValues.objects.values('quarter__name').order_by('quarter__name').distinct():
+                periods.append(quarter_dict['quarter__name'])
+        else:
+            periods = queryset.values('countrydetailsvalues__quarter__name').distinct()
+            periods = [v.get('countrydetailsvalues__quarter__name') for v in periods]
+
         return periods
+
+    def get_instance_periods(self):
+        values = self.values('countrydetailsvalues__quarter__name').distinct()
+        values = [v.get('countrydetailsvalues__quarter__name') for v in values]
+        return values
 
     @classmethod
     def upload_excel(cls, uploaded_file, sheet_name, sheet_country, **kw):

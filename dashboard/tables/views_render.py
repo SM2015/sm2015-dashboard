@@ -248,7 +248,7 @@ def render_country_operation(request):
 def render_country_details(request):
     country_details = _get_obj_filtered_api(request)
     table = []
-    periods = CountryDetails.get_periods()
+    periods = CountryDetails.get_periods(country_details)
 
     for country_detail in country_details.all():
         row_values = []

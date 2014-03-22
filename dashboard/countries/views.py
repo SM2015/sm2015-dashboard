@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from core.models import Country
-from tables.models import CountryDetails
+from tables.models import CountryDetails, CountryDetailsValues
 
 
 @login_required
@@ -43,16 +43,18 @@ def country_details(request):
 
 def _get_filter_args_api(request):
     filter_args = []
-    if request.GET.get('pago', None) and request.GET.get('pago') != '-1':
-        filter_args.append({'pago': request.GET.get('pago')})
-    if request.GET.get('isech', None) and request.GET.get('isech') != '-1':
-        filter_args.append({'isech': request.GET.get('isech')})
+    if request.GET.getlist('pago', None) and request.GET.getlist('pago') != ['-1']:
+        filter_args.append({'pago__in': request.GET.getlist('pago')})
+    if request.GET.getlist('isech', None) and request.GET.getlist('isech') != ['-1']:
+        filter_args.append({'isech__in': request.GET.getlist('isech')})
     if request.GET.get('country', None) and request.GET.get('country') != '-1':
         filter_args.append({'country': request.GET.get('country')})
     if request.GET.get('level', None) and request.GET.get('level') != '-1':
         filter_args.append({'level': request.GET.get('level')})
     if request.GET.get('location', None) and request.GET.get('location') != '-1':
         filter_args.append({'location': request.GET.get('location')})
+    if request.GET.getlist('quarter', None) and request.GET.getlist('quarter') != '-1':
+        filter_args.append({'countrydetailsvalues__quarter__in': request.GET.getlist('quarter')})
     return filter_args
 
 
@@ -93,4 +95,17 @@ def api_list_level(request):
     obj_manager = _get_obj_filtered_api(request)
     values = obj_manager.values('level__name', 'level__id').distinct()
     values = [{'name': v.get('level__name'), 'id': v.get('level__id')} for v in values]
+    return HttpResponse(json.dumps(values), content_type="application/json")
+
+
+@login_required
+def api_list_quarter(request):
+    obj_manager = _get_obj_filtered_api(request)
+    country_details = obj_manager.all()
+    values = CountryDetailsValues.objects \
+                                 .filter(country_detail=country_details) \
+                                 .values("quarter__name", "quarter__id") \
+                                 .distinct()
+
+    values = [{'name': v.get('quarter__name'), 'id': v.get('quarter__id')} for v in values]
     return HttpResponse(json.dumps(values), content_type="application/json")

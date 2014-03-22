@@ -19,4 +19,6 @@ urlpatterns = patterns(
         views.api_list_level, name="country_list_level"),
     url(r'^api/list_pago/?$',
         views.api_list_pago, name="country_list_pago"),
+    url(r'^api/list_quarter/?$',
+        views.api_list_quarter, name="country_list_quarter"),
 )
