@@ -135,6 +135,10 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.app_directories.Loader',
 )
 
+TEMPLATE_CONTEXT_PROCESSORS = TCP + (
+    'core.template_processor.language.lang',
+)
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
