@@ -97,7 +97,7 @@
         $newElement.bind("plothover", function (event, pos, item) {
           if (item) {
             var origin = self.origins[item.dataIndex][1],
-                value = item.datapoint[1] * 1000000;
+                value = item.datapoint[0] * 1000000;
       
             $("#tooltip").html(origin + ": " + value)
                           .css({ top: item.pageY+5, left: item.pageX+5 })
