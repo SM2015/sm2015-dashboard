@@ -81,21 +81,25 @@
           $main_menu = $("#main-menu"),
           $item_menu;
 
-      if(window_pathname.slice(-1) == '/'){
-        window_pathname = window_pathname.slice(0, -1);
-      }
+      if(window_pathname == '/'){
+        $main_menu.find(".start:first").addClass("active");
+      } else {
+        if(window_pathname.slice(-1) == '/'){
+          window_pathname = window_pathname.slice(0, -1);
+        }
 
-      $item_menu = $main_menu.find("a[href^='"+window_pathname+"']");
-      if($item_menu.length == 0){
-        $item_menu = $main_menu.find("a[href^='"+window_pathname+"/']");
-      }
+        $item_menu = $main_menu.find("a[href^='"+window_pathname+"']");
+        if($item_menu.length == 0){
+          $item_menu = $main_menu.find("a[href^='"+window_pathname+"/']");
+        }
 
-      if($item_menu){
-        var $parent_item = $item_menu.parents(".start")
-        $parent_item.addClass("active");
-        if($parent_item.hasClass("with-submenu")){
-          $parent_item.addClass("open");
-          $parent_item.find(".arrow").addClass("open");
+        if($item_menu){
+          var $parent_item = $item_menu.parents(".start")
+          $parent_item.addClass("active");
+          if($parent_item.hasClass("with-submenu")){
+            $parent_item.addClass("open");
+            $parent_item.find(".arrow").addClass("open");
+          }
         }
       }
   });
@@ -185,7 +189,7 @@
    
    <!-- BEGIN SIDEBAR MENU -->	
     <ul>	
-      <li class="start"> <a href="#" class="clearfix"> <i class="icon-custom-dashboard"></i> <span class="title">{% trans "Mi Tablero" %}</span></a> </li>
+      <li class="start"> <a href="{% url 'index' %}" class="clearfix"> <i class="icon-custom-dashboard"></i> <span class="title">{% trans "Mi Tablero" %}</span></a> </li>
       <li class="start with-submenu"><a href="{% url 'countries' %}"><i class="icon-custom-paises"></i> <span class="title">{% trans "Paises" %}</span> <span class="arrow "></a>
         <ul class="sub-menu">
           <li> <a href="{% url 'countries_details' %}?country={{COUNTRIES.mexico.id}}">Chiapas</a> </li>
