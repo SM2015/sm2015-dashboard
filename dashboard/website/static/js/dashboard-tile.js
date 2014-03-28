@@ -59,7 +59,7 @@
                     .replace("{TILE_DV}", tile_dv);
 
 
-            if (response.dv < 0){
+            if (response.dv[0] == '-'){
               html = html.replace("{UP_OR_DOWN}", "down");
             } else {
               html = html.replace("{UP_OR_DOWN}", "up");
