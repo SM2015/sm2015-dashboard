@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponse, Http404, HttpResponseRedirect
+from django.contrib.humanize.templatetags.humanize import intcomma
 from django.db.models import ForeignKey, FieldDoesNotExist, IntegerField, \
     FloatField, DateField
 from django.template.defaultfilters import slugify
@@ -182,10 +183,10 @@ def countries_ongoing(request, country_slug, values_type):
             planned = last_quarter.it_execution_planned
 
         values = {
-            'accumulated': float("%.2f" % actual),
+            'accumulated': intcomma(actual),
             'percentage': float("%.2f" % ((actual / planned) * 100)),
             'dpi': float("%.1f" % (actual / planned)),
-            'dv':  float("%.2f" % (actual - planned))
+            'dv':  intcomma(actual - planned)
         }
 
         return HttpResponse(json.dumps(values), content_type="application/json")
@@ -203,9 +204,10 @@ def chart_flot(request, uuid_type):
         origin = grants_origins[i]
         accumulated = GrantsFinances.get_accumulated(origin.uuid, uuid_type)
         values.append(accumulated)
-        origins.append(origin.name)
+        origins.append("Donors {0}".format(origin.name))
 
     ordered_values = []
+    ordered_values_labels = []
     ordered_origins = []
     count = 0
     while values:
@@ -213,11 +215,15 @@ def chart_flot(request, uuid_type):
         index_biggest_value = values.index(biggest_value)
         origin_biggest_value = origins.pop(index_biggest_value)
 
-        ordered_values.append([values.pop(index_biggest_value), count])
-        ordered_origins.append([count, origin_biggest_value])
+        value = values.pop(index_biggest_value)
+        ordered_values.append([count, value])
+        ordered_values_labels.append([count, "${0}".format(value)])
+        ordered_origins.append([value, origin_biggest_value])
         count += 1
 
-    data = {'values': ordered_values, 'origins': ordered_origins}
+    data = {'values': ordered_values,
+            'origins': ordered_origins,
+            'values_labels': ordered_values_labels}
     return HttpResponse(json.dumps(data), content_type="application/json")
 
 

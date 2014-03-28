@@ -226,11 +226,12 @@
 
         var table = new google.visualization.Table(document.getElementById('chart2'));
         table.draw(data, {
-            allowHtml: true,
-            showRowNumber: true
+          allowHtml: true,
+          alternatingRowStyle: false,
+          cssClassNames: { headerCell: 'disbursement-table-header',
+                           tableCell: 'disbursement-table-cell',
+                           tableRow: 'disbursement-table-row'}
         });
-
-
     }
 
     function checkStatus(response) {

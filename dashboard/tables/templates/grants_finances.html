@@ -41,10 +41,10 @@
             });
 
             $(".chart-flot-container-real").dashboardChartFlot("{% url 'chart_flot' uuid_type='GRANTS_TYPE_REAL' %}", {
-              title: 'Real'  
+              title: 'Real'
             });
             $(".chart-flot-container-expected").dashboardChartFlot("{% url 'chart_flot' uuid_type='GRANTS_TYPE_EXPECTED' %}", {
-              title: 'Expected'
+              title: 'Expected', color: '#88e'
             });
         });
     </script>

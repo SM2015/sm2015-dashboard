@@ -38,6 +38,16 @@
             
             $select_country.find('option:first').attr('selected', true);
 
+            var params_get = window.location.search.replace("?", "").split("&"),
+              initial_params = {};
+
+            for(var i=0; i < params_get.length; i++){
+              param = params_get[i].split("=");
+              param_name = param[0];
+              param_value = param[1];
+              initial_params[param_name] = param_value;
+            }
+
             $('#rootwizard').bootstrapWizard({
                   'tabClass': 'form-wizard',
                   'onNext': function(tab, navigation, index) {
@@ -54,7 +64,7 @@
             $(".select-beauty").select2();
 
 
-            var listLevel = function(){
+            var listLevel = function(callback){
               $.getJSON("{% url 'country_list_level' %}?" + $form.serialize(), function(response){
                 var options = ['<option value="">-- choose a level --</option>',
                                '<option value="-1">All</option>'];
@@ -63,10 +73,11 @@
                 });
                 $select_level.html(options);
                 $select_level.select2();
+                callback();
               });
             }
             
-            var listIsech = function(){
+            var listIsech = function(callback){
               $.getJSON("{% url 'country_list_isech' %}?" + $form.serialize(), function(response){
                 var elements = [];
                 $.each(response, function(){
@@ -80,10 +91,11 @@
                   elements.push(checkbox);
                 });
                 $select_isech.html(elements);
+                callback();
               });
             }
             
-            var listPago = function(){
+            var listPago = function(callback){
               $.getJSON("{% url 'country_list_pago' %}?" + $form.serialize(), function(response){
                 var elements = [];
                 $.each(response, function(){
@@ -97,10 +109,11 @@
                   elements.push(checkbox);
                 });
                 $select_pago.html(elements);
+                callback();
               });
             }
 
-            var listLocation = function(){
+            var listLocation = function(callback){
               $.getJSON("{% url 'country_list_location' %}?" + $form.serialize(), function(response){
                 var options = ['<option value="">-- choose a location --</option>',
                                '<option value="-1">All</option>'];
@@ -109,10 +122,11 @@
                 });
                 $select_location.html(options);
                 $select_location.select2();
+                callback();
               });
             }
 
-            var listQuarter = function(){
+            var listQuarter = function(callback){
               $.getJSON("{% url 'country_list_quarter' %}?" + $form.serialize(), function(response){
                 var elements = [];
                 $.each(response, function(){
@@ -126,31 +140,45 @@
                   elements.push(checkbox);
                 });
                 $select_quarter.html(elements);
+                callback();
               });
             }
 
             $select_country.change(function(){
               if(this.value){
-                listLevel();
-                $select_level.removeAttr("disabled");
+                $select_level.removeAttr("disabled", "disabled");
+                listLevel(function(){
+                  if(initial_params['level']){
+                    $select_level.val(initial_params['level']).change();
+                  }
+                });
               }  
             });
             $select_level.change(function(){
               if(this.value){
-                listLocation();
                 $select_location.removeAttr("disabled");
+                listLocation(function(){
+                  if(initial_params['location']){
+                    $select_location.val(initial_params['location']).change();
+                  }
+                });
               }  
             });
             $select_location.change(function(){
               if(this.value){
-                listPago();
-                $select_pago.removeAttr("disabled");
+                listPago(function(){
+                  $select_pago.removeAttr("disabled");
+                });
               }  
             });
             $select_pago.find("input[type='checkbox']").live('change', function(){
               listIsech();
-              listQuarter();
+              listQuarter(function(){});
             });
+
+            if(initial_params['country']){
+              $select_country.val(initial_params['country']).trigger("change");
+            }
         });
     </script>
 {% endblock js_bottom %}

@@ -2,5 +2,6 @@
 *.swo
 *.swp
 *.pyc
+*.docx
 fabfile.pyc
 pendencias_dashboard.txt

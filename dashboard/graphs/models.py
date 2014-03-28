@@ -157,7 +157,7 @@ class TriangleGraph(object):
                 time_remaining = total_days_operation / total_days_left
             avance_tiempo = round(100 - time_remaining, 2)
 
-        except Operation.DoesNotExist:
+        except (Operation.DoesNotExist, ZeroDivisionError):
             avance_tiempo = 0
 
         financiera = {

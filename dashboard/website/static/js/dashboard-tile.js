@@ -1,7 +1,8 @@
 (function ( $ ) {
-    var dashboardTile = function(wrapper, origin){
+    var dashboardTile = function(wrapper, origin, opts){
         this.$wrapper = $(wrapper);
         this.$html;
+        this.opts = opts || {};
         this.origin = origin;
 
         this.loadTile();
@@ -26,9 +27,9 @@
                         '<span class="animate-number" data-value="{TILE_VALUE}" data-animation-duration="1200">0</span>'+
                         '</div>'+
                         '<div class="progress transparent progress-white progress-small no-radius">'+
-                            '<div class="bar animate-progress-bar" data-percentage="{TILE_PERCENTAGE}%"></div>'+
+                            '<div class="bar animate-progress-bar" data-percentage="{TILE_PERCENTAGE}"></div>'+
                         '</div>'+
-                        '<div class="description"><i class="icon-custom-{UP_OR_DOWN}"></i><span class="text-white mini-description ">&nbsp; {TILE_DV}% <span class="blend">variance from expected</span></span></div>'+
+                        '<div class="description"><i class="icon-custom-{UP_OR_DOWN}"></i><span class="text-white mini-description "> {TILE_DV} <span class="blend">variance from expected</span></span></div>'+
                         '</div>	'+
                     '</div>'+
                 '</div>';
@@ -41,11 +42,17 @@
                 color = 'green';
             }
 
+            var tile_dv = response.dv + "%";
+            if(self.opts.dv_money_format == true){
+              tile_dv = response.dv + "$";
+            }
+
             html = html.replace("{TILE_COLOR}", color)
                     .replace("{TILE_ORIGIN}", self.origin.name)
                     .replace("{TILE_VALUE}", response.accumulated)
                     .replace("{TILE_PERCENTAGE}", response.percentage)
-                    .replace("{TILE_DV}", response.dv);
+                    .replace("{TILE_DV}", tile_dv);
+
 
             if (response.dv < 0){
               html = html.replace("{UP_OR_DOWN}", "down");
@@ -74,8 +81,8 @@
         });
     }
 
-    $.fn.dashboardTile = function(origin) {
-        new dashboardTile( this, origin );
+    $.fn.dashboardTile = function(origin, opts) {
+        new dashboardTile( this, origin, opts );
         return this;
     };
  

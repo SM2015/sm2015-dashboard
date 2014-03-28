@@ -3,16 +3,17 @@ from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 
-from tables.models import Hito, AvanceFisicoFinanciero, EstadoActual, UcMilestone, \
-        Sm2015Milestone, Objective, GrantsFinances, GrantsFinancesFields, \
-        LifeSaveField, LifeSave, CountryOperation, CountryOperationIT, \
-        CountryDetails, CountryDetailsValues
+from tables.models import Hito, AvanceFisicoFinanciero, EstadoActual, \
+    UcMilestone, Sm2015Milestone, GrantsFinances, \
+    GrantsFinancesFields, LifeSaveField, LifeSave, \
+    CountryOperation, CountryOperationIT, CountryDetails, CountryDetailsValues
 from countries.views import _get_obj_filtered_api
 
 
 @login_required
 def render_hitos(request, country_slug):
-    hitos = Hito.objects.filter(country__slug=country_slug, language__acronym=request.LANGUAGE_CODE)
+    hitos = Hito.objects.filter(country__slug=country_slug,
+                                language__acronym=request.LANGUAGE_CODE)
     estados_actuais = EstadoActual.objects.all()
     options_estados_actuais = {}
     for estado in estados_actuais:
@@ -21,9 +22,11 @@ def render_hitos(request, country_slug):
         })
 
     for hito in hitos:
-        options_estados_actuais.update({
-            'selected': str(hito.estado_actual.id)
-        })
+        if hito.estado_actual:
+            option = {
+                'selected': str(hito.estado_actual.id)
+            }
+        options_estados_actuais.update(option)
         hito.options_estados_actuais = options_estados_actuais
 
     rendered = render_to_string("tables/hitos.html", {
@@ -106,8 +109,10 @@ def render_grants_finances(request):
         values = []
         accumulated_value = 0
         for period in periods:
-            grant = GrantsFinances.objects.filter(field__id=field.id).filter(quarter__name=period)
-            
+            grant = GrantsFinances.objects \
+                                  .filter(field__id=field.id) \
+                                  .filter(quarter__name=period)
+
             if grant:
                 accumulated_value += grant[0].value
                 values.append({

@@ -3,6 +3,7 @@
         this.$wrapper = $(wrapper);
         this.url = url;
         this.$element;
+        this.opts = opts || {};
         title = opts.title || ''
         this.html = ''+
             '<div class="grid simple">'+
@@ -23,21 +24,18 @@
 
         $.getJSON(url, function(response){
             var rows_flot = [];
-            var colors = {
-              'expected': '#ddd',
-              'real': '#5c5'
-            }
-
+            var color_default = '#5c5';
             var row_line = {
               data: response.values,
               animator: {steps: 60, duration: 1000, start:0}, 		
               lines: {lineWidth:2, fill:0.6},	
               shadowSize: 0,
-              color: colors.real,
+              color: self.opts.color || color_default,
+              yaxis: 1
             };
             var row_point = {
               data: response.values,
-              points: { show: true, fill: true, radius: 6, fillColor: colors.real, lineWidth:3 },
+              points: { show: true, fill: true, radius: 6, fillColor: self.opts.color || color_default, lineWidth:3 },
               color: "#fff",
               shadowSize: 0,
             };
@@ -46,60 +44,60 @@
             rows_flot.push(row_point);
 
             self.origins = response.origins;
-            self.plotChart(rows_flot, url, response.origins);
+            self.values_labels = response.values_labels;
+            self.plotChart(rows_flot, url);
         });
     }
 
-    dashboardChartFlot.prototype.plotChart = function(rows, url, origins){
+    dashboardChartFlot.prototype.plotChart = function(rows, url){
         var self = this;
         var html = this.html;
         var $newElement = $(html);
         $.plotAnimator($newElement.find(".placeholder"), 
             rows,
             {	
-                xaxis: {
-                  ticks: 3,
-                  tickDecimals: 0,
+              xaxis: {
+                ticks: self.values_labels,
+                tickFormatter: 'string',
+                font :{
+                    lineHeight: 13,
+                    style: "normal",
+                    weight: "bold",
+                    family: "sans-serif",
+                    variant: "small-caps",
+                    color: "#6F7B8A",
+                }
+              },
+              yaxis: {
+                ticks: self.origins,
+                tickFormatter: 'string',
+                labelWidth: 100,
                   font :{
-                      lineHeight: 13,
                       style: "normal",
                       weight: "bold",
                       family: "sans-serif",
                       variant: "small-caps",
                       color: "#6F7B8A",
                   }
-                },
-                yaxis: {
-                  ticks: origins,
-                  tickFormatter: 'string',
-                  labelWidth: 50,
-                    font :{
-                        lineHeight: 13,
-                        style: "normal",
-                        weight: "bold",
-                        family: "sans-serif",
-                        variant: "small-caps",
-                        color: "#6F7B8A",
-                    }
-                },
-                grid: {
-                    backgroundColor: { colors: [ "#fff", "#fff" ] },
-                    borderWidth:1,
-                    borderColor:"#f0f0f0",
-                    margin:0,
-                    minBorderMargin:0,							
-                    labelMargin:20,
-                    hoverable: true,
-                    clickable: true,
-                    mouseActiveRadius:6
-                }
+              },
+              grid: {
+                  backgroundColor: { colors: [ "#fff", "#fff" ] },
+                  borderWidth:1,
+                  borderColor:"#f0f0f0",
+                  margin:0,
+                  minBorderMargin:0,							
+                  labelMargin:20,
+                  hoverable: true,
+                  clickable: true,
+                  mouseActiveRadius:6
+              }
             }
         );
       
         $newElement.bind("plothover", function (event, pos, item) {
           if (item) {
             var origin = self.origins[item.dataIndex][1],
-                value = item.datapoint[0] * 1000000;
+                value = item.datapoint[1] * 1000000;
       
             $("#tooltip").html(origin + ": " + value)
                           .css({ top: item.pageY+5, left: item.pageX+5 })

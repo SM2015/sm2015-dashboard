@@ -49,12 +49,13 @@
             var countries_disbursement = {{countries_disbursement|safe}};
             var countries_execution = {{countries_execution|safe}};
 
+            var tile_opts = {dv_money_format: true}
             var showDisbursement = function(){
               $(countries_disbursement).each(function(i, origin){
                 if(i <= 3){
-                  $(".tiles-container01").html("").dashboardTile(origin);
+                  $(".tiles-container01").html("").dashboardTile(origin, tile_opts);
                 } else {
-                  $(".tiles-container02").html("").dashboardTile(origin);
+                  $(".tiles-container02").html("").dashboardTile(origin, tile_opts);
                 }
               });
             }
@@ -62,9 +63,9 @@
             var showExecution = function(){
               $(countries_execution).each(function(i, origin){
                 if(i <= 3){
-                  $(".tiles-container01").html("").dashboardTile(origin);
+                  $(".tiles-container01").html("").dashboardTile(origin, tile_opts);
                 } else {
-                  $(".tiles-container02").html("").dashboardTile(origin);
+                  $(".tiles-container02").html("").dashboardTile(origin, tile_opts);
                 }
               });
             }
@@ -113,6 +114,28 @@
           height: 45px;
           line-height: 54px;
           margin-left: 15px;
+        }
+
+        .disbursement-table-header {
+          background-color: #ECF0F2;
+          border-left: 1px solid #E8EDF1;
+          padding: 10px 5px !important;
+          vertical-align: bottom !important;
+        }
+
+        .disbursement-table-cell {
+          border: 1px solid #E8EDF1;
+          color: #576475;
+          font-size: 13px;
+          padding: 10px 5px !important;
+          vertical-align: top !important;
+        }
+
+        .disbursement-table-row {
+          background-color: white;
+        }
+        .disbursement-table-row:hover {
+          background-color: #E2E8EB;
         }
     </style>
 {% endblock css %}

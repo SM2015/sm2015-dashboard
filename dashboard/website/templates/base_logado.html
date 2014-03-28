@@ -66,12 +66,40 @@
 {% endblock css %}
 
 {% block js_top %}
+<script>
+  CURRENT_LANGUAGE = "{{CURRENT_LANGUAGE}}";
+</script>
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
 <script src="{% static "js/infobox.js" %}"></script> 
-
+<script src="{% static "js/thousand_separator.js" %}"></script> 
 <script src="{% static "assets/plugins/jquery-1.8.3.min.js" %}" type="text/javascript"></script>
 <script src="{% static "js/DataTables/jquery.dataTables.js" %}" type="text/javascript"></script>
 <script src="{% static "js/DataTables/jquery.jeditable.mini.js" %}" type="text/javascript"></script>
+<script>
+  $().ready(function(){
+      var window_pathname = window.location.pathname,
+          $main_menu = $("#main-menu"),
+          $item_menu;
+
+      if(window_pathname.slice(-1) == '/'){
+        window_pathname = window_pathname.slice(0, -1);
+      }
+
+      $item_menu = $main_menu.find("a[href^='"+window_pathname+"']");
+      if($item_menu.length == 0){
+        $item_menu = $main_menu.find("a[href^='"+window_pathname+"/']");
+      }
+
+      if($item_menu){
+        var $parent_item = $item_menu.parents(".start")
+        $parent_item.addClass("active");
+        if($parent_item.hasClass("with-submenu")){
+          $parent_item.addClass("open");
+          $parent_item.find(".arrow").addClass("open");
+        }
+      }
+  });
+</script>
 {% endblock js_top %}
 
 </head>
@@ -157,13 +185,17 @@
    
    <!-- BEGIN SIDEBAR MENU -->	
     <ul>	
-      <li class="start active "> <a href="#" class="clearfix"> <i class="icon-custom-dashboard"></i> <span class="title">{% trans "Mi Tablero" %}</span></a> </li>
-      <li class="start"><a href="{% url 'countries' %}"><i class="icon-custom-paises"></i> <span class="title">{% trans "Paises" %}</span></a></li>
+      <li class="start"> <a href="#" class="clearfix"> <i class="icon-custom-dashboard"></i> <span class="title">{% trans "Mi Tablero" %}</span></a> </li>
+      <li class="start with-submenu"><a href="{% url 'countries' %}"><i class="icon-custom-paises"></i> <span class="title">{% trans "Paises" %}</span> <span class="arrow "></a>
+        <ul class="sub-menu">
+          <li> <a href="{% url 'countries_details' %}?country={{COUNTRIES.mexico.id}}">Chiapas</a> </li>
+        </ul>
+      </li>
       <li class="start"><a href="{% url 'metas_sm2015' %}"><i class="icon-custom-reports"></i> <span class="title">{% trans "Metas SM2015" %}</span></a></li>
       <li class="start"><a href="{% url 'grants_finances' %}"> <i class="icon-custom-gantz"></i> <span class="title">{% trans "Financiación" %}</span></a> </li>
       <li class="start"><a href="#"><i class="icon-custom-sm"></i> <span class="title">{% trans "SM2015" %}</span></a> </li>
       <li class="start"><a href="#"><i class="icon-custom-reports"></i> <span class="title">{% trans "Informes" %}</span></a> </li>
-      <li class="start"><a href="#"><i class="icon-custom-db"></i> <span class="title">{% trans "Base de datos" %}</span> <span class="arrow "></span></a>
+      <li class="start with-submenu"><a href="#"><i class="icon-custom-db"></i> <span class="title">{% trans "Base de datos" %}</span> <span class="arrow "></span></a>
         <ul class="sub-menu">
           <li> <a href="{% url 'hitos_e_avances' %}">Ejecución Financiera y Hitos</a> </li>
           <li> <a href="{% url 'ucmilestone' %}">Coordination Unit Milestone</a> </li>

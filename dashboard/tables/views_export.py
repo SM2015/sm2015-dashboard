@@ -30,12 +30,6 @@ def render_export_hitos_and_avances(request, country_slug):
             "{id}".format(id=estado.id): str(estado.name)
         })
 
-    for hito in hitos:
-        options_estados_actuais.update({
-            'selected': str(hito.estado_actual.id)
-        })
-        hito.options_estados_actuais = options_estados_actuais
-
     avances = AvanceFisicoFinanciero.objects.filter(country=country)
 
     # DOCX
@@ -71,10 +65,10 @@ def render_export_hitos_and_avances(request, country_slug):
             fecha_de_actualization_str = ''
 
         row1 = [Cell(BlockText(u'¿Cuándo fue la última vez que actualizó los datos?', bold=True, font='Times New Roman', size=10)),
-                Cell(BlockText(u'Avances Fiscos Planificados (Meta Ejecución)', bold=True, font='Times New Roman', size=10)),
-                Cell(BlockText(u'Avances Físicos reales (Avance en la ejecución real)', bold=True, font='Times New Roman', size=10)),
-                Cell(BlockText(u'Avances financieros planificados (Ejecución financiera planificados)', bold=True, font='Times New Roman', size=10)),
-                Cell(BlockText(u'Avances financieros actuales (Ejecución financiera real)', bold=True, font='Times New Roman', size=10)),
+                Cell(BlockText(u'Avances Fisicos Planificados (Meta Ejecución)', bold=True, font='Times New Roman', size=10)),
+                Cell(BlockText(u'Avances Físicos Reales (Avance en la ejecución real)', bold=True, font='Times New Roman', size=10)),
+                Cell(BlockText(u'Avances Financieros Planificados (Ejecución financiera planificados)', bold=True, font='Times New Roman', size=10)),
+                Cell(BlockText(u'Avances Financieros Actuales (Ejecución financiera real)', bold=True, font='Times New Roman', size=10)),
                 Cell(BlockText(u'Monto Desembolsado', bold=True, font='Times New Roman', size=10))]
 
         row2 = [Cell(BlockText(fecha_de_actualization_str, size=10)),
@@ -113,7 +107,10 @@ def render_export_hitos_and_avances(request, country_slug):
                          Cell(Block(InlineText(u'Acuerdo', bold=True, font='Times New Roman', size=10), align='center'))])
 
     for hito in hitos:
-        if hito.recomendacion or hito.alerta_notas:
+        if hito.recomendacion \
+           or hito.alerta_notas \
+           or (hito.estado_actual and hito.estado_actual.name
+               in ['Retrasado', 'En proceso']):
             is_avaliable_hito = True
 
             audiencias = []
@@ -121,19 +118,23 @@ def render_export_hitos_and_avances(request, country_slug):
                 audiencias.append(audiencia.name)
 
             bg_estado = '#FFFFFF'
-            if hito.estado_actual.name == 'Cumplido':
-                bg_estado = '#77FF77'
-            elif hito.estado_actual.name == 'Retrasado':
-                bg_estado = '#FF8888'
-            elif hito.estado_actual.name == 'En proceso':
-                bg_estado = '#FEFF00'
+            if hito.estado_actual:
+                if hito.estado_actual.name == 'Cumplido':
+                    bg_estado = '#77FF77'
+                elif hito.estado_actual.name == 'Retrasado':
+                    bg_estado = '#FF8888'
+                elif hito.estado_actual.name == 'En proceso':
+                    bg_estado = '#FEFF00'
+                estado_actual_name = hito.estado_actual.name
+            else:
+                estado_actual_name = ''
 
             table_hitos.add_row([
                 Cell(BlockText(hito.indicador_de_pago, font='Times New Roman', size=10)),
                 Cell(BlockText(hito.hito, font='Times New Roman', size=10)),
                 Cell(BlockText(hito.quarter.name, font='Times New Roman', size=10)),
                 Cell(BlockText(", ".join(audiencias), font='Times New Roman', size=10)),
-                Cell(BlockText(hito.estado_actual.name, font='Times New Roman', size=10), bgcolor=bg_estado),
+                Cell(BlockText(estado_actual_name, font='Times New Roman', size=10), bgcolor=bg_estado),
                 Cell(BlockText(hito.alerta_notas or '', font='Times New Roman', size=10)),
                 Cell(BlockText(hito.recomendacion or '', font='Times New Roman', size=10)),
                 Cell(BlockText(hito.acuerdo or '', font='Times New Roman', size=10))

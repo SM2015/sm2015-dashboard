@@ -137,6 +137,7 @@ TEMPLATE_LOADERS = (
 
 TEMPLATE_CONTEXT_PROCESSORS = TCP + (
     'core.template_processor.language.lang',
+    'core.template_processor.country.countries',
 )
 
 # Static files (CSS, JavaScript, Images)
