@@ -216,7 +216,7 @@ def chart_flot(request, uuid_type):
         origin_biggest_value = origins.pop(index_biggest_value)
 
         value = values.pop(index_biggest_value)
-        ordered_values.append([count, value])
+        ordered_values.append([value, count])
         ordered_values_labels.append([count, "${0}".format(value)])
         ordered_origins.append([value, origin_biggest_value])
         count += 1

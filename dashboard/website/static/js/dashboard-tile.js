@@ -44,7 +44,12 @@
 
             var tile_dv = response.dv + "%";
             if(self.opts.dv_money_format == true){
-              tile_dv = response.dv + "$";
+              tile_dv = response.dv;
+              if(response.dv[0] == '-'){
+                tile_dv = "- $" + tile_dv.slice(1);
+              } else {
+                tile_dv = "$" + tile_dv;
+              }
             }
 
             html = html.replace("{TILE_COLOR}", color)

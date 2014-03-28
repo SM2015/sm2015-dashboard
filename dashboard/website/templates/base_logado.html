@@ -190,8 +190,9 @@
    <!-- BEGIN SIDEBAR MENU -->	
     <ul>	
       <li class="start"> <a href="{% url 'index' %}" class="clearfix"> <i class="icon-custom-dashboard"></i> <span class="title">{% trans "Mi Tablero" %}</span></a> </li>
-      <li class="start with-submenu"><a href="{% url 'countries' %}"><i class="icon-custom-paises"></i> <span class="title">{% trans "Paises" %}</span> <span class="arrow "></a>
+      <li class="start with-submenu"><a href="#"><i class="icon-custom-paises"></i> <span class="title">{% trans "Paises" %}</span> <span class="arrow "></a>
         <ul class="sub-menu">
+          <li> <a href="{% url 'countries' %}">Overview</a> </li>
           <li> <a href="{% url 'countries_details' %}?country={{COUNTRIES.mexico.id}}">Chiapas</a> </li>
         </ul>
       </li>

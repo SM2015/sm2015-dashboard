@@ -57,7 +57,7 @@
             rows,
             {	
               xaxis: {
-                ticks: self.values_labels,
+                ticks: self.origins,
                 tickFormatter: 'string',
                 font :{
                     lineHeight: 13,
@@ -69,7 +69,7 @@
                 }
               },
               yaxis: {
-                ticks: self.origins,
+                ticks: self.values_labels,
                 tickFormatter: 'string',
                 labelWidth: 100,
                   font :{
