@@ -34,8 +34,10 @@ def render_export_hitos_and_avances(request, country_slug):
 
     # DOCX
     document = Docx()
-    logo_bid = Image("{root}/tables/files/logo-bid.png".format(root=root_dir_path))
+    logo_salud = Image("{root}/tables/files/logo_saludmesoam.png".format(root=root_dir_path))
+    logo_bid = Image("{root}/tables/files/logo-del-BID.jpg".format(root=root_dir_path))
     document.append(logo_bid)
+    document.append(logo_salud)
 
     # Heading
     date_today_str = date.today().strftime("%d de {MONTH} de %Y").lstrip("0")

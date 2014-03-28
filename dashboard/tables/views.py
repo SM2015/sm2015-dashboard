@@ -170,6 +170,7 @@ def grants_finances_ongoing(request, uuid_origin):
     except GrantsFinancesFields.DoesNotExist:
         raise Http404
 
+
 @login_required
 def countries_ongoing(request, country_slug, values_type):
     try:
@@ -183,10 +184,10 @@ def countries_ongoing(request, country_slug, values_type):
             planned = last_quarter.it_execution_planned
 
         values = {
-            'accumulated': intcomma(actual),
+            'accumulated': intcomma(int(actual)),
             'percentage': float("%.2f" % ((actual / planned) * 100)),
             'dpi': float("%.1f" % (actual / planned)),
-            'dv':  intcomma(actual - planned)
+            'dv':  intcomma(int(actual) - int(planned))
         }
 
         return HttpResponse(json.dumps(values), content_type="application/json")
