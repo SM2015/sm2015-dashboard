@@ -4,4 +4,4 @@ South==0.8.3
 flup==1.0.3.dev-20110405
 openpyxl==1.8.2
 docx==0.2.1
-py2docx==0.1
+py2docx==0.1.1

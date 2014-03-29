@@ -59,6 +59,8 @@ urlpatterns = patterns(
         views.countries_ongoing, name="countries_ongoing"),
     url(r'chart_flot/(?P<uuid_type>[\_A-Z]+)/?$',
         views.chart_flot, name="chart_flot"),
+    url(r'chart_bar/(?P<uuid_type>[\_A-Z]+)/?$',
+        views.chart_bar, name="chart_bar"),
 
     url(r'import/excel/', views.import_excel, name="table_import_excel"),
 )

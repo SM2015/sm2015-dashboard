@@ -229,6 +229,23 @@ def chart_flot(request, uuid_type):
 
 
 @login_required
+def chart_bar(request, uuid_type):
+    columns = []
+    grants_origins = GrantsFinancesOrigin.objects.all()
+    for i in xrange(0, len(grants_origins)):
+        origin = grants_origins[i]
+        accumulated = GrantsFinances.get_accumulated(origin.uuid, uuid_type)
+        columns.append({
+            'name': origin.name, 
+            'y': accumulated,
+            'label': intcomma(accumulated)
+        })
+
+    data = {'columns': columns}
+    return HttpResponse(json.dumps(data), content_type="application/json")
+
+
+@login_required
 def import_excel(request):
     app_name = request.POST.get('app_name')
     sheet_args = {

@@ -34,10 +34,12 @@ def render_export_hitos_and_avances(request, country_slug):
 
     # DOCX
     document = Docx()
-    logo_salud = Image("{root}/tables/files/logo_saludmesoam.png".format(root=root_dir_path))
-    logo_bid = Image("{root}/tables/files/logo-del-BID.jpg".format(root=root_dir_path))
-    document.append(logo_bid)
-    document.append(logo_salud)
+
+    logo_salud = Image("{root}/tables/files/logo_saludmesoam.png".format(root=root_dir_path), document=document)
+    logo_bid = Image("{root}/tables/files/logo-del-BID.jpg".format(root=root_dir_path), document=document)
+    table_logos = Table()
+    table_logos.add_row([Cell(logo_salud), Cell(logo_bid)])
+    document.append(table_logos)
 
     # Heading
     date_today_str = date.today().strftime("%d de {MONTH} de %Y").lstrip("0")
@@ -92,7 +94,7 @@ def render_export_hitos_and_avances(request, country_slug):
     document.append(Break())
     # Add Triangle Graph
     document.append(Block(InlineText(u"Gráficos del Tablero de Control", size=12, font='Times New Roman', bold=True), align='center'))
-    document.append(Image("{0}".format(triangle_path), align='center'))
+    document.append(Image("{0}".format(triangle_path), document=document, align='center'))
 
     document.append(Break())
 
