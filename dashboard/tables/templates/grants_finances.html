@@ -40,10 +40,10 @@
                 $(".tiles-container").dashboardTile(origin);
             });
 
-            $(".chart-container-real").dashboardChartBar("{% url 'chart_bar' uuid_type='GRANTS_TYPE_REAL' %}", {
+            $(".chart-container-real").dashboardChartBar("{% url 'chart_flot' uuid_type='GRANTS_TYPE_REAL' %}", {
               title: 'Real'
             });
-            $(".chart-container-expected").dashboardChartBar("{% url 'chart_bar' uuid_type='GRANTS_TYPE_EXPECTED' %}", {
+            $(".chart-container-expected").dashboardChartBar("{% url 'chart_flot' uuid_type='GRANTS_TYPE_EXPECTED' %}", {
               title: 'Expected', color: '#88e'
             });
         });
@@ -79,8 +79,8 @@
     <div class="table-grants-finances"></div>
 
     <div class="row-fluid">
-      <div class="chart-container-real span6"></div>
       <div class="chart-container-expected span6"></div>
+      <div class="chart-container-real span6"></div>
     </div>
 </div>
 {% endblock %}

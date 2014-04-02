@@ -23,54 +23,103 @@
         var self = this;
 
         $.getJSON(url, function(response){
-            self.plotChart(response.columns, url);
+          var rows_flot = [];
+          var colors = ['#2f7ed8', '#0d233a', "#8bbc21", "#910000"];
+          $.each(response.values, function(i){
+            var row = {
+              data: this,
+              animator: {steps: 60, duration: 1000, start:0}, 		
+              shadowSize: 0,
+              bars: { 
+                fillColor: colors[i],
+                fill: true,
+                show: true
+              },
+              color: colors[i]
+            };
+            rows_flot.push(row);
+          });
+
+          self.origins = response.origins;
+          self.values_labels = response.values_labels;
+          self.plotChart(rows_flot, url);
         });
     }
 
-    dashboardChartBar.prototype.plotChart = function(columns, url){
+    dashboardChartBar.prototype.plotChart = function(rows, url){
         var self = this;
         var html = this.html;
         var $newElement = $(html);
 
-
-        $newElement.find('.placeholder').highcharts({
-            chart: {
-                type: 'column',
-            },
-            title: '',
-            xAxis: {
-                type: 'category',
-                title: {
-                    text: 'Donnors'
+        $.plot($newElement.find(".placeholder"), 
+            rows,
+            {	
+              series: {
+                bars: {
+                  show: true,
+                  barWidth: 0.5,
+                  align:'center',
                 }
-            },
-            yAxis: {
-                title: {
-                    text: 'Accumulative'
-                }
-            },
-            legend: {
-                enabled: false
-            },
-            plotOptions: {
-                series: {
-                    borderWidth: 0,
-                    dataLabels: {
-                        enabled: true,
-                        format: '${point.label}'
-                    }
-                }
-            },
-            tooltip: {
-                headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-                pointFormat: '<span style="color:{point.color}">{point.name}</span><br/>'
-            }, 
-            series: [{
-                name: 'Donnors',
-                colorByPoint: true,
-                data: columns
-            }]
+              },
+              colors: ['#333333', '#888888', "#ffffff", "#333"],
+              xaxis: {
+                ticks: self.origins,
+                font :{
+                    lineHeight: 13,
+                    style: "normal",
+                    weight: "bold",
+                    family: "sans-serif",
+                    variant: "small-caps",
+                    color: "#6F7B8A",
+                },
+              },
+              yaxis: {
+                ticks: self.values_labels,
+                labelWidth: 100,
+                  font :{
+                      style: "normal",
+                      weight: "bold",
+                      family: "sans-serif",
+                      variant: "small-caps",
+                      color: "#6F7B8A",
+                  }
+              },
+              grid: {
+                  backgroundColor: { colors: [ "#fff", "#fff" ] },
+                  borderWidth:1,
+                  borderColor:"#f0f0f0",
+                  margin:0,
+                  minBorderMargin:0,							
+                  labelMargin:20,
+                  hoverable: true,
+                  clickable: true,
+                  mouseActiveRadius:6
+              },
+            }
+        );
+      
+        $newElement.bind("plothover", function (event, pos, item) {
+          if (item) {
+            var origin = self.origins[item.dataIndex][1],
+                value = thousandSeparator(item.datapoint[1] * 1000000);
+      
+            $("#tooltip").html(origin + ": " + value)
+                          .css({ top: item.pageY+5, left: item.pageX+5 })
+                          .fadeIn(200);
+          } else {
+            $("#tooltip").hide();
+          }
         });
+
+        $("<div id='tooltip'></div>").css({
+            position: "absolute",
+            display: "none",
+            border: "1px solid #fdd",
+            padding: "2px",
+            "background-color": "#fee",
+            "z-index":"99999",
+            opacity: 0.80
+        }).appendTo("body");
 
         if(this.$element){
             this.$element.replaceWith($newElement);
