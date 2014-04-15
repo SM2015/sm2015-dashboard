@@ -43,7 +43,7 @@ msgstr "SM2015"
 
 #: website/templates/base_logado.html:164
 msgid "Informes"
-msgstr "Informations"
+msgstr "Reports"
 
 #: website/templates/base_logado.html:165
 msgid "Base de datos"
