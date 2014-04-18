@@ -57,7 +57,7 @@ urlpatterns = patterns(
         views.grants_finances_ongoing, name="grants_finances_ongoing"),
     url(r'country/ongoing/(?P<country_slug>[\_\-a-z]+)/(?P<values_type>[\w]+)/?$',
         views.countries_ongoing, name="countries_ongoing"),
-    url(r'chart_flot/(?P<uuid_type>[\_A-Z]+)/?$',
+    url(r'chart_flot/?$',
         views.chart_flot, name="chart_flot"),
     url(r'chart_bar/(?P<uuid_type>[\_A-Z]+)/?$',
         views.chart_bar, name="chart_bar"),

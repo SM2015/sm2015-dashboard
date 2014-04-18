@@ -17,7 +17,7 @@
         var self = this,
             latLngCenter = new google.maps.LatLng(15.961329,-90.981447), //Guatemala
             mapOptions = {
-                zoom: 4,
+                zoom: 5,
                 center: latLngCenter
             };
 
@@ -70,7 +70,7 @@
                       '<h4 class="title-info">{TITLE}</h4>'+
                       '<p class="desc">{SHORT_DESCRIPTION}</p>'+
                   '</div>'+
-                  '<a class="more-info" href="#">Más infos</a>'+
+                  '<a class="more-info" href="{INFOS_URL}">Más infos</a>'+
               '</div>'+
               '<div class="right-side">'+
                   '<div class="statistics">'+
@@ -102,7 +102,8 @@
         var infoBoxOptions = infoBoxOptions;
         infoBoxOptions.content = infoBoxDefault.innerHTML
                                                 .replace("{TITLE}", country.name)
-                                                .replace("{SHORT_DESCRIPTION}", country.short_description);
+                                                .replace("{SHORT_DESCRIPTION}", country.short_description)
+                                                .replace("{INFOS_URL}", country.infos_url);
         return new InfoBox(infoBoxOptions);
     }
 

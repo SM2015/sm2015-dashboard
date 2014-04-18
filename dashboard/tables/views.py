@@ -197,34 +197,31 @@ def countries_ongoing(request, country_slug, values_type):
 
 
 @login_required
-def chart_flot(request, uuid_type):
-    values = []
-    origins = []
+def chart_flot(request):
     grants_origins = GrantsFinancesOrigin.objects.all()
-    for i in xrange(0, len(grants_origins)):
-        origin = grants_origins[i]
-        accumulated = GrantsFinances.get_accumulated(origin.uuid, uuid_type)
-        values.append(accumulated)
-        origins.append("Donors {0}".format(origin.name))
+    grants_types = GrantsFinancesType.objects.all()
+    values = {t.name: [] for t in grants_types}
+    origins = []
 
-    ordered_values = []
-    ordered_values_labels = []
-    ordered_origins = []
-    count = 0
-    while values:
-        biggest_value = min(values)
-        index_biggest_value = values.index(biggest_value)
-        origin_biggest_value = origins.pop(index_biggest_value)
-
-        value = values.pop(index_biggest_value)
-        ordered_values.append([[count, value]])
-        ordered_values_labels.append([value, "${0}".format(intcomma(value * 1000000))])
-        ordered_origins.append([count, origin_biggest_value])
+    count = 1
+    for origin in grants_origins:
+        for origin_type in grants_types:
+            accumulated = GrantsFinances.get_accumulated(origin.uuid,
+                                                         origin_type.uuid)
+            values[origin_type.name].append([int(origin.id), accumulated])
+        origins.append([count, "Donors {0}".format(origin.name)])
         count += 1
 
-    data = {'values': ordered_values,
-            'origins': ordered_origins,
-            'values_labels': ordered_values_labels}
+    data = {'origins': origins}
+
+    data['values'] = []
+    for origin_type in values:
+        origin_values = [origin for origin in values[origin_type]]
+        data['values'].append(origin_values)
+
+    #ordered_values_labels.append([value, "${0}".format(intcomma(value * 1000000))])
+    #ordered_origins.append([count, origin_biggest_value])
+
     return HttpResponse(json.dumps(data), content_type="application/json")
 
 

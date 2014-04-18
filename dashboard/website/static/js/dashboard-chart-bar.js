@@ -12,7 +12,7 @@
                 '<div class="tools"> <a href="javascript:;" class="collapse"></a> <a href="#grid-config" data-toggle="modal" class="config"></a> <a href="javascript:;" class="reload"></a> <a href="javascript:;" class="remove"></a> </div>'+
               '</div>'+
               '<div class="grid-body no-border">'+
-                '<div class="placeholder" style="width:450px;height:250px;position:relative; padding-top:10px;"></div>'+
+                '<div class="placeholder" style="width:960px;height:250px;position:relative; padding-top:10px;"></div>'+
               '</div>'+
             '</div>';
 
@@ -24,18 +24,25 @@
 
         $.getJSON(url, function(response){
           var rows_flot = [];
-          var colors = ['#2f7ed8', '#0d233a', "#8bbc21", "#910000"];
+          var colors = [
+            "rgba(243, 89, 88, 0.7)",
+            "rgba(251, 176, 94, 0.7)"
+          ];
           $.each(response.values, function(i){
+            console.log(this);
             var row = {
               data: this,
               animator: {steps: 60, duration: 1000, start:0}, 		
               shadowSize: 0,
               bars: { 
-                fillColor: colors[i],
+                show: true,
+                barWidth: 0.2,
                 fill: true,
-                show: true
+                lineWidth: 0,
+                order: i+1,
+                fillColor:  colors[i]
               },
-              color: colors[i]
+              color:  colors[i]
             };
             rows_flot.push(row);
           });
@@ -58,10 +65,8 @@
                 bars: {
                   show: true,
                   barWidth: 0.5,
-                  align:'center',
                 }
               },
-              colors: ['#333333', '#888888', "#ffffff", "#333"],
               xaxis: {
                 ticks: self.origins,
                 font :{
@@ -71,18 +76,18 @@
                     family: "sans-serif",
                     variant: "small-caps",
                     color: "#6F7B8A",
-                },
+                }
               },
               yaxis: {
-                ticks: self.values_labels,
-                labelWidth: 100,
-                  font :{
-                      style: "normal",
-                      weight: "bold",
-                      family: "sans-serif",
-                      variant: "small-caps",
-                      color: "#6F7B8A",
-                  }
+                labelWidth: 50,
+                font :{
+                    style: "normal",
+                    weight: "bold",
+                    family: "sans-serif",
+                    variant: "small-caps",
+                    color: "#6F7B8A",
+
+                }
               },
               grid: {
                   backgroundColor: { colors: [ "#fff", "#fff" ] },
@@ -101,9 +106,15 @@
         $newElement.bind("plothover", function (event, pos, item) {
           if (item) {
             var origin = self.origins[item.dataIndex][1],
-                value = thousandSeparator(item.datapoint[1] * 1000000);
+                value = thousandSeparator(item.datapoint[1] * 1000000),
+                label;
       
-            $("#tooltip").html(origin + ": " + value)
+            if (item.seriesIndex == 0){
+              label = origin + " (Real): " + value;
+            } else if (item.seriesIndex == 1){
+              label = origin + " (Expected): " + value;
+            }
+            $("#tooltip").html(label)
                           .css({ top: item.pageY+5, left: item.pageX+5 })
                           .fadeIn(200);
           } else {

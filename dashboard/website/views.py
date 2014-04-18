@@ -1,24 +1,14 @@
 # coding: utf-8
 
-import random
-import sha
-import logging
-import json
 
-from django.core.mail import EmailMultiAlternatives
-from django.shortcuts import render
-from django.conf import settings
+from django.core.urlresolvers import reverse
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
-from django.contrib import messages
-from django.http import HttpResponse
-from django.shortcuts import render_to_response, redirect, get_object_or_404
+from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
-from django.forms.util import ErrorList
-from django.forms.forms import NON_FIELD_ERRORS
 
-from website.forms import LoginForm, SetPasswordForm, ForgotPasswordForm, ChangePasswordForm
+from website.forms import LoginForm, SetPasswordForm, \
+    ForgotPasswordForm, ChangePasswordForm
 from core.models import *
 from map.models import Map
 from tables.models import AvanceFisicoFinanciero
@@ -46,7 +36,9 @@ def index(request):
                 'name': str(country_map.country.name),
                 'goal': str(country_map.goal),
                 'short_description': str(country_map.short_description),
-                'pin_color': pin_color
+                'pin_color': pin_color,
+                'infos_url': "{0}?country={1}".format(reverse('countries_details'),
+                                                      country_map.country.id)
             }
             countries_map.append(country)
         except AvanceFisicoFinanciero.DoesNotExist:
@@ -87,13 +79,13 @@ def dashboard_logout(request):
 
 def forgot_password(request):
     context = RequestContext(request)
-    
+
     if request.method == "GET":
         form_forgot_password = ForgotPasswordForm()
     else:
         form_forgot_password = ForgotPasswordForm(request.POST)
         if form_forgot_password.validate():
-            
+
             dashboard_user = DashboardUser.objects.get(user__email=request.POST.get('email'))
             response_email = dashboard_user.send_forgot_password_email()
 
