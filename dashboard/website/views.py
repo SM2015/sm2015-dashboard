@@ -33,9 +33,9 @@ def index(request):
             country = {
                 'lat': str(country_map.country.latlng.split(',')[0]),
                 'lng': str(country_map.country.latlng.split(',')[1]),
-                'name': str(country_map.country.name),
+                'name': unicode(country_map.country.name),
                 'goal': str(country_map.goal),
-                'short_description': str(country_map.short_description),
+                'short_description': unicode(country_map.short_description),
                 'pin_color': pin_color,
                 'infos_url': "{0}?country={1}".format(reverse('countries_details'),
                                                       country_map.country.id)
