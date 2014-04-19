@@ -1,6 +1,7 @@
 # coding: utf-8
 
 
+import json
 from django.core.urlresolvers import reverse
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
@@ -33,7 +34,7 @@ def index(request):
             country = {
                 'lat': str(country_map.country.latlng.split(',')[0]),
                 'lng': str(country_map.country.latlng.split(',')[1]),
-                'name': unicode(country_map.country.name),
+                'name': str(country_map.country.name),
                 'goal': str(country_map.goal),
                 'short_description': unicode(country_map.short_description),
                 'pin_color': pin_color,
@@ -48,7 +49,7 @@ def index(request):
     context = RequestContext(request)
     countries_user = context.get('user').dashboarduser.countries.all()
 
-    context.update({'countries_map': countries_map})
+    context.update({'countries_map': json.dumps(countries_map)})
     context.update({'countries_user': countries_user})
     
     return render_to_response('index.html', context)
