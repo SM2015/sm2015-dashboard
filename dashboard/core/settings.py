@@ -22,6 +22,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 INSTALLED_APPS = (
+    'suit',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -78,7 +79,7 @@ LOCALE_PATHS = (
     os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'locale'),
 )
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'US/Eastern'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
@@ -136,6 +137,7 @@ TEMPLATE_LOADERS = (
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = TCP + (
+    'django.core.context_processors.request',
     'core.template_processor.language.lang',
     'core.template_processor.country.countries',
 )
@@ -168,3 +170,7 @@ DEFAULT_EMAIL_REGISTER_SUBJECT = "Dashboard - Registration Confirmation"
 DEFAULT_EMAIL_FORGOT_PASSWORD_SUBJECT = "Dashboard - Forgot your password?"
 
 LOGIN_URL = '/user/login/'
+
+SUIT_CONFIG = {
+    'ADMIN_NAME': 'SM2015.org Dashboard administration'
+}
