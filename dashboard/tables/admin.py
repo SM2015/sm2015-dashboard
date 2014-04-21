@@ -44,7 +44,6 @@ class CountryDetailsAdmin(admin.ModelAdmin):
         return super(CountryDetailsAdmin, self).changelist_view(request,
                                                                 extra_context)
 
-
 admin.site.register(Hito, HitoAdmin)
 admin.site.register(AvanceFisicoFinanciero, AvanceFisicoFinancieroAdmin)
 admin.site.register(UcMilestone, UcMilestoneAdmin)

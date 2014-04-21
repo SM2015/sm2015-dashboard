@@ -29,8 +29,13 @@ def render_hitos(request, country_slug):
         options_estados_actuais.update(option)
         hito.options_estados_actuais = options_estados_actuais
 
+    can_edit = request.user.dashboarduser.can_edit_table(
+        uuid_table_edit_access='TABLE_EDIT_ACCESS_HITOS'
+    )
+
     rendered = render_to_string("tables/hitos.html", {
-        'hitos': hitos
+        'hitos': hitos,
+        'editable': can_edit
     })
     return HttpResponse(rendered, content_type="text/html")
 
@@ -42,8 +47,13 @@ def render_avances_financeiros(request, country_slug):
                                             language__acronym=
                                             request.LANGUAGE_CODE)
 
+    can_edit = request.user.dashboarduser.can_edit_table(
+        uuid_table_edit_access='TABLE_EDIT_ACCESS_AVANCE_FISICO_FINANCIEROS'
+    )
+
     rendered = render_to_string("tables/avances_financeiros.html", {
         'avances': avances,
+        'editable': can_edit
     })
     return HttpResponse(rendered, content_type="text/html")
 
@@ -54,8 +64,13 @@ def render_ucmilestone(request, year):
                               .filter(language__acronym=request.LANGUAGE_CODE) \
                               .filter(date__year=int(year))
 
+    can_edit = request.user.dashboarduser.can_edit_table(
+        uuid_table_edit_access='TABLE_EDIT_ACCESS_UC_MILESTONES'
+    )
+
     rendered = render_to_string("tables/ucmilestone.html", {
         'ucmilestones': ucmilestones,
+        'editable': can_edit
     })
     return HttpResponse(rendered, content_type="text/html")
 
@@ -79,10 +94,16 @@ def render_sm2015milestone(request, year):
                                               request.LANGUAGE_CODE) \
                                       .filter(date__year=int(year))
 
+    can_edit = request.user.dashboarduser.can_edit_table(
+        uuid_table_edit_access='TABLE_EDIT_ACCESS_SM2015_MILESTONES'
+    )
+
     rendered = render_to_string("tables/sm2015milestone.html", {
-        'sm2015milestones': sm2015milestones
+        'sm2015milestones': sm2015milestones,
+        'editable': can_edit
     })
     return HttpResponse(rendered, content_type="text/html")
+
 
 @login_required
 def render_sm2015milestone_noneditable(request, year):
@@ -94,6 +115,7 @@ def render_sm2015milestone_noneditable(request, year):
         'sm2015milestones': sm2015milestones
     })
     return HttpResponse(rendered, content_type="text/html")
+
 
 @login_required
 def render_grants_finances(request):
@@ -153,10 +175,15 @@ def render_grants_finances(request):
     table.append({'name': 'Total Expected Donors Inflow', 'values': values_expected, 'highlight': True})
     table.append({'name': 'Total Cummulative Donors Inflow', 'values': values_real, 'highlight': True})
 
+    can_edit = request.user.dashboarduser.can_edit_table(
+        uuid_table_edit_access='TABLE_EDIT_ACCESS_GRANTS_FINANCES'
+    )
+
     rendered = render_to_string("tables/grants_finances.html", {
         'periods': periods,
         'table': table,
-        'totals': totals
+        'totals': totals,
+        'editable': can_edit
     })
     return HttpResponse(rendered, content_type="text/html")
 
@@ -178,8 +205,13 @@ def render_life_save(request, country_slug):
                 {'value': life_save.number_saving, 'id': life_save.id, 'model': 'LifeSave', 'name':'number_saving'}
             ])
 
+    can_edit = request.user.dashboarduser.can_edit_table(
+        uuid_table_edit_access='TABLE_EDIT_ACCESS_LISTS'
+    )
+
     rendered = render_to_string("tables/life_save.html", {
         'table': table,
+        'editable': can_edit
     })
     return HttpResponse(rendered, content_type="text/html")
 
@@ -242,6 +274,10 @@ def render_country_operation(request):
             country_rows.append(row)
         table.extend(country_rows)
 
+    can_edit = request.user.dashboarduser.can_edit_table(
+        uuid_table_edit_access='TABLE_EDIT_ACCESS_COUNTRY_OPERATION'
+    )
+
     rendered = render_to_string("tables/country_operation.html", {
         'table': table,
         'quarters': quarters,
@@ -289,9 +325,13 @@ def render_country_details(request):
             'values': row_values
         })
 
+    can_edit = request.user.dashboarduser.can_edit_table(
+        uuid_table_edit_access='TABLE_EDIT_ACCESS_COUNTRY_DETAILS'
+    )
+
     rendered = render_to_string("tables/country_details.html", {
         'periods': periods,
-        'table': table
+        'table': table,
+        'editable': can_edit
     })
     return HttpResponse(rendered, content_type="text/html")
-

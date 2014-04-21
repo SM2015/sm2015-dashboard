@@ -8,29 +8,29 @@
         <table class="table-bordered">
             <tr>
                 <th class="avances-header">Cual es la fecha en que la información que está registrando fue actualizada</th>
-                <td class="avances-value editable date" name="fecha_de_actualizacion">
+                <td class="avances-value {% if editable %}editable{% endif %} date" name="fecha_de_actualizacion">
                     {{avance.fecha_de_actualizacion}}
                 </td>
             </tr>
             <tr>
               <th class="avances-header">Avances Fisicos Planificados<br />(Meta Ejecución)</th>
-                <td class="avances-value editable text" name="avance_fisico_planificado">{{avance.avance_fisico_planificado}}%</td>
+                <td class="avances-value {% if editable %}editable{% endif %} text" name="avance_fisico_planificado">{{avance.avance_fisico_planificado}}%</td>
             </tr>
             <tr>
                 <th class="avances-header">Avances Fisicos Reales<br />(Avance en la ejecución real segun el PEP)</th>
-                <td class="avances-value editable text" name="avance_fisico_real">{{avance.avance_fisico_real}}%</td>
+                <td class="avances-value {% if editable %}editable{% endif %} text" name="avance_fisico_real">{{avance.avance_fisico_real}}%</td>
             </tr>
             <tr>
                 <th class="avances-header">Avances Financieros Planificados<br />(Ejecución financiera planificados)</th>
-                <td class="avances-value editable text" name="avance_financiero_planificado">{{avance.avance_financiero_planificado}}%</td>
+                <td class="avances-value {% if editable %}editable{% endif %} text" name="avance_financiero_planificado">{{avance.avance_financiero_planificado}}%</td>
             </tr>
             <tr>
                 <th class="avances-header">Avances Financieros Reales<br />(Ejecución financiera real según el estados financieros del ejecutor hasta la fecha (%))</th>
-                <td class="avances-value editable text" name="avance_financiero_actual">{{avance.avance_financiero_actual}}%</td>
+                <td class="avances-value {% if editable %}editable{% endif %} text" name="avance_financiero_actual">{{avance.avance_financiero_actual}}%</td>
             </tr>
             <tr>
                 <th class="avances-header">Monto Total Desembolsado<br />(BID a PAIS)</th>
-                <td class="avances-value editable text" name="monto_desembolsado">${{avance.monto_desembolsado|intcomma}}</td>
+                <td class="avances-value {% if editable %}editable{% endif %} text" name="monto_desembolsado">${{avance.monto_desembolsado|intcomma}}</td>
             </tr>
         </table>
     </div>
@@ -38,23 +38,23 @@
         <table class="table-bordered">
             <tr>
                 <th class="avances-header">Monto Comprometido</th>
-                <td class="avances-value editable text" name="monto_comprometido">${{avance.monto_comprometido|intcomma}}</td>
+                <td class="avances-value {% if editable %}editable{% endif %} text" name="monto_comprometido">${{avance.monto_comprometido|intcomma}}</td>
             </tr>
             <tr>
                 <th class="avances-header">Avances Fisicos Planificados (Meta Ejecución):<br />De La Linea De Base Original</th>
-                <td class="avances-value editable text" name="avances_fisicos_original_programado">{{avance.avances_fisicos_original_programado}}%</td>
+                <td class="avances-value {% if editable %}editable{% endif %} text" name="avances_fisicos_original_programado">{{avance.avances_fisicos_original_programado}}%</td>
             </tr>
             <tr>
                 <th class="avances-header">Avances Financieros Planificados (Ejecución financiera planificados):<br />Del Linea De Base Original</th>
-                <td class="avances-value editable text" name="avances_financieros_original_programado">{{avance.avances_financieros_original_programado|intcomma}}%</td>
+                <td class="avances-value {% if editable %}editable{% endif %} text" name="avances_financieros_original_programado">{{avance.avances_financieros_original_programado|intcomma}}%</td>
             </tr>
             <tr>
                 <th class="avances-header">Alertas Temprana en General</th>
-                <td class="avances-value editable textarea" name="alerta">{{avance.alerta}}</td>
+                <td class="avances-value {% if editable %}editable{% endif %} textarea" name="alerta">{{avance.alerta}}</td>
             </tr>
             <tr>
                 <th class="avances-header">Recomendaciones</th>
-                <td class="avances-value editable textarea" name="recomendacion">{{avance.recomendacion}}</td>
+                <td class="avances-value {% if editable %}editable{% endif %} textarea" name="recomendacion">{{avance.recomendacion}}</td>
             </tr>
         </table>
     </div>

@@ -16,14 +16,14 @@
       <tr data-model="CountryOperation">
         {% if forloop.counter == 0 or forloop.counter0|divisibleby:4 %}
         <td class="text" name="country" rowspan="4">{{row.country}}</td>
-        <td class="editable text" data-objid="{{row.it_id}}" name="it" data-model="CountryOperationIT" rowspan="4">{{row.it|floatformat:2|intcomma}}</td>
+        <td class="{% if editable %}editable{% endif %} text" data-objid="{{row.it_id}}" name="it" data-model="CountryOperationIT" rowspan="4">{{row.it|floatformat:2|intcomma}}</td>
         {% endif %}
         {% if forloop.counter == 0 or forloop.counter0|divisibleby:2 %}
         <td class="text" name="" rowspan="2">{{row.field.parent_name}}</td>
         {% endif %}
         <td class="text" name="">{{row.field.name}}</td>
         {% for value in row.values %}
-        <td class="editable text" data-objid="{{value.id}}" name="{{row.field.field}}">{{value.v|floatformat:0|intcomma}}</td>
+        <td class="{% if editable %}editable{% endif %} text" data-objid="{{value.id}}" name="{{row.field.field}}">{{value.v|floatformat:0|intcomma}}</td>
         {% endfor %}
       </tr>
       {% endfor %}

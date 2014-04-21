@@ -19,7 +19,7 @@
         {% for row in table %}
         <tr>
             {% for field in row %}
-            <td data-objid="{{field.id}}" {% if field.highlight %}style="background-color: #fafafa;font-weight:bold"{% endif %} data-model="{{field.model}}" class="{% if field.id %}editable text{% endif %}" name="{{field.name}}">{{field.value}}</td>
+            <td data-objid="{{field.id}}" {% if field.highlight %}style="background-color: #fafafa;font-weight:bold"{% endif %} data-model="{{field.model}}" class="{% if field.id %}{% if editable %}editable{% endif %} text{% endif %}" name="{{field.name}}">{{field.value}}</td>
             {% endfor %}
         </tr>
         {% endfor %}

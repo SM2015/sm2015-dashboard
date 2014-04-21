@@ -11,11 +11,11 @@
     <tbody>
       {% for milestone in ucmilestones %}
       <tr data-objid="{{milestone.id}}" data-model="UcMilestone">
-        <td class="editable text" name="objective">{{milestone.objective}}</td>
-        <td class="editable text" name="coordination_unit_milestone">{{milestone.coordination_unit_milestone}}</td>
-        <td class="editable text" name="quarter">{{milestone.quarter}}</td>
-        <td class="editable text" name="status">{{milestone.status}}</td>
-        <td class="editable text" name="observation">{{milestone.observation}}</td>
+        <td class="{% if editable %}editable{% endif %} text" name="objective">{{milestone.objective}}</td>
+        <td class="{% if editable %}editable{% endif %} text" name="coordination_unit_milestone">{{milestone.coordination_unit_milestone}}</td>
+        <td class="{% if editable %}editable{% endif %} text" name="quarter">{{milestone.quarter}}</td>
+        <td class="{% if editable %}editable{% endif %} text" name="status">{{milestone.status}}</td>
+        <td class="{% if editable %}editable{% endif %} text" name="observation">{{milestone.observation}}</td>
       </tr>
       {% endfor %}
     </tbody>

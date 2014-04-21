@@ -28,8 +28,8 @@
             <td data-objid="" {% if field.highlight %}style="background-color: #fafafa;font-weight:bold"{% endif %} data-model="CountryDetails" class="">{{field.level.name}}</td>
             <td data-objid="" {% if field.highlight %}style="background-color: #fafafa;font-weight:bold"{% endif %} data-model="CountryDetails" class="">{{field.location}}</td>
             {% for value in field.values %}
-            <td data-objid="{{value.id}}" data-model="CountryDetailsValues" class="editable text number-value {% if field.id %}editable text{% endif %}" name="numerador_reportado">{{value.numerador_value}}</td>
-            <td data-objid="{{value.id}}" data-model="CountryDetailsValues" class="editable text number-value {% if field.id %}editable text{% endif %}" name="denominador_reportado">{{value.denominador_value}}</td>
+            <td data-objid="{{value.id}}" data-model="CountryDetailsValues" class="{% if editable %}editable{% endif %} text number-value {% if field.id %}{% if editable %}editable{% endif %} text{% endif %}" name="numerador_reportado">{{value.numerador_value}}</td>
+            <td data-objid="{{value.id}}" data-model="CountryDetailsValues" class="{% if editable %}editable{% endif %} text number-value {% if field.id %}{% if editable %}editable{% endif %} text{% endif %}" name="denominador_reportado">{{value.denominador_value}}</td>
             <td class="number-value">{{value.percentage}}</td>
             {% endfor %}
         </tr>

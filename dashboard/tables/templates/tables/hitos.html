@@ -22,11 +22,11 @@
         <td class="word" name="hito">{{hito.hito}}</td>
         <td class="" name="trimestre">{{hito.quarter.name}}</td>
         <td class="" name="audiencia">{{hito.audiencia.all|join:", "}}</td>
-        <td class="editable select" name="estado_actual" data-options="{{hito.options_estados_actuais}}">{{hito.estado_actual.name}}</td>
-        <td class="editable textarea" name="alerta_notas">{{hito.alerta_notas}}</td>
-        <td class="editable textarea" name="recomendacion">{{hito.recomendacion}}</td>
-        <td class="editable textarea" name="acuerdo">{{hito.acuerdo}}</td>
-        <td class="editable text" name="actividad_en_poa">{{hito.actividad_en_poa}}</td>
+        <td class="{% if editable %}editable{% endif %} select" name="estado_actual" data-options="{{hito.options_estados_actuais}}">{{hito.estado_actual.name}}</td>
+        <td class="{% if editable %}editable{% endif %} textarea" name="alerta_notas">{{hito.alerta_notas}}</td>
+        <td class="{% if editable %}editable{% endif %} textarea" name="recomendacion">{{hito.recomendacion}}</td>
+        <td class="{% if editable %}editable{% endif %} textarea" name="acuerdo">{{hito.acuerdo}}</td>
+        <td class="{% if editable %}editable{% endif %} text" name="actividad_en_poa">{{hito.actividad_en_poa}}</td>
       </tr>
       {% endfor %}
     </tbody>

@@ -23,9 +23,9 @@
     <tbody>
         {% for field in table %}
         <tr>
-            <td data-objid="{{field.id}}" {% if field.highlight %}style="background-color: #fafafa;font-weight:bold"{% endif %} data-model="GrantsFinancesFields" class="{% if field.id %}editable text{% endif %}" name="name">{{field.name}}</td>
+            <td data-objid="{{field.id}}" {% if field.highlight %}style="background-color: #fafafa;font-weight:bold"{% endif %} data-model="GrantsFinancesFields" class="{% if field.id %}{% if editable %}editable{% endif %} text{% endif %}" name="name">{{field.name}}</td>
             {% for value in field.values %}
-            <td data-objid="{{value.id}}" {% if field.highlight %}style="background-color: #fafafa;"{% endif %} data-model="GrantsFinances" class="number-value {% if field.id %}editable text{% endif %}" name="value">{{value.value}}</td>
+            <td data-objid="{{value.id}}" {% if field.highlight %}style="background-color: #fafafa;"{% endif %} data-model="GrantsFinances" class="number-value {% if field.id %}{% if editable %}editable{% endif %} text{% endif %}" name="value">{{value.value}}</td>
             {% endfor %}
         </tr>
         {% endfor %}
