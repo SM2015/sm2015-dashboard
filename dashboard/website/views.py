@@ -21,7 +21,11 @@ def index(request):
     countries_map = []
     for country_map in maps:
         try:
-            table_avances = AvanceFisicoFinanciero.objects.filter(country=country_map.country).last()
+            table_avances = AvanceFisicoFinanciero.objects \
+                .filter(country=country_map.country,
+                                            language__acronym=
+                                            request.LANGUAGE_CODE).last()
+
             variation_physical = table_avances.avance_fisico_planificado - table_avances.avance_fisico_real
             variation_financial = table_avances.avance_financiero_planificado - table_avances.avance_financiero_actual
             if variation_physical <= 25 and variation_financial <= 25:
@@ -42,7 +46,7 @@ def index(request):
                                                       country_map.country.id)
             }
             countries_map.append(country)
-        except (AvanceFisicoFinanciero.DoesNotExist, IndexError):
+        except (AvanceFisicoFinanciero.DoesNotExist, IndexError, AttributeError):
             continue
 
 
