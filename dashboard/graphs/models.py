@@ -139,10 +139,10 @@ class TriangleGraph(object):
 
     @classmethod
     def get_triangle_series(cls, country, lang):
-        try:
-            avances = AvanceFisicoFinanciero.objects.filter(country=country,
-                                                            language__acronym=lang).last()
-        except AvanceFisicoFinanciero.DoesNotExist:
+        avances = AvanceFisicoFinanciero.objects.filter(country=country,
+                                                        language__acronym=lang).last()
+
+        if not avances:
             return []
 
         try:
