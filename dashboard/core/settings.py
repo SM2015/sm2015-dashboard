@@ -160,14 +160,14 @@ BASE_URL = "http://localhost:8000"
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'rafaeltravel88@gmail.com'
-EMAIL_HOST_PASSWORD = '&3rSbSfi3&'
+EMAIL_HOST_USER = 'support@sm2015dashboard.org'
+EMAIL_HOST_PASSWORD = 'Brasil2014'
 EMAIL_PORT = 587
 
-DEFAULT_FROM_NAME = "Dashboard"
-DEFAULT_FROM_EMAIL = "contacto@sm2015.org"
-DEFAULT_EMAIL_REGISTER_SUBJECT = "Dashboard - Registration Confirmation"
-DEFAULT_EMAIL_FORGOT_PASSWORD_SUBJECT = "Dashboard - Forgot your password?"
+DEFAULT_FROM_NAME = "SM2015 Dashboard"
+DEFAULT_FROM_EMAIL = "support@sm2015dashboard.org"
+DEFAULT_EMAIL_REGISTER_SUBJECT = "SM2015 Dashboard - Registration Confirmation"
+DEFAULT_EMAIL_FORGOT_PASSWORD_SUBJECT = "SM2015 Dashboard - Forgot your password?"
 
 LOGIN_URL = '/user/login/'
 

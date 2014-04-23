@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<style>
+  .bg-completed { background-color: #32FF33; }
+  .bg-progress { background-color: #FEFF00; }
+</style>
+
+<table class="table table-hover table-condensed table-bordered">
+    <thead>
+      <tr>
+        <th class="column-name">Trimestre</th>
+        <th class="column-name">Indicador de Pago</th>
+        <th class="column-name">Hito</th>
+        <th class="column-name">Estado Actual</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for hito in hitos %}
+      <tr data-objid="{{hito.id}}" data-model="Hito">
+        <td class="" name="trimestre">{{hito.quarter.name}}</td>
+        <td class="" name="indicador_de_pago">{{hito.indicador_de_pago}}</td>
+        <td class="" name="hito">{{hito.hito}}</td>
+        <td class="
+          {% ifequal hito.estado_actual.name|lower 'en proceso' %}bg-progress{% endifequal %}
+          {% ifequal hito.estado_actual.name|lower 'cumplido' %}bg-completed{% endifequal %}
+          " name="estado_actual">{{hito.estado_actual.name}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+</table>

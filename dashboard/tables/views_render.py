@@ -42,6 +42,31 @@ def render_hitos(request, country_slug):
 
 
 @login_required
+def render_hitos_noneditable(request, country_slug):
+    hitos = Hito.objects.filter(country__slug=country_slug,
+                                language__acronym=request.LANGUAGE_CODE)
+    estados_actuais = EstadoActual.objects.all()
+    options_estados_actuais = {}
+    for estado in estados_actuais:
+        options_estados_actuais.update({
+            "{id}".format(id=estado.id): str(estado.name)
+        })
+
+    for hito in hitos:
+        if hito.estado_actual:
+            option = {
+                'selected': str(hito.estado_actual.id)
+            }
+        options_estados_actuais.update(option)
+        hito.options_estados_actuais = options_estados_actuais
+
+    rendered = render_to_string("tables/hitos_noneditable.html", {
+        'hitos': hitos,
+    })
+    return HttpResponse(rendered, content_type="text/html")
+
+
+@login_required
 def render_avances_financeiros(request, country_slug):
     avances = AvanceFisicoFinanciero.objects \
                                     .filter(country__slug=country_slug,

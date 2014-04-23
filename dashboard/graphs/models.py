@@ -58,8 +58,8 @@ class LiveSaveGraph(object):
 class TriangleGraph(object):
 
     @classmethod
-    def export_graph(cls, country):
-        path_options_highcharts = TriangleGraph.export_graph_options(country=country)
+    def export_graph(cls, country, lang):
+        path_options_highcharts = TriangleGraph.export_graph_options(country=country, lang=lang)
         file_name = "chart-{country_name}.png".format(country_name=country.slug)
 
         dir_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -71,7 +71,7 @@ class TriangleGraph(object):
         return path_chart, file_name
 
     @classmethod
-    def export_graph_options(cls, country):
+    def export_graph_options(cls, country, lang):
         options = u""\
             "options = {"\
                 "chart: {"\
@@ -114,7 +114,7 @@ class TriangleGraph(object):
                 "},"\
                 "series: %s"\
             "}" % (country.name, unicode(cls.get_triangle_categories()),\
-                 "<", ">", "<", ">", "<", ">", "<", ">", unicode(cls.get_triangle_series(country=country)))
+                 "<", ">", "<", ">", "<", ">", "<", ">", unicode(cls.get_triangle_series(country=country, lang=lang)))
 
         dir_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'graphs', 'files')
         path = "{dir_path}/options-{country_name}.js".format(dir_path=dir_path, country_name=country.slug)

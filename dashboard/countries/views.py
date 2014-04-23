@@ -28,6 +28,9 @@ def countries(request):
 
     context.update({'countries_disbursement': countries_disbursement_values,
                     'countries_execution': countries_execution_values})
+
+    countries = context.get('user').dashboarduser.countries.all()
+    context.update({'countries': countries})
     return render_to_response("countries.html", context)
 
 

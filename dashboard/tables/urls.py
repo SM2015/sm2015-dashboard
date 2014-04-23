@@ -23,6 +23,8 @@ urlpatterns = patterns(
 
     url(r'render/hitos/(?P<country_slug>[-\w]+)/?$',
         views_render.render_hitos, name="table_render_hitos"),
+    url(r'render/hitos-noneditable/(?P<country_slug>[-\w]+)/?$',
+        views_render.render_hitos_noneditable, name="table_render_hitos-noneditable"),
     url(r'render/avances_financeiros/(?P<country_slug>[-\w]+)/?$',
         views_render.render_avances_financeiros,
         name="table_render_avances_financeiros"),

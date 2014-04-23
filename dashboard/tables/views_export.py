@@ -23,7 +23,7 @@ def render_export_hitos_and_avances(request, country_slug):
     estados_actuais = EstadoActual.objects.all()
     country = Country.objects.get(slug=country_slug)
     options_estados_actuais = {}
-    triangle_path, triangle_file_name = TriangleGraph.export_graph(country=country)
+    triangle_path, triangle_file_name = TriangleGraph.export_graph(country=country, lang=request.LANGUAGE_CODE)
     operation = Operation.objects.get(country=country)
     for estado in estados_actuais:
         options_estados_actuais.update({

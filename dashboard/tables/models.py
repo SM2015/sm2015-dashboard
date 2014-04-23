@@ -269,8 +269,8 @@ class UcMilestone(models.Model):
         for row in cls.objects.values('quarter__name').distinct():
             if row['quarter__name']:
                 year = row['quarter__name'][:4]
-                if year not in dates:
-                    dates.append(year)
+                if int(year) not in dates:
+                    dates.append(int(year))
         return dates
 
     @classmethod
