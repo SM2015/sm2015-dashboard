@@ -13,16 +13,6 @@
         });
     }
     
-    dashboardMap.prototype._closeAllMarkers = function(not_this_country){
-      this.getCountriesMarkers(function(countries){
-        $.each(countries, function(i, country){
-          if(not_this_country != country){
-            //country.infoBox.close();
-          }
-        });
-      });
-    }
-
     dashboardMap.prototype.drawMap = function(){
         var self = this,
             latLngCenter = new google.maps.LatLng(15.961329,-90.981447), //Guatemala
