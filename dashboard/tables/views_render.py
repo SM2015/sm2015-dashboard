@@ -6,7 +6,8 @@ from django.http import HttpResponse
 from tables.models import Hito, AvanceFisicoFinanciero, EstadoActual, \
     UcMilestone, Sm2015Milestone, GrantsFinances, \
     GrantsFinancesFields, LifeSaveField, LifeSave, \
-    CountryOperation, CountryOperationIT, CountryDetails, CountryDetailsValues
+    CountryOperation, CountryOperationIT, CountryDetails, \
+    CountryDetailsValues, Quarter
 from countries.views import _get_obj_filtered_api
 
 
@@ -61,8 +62,9 @@ def render_avances_financeiros(request, country_slug):
 @login_required
 def render_ucmilestone(request, year):
     ucmilestones = UcMilestone.objects \
-                              .filter(language__acronym=request.LANGUAGE_CODE) \
-                              .filter(date__year=int(year))
+                              .filter(language__acronym=request.LANGUAGE_CODE)
+
+    ucmilestones = Quarter.filter_objects_by_year(ucmilestones, year)
 
     can_edit = request.user.dashboarduser.can_edit_table(
         uuid_table_edit_access='TABLE_EDIT_ACCESS_UC_MILESTONES'
@@ -78,8 +80,9 @@ def render_ucmilestone(request, year):
 @login_required
 def render_ucmilestone_noneditable(request, year):
     ucmilestones = UcMilestone.objects \
-                              .filter(language__acronym=request.LANGUAGE_CODE) \
-                              .filter(date__year=int(year))
+                              .filter(language__acronym=request.LANGUAGE_CODE)
+    
+    ucmilestones = Quarter.filter_objects_by_year(ucmilestones, year)
 
     rendered = render_to_string("tables/ucmilestone_noneditable.html", {
         'ucmilestones': ucmilestones,

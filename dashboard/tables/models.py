@@ -10,6 +10,15 @@ class Quarter(models.Model):
     name = models.CharField(max_length=7, default='')
 
     @classmethod
+    def filter_objects_by_year(self, obj_list, year):
+        new_list = []
+        for obj in obj_list:
+            obj_year = int(obj.quarter.name[:4])
+            if obj_year == int(year):
+                new_list.append(obj)
+        return new_list
+
+    @classmethod
     def normalize_name(cls, name):
         if name:
             if type(name) is int:
@@ -249,7 +258,6 @@ class UcMilestone(models.Model):
     quarter = models.ForeignKey(Quarter)
     language = models.ForeignKey(Language, default=1)
 
-    date = models.DateField(null=True, default=None)
     objective = models.CharField(max_length=300, null=True, blank=True, default=None)
     coordination_unit_milestone = models.CharField(max_length=500, null=True, blank=True, default=None)
     status = models.CharField(max_length=200, null=True, blank=True, default=None)
@@ -258,9 +266,11 @@ class UcMilestone(models.Model):
     @classmethod
     def get_dates(cls):
         dates = []
-        for row in cls.objects.values('date').distinct():
-            if row['date']:
-                dates.append(row['date'].year)
+        for row in cls.objects.values('quarter__name').distinct():
+            if row['quarter__name']:
+                year = row['quarter__name'][:4]
+                if year not in dates:
+                    dates.append(year)
         return dates
 
     @classmethod
