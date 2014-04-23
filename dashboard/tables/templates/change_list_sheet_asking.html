@@ -21,10 +21,13 @@
             $().ready(function(){
                 $(".importlink").click(function(event){
                     event.preventDefault();
+                    {% if ask_sheet %}
                     sheet = prompt("What is the Sheet's name?");
                     if(sheet == null || sheet == ""){
                       return;
                     }
+                    $(document.getElementById("sheet-name")).val(sheet);
+                    {% endif %}
                     lang = prompt("Which language, EN or ES (empty if None)?");
                     {% if ask_country %}
                     country = prompt("Which country? (Options are: Belize, Costa Rica, El Salvador, " + 
@@ -32,7 +35,6 @@
                     $(document.getElementById("sheet-country")).val(country);
                     {% endif %}
                     
-                    $(document.getElementById("sheet-name")).val(sheet);
                     $(document.getElementById("sheet-lang")).val(lang);
                     $(".excel-file").click();
                 });

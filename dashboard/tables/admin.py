@@ -7,7 +7,7 @@ from tables.models import AvanceFisicoFinanciero, Hito, UcMilestone, \
 
 class HitoAdmin(admin.ModelAdmin):
     list_display = ('country', 'indicador_de_pago')
-    change_list_template = 'change_list.html'
+    change_list_template = 'change_list_sheet_asking.html'
 
 class GrantsFinancesAdmin(admin.ModelAdmin):
     list_display = ('quarter', 'field')
@@ -17,11 +17,23 @@ class UcMilestoneAdmin(admin.ModelAdmin):
     list_display = ('coordination_unit_milestone', 'quarter', 'language',)
     change_list_template = 'change_list_sheet_asking.html'
 
+    def changelist_view(self, request, extra_context=None):
+        extra_context = {}
+        extra_context['ask_sheet'] = True
+        return super(CountryDetailsAdmin, self).changelist_view(request,
+                                                                extra_context)
+
 class AvanceFisicoFinancieroAdmin(admin.ModelAdmin):
-    change_list_template = 'change_list.html'
+    change_list_template = 'change_list_sheet_asking.html'
 
 class Sm2015MilestoneAdmin(admin.ModelAdmin):
     change_list_template = 'change_list_sheet_asking.html'
+
+    def changelist_view(self, request, extra_context=None):
+        extra_context = {}
+        extra_context['ask_sheet'] = True
+        return super(CountryDetailsAdmin, self).changelist_view(request,
+                                                                extra_context)
 
 class LifeSaveAdmin(admin.ModelAdmin):
     list_display = ('country', 'field')

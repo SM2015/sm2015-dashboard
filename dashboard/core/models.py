@@ -91,18 +91,26 @@ class DashboardUser(models.Model):
             subject = settings.DEFAULT_EMAIL_REGISTER_SUBJECT
 
             body = u"Dear {name},".format(name=self.user.first_name)
+            body += u"Your username and temporary password have been created for the new SM2015 Regional Dashboard web application."
+            body += u"You will be able to change your password the first time you log in."
+            body += u"Please let us know if you have issues with the website. Your comments are always welcome!"
             body += u"Here is your information account:"
             body += u"Username: {username}".format(username=self.user.username)
             body += u"Password: {password}".format(password=temp_password)
-            body += u"Graciously,"
-            body += u"Dashboard Team."
+            body += u"Happy discovering. Enjoy!"
+            body += u"Thank you,"
+            body += u"The SM2015 Dashboard Team"
 
             body_html = u"Dear {name},<br /><br />".format(name=self.user.first_name)
+            body_html += u"Your username and temporary password have been created for the new SM2015 Regional Dashboard web application.<br />"
+            body_html += u"You will be able to change your password the first time you log in.<br />"
+            body_html += u"Please let us know if you have issues with the website. Your comments are always welcome!<br /><br />"
             body_html += u"Here is your information account:<br />"
             body_html += u"Username: {username}<br />".format(username=self.user.username)
             body_html += u"Password: {password}<br /><br />".format(password=temp_password)
-            body_html += u"graciously,<br />"
-            body_html += u"Dashboard Team."
+            body_html += u"Happy discovering. Enjoy!<br /><br />"
+            body_html += u"Thank you,<br />"
+            body_html += u"The SM2015 Dashboard Team"
 
             msg = EmailMultiAlternatives(subject, body, from_email, [to])
             msg.attach_alternative(body_html, "text/html")

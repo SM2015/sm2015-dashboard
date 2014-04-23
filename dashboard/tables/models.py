@@ -58,7 +58,7 @@ class AvanceFisicoFinanciero(models.Model):
     recomendacion = models.TextField(null=True, blank=True, default=None)
 
     @classmethod
-    def upload_excel(cls, uploaded_file):
+    def upload_excel(cls, uploaded_file, sheet_lang):
         wb = load_workbook(uploaded_file, data_only=True)
         sheets = [
             {'country': Country.objects.get(slug='belize'), 'sheet': wb.get_sheet_by_name('Belize')},
@@ -71,7 +71,7 @@ class AvanceFisicoFinanciero(models.Model):
             {'country': Country.objects.get(slug='panama'), 'sheet': wb.get_sheet_by_name('Panama')}
         ]
 
-        language_es = Language.objects.get(acronym='es')
+        language = Language.objects.get(acronym=sheet_lang)
 
         for sheet in sheets:
             real_sheet = sheet.get('sheet')
@@ -92,7 +92,7 @@ class AvanceFisicoFinanciero(models.Model):
             except IndexError:
                 recomendacion = ''
 
-            cls.objects.create(language = language_es,
+            cls.objects.create(language = language,
                                country = country,
                                fecha_de_actualizacion = fecha_de_actualizacion,
                                avance_fisico_planificado = real_sheet.rows[0][4].value,
@@ -145,7 +145,7 @@ class Hito(models.Model):
     actividad_en_poa = models.CharField(max_length=500, null=True, blank=True, default=None)
 
     @classmethod
-    def upload_excel(cls, uploaded_file):
+    def upload_excel(cls, uploaded_file, sheet_lang):
         wb = load_workbook(uploaded_file, data_only=True)
         sheets = [
             {'country': Country.objects.get(slug='belize'), 'sheet': wb.get_sheet_by_name('Belize') },
@@ -158,7 +158,7 @@ class Hito(models.Model):
             {'country': Country.objects.get(slug='panama'), 'sheet': wb.get_sheet_by_name('Panama') }
         ]
         
-        language_es = Language.objects.get(acronym='es')
+        language = Language.objects.get(acronym=sheet_lang)
 
         for sheet in sheets:
             real_sheet = sheet.get('sheet')
@@ -166,11 +166,11 @@ class Hito(models.Model):
 
             for row in real_sheet.rows:
                 if row[0].row >= 6 and (row[1].value or row[2].value):
-                    if country.slug in ['el-salvador', 'mexico']:
+                    if country.slug in ['el-salvador', 'mexico', 'costa-rica']:
                         indicador_de_pago_str = row[1].value
                         hito_str = row[3].value
                         quarter_str = row[4].value
-                        audiencias_str = row[5].value 
+                        audiencias_str = row[5].value
                         estado_actual_str = row[6].value
                         alerta_notas_str = row[7].value
                         recomendacion_str = row[8].value
@@ -180,7 +180,7 @@ class Hito(models.Model):
                         indicador_de_pago_str = row[1].value
                         hito_str = row[2].value
                         quarter_str = row[3].value
-                        audiencias_str = row[5].value 
+                        audiencias_str = row[5].value
                         estado_actual_str = row[4].value
                         alerta_notas_str = row[6].value
                         recomendacion_str = row[7].value
@@ -190,7 +190,7 @@ class Hito(models.Model):
                         indicador_de_pago_str = row[1].value
                         hito_str = row[2].value
                         quarter_str = row[3].value
-                        audiencias_str = row[4].value 
+                        audiencias_str = row[4].value
                         estado_actual_str = row[5].value
                         alerta_notas_str = row[6].value
                         recomendacion_str = row[7].value
@@ -215,7 +215,7 @@ class Hito(models.Model):
                         quarter = Quarter.objects.create(name=Quarter.normalize_name(quarter_str))
 
                     hito = cls.objects.create(
-                        language = language_es,
+                        language = language,
                         country = country,
                         indicador_de_pago = indicador_de_pago_str,
                         hito = hito_str,
