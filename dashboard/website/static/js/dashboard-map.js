@@ -13,6 +13,16 @@
         });
     }
     
+    dashboardMap.prototype._closeAllMarkers = function(not_this_country){
+      this.getCountriesMarkers(function(countries){
+        $.each(countries, function(i, country){
+          if(not_this_country != country){
+            //country.infoBox.close();
+          }
+        });
+      });
+    }
+
     dashboardMap.prototype.drawMap = function(){
         var self = this,
             latLngCenter = new google.maps.LatLng(15.961329,-90.981447), //Guatemala
@@ -25,7 +35,16 @@
         this.getCountriesMarkers(function(countries){
             $.each(countries, function(i, country){
                 google.maps.event.addListener(country.marker,'click', (function(marker) {
-                  return function(){ country.infoBox.open(self.map, this); }
+                  return function(){ 
+                    $.each(countries, function(i, country_to_close){
+                      if(country != country_to_close){
+                        country_to_close.infoBox.close();
+                      }
+                    });
+
+                    country.infoBox.open(self.map, this);
+                    self.map.setCenter(country.marker.position);
+                  }
                 })(country.marker));
             });
         });
@@ -75,7 +94,7 @@
               '<div class="right-side">'+
                   '<div class="statistics">'+
                       '<span class="label-stats">Objetivos</span>'+
-                      '<div class="goal">{GOAL}</div>'+
+                      '<div class="goal"></div>'+
                   '</div>'+
               '</div>'+
           '</div>';
