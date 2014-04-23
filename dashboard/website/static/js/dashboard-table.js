@@ -1,10 +1,8 @@
 (function ( $ ) {
-    var dashboardTable = function( wrapper, url, opts, callback ) {
+    var dashboardTable = function( wrapper, url, opts ) {
         this.$wrapper = wrapper;
         this.url = url;
         this.opts = opts;
-        console.log(callback);
-        this.callback_user = callback;
 
         this.drawTable();
     };
@@ -121,7 +119,6 @@
                         '<div class="tools"> <a href="javascript:;" class="collapse"></a> <a href="#grid-config" data-toggle="modal" class="config"></a> <a href="javascript:;" class="reload"></a> <a href="javascript:;" class="remove"></a> </div>'+
                       '</div>'+
                       '<div class="grid-body ">'+
-                        '{{CONTENT_TOP_TO_APPEND}}' +
                         '<div class="row-fluid column-seperation table-content">'+
                             '{{TABLE_PLACEHOLDER}}'+
                         '</div>'+
@@ -134,14 +131,6 @@
         html_box = html_box.replace("{{TITLE_PLACEHOLDER}}", title);
         html_box = html_box.replace("{{COLUMNS}}", this.opts.columns_size || '12')
 
-        if(this.opts.element_top){
-          $elem = $(this.opts.element_top);
-          console.log($elem.clone().html());
-          html_box = html_box.replace("{{CONTENT_TOP_TO_APPEND}}", $elem.clone().html());
-        } else {
-          html_box = html_box.replace("{{CONTENT_TOP_TO_APPEND}}", '');
-        }
-
         this.loadTable(function(table_html){
             html_box = html_box.replace("{{TABLE_PLACEHOLDER}}", table_html);
             self.$wrapper.html(html_box);
@@ -152,10 +141,6 @@
             self.bindDataTable();
             if(self.opts.url_export){
                 self.insertExportLinkInTable();
-            }
-            console.log(self.callback_user);
-            if(self.callback_user){
-              self.callback_user();
             }
         });
     }
@@ -182,8 +167,7 @@
 
 
     $.fn.dashboardTable = function(url_table, opts, callback) {
-      console.log(">>", opts, callback)
-        new dashboardTable( this, url_table, opts, callback );
+        new dashboardTable( this, url_table, opts );
         return this;
     };
  

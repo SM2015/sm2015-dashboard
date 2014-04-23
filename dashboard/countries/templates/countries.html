@@ -79,28 +79,6 @@
             $(".chart-disbursement-container").graficoDisbursement();
 
 
-            $(".table-hitos").dashboardTable("/tables/render/hitos-noneditable/"+country_slug, {
-                title: "Hitos",
-                url_save: "{% url 'save_milestone_data' %}",
-                element_top: '.container-select-countries'
-            }, function(){
-              console.log(">>>>");
-              $("select[name='select-pais']").change(function(){
-                  var name = $(this).find(":selected").text();
-                  var slug = $(this).find(":selected").val();
-                  $(window).trigger("select-country", [name, slug]);
-              });
-
-              {% if countries|length > 1 %}
-              var $pais_initial = $("select[name='select-pais'] :selected");
-              var name = $pais_initial.text();
-              var slug = $pais_initial.val();
-              console.log($pais_initial, name, slug);
-              $(window).trigger("select-country", [name, slug]);
-              {% else %}
-              $(window).trigger("select-country", ["{{countries.0.name}}", "{{countries.0.slug}}"]);
-              {% endif %}
-            });
             $(window).bind("select-country", function(elem, country, country_slug){
                 $(".country-name").text(country);
 
@@ -109,24 +87,27 @@
                     url_save: "{% url 'save_milestone_data' %}",
                     element_top: '.container-select-countries'
                 }, function(){
-                  console.log(">>>>");
                   $("select[name='select-pais']").change(function(){
                       var name = $(this).find(":selected").text();
                       var slug = $(this).find(":selected").val();
-                      $(window).trigger("select-country", [name, slug]);
                   });
-
-                  {% if countries|length > 1 %}
-                  var $pais_initial = $("select[name='select-pais'] :selected");
-                  var name = $pais_initial.text();
-                  var slug = $pais_initial.val();
-                  console.log($pais_initial, name, slug);
-                  $(window).trigger("select-country", [name, slug]);
-                  {% else %}
-                  $(window).trigger("select-country", ["{{countries.0.name}}", "{{countries.0.slug}}"]);
-                  {% endif %}
                 });
             });
+            $("select[name='select-pais']").change(function(){
+                var name = $(this).find(":selected").text();
+                var slug = $(this).find(":selected").val();
+                $(window).trigger("select-country", [name, slug]);
+            });
+
+            {% if countries|length > 1 %}
+            var $pais_initial = $("select[name='select-pais'] :selected");
+            var name = $pais_initial.text();
+            var slug = $pais_initial.val();
+            console.log($pais_initial, name, slug);
+            $(window).trigger("select-country", [name, slug]);
+            {% else %}
+            $(window).trigger("select-country", ["{{countries.0.name}}", "{{countries.0.slug}}"]);
+            {% endif %}
         });
     </script>
 {% endblock js_bottom %}
