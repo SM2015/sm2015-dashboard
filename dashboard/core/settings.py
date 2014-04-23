@@ -160,12 +160,12 @@ BASE_URL = "http://localhost:8000"
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'nomadness.travel@gmail.com'
-EMAIL_HOST_PASSWORD = '#n0m4dN3SS#'
+EMAIL_HOST_USER = 'rafaeltravel88@gmail.com'
+EMAIL_HOST_PASSWORD = '&3rSbSfi3&'
 EMAIL_PORT = 587
 
 DEFAULT_FROM_NAME = "Dashboard"
-DEFAULT_FROM_EMAIL = "noreply@dashboard.com"
+DEFAULT_FROM_EMAIL = "contacto@sm2015.org"
 DEFAULT_EMAIL_REGISTER_SUBJECT = "Dashboard - Registration Confirmation"
 DEFAULT_EMAIL_FORGOT_PASSWORD_SUBJECT = "Dashboard - Forgot your password?"
 

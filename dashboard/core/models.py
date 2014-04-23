@@ -100,6 +100,7 @@ class DashboardUser(models.Model):
             body += u"Happy discovering. Enjoy!"
             body += u"Thank you,"
             body += u"The SM2015 Dashboard Team"
+            body += u"sm2015dashboard.org"
 
             body_html = u"Dear {name},<br /><br />".format(name=self.user.first_name)
             body_html += u"Your username and temporary password have been created for the new SM2015 Regional Dashboard web application.<br />"
@@ -110,7 +111,8 @@ class DashboardUser(models.Model):
             body_html += u"Password: {password}<br /><br />".format(password=temp_password)
             body_html += u"Happy discovering. Enjoy!<br /><br />"
             body_html += u"Thank you,<br />"
-            body_html += u"The SM2015 Dashboard Team"
+            body_html += u"The SM2015 Dashboard Team<br />"
+            body_html += u"<a href='sm2015dashboard.org'>sm2015dashboard.org</a>"
 
             msg = EmailMultiAlternatives(subject, body, from_email, [to])
             msg.attach_alternative(body_html, "text/html")
