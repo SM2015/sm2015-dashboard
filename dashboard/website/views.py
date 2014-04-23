@@ -17,7 +17,7 @@ from tables.models import AvanceFisicoFinanciero
 
 @login_required
 def index(request):
-    maps = Map.objects.all()
+    maps = Map.objects.filter(language__acronym=request.LANGUAGE_CODE)
     countries_map = []
     for country_map in maps:
         try:
@@ -35,6 +35,12 @@ def index(request):
             elif variation_physical >= 25 and variation_financial >= 25:
                 pin_color = 'red'
 
+            if country_map.more_info_link:
+                link = country_map.more_info_link.strip().lstrip('/')
+                infos_url = "/{0}".format(link)
+            else:
+                infos_url = "{0}?country={1}".format(reverse('countries_details'),
+                                                     country_map.country.id)
             country = {
                 'lat': str(country_map.country.latlng.split(',')[0]),
                 'lng': str(country_map.country.latlng.split(',')[1]),
@@ -42,8 +48,7 @@ def index(request):
                 'goal': str(country_map.goal),
                 'short_description': unicode(country_map.short_description),
                 'pin_color': pin_color,
-                'infos_url': "{0}?country={1}".format(reverse('countries_details'),
-                                                      country_map.country.id)
+                'infos_url': infos_url
             }
             countries_map.append(country)
         except (AvanceFisicoFinanciero.DoesNotExist, IndexError, AttributeError):

@@ -41,12 +41,20 @@
 .content-info-window .right-side {
     float: left;
     height: 225px;
-    padding-left:15px;
-    width: 180px;
+    padding-left: 15px;
+    padding-top: 15px;
+    width: 112px;
 }
 .content-info-window .right-side .statistics {}
 .content-info-window .right-side .statistics .label-stats {
     color: #666;
     font-family: "Oswald";
     font-size: 30px;
+}
+.content-info-window .right-side .goal {
+  color: #447744;
+  font-family: "Oswald";
+  font-size: 40px;
+  padding-top: 15px;
+  text-align: center;
 }

@@ -13,7 +13,8 @@ def get_triangle_graph_countries(request):
     return_data = []
 
     for country in countries:
-        graph_data = TriangleGraph.get_graph_data_by_country(country=country)
+        graph_data = TriangleGraph.get_graph_data_by_country(country=country,
+                                                             lang=request.LANGUAGE_CODE)
         return_data.append(graph_data)
 
     return HttpResponse(json.dumps(return_data),

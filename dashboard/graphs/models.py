@@ -124,12 +124,12 @@ class TriangleGraph(object):
         return path
 
     @classmethod
-    def get_graph_data_by_country(cls, country):
+    def get_graph_data_by_country(cls, country, lang):
         graph_data = {
             'country_slug': country.slug,
             'country': country.name,
             'triangle_categories': cls.get_triangle_categories(),
-            'series': cls.get_triangle_series(country=country)
+            'series': cls.get_triangle_series(country=country, lang=lang)
         }
         return graph_data
 
@@ -138,9 +138,10 @@ class TriangleGraph(object):
         return ["% Avance Tiempo", "Ejecucion Financiera", "Ejecucion Fisica"]
 
     @classmethod
-    def get_triangle_series(cls, country):
+    def get_triangle_series(cls, country, lang):
         try:
-            avances = AvanceFisicoFinanciero.objects.get(country=country)
+            avances = AvanceFisicoFinanciero.objects.get(country=country,
+                                                         language__acronym=lang)
         except AvanceFisicoFinanciero.DoesNotExist:
             return []
 

@@ -9,6 +9,10 @@ class Map(models.Model):
 
     short_description = models.TextField()
     goal = models.IntegerField(default=0, null=True, blank=True)
+    more_info_link = models.CharField(max_length=400,
+                                      default=None,
+                                      null=True,
+                                      blank=True)
 
     def __unicode__(self):
         return self.country.name

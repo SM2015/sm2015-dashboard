@@ -8,6 +8,7 @@ class MapAdminForm(forms.ModelForm):
 
 class MapAdmin(admin.ModelAdmin):
     exclude = ('coord',)
+    list_display = ('country', 'language')
     form = MapAdminForm
 
 admin.site.register(Map, MapAdmin)

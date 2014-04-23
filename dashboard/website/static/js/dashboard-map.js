@@ -75,6 +75,7 @@
               '<div class="right-side">'+
                   '<div class="statistics">'+
                       '<span class="label-stats">Objetivos</span>'+
+                      '<div class="goal">{GOAL}</div>'+
                   '</div>'+
               '</div>'+
           '</div>';
@@ -103,7 +104,8 @@
         infoBoxOptions.content = infoBoxDefault.innerHTML
                                                 .replace("{TITLE}", country.name)
                                                 .replace("{SHORT_DESCRIPTION}", country.short_description)
-                                                .replace("{INFOS_URL}", country.infos_url);
+                                                .replace("{INFOS_URL}", country.infos_url)
+                                                .replace("{GOAL}", country.goal);
         return new InfoBox(infoBoxOptions);
     }
 
