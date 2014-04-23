@@ -160,7 +160,7 @@ BASE_URL = "http://localhost:8000"
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'tech@sm2015dashboard.org'
+EMAIL_HOST_USER = 'support@sm2015dashboard.org'
 EMAIL_HOST_PASSWORD = 'Brasil2014'
 EMAIL_PORT = 587
 
