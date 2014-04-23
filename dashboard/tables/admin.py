@@ -6,7 +6,7 @@ from tables.models import AvanceFisicoFinanciero, Hito, UcMilestone, \
         CountryOperation, CountryOperationIT, CountryDetails
 
 class HitoAdmin(admin.ModelAdmin):
-    list_display = ('country', 'indicador_de_pago')
+    list_display = ('country', 'indicador_de_pago', 'language')
     change_list_template = 'change_list_sheet_asking.html'
 
 class GrantsFinancesAdmin(admin.ModelAdmin):
@@ -14,16 +14,17 @@ class GrantsFinancesAdmin(admin.ModelAdmin):
     change_list_template = 'change_list.html'
 
 class UcMilestoneAdmin(admin.ModelAdmin):
-    list_display = ('coordination_unit_milestone', 'quarter', 'language',)
+    list_display = ('coordination_unit_milestone', 'quarter', 'language')
     change_list_template = 'change_list_sheet_asking.html'
 
     def changelist_view(self, request, extra_context=None):
         extra_context = {}
         extra_context['ask_sheet'] = True
-        return super(CountryDetailsAdmin, self).changelist_view(request,
+        return super(UcMilestoneAdmin, self).changelist_view(request,
                                                                 extra_context)
 
 class AvanceFisicoFinancieroAdmin(admin.ModelAdmin):
+    list_display = ('country', 'language')
     change_list_template = 'change_list_sheet_asking.html'
 
 class Sm2015MilestoneAdmin(admin.ModelAdmin):
@@ -32,7 +33,7 @@ class Sm2015MilestoneAdmin(admin.ModelAdmin):
     def changelist_view(self, request, extra_context=None):
         extra_context = {}
         extra_context['ask_sheet'] = True
-        return super(CountryDetailsAdmin, self).changelist_view(request,
+        return super(Sm2015MilestoneAdmin, self).changelist_view(request,
                                                                 extra_context)
 
 class LifeSaveAdmin(admin.ModelAdmin):
