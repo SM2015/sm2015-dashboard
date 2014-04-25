@@ -95,7 +95,19 @@ def render_export_hitos_and_avances(request, country_slug):
     # Add Triangle Graph
     document.append(Block(InlineText(u"Gráficos del Tablero de Control", size=12, font='Times New Roman', bold=True), align='center'))
     document.append(Image("{0}".format(triangle_path), document=document, align='center'))
+    document.append(Break())
 
+    # ALERTS AND RECOMENDATIONS FROM AVANCES
+    row1 = [Cell(BlockText(u'Alertas Temprana en General', color='#6F7B8A'), bgcolor='#ECF0F2', width='7cm', valign='center'),
+            Cell(BlockText(avance.alerta, size=10), valign='center')]
+
+    row2 = [Cell(BlockText(u'Recomendaciones', color='#6F7B8A'), bgcolor='#ECF0F2', width='7cm', valign='center'),
+            Cell(BlockText(avance.recomendacion, size=10), valign='center')]
+
+    table_avances2 = Table(width="100%", padding='3pt')
+    table_avances2.add_row(row1)
+    table_avances2.add_row(row2)
+    document.append(table_avances2)
     document.append(Break())
 
     # HITOS
@@ -147,6 +159,22 @@ def render_export_hitos_and_avances(request, country_slug):
     if is_avaliable_hito:
         document.append(Block(InlineText(u"ALERTAS TEMPRANAS Y ESTADO DE LOS HITOS", size=12, font='Times New Roman', bold=True), align='center'))
         document.append(table_hitos)
+
+    document.append(Break())
+    document.append(BlockText(""))
+
+    # EMPTY TABLE TO BE FILLED OUT DURING THE MEETING
+    table_empty = Table(width="100%", padding='3pt')
+    table_empty.add_row([Cell(Block(InlineText(u'DISCUSION CON EL JEFE DE DIVISION Y UC'), align="center"), valign='center')])
+    table_empty.add_row([Cell(BlockText(""), valign='center')])
+
+    table_empty.add_row([Cell(Block(InlineText(u'AVANCES PARA EL INFORME TRIMESTRAL'), align="center"), valign='center')])
+    table_empty.add_row([Cell(BlockText(""), valign='center')])
+
+    table_empty.add_row([Cell(Block(InlineText(u'ACUERDOS CON EL JEFE DE DIVISION Y LA UNIDAD COORDINADORA'), align="center"), valign='center')])
+    table_empty.add_row([Cell(BlockText(""), valign='center')])
+    document.append(table_empty)
+
 
     # Save our document
     path = "{root}/tables/files/{country_slug}_hitos_y_avances.docx".format(country_slug=country_slug, root=root_dir_path)
