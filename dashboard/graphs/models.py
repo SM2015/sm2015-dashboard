@@ -2,13 +2,13 @@
 import os
 from datetime import datetime
 from tables.models import AvanceFisicoFinanciero, Operation, LifeSave, \
-    CountryDisbursement
+    CountryDisbursement, CountryOperation
 
 class CountryDisbursementGraph(object):
 
     @classmethod
     def get_values_graph(cls, country):
-        objs = CountryDisbursement.objects.filter(country=country).order_by('quarter')
+        table, quarters = CountryOperation.get_table_to_show(country=country)
         data = {
             "cols": [{
                  "id": "D",
@@ -30,12 +30,24 @@ class CountryDisbursementGraph(object):
              "p": None
         }
 
-        for obj in objs:
-            data['rows'].append({"c": [
-                {"v": obj.quarter.name},
-                {"v": obj.charger.name},
-                {"v": obj.amount}
-            ]})
+        for i_quarter in xrange(0, len(quarters)):
+            quarter = quarters[i_quarter]
+
+            for row in table:
+                if row['field']['field'] == 'it_disbursements_planned':
+                    field = 'SM2015 Projected Disbursements'
+                elif row['field']['field'] == 'it_disbursements_actual':
+                    field = 'SM2015 Actual Disbursements'
+                elif row['field']['field'] == 'it_execution_planned':
+                    field = 'Planned Financial Execution'
+                elif row['field']['field'] == 'it_execution_actual':
+                    field = 'Actual Financial Execution'
+
+                data['rows'].append({"c": [
+                    {"v": quarter['quarter__name']},
+                    {"v": field},
+                    {"v": row['values'][i_quarter]['v']}
+                ]})
 
         return data
 

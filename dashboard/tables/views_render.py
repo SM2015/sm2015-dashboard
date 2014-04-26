@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from tables.models import Hito, AvanceFisicoFinanciero, EstadoActual, \
     UcMilestone, Sm2015Milestone, GrantsFinances, \
     GrantsFinancesFields, LifeSaveField, LifeSave, \
-    CountryOperation, CountryOperationIT, CountryDetails, \
+    CountryOperation, CountryDetails, \
     CountryDetailsValues, Quarter
 from countries.views import _get_obj_filtered_api
 
@@ -245,62 +245,7 @@ def render_life_save(request, country_slug):
 
 @login_required
 def render_country_operation(request):
-    countries = CountryOperation.objects.values('country__name').distinct()
-    quarters = CountryOperation.objects.values('quarter__name').order_by('quarter__name').distinct()
-    fields = [{'field': 'it_disbursements_planned',
-               'name': 'Planned (PD)',
-               'parent_name': 'IT Disbursements'},
-              {'field': 'it_disbursements_actual',
-               'name': 'Actual (AD)',
-               'parent_name': 'IT Disbursements'},
-              {'field': 'it_execution_planned',
-               'name': 'Planned (FP)',
-               'parent_name': 'IT Execution'},
-              {'field': 'it_execution_actual',
-               'name': 'Actual (AE)',
-               'parent_name': 'IT Execution'}]
-
-    table = []
-    total = [{'field': fields[0],
-              'country': "All Countries",
-              'it': 0,
-              'values': [0 for i in xrange(0, len(quarters))]},
-             {'field': fields[1],
-              'country': "All Countries",
-              'it': 0,
-              'values': [0 for i in xrange(0, len(quarters))]},
-             {'field': fields[2],
-              'country': "All Countries",
-              'it': 0,
-              'values': [0 for i in xrange(0, len(quarters))]},
-             {'field': fields[3],
-              'country': "All Countries",
-              'it': 0,
-              'values': [0 for i in xrange(0, len(quarters))]}]
-
-    for country in countries:
-        country_name = country['country__name']
-        operation_it = CountryOperationIT.objects.get(country__name=country_name)
-        operation = CountryOperation.objects.filter(country__name=country_name)
-        country_rows = []
-        for i in xrange(0, len(fields)):
-            field = fields[i]
-            row = {'field': field,
-                   'country': country_name,
-                   'it_id': operation_it.id,
-                   'it': operation_it.it,
-                   'values': []}
-            total[i]['it'] += operation_it.it
-
-            for i_quarter in xrange(0, len(quarters)):
-                quarter = quarters[i_quarter]
-                quarter_name = quarter['quarter__name']
-                operation_quarter = operation.get(quarter__name=quarter_name)
-                value = getattr(operation_quarter, field['field'])
-                row['values'].append({'v': value, 'id': operation_quarter.id})
-                total[i]['values'][i_quarter] += value
-            country_rows.append(row)
-        table.extend(country_rows)
+    table, quarters, total = CountryOperation.get_table_to_show(with_total=True)
 
     can_edit = request.user.dashboarduser.can_edit_table(
         uuid_table_edit_access='TABLE_EDIT_ACCESS_COUNTRY_OPERATION'
@@ -309,7 +254,8 @@ def render_country_operation(request):
     rendered = render_to_string("tables/country_operation.html", {
         'table': table,
         'quarters': quarters,
-        'total': total
+        'total': total,
+        'editable': can_edit
     })
     return HttpResponse(rendered, content_type="text/html")
 

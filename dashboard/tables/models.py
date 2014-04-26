@@ -674,6 +674,81 @@ class CountryOperation(models.Model):
         return cls.objects.filter(country=country).order_by('-quarter')[0]
 
     @classmethod
+    def get_table_to_show(cls, country=None, fields=None, with_total=False):
+        table = []
+        if country:
+            countries = [country]
+        else:
+            countries = CountryOperation.objects.values('country__name').distinct()
+        quarters = CountryOperation.objects.values('quarter__name').order_by('quarter__name') \
+                                           .distinct()
+
+        fields = [{'field': 'it_disbursements_planned',
+                   'name': 'Planned (PD)',
+                   'parent_name': 'IT Disbursements'},
+                  {'field': 'it_disbursements_actual',
+                   'name': 'Actual (AD)',
+                   'parent_name': 'IT Disbursements'},
+                  {'field': 'it_execution_planned',
+                   'name': 'Planned (FP)',
+                   'parent_name': 'IT Execution'},
+                  {'field': 'it_execution_actual',
+                   'name': 'Actual (AE)',
+                   'parent_name': 'IT Execution'}]
+
+        if with_total:
+            total = [{'field': fields[0],
+                      'country': "All Countries",
+                      'it': 0,
+                      'values': [0 for i in xrange(0, len(quarters))]},
+                     {'field': fields[1],
+                      'country': "All Countries",
+                      'it': 0,
+                      'values': [0 for i in xrange(0, len(quarters))]},
+                     {'field': fields[2],
+                      'country': "All Countries",
+                      'it': 0,
+                      'values': [0 for i in xrange(0, len(quarters))]},
+                     {'field': fields[3],
+                      'country': "All Countries",
+                      'it': 0,
+                      'values': [0 for i in xrange(0, len(quarters))]}]
+
+        for country_name in countries:
+            if not country:
+                country_operation = Country.objects.get(name=country_name['country__name'])
+            else:
+                country_operation = country
+
+            operation_it = CountryOperationIT.objects.get(country=country_operation)
+            operation = CountryOperation.objects.filter(country=country_operation)
+            country_rows = []
+            for i in xrange(0, len(fields)):
+                field = fields[i]
+                row = {'field': field,
+                       'country': country_operation.name,
+                       'it_id': operation_it.id,
+                       'it': operation_it.it,
+                       'values': []}
+                if with_total:
+                    total[i]['it'] += operation_it.it
+
+                for i_quarter in xrange(0, len(quarters)):
+                    quarter = quarters[i_quarter]
+                    operation_quarter = operation.get(quarter__name=quarter['quarter__name'])
+                    value = getattr(operation_quarter, field['field'])
+                    row['values'].append({'v': value, 'id': operation_quarter.id})
+
+                    if with_total:
+                        total[i]['values'][i_quarter] += value
+                country_rows.append(row)
+            table.extend(country_rows)
+        if with_total:
+            return table, quarters, total
+        else:
+            return table, quarters
+
+    @classmethod
     def upload_excel(cls, uploaded_file):
         wb = load_workbook(uploaded_file, data_only=True)
         sheet = wb.get_sheet_by_name('Quarterly Performance')

@@ -45,6 +45,7 @@ class CountryDisbursementAdmin(admin.ModelAdmin):
     change_list_template = 'change_list.html'
 
 class CountryOperationAdmin(admin.ModelAdmin):
+    list_display = ('country', 'quarter')
     change_list_template = 'change_list.html'
 
 class CountryDetailsAdmin(admin.ModelAdmin):
