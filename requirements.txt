@@ -6,3 +6,4 @@ openpyxl==1.8.2
 docx==0.2.1
 py2docx==0.1.1
 django-suit==0.2.7
+uWSGI==1.9.20

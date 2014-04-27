@@ -7,7 +7,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'sm2015_dashboard_homolog',
-        'USER': 'sm2015_dashboard_homolog',
+        'USER': 'sm2015_homolog',
         'PASSWORD': '$Sm2015_dashboarD$HomoloG',
         'HOST': '127.0.0.1',
         'PORT': '3306',

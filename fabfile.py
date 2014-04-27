@@ -24,7 +24,7 @@ def homolog():
     env.name = 'homolog'
     env.WEBHOST = 'homolog.sm2015dashboard.org'
     env.PROJECT_PATH = '/var/www/{host_name}'.format(host_name=env.WEBHOST)
-    env.MYSQL_USER = 'sm2015_dashboard_homolog'
+    env.MYSQL_USER = 'sm2015_homolog'
     env.MYSQL_PASSWORD = '$Sm2015_dashboarD$HomoloG'
     env.MYSQL_DB = 'sm2015_dashboard_homolog'
 
@@ -37,6 +37,7 @@ def initial_setup(site='dashboard'):
     sudo("apt-get upgrade")
     install_packages()
     create_virtualenv()
+    install_requirements()
     server_configuration()
     initial_mysql_configuration()
     deploy(site)
@@ -84,16 +85,16 @@ def install_packages():
 def create_virtualenv():
     with cd(env.PROJECT_PATH):
         if not exists("virtualenv"):
-            sudo("mkdir -p virtualenv")
-            sudo("virtualenv ./virtualenv")
+            run("mkdir -p virtualenv")
+            run("virtualenv ./virtualenv")
 
 
 def configure_nginx():
     put("deploy/{env}/conf/nginx.conf".format(env=env.name), "/tmp/nginx.conf")
     sudo("mv /tmp/nginx.conf {project_path}/conf/nginx.conf".format(project_path=env.PROJECT_PATH))
 
-    sudo("rm /etc/nginx/sites-enabled/dashboard_{env}.conf".format(env=env.name))
-    sudo("ln -s {project_path}/conf/nginx.conf /etc/nginx/sites-enabled/dashboard_{env}.conf".format(project_path=PROJECT_PATH, env=env.name))
+    sudo("rm -f /etc/nginx/sites-enabled/dashboard_{env}.conf".format(env=env.name))
+    sudo("ln -s {project_path}/conf/nginx.conf /etc/nginx/sites-enabled/dashboard_{env}.conf".format(project_path=env.PROJECT_PATH, env=env.name))
     service("nginx", "stop")
     service("nginx", "start")
 
@@ -105,7 +106,7 @@ def configure_uwsgi():
 
 
 def restart_uwsgi():
-    sudo("{project_path}/virtualenv/bin/uwsgi --reload {project_path}/run/uwsgi.pid".format(project_path=PROJECT_PATH))
+    sudo("{project_path}/virtualenv/bin/uwsgi --reload {project_path}/run/uwsgi.pid".format(project_path=env.PROJECT_PATH))
 
 
 def configure_locale():
@@ -136,16 +137,12 @@ def upload(site):
 
     print(green("Deploying site %s" % site))
 
-    # Generate package file
-    today = datetime.now().strftime('%Y%m%d-%H%M%S')
-    commit_id = str(local('git rev-parse HEAD', True)).strip()
-
     # upload site
     local("git archive --format=tar --prefix={site}/ HEAD:{path}/ | gzip > /tmp/{site}.tgz".format(site=site, path=site))
     put("/tmp/{site}.tgz".format(site=site), "/tmp/")
     run("tar -C /tmp -xzf /tmp/{site}.tgz".format(site=site))
-    sudo("rm -rf {project_path}/src/{site}".format(site=site, project_path=env.PROJECT_PATH))
-    sudo("mv /tmp/{site} {project_path}/src/".format(site=site, project_path=env.PROJECT_PATH))
+    run("rm -rf {project_path}/src/{site}".format(site=site, project_path=env.PROJECT_PATH))
+    run("mv /tmp/{site} {project_path}/src/".format(site=site, project_path=env.PROJECT_PATH))
     run("rm /tmp/{site}.tgz".format(site=site))
     local("rm /tmp/{site}.tgz".format(site=site))
 
@@ -169,18 +166,18 @@ def migrate(site):
     settings = mod.settings
 
     with cd("{project_path}/src/{site}".format(project_path=env.PROJECT_PATH, site=site)):
-        sudo('{project_path}/virtualenv/bin/python manage.py syncdb --settings=core.settings_wsgi'.format(project_path=env.PROJECT_PATH))
+        run('{project_path}/virtualenv/bin/python manage.py syncdb --settings=core.settings_wsgi'.format(project_path=env.PROJECT_PATH))
 
         for app in settings.INSTALLED_APPS:
             if _is_valid_app(app):
                 print(green("Migrate app {app}".format(app=app)))
-                sudo('{project_path}/virtualenv/bin/python manage.py migrate {app} --settings=core.settings_wsgi' \
+                run('{project_path}/virtualenv/bin/python manage.py migrate {app} --settings=core.settings_wsgi' \
                     .format(app=app, project_path=env.PROJECT_PATH))
 
 
 def collect_static(site):
     with cd("{project_path}/src/{site}".format(project_path=env.PROJECT_PATH, site=site)):
-        sudo('{project_path}/virtualenv/bin/python manage.py collectstatic --noinput --settings=core.settings_wsgi' \
+        run('{project_path}/virtualenv/bin/python manage.py collectstatic --noinput --settings=core.settings_wsgi' \
             .format(project_path=env.PROJECT_PATH))
 
 
@@ -191,5 +188,5 @@ def run_command(site, command, *args):
             .format(comando=comando)))
 
     with cd("{project_path}/src/{site}".format(project_path=env.PROJECT_PATH, site=site)):
-        sudo('{project_path}/virtualenv/bin/python manage.py {comando} --settings=core.settings_wsgi' \
+        run('{project_path}/virtualenv/bin/python manage.py {comando} --settings=core.settings_wsgi' \
             .format(project_path=env.PROJECT_PATH, comando=comando))
