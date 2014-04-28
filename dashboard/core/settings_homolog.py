@@ -16,7 +16,7 @@ DATABASES = {
 
 BASE_URL = "http://homolog.sm2015dashboard.org"
 
-ALLOWED_HOSTS = ['.sm2015dashboard.org', '66.228.41.76']
+ALLOWED_HOSTS = ['homolog.sm2015dashboard.org']
 
 ADMINS = (
     ('Rafael Soares', 'rafaeltravel88@gmail.com'),

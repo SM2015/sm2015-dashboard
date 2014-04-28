@@ -106,6 +106,7 @@ def configure_uwsgi():
 
 
 def restart_uwsgi():
+    run("touch {project_path}/run/uwsgi.pid".format(project_path=env.PROJECT_PATH))
     sudo("{project_path}/virtualenv/bin/uwsgi --reload {project_path}/run/uwsgi.pid".format(project_path=env.PROJECT_PATH))
 
 
@@ -119,6 +120,7 @@ def configure_locale():
 
 def initial_mysql_configuration():
     query = 'GRANT ALL ON {db}.* TO "{user}"@"%" IDENTIFIED BY "{password}";'.format(db=env.MYSQL_DB, user=env.MYSQL_USER, password=env.MYSQL_PASSWORD)
+    query += 'GRANT ALL ON {db}.* TO "{user}"@"localhost" IDENTIFIED BY "{password}";'.format(db=env.MYSQL_DB, user=env.MYSQL_USER, password=env.MYSQL_PASSWORD)
     query += 'CREATE DATABASE IF NOT EXISTS {db} DEFAULT CHARACTER SET utf8;'.format(db=env.MYSQL_DB)
     run("mysql -u root -p{root_password} -e '{query}'".format(query=query, root_password=MYSQL_ROOT_PASSWORD))
 
@@ -177,7 +179,7 @@ def migrate(site):
 
 def collect_static(site):
     with cd("{project_path}/src/{site}".format(project_path=env.PROJECT_PATH, site=site)):
-        run('{project_path}/virtualenv/bin/python manage.py collectstatic --noinput --settings=core.settings_wsgi' \
+        sudo('{project_path}/virtualenv/bin/python manage.py collectstatic --noinput --settings=core.settings_wsgi' \
             .format(project_path=env.PROJECT_PATH))
 
 

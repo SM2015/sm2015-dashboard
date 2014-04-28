@@ -431,16 +431,16 @@
 
       $(function() {
           $(document).ready(function() {
-          for (var countryIndex in c) {
-            $("#motionchart-countryList").append('<option value="'+	c[countryIndex] +'">'+c[countryIndex]+'</option>');
-          }
-          var DEFAULT = 'TODOS';
-          $("#motionchart-countryList").val(DEFAULT).attr('selected', true);
-          $("#motionchart-countryList").change(function() {
-            displayIndicatorsByCountry($(this).val());
-          });
+            for (var countryIndex in c) {
+              $("#motionchart-countryList").append('<option value="'+	c[countryIndex] +'">'+c[countryIndex]+'</option>');
+            }
+            var DEFAULT = 'TODOS';
+            $("#motionchart-countryList").val(DEFAULT).attr('selected', true);
+            $("#motionchart-countryList").change(function() {
+              displayIndicatorsByCountry($(this).val());
+            });
           
-              google.setOnLoadCallback(displayIndicatorsByCountry(DEFAULT));
+            google.setOnLoadCallback(displayIndicatorsByCountry(DEFAULT));
           });
       });
 
