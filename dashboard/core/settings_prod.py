@@ -23,8 +23,8 @@ ADMINS = (
 )
 EMAIL_SUBJECT_PREFIX = '[SM2015-Dashboard] - ERROR'
 
-STATIC_ROOT = "/static/sm2015dashboard.org/"
-MEDIA_ROOT = "/media/sm2015dashboard.org/"
+STATIC_ROOT = "/static/prod/sm2015dashboard.org/"
+MEDIA_ROOT = "/media/prod/sm2015dashboard.org/"
 
 FILES_STATIC_PATH = MEDIA_ROOT
 

@@ -164,15 +164,20 @@ def render_export_hitos_and_avances(request, country_slug):
     document.append(BlockText(""))
 
     # EMPTY TABLE TO BE FILLED OUT DURING THE MEETING
+    border_cell = {'left': {'color': '#000000', 'size': '1pt', 'style': 'solid'},
+                    'bottom': {'color': '#000000', 'size': '1pt', 'style': 'solid'},
+                    'top': {'color': '#000000', 'size': '1pt', 'style': 'solid'},
+                    'right': {'color': '#000000', 'size': '1pt', 'style': 'solid'}}
+
     table_empty = Table(width="100%", padding='3pt')
-    table_empty.add_row([Cell(Block(InlineText(u'DISCUSION CON EL JEFE DE DIVISION Y UC'), align="center"), valign='center')])
-    table_empty.add_row([Cell(BlockText(""), valign='center')])
+    table_empty.add_row([Cell(Block(InlineText(u'DISCUSION CON EL JEFE DE DIVISION Y UC'), align="center"), valign='center', border=border_cell)])
+    table_empty.add_row([Cell(BlockText(""), valign='center', border=border_cell)])
 
-    table_empty.add_row([Cell(Block(InlineText(u'AVANCES PARA EL INFORME TRIMESTRAL'), align="center"), valign='center')])
-    table_empty.add_row([Cell(BlockText(""), valign='center')])
+    table_empty.add_row([Cell(Block(InlineText(u'AVANCES PARA EL INFORME TRIMESTRAL'), align="center"), valign='center', border=border_cell)])
+    table_empty.add_row([Cell(BlockText(""), valign='center', border=border_cell)])
 
-    table_empty.add_row([Cell(Block(InlineText(u'ACUERDOS CON EL JEFE DE DIVISION Y LA UNIDAD COORDINADORA'), align="center"), valign='center')])
-    table_empty.add_row([Cell(BlockText(""), valign='center')])
+    table_empty.add_row([Cell(Block(InlineText(u'ACUERDOS CON EL JEFE DE DIVISION Y LA UNIDAD COORDINADORA'), align="center"), valign='center', border=border_cell)])
+    table_empty.add_row([Cell(BlockText(""), valign='center', border=border_cell)])
     document.append(table_empty)
 
 
