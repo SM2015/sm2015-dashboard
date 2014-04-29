@@ -68,6 +68,11 @@ SM2015 - Dashboard
         >>> Ex.: fab prod service:nginx:restart
         >>> This will execute: sudo service nginx restart
 
+    6. DB Replication from PROD to a target:
+        $ cd ~/Workspace/sm2015-dashboard/
+        $ fab homolog db_replica_from_prod --user [server_username]
+        >>> This will replicate DB from PROD to HOMOLOG
+
 ### Useful informations
 
     1. For an easy experience with virtualenv, you can install VirtualenvWrapper

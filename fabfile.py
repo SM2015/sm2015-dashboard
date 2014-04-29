@@ -4,9 +4,15 @@ import sys
 from fabric.api import *
 from fabric.colors import green
 from fabric.contrib.files import exists
-from datetime import datetime
 
 MYSQL_ROOT_PASSWORD = '#SM2015Dashboard*'
+PROD = {'MYSQL_USER': 'sm2015_dashboard',
+        'MYSQL_PASSWORD': '$Sm2015_dashboarD$',
+        'MYSQL_DB': 'sm2015_dashboard'}
+
+HOMOLOG = {'MYSQL_USER': 'sm2015_homolog',
+           'MYSQL_PASSWORD': '$Sm2015_dashboarD$HomoloG',
+           'MYSQL_DB': 'sm2015_dashboard_homolog'}
 
 
 def prod():
@@ -14,9 +20,9 @@ def prod():
     env.name = 'prod'
     env.WEBHOST = 'sm2015dashboard.org'
     env.PROJECT_PATH = '/var/www/{host_name}'.format(host_name=env.WEBHOST)
-    env.MYSQL_USER = 'sm2015_dashboard'
-    env.MYSQL_PASSWORD = '$Sm2015_dashboarD$'
-    env.MYSQL_DB = 'sm2015_dashboard'
+    env.MYSQL_USER = PROD['MYSQL_USER']
+    env.MYSQL_PASSWORD = PROD['MYSQL_USER']
+    env.MYSQL_DB = PROD['MYSQL_DB']
 
 
 def homolog():
@@ -24,9 +30,9 @@ def homolog():
     env.name = 'homolog'
     env.WEBHOST = 'homolog.sm2015dashboard.org'
     env.PROJECT_PATH = '/var/www/{host_name}'.format(host_name=env.WEBHOST)
-    env.MYSQL_USER = 'sm2015_homolog'
-    env.MYSQL_PASSWORD = '$Sm2015_dashboarD$HomoloG'
-    env.MYSQL_DB = 'sm2015_dashboard_homolog'
+    env.MYSQL_USER = HOMOLOG['MYSQL_USER']
+    env.MYSQL_PASSWORD = HOMOLOG['MYSQL_USER']
+    env.MYSQL_DB = HOMOLOG['MYSQL_DB']
 
 
 def initial_setup(site='dashboard'):
@@ -192,3 +198,16 @@ def run_command(site, command, *args):
     with cd("{project_path}/src/{site}".format(project_path=env.PROJECT_PATH, site=site)):
         run('{project_path}/virtualenv/bin/python manage.py {comando} --settings=core.settings_wsgi' \
             .format(project_path=env.PROJECT_PATH, comando=comando))
+
+
+def db_replica_from_prod():
+    print(green("Duplicating DB from PROD env"))
+
+    query_replica = "mysqldump -u root -p{root_password} {prod_db} " + \
+                    "| mysql -u root -p{root_password}  {target_db}"
+
+    query_replica = query_replica.format(root_password=MYSQL_ROOT_PASSWORD,
+                                         prod_db=PROD['MYSQL_DB'],
+                                         target_db=env.MYSQL_DB)
+
+    run(query_replica)
