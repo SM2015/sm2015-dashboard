@@ -1,0 +1,46 @@
+{% load humanize %}
+<table class="table table-hover table-condensed table-bordered">
+    <thead>
+      <tr>
+        <th class="column-name"></th>
+        <th class="column-name">IT (US$ million)</th>
+        <th class="column-name"></th>
+        <th class="column-name"></th>
+        {% for quarter in quarters %}
+        <th class="column-name">{{quarter.quarter__name}}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in table %}
+      <tr data-model="CountryOperation">
+        {% if forloop.counter == 0 or forloop.counter0|divisibleby:4 %}
+        <td class="text" name="country" rowspan="4">{{row.country}}</td>
+        <td class=" text" data-objid="{{row.it_id}}" name="it" data-model="CountryOperationIT" rowspan="4">{{row.it|floatformat:2|intcomma}}</td>
+        {% endif %}
+        {% if forloop.counter == 0 or forloop.counter0|divisibleby:2 %}
+        <td class="text" name="" rowspan="2">{{row.field.parent_name}}</td>
+        {% endif %}
+        <td class="text" name="">{{row.field.name}}</td>
+        {% for value in row.values %}
+        <td class=" text" data-objid="{{value.id}}" name="{{row.field.field}}">{{value.v|floatformat:0|intcomma}}</td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+      {% for row in total %}
+      <tr>
+        {% if forloop.counter == 0 or forloop.counter0|divisibleby:4 %}
+        <td class="text" rowspan="4">{{row.country}}</td>
+        <td class="text" rowspan="4">{{row.it|floatformat:2|intcomma}}</td>
+        {% endif %}
+        {% if forloop.counter == 0 or forloop.counter0|divisibleby:2 %}
+        <td class="text" name="" rowspan="2">{{row.field.parent_name}}</td>
+        {% endif %}
+        <td class="text" name="">{{row.field.name}}</td>
+        {% for value in row.values %}
+        <td class="text">{{value|floatformat:0|intcomma}}</td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+    </tbody>
+</table>

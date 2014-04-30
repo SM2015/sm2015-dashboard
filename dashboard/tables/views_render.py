@@ -265,6 +265,24 @@ def render_country_operation(request):
     })
     return HttpResponse(rendered, content_type="text/html")
 
+
+@login_required
+def render_country_operation_noneditable(request):
+    until_actual_quarter = request.GET.get('until_actual_quarter', None)
+    if until_actual_quarter:
+        actual_quarter = Quarter.get_actual_quarter()
+        table, quarters, total = CountryOperation.get_table_to_show(with_total=True,
+                                                                    until_quarter=actual_quarter)
+    else:
+        table, quarters, total = CountryOperation.get_table_to_show(with_total=True)
+
+    rendered = render_to_string("tables/country_operation_noneditable.html", {
+        'table': table,
+        'quarters': quarters,
+        'total': total
+    })
+    return HttpResponse(rendered, content_type="text/html")
+
 @login_required
 def render_country_details(request):
     country_details = _get_obj_filtered_api(request)

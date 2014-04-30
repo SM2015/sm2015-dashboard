@@ -71,7 +71,7 @@
             }
             showDisbursement();
 
-            $(".table-country-operation").dashboardTable("{% url 'table_render_country_operation' %}?until_actual_quarter=true", {
+            $(".table-country-operation").dashboardTable("{% url 'table_render_country_operation_noneditable' %}?until_actual_quarter=true", {
                 title: "Country Operation",
                 url_save: "{% url 'save_milestone_data' %}"
             });
