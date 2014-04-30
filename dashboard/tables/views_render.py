@@ -245,9 +245,13 @@ def render_life_save(request, country_slug):
 
 @login_required
 def render_country_operation(request):
-    actual_quarter = Quarter.get_actual_quarter()
-    table, quarters, total = CountryOperation.get_table_to_show(with_total=True,
-                                                                until_quarter=actual_quarter)
+    until_actual_quarter = request.GET.get('until_actual_quarter', None)
+    if until_actual_quarter:
+        actual_quarter = Quarter.get_actual_quarter()
+        table, quarters, total = CountryOperation.get_table_to_show(with_total=True,
+                                                                    until_quarter=actual_quarter)
+    else:
+        table, quarters, total = CountryOperation.get_table_to_show(with_total=True)
 
     can_edit = request.user.dashboarduser.can_edit_table(
         uuid_table_edit_access='TABLE_EDIT_ACCESS_COUNTRY_OPERATION'

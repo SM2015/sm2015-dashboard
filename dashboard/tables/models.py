@@ -720,11 +720,12 @@ class CountryOperation(models.Model):
         quarters = CountryOperation.objects.values('quarter__name').order_by('quarter__name') \
                                            .distinct()
 
-        for i_quarter in xrange(0, len(quarters)):
-            quarter = quarters[i_quarter]
-            if quarter['quarter__name'] == until_quarter.name:
-                quarters = quarters[:i_quarter+1]
-                break
+        if until_quarter:
+            for i_quarter in xrange(0, len(quarters)):
+                quarter = quarters[i_quarter]
+                if quarter['quarter__name'] == until_quarter.name:
+                    quarters = quarters[:i_quarter+1]
+                    break
 
         fields = [{'field': 'it_disbursements_planned',
                    'name': 'Planned (PD)',

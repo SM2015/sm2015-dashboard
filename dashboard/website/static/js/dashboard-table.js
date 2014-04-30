@@ -81,9 +81,7 @@
                 phone : 480
             };
             var tableElement = this.$wrapper.find("table");
-            tableElement.dataTable({
-                //"bScrollCollapse": true,
-                //"sScrollX": "100%",
+            var options = {
                 "sPaginationType": "bootstrap",
                  "aoColumnDefs": [
                   { 'bSortable': false, 'aTargets': [ 0 ] }
@@ -93,7 +91,7 @@
                     "sLengthMenu": "_MENU_ ",
                     "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries"
                 },
-                bAutoWidth     : false,
+                bAutoWidth     : true,
                 fnPreDrawCallback: function () {
                     if (!responsiveHelper) {
                         responsiveHelper = new ResponsiveDatatablesHelper(tableElement, breakpointDefinition);
@@ -105,7 +103,8 @@
                 fnDrawCallback : function (oSettings) {
                     responsiveHelper.respond();
                 }
-            });
+            }
+            tableElement.dataTable(options);
         }
     }
 
@@ -121,7 +120,7 @@
                       '</div>'+
                       '<div class="grid-body ">'+
                         '{{CONTENT_TOP_TO_APPEND}}' +
-                        '<div class="row-fluid column-seperation table-content">'+
+                        '<div class="row-fluid column-seperation table-content" style="{{SCROLL}}">'+
                             '{{TABLE_PLACEHOLDER}}'+
                         '</div>'+
                       '</div>'+
@@ -132,6 +131,11 @@
 
         html_box = html_box.replace("{{TITLE_PLACEHOLDER}}", title);
         html_box = html_box.replace("{{COLUMNS}}", this.opts.columns_size || '12')
+        if(this.opts.scroll == true){
+          html_box = html_box.replace("{{SCROLL}}", "overflow-x: auto");
+        } else{
+          html_box = html_box.replace("{{SCROLL}}", "");
+        }
 
         if(this.opts.element_top){
           $elem = $(this.opts.element_top);
