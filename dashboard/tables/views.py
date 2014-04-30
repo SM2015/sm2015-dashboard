@@ -172,6 +172,12 @@ def grants_finances_ongoing(request, uuid_origin):
 
 
 @login_required
+def country_operation(request):
+    context = RequestContext(request)
+    return render_to_response("country_operation.html", context)
+
+
+@login_required
 def countries_ongoing(request, country_slug, values_type):
     try:
         country = Country.objects.get(slug=country_slug)

@@ -20,6 +20,8 @@ urlpatterns = patterns(
     url(r'^grants_finances/?$',
         views.grants_finances, name="grants_finances"),
     url(r'^life_save/?$', views.life_save, name="life_save"),
+    url(r'^country_operation/?$',
+        views.country_operation, name="country_operation"),
 
     url(r'render/hitos/(?P<country_slug>[-\w]+)/?$',
         views_render.render_hitos, name="table_render_hitos"),
