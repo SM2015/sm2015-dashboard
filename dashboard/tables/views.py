@@ -175,13 +175,14 @@ def grants_finances_ongoing(request, uuid_origin):
 def countries_ongoing(request, country_slug, values_type):
     try:
         country = Country.objects.get(slug=country_slug)
-        last_quarter = CountryOperation.get_last_quarter(country=country)
+        actual_quarter = CountryOperation.get_actual_quarter(country=country)
+
         if values_type == 'disbursement':
-            actual = last_quarter.it_disbursements_actual
-            planned = last_quarter.it_disbursements_planned
+            actual = actual_quarter.it_disbursements_actual * 1000000
+            planned = actual_quarter.it_disbursements_planned * 1000000
         elif values_type == 'execution':
-            actual = last_quarter.it_execution_actual
-            planned = last_quarter.it_execution_planned
+            actual = actual_quarter.it_execution_actual * 1000000
+            planned = actual_quarter.it_execution_planned * 1000000
 
         values = {
             'accumulated': intcomma(int(actual)),

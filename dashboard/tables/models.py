@@ -19,6 +19,28 @@ class Quarter(models.Model):
         return new_list
 
     @classmethod
+    def get_actual_quarter(cls):
+        today = date.today()
+        if today.month / 3 <= 1:
+            number_quarter = 1
+        elif today.month / 3 <= 2:
+            number_quarter = 2
+        elif today.month / 3 <= 3:
+            number_quarter = 3
+        elif today.month / 3 <= 4:
+            number_quarter = 4
+        return cls.get_quarter_by_number(today.year, number_quarter)
+
+    @classmethod
+    def get_quarter_by_number(cls, year, number):
+        quarter_name = "{0}Q{1}".format(year, number)
+        try:
+            quarter = cls.objects.get(name=quarter_name)
+            return quarter
+        except Quarter.DoesNotExist:
+            return None
+
+    @classmethod
     def normalize_name(cls, name):
         if name:
             if type(name) is int:
@@ -674,7 +696,22 @@ class CountryOperation(models.Model):
         return cls.objects.filter(country=country).order_by('-quarter')[0]
 
     @classmethod
-    def get_table_to_show(cls, country=None, fields=None, with_total=False):
+    def get_actual_quarter(cls, country):
+        today = date.today()
+        if today.month / 3 <= 1:
+            number_quarter = 1
+        elif today.month / 3 <= 2:
+            number_quarter = 2
+        elif today.month / 3 <= 3:
+            number_quarter = 3
+        elif today.month / 3 <= 4:
+            number_quarter = 4
+
+        quarter = Quarter.get_quarter_by_number(today.year, number_quarter)
+        return cls.objects.filter(country=country, quarter=quarter)[0]
+
+    @classmethod
+    def get_table_to_show(cls, country=None, fields=None, with_total=False, until_quarter=None):
         table = []
         if country:
             countries = [country]
@@ -682,6 +719,12 @@ class CountryOperation(models.Model):
             countries = CountryOperation.objects.values('country__name').distinct()
         quarters = CountryOperation.objects.values('quarter__name').order_by('quarter__name') \
                                            .distinct()
+
+        for i_quarter in xrange(0, len(quarters)):
+            quarter = quarters[i_quarter]
+            if quarter['quarter__name'] == until_quarter.name:
+                quarters = quarters[:i_quarter+1]
+                break
 
         fields = [{'field': 'it_disbursements_planned',
                    'name': 'Planned (PD)',
@@ -736,7 +779,7 @@ class CountryOperation(models.Model):
                 for i_quarter in xrange(0, len(quarters)):
                     quarter = quarters[i_quarter]
                     operation_quarter = operation.get(quarter__name=quarter['quarter__name'])
-                    value = getattr(operation_quarter, field['field'])
+                    value = getattr(operation_quarter, field['field']) * 1000000
                     row['values'].append({'v': value, 'id': operation_quarter.id})
 
                     if with_total:
@@ -774,7 +817,7 @@ class CountryOperation(models.Model):
                 country = Country.objects.get(slug='panama')
             elif row[0].row == 4:
                 quarters = {}
-                for cell in row[5:13]:
+                for cell in row[5:16]:
                     quarters[cell.column] = cell.value
 
             if country:
@@ -787,26 +830,26 @@ class CountryOperation(models.Model):
                     countries[country.name] = {}
 
                 if row[0].row in [5, 9, 13, 17, 21, 25, 29, 33]:
-                    for cell in row[5:13]:
+                    for cell in row[5:16]:
                         quarter = quarters[cell.column]
                         countries[country.name][quarter] = {}
                         countries[country.name][quarter]['country'] = country
-                        countries[country.name][quarter]['it_disbursements_planned'] = cell.value
+                        countries[country.name][quarter]['it_disbursements_planned'] = cell.value or 0
 
                 elif row[0].row in [6, 10, 14, 18, 22, 26, 30, 34]:
-                    for cell in row[5:13]:
+                    for cell in row[5:16]:
                         quarter = quarters[cell.column]
-                        countries[country.name][quarter]['it_disbursements_actual'] = cell.value
+                        countries[country.name][quarter]['it_disbursements_actual'] = cell.value or 0
 
                 elif row[0].row in [7, 11, 15, 19, 23, 27, 31, 35]:
-                    for cell in row[5:13]:
+                    for cell in row[5:16]:
                         quarter = quarters[cell.column]
-                        countries[country.name][quarter]['it_execution_planned'] = cell.value
+                        countries[country.name][quarter]['it_execution_planned'] = cell.value or 0
 
                 elif row[0].row in [8, 12, 16, 20, 24, 28, 32, 36]:
-                    for cell in row[5:13]:
+                    for cell in row[5:16]:
                         quarter = quarters[cell.column]
-                        countries[country.name][quarter]['it_execution_actual'] = cell.value
+                        countries[country.name][quarter]['it_execution_actual'] = cell.value or 0
 
         for country_name in countries:
             quarters = countries[country_name]

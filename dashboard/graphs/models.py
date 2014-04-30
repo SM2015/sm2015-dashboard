@@ -2,13 +2,15 @@
 import os
 from datetime import datetime
 from tables.models import AvanceFisicoFinanciero, Operation, LifeSave, \
-    CountryDisbursement, CountryOperation
+    CountryDisbursement, CountryOperation, Quarter
 
 class CountryDisbursementGraph(object):
 
     @classmethod
     def get_values_graph(cls, country):
-        table, quarters = CountryOperation.get_table_to_show(country=country)
+        actual_quarter = Quarter.get_actual_quarter()
+        table, quarters = CountryOperation.get_table_to_show(country=country,
+                                                             until_quarter=actual_quarter)
         data = {
             "cols": [{
                  "id": "D",
