@@ -68,17 +68,20 @@ def render_hitos_noneditable(request, country_slug):
 
 @login_required
 def render_avances_financeiros(request, country_slug):
-    avances = AvanceFisicoFinanciero.objects \
-                                    .filter(country__slug=country_slug,
-                                            language__acronym=
-                                            request.LANGUAGE_CODE)
+    avance = AvanceFisicoFinanciero.objects \
+                                   .filter(country__slug=country_slug,
+                                           language__acronym=
+                                           request.LANGUAGE_CODE).last()
+    
+    if not avance.upcoming_policy_dialogue_events:
+        avance.upcoming_policy_dialogue_events = ''
 
     can_edit = request.user.dashboarduser.can_edit_table(
         uuid_table_edit_access='TABLE_EDIT_ACCESS_AVANCE_FISICO_FINANCIEROS'
     )
 
     rendered = render_to_string("tables/avances_financeiros.html", {
-        'avances': avances,
+        'avance': avance,
         'editable': can_edit
     })
     return HttpResponse(rendered, content_type="text/html")

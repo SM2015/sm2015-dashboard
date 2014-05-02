@@ -266,6 +266,7 @@
 
 {% block js_bottom %}
     {{block.super}}
+    <script src="{% static "assets/plugins/jquery-easy-pie-chart/js/jquery.easypiechart.min.js" %}"></script>
     <script type="text/javascript" src="{% static "js/google-jsapi.js" %}"></script>
     <script type="text/javascript" src="{% static "js/highcharts/highcharts.js" %}"></script>
     <script type="text/javascript" src="{% static "js/highcharts/exporting.js" %}"></script>
@@ -275,7 +276,10 @@
 
     <script>
         $().ready(function(){
-            $(".graph-triangle-wrapper").graficoTrianguloPorPais('{% url "get_triangle_graph_countries" %}');
+            var triangle_title = '{% trans "Primera Operación SM2015" %}';
+            triangle_title = "[[COUNTRY]] - " + triangle_title;
+
+            $(".graph-triangle-wrapper").graficoTrianguloPorPais('{% url "get_triangle_graph_countries" %}', {title: triangle_title});
             $("#map-goals").dashboardMap({{countries_map|safe}});
 
             $(".hide-graph-triangle.show-more").live('click', function(){
@@ -504,7 +508,7 @@
     <div class="row-fluid graph-triangle-wrapper">
         <div class="grid simple">
           <div class="grid-title no-border">
-            <h4>SM2015 Primeras Operaciones</h4>
+            <h4>{% trans "SM2015 Primeras Operaciones" %}</h4>
             <div class="tools"> <a class="collapse" href="javascript:;"></a> <a class="config" data-toggle="modal" href="#grid-config"></a> <a class="reload" href="javascript:;"></a> <a class="remove" href="javascript:;"></a> </div>
           </div>
           <div class="grid-body no-border">

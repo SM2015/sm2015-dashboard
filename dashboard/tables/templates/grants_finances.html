@@ -31,7 +31,7 @@
     <script>
         $(document).ready(function() {
             $(".table-grants-finances").dashboardTable("{% url 'table_render_grants_finances' %}", {
-                title: "Grants & Finances",
+                title: "Donor Disbursment Performance, by Quarter",
                 url_save: "{% url 'save_milestone_data' %}"
             });
 
@@ -41,7 +41,7 @@
             });
 
             $(".chart-container").dashboardChartBar("{% url 'chart_flot' %}", {
-              title: 'Real vs Expected'
+              title: 'Donor Disbursement Performance: Real Vs. Expected'
             });
         });
     </script>

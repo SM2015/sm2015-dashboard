@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-23 00:39-0400\n"
+"POT-Creation-Date: 2014-05-02 17:38-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,18 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: graphs/models.py:153
+msgid "% Avance Tiempo"
+msgstr "% Time Progress"
+
+#: graphs/models.py:153
+msgid "Ejecucion Financiera"
+msgstr "Financial Execution"
+
+#: graphs/models.py:153
+msgid "Ejecucion Fisica"
+msgstr "Physics Execution"
 
 #: tables/templates/change_list.html:45
 #: tables/templates/change_list_sheet_asking.html:63
@@ -35,7 +47,6 @@ msgid "Paises"
 msgstr "Countries"
 
 #: website/templates/base_logado.html:199
-#, fuzzy
 msgid "Metas SM2015"
 msgstr "SM2015"
 
@@ -55,11 +66,35 @@ msgstr "Reports"
 msgid "Base de datos"
 msgstr "Databases"
 
-#: website/templates/index.html:525
+#: website/templates/base_logado.html:205
+msgid "Ejecución Financiera y Hitos"
+msgstr "Financial Execution and Milestones"
+
+#: website/templates/base_logado.html:206
+msgid "Unidad de Coordinación Hitos"
+msgstr "Coordination Unit Milestone"
+
+#: website/templates/base_logado.html:207
+msgid "SM2015 Hitos"
+msgstr "SM2015 Milestones"
+
+#: website/templates/base_logado.html:209
+msgid "País Operación"
+msgstr "Country Operation"
+
+#: website/templates/index.html:278
+msgid "Primera Operación SM2015"
+msgstr "First Operation SM2015"
+
+#: website/templates/index.html:510
+msgid "SM2015 Primeras Operaciones"
+msgstr "SM2015 Firsts Operations"
+
+#: website/templates/index.html:523
 msgid "Metas por país SM2015"
 msgstr "SM2015 Country goals"
 
-#: website/templates/index.html:527
+#: website/templates/index.html:529
 msgid ""
 "Este gráfico muestra una selección de los valores de línea de base y las "
 "metas acordadas por los países SM2015 a 18, 36 y 54 meses. La línea de base "
@@ -72,7 +107,7 @@ msgstr ""
 "currently only confirmed by survey in El Salvador; the other countries have "
 "provided estimates of their current coverage levels in the targeted areas."
 
-#: website/templates/index.html:530
+#: website/templates/index.html:532
 msgid ""
 "Para ver cómo los países se han comprometido a cambiar las tasas de "
 "cobertura en función del tiempo, por favor seleccione la región o un país "

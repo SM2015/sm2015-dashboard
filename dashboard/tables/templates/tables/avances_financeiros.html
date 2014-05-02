@@ -2,7 +2,6 @@
 <!DOCTYPE html>
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 
-{% for avance in avances %}
 <div data-objid="{{avance.id}}" data-model="AvanceFisicoFinanciero">
     <div class="span6">
         <table class="table-bordered">
@@ -56,7 +55,10 @@
                 <th class="avances-header">Recomendaciones</th>
                 <td class="avances-value {% if editable %}editable{% endif %} textarea" name="recomendacion">{{avance.recomendacion}}</td>
             </tr>
+            <tr>
+                <th class="avances-header">Upcoming Policy Dialogue Events</th>
+                <td class="avances-value {% if editable %}editable{% endif %} textarea" name="upcoming_policy_dialogue_events">{{avance.upcoming_policy_dialogue_events}}</td>
+            </tr>
         </table>
     </div>
 </div>
-{% endfor %}

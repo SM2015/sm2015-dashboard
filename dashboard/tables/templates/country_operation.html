@@ -17,7 +17,7 @@
     <script>
         $(document).ready(function() {
             $(".table-country-operation").dashboardTable("{% url 'table_render_country_operation' %}", {
-                title: "Country Operation",
+                title: "Country Operation Financial Execution Performance, by Quarter",
                 url_save: "{% url 'save_milestone_data' %}",
                 scroll: true
             });
@@ -34,6 +34,5 @@
 
 <div class="content">
     <div class="table-country-operation"></div>
-
 </div>
 {% endblock %}

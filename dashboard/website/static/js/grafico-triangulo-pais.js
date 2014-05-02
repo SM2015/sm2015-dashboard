@@ -1,13 +1,19 @@
 (function( $ ){
-    function loadGraphs($wrapper, url){
+    function loadGraphs($wrapper, url, opts){
         $container_graphs = $wrapper.find(".graph-triangle-container");
         $container_graphs.find("*").remove();
+
+        if(opts && opts.title){
+          title = opts.title;
+        } else {
+          title = '[[COUNTRY]] Primera Operación SM2015';
+        }
 
         $.getJSON(url, function(data){
             $.each(data, function(i){
                 var div_triangle_id = 'graph-triangle-' + this.country_slug;
                 createDivTriangle(div_triangle_id, $container_graphs,i);
-                drawSpider('#'+div_triangle_id, this.country, this.triangle_categories, this.series);
+                drawSpider('#'+div_triangle_id, this.country, this.triangle_categories, this.series, title);
             });
         });
     }
@@ -26,9 +32,11 @@
         $container.append(html_div);
     }
 
-    function drawSpider(div, country, categoriesArray, seriesArray) {
+    function drawSpider(div, country, categoriesArray, seriesArray, title) {
+        title = title.replace("[[COUNTRY]]", country);
+
         Highcharts.theme = {
-            colors: ['#058DC7', '#0d233a', '#bbbbbb', '#F9CCCA', '#F9CCCA', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
+            colors: ['#058DC7', '#FF9655', '#DD9999', '#6AF9C4', '#64E572', '#0d233a', '#bbbbbb', '#F9CCCA', '#F9CCCA'],
             title: {
                 style: {
                     color: '#000',
@@ -97,7 +105,7 @@
                 type: 'line',
             },
             title: {
-                text: country + ' Primera Operación SM2015'
+                text: title
             },
             xAxis: {
                 categories: categoriesArray,
@@ -123,12 +131,12 @@
         });
     }
 
-    $.fn.graficoTrianguloPorPais = function(url_dados_grafico) {
+    $.fn.graficoTrianguloPorPais = function(url_dados_grafico, opts) {
         var wrapper = this;
-        loadGraphs( this, url_dados_grafico );
+        loadGraphs( this, url_dados_grafico, opts);
 
         $(this).find(".reload").click(function(){
-            loadGraphs( wrapper, url_dados_grafico );
+            loadGraphs( wrapper, url_dados_grafico, opts);
         });
         return this;
     };

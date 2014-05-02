@@ -26,9 +26,11 @@
     font-size: 30px;
 }
 .content-info-window .left-side .main-info .desc {
-    color: white;
+    color: #FFFFFF;
     font-family: "Arial";
     font-size: 14px;
+    height: 125px;
+    overflow-y: auto;
 }
 .content-info-window .left-side .more-info {
     color: #DB26B6;
@@ -54,7 +56,7 @@
 .content-info-window .right-side .goal {
   color: #447744;
   font-family: "Oswald";
-  font-size: 40px;
+  font-size: 25px;
   padding-top: 15px;
   text-align: center;
 }

@@ -27,7 +27,7 @@
                         '<span class="animate-number" data-value="{TILE_VALUE}" data-animation-duration="1200">0</span>'+
                         '</div>'+
                         '<div class="progress transparent progress-white progress-small no-radius">'+
-                            '<div class="bar animate-progress-bar" data-percentage="{TILE_PERCENTAGE}"></div>'+
+                            '<div class="bar animate-progress-bar" data-percentage="{TILE_PERCENTAGE}%"></div>'+
                         '</div>'+
                         '<div class="description"><i class="icon-custom-{UP_OR_DOWN}"></i><span class="text-white mini-description "> {TILE_DV} <span class="blend">variance from expected</span></span></div>'+
                         '</div>	'+

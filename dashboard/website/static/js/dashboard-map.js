@@ -22,6 +22,7 @@
             };
 
         this.map = new google.maps.Map(this.wrapper[0], mapOptions);
+
         this.getCountriesMarkers(function(countries){
             $.each(countries, function(i, country){
                 google.maps.event.addListener(country.marker,'click', (function(marker) {
@@ -33,7 +34,17 @@
                     });
 
                     country.infoBox.open(self.map, this);
+                    self.map.setOptions( {scrollwheel:false} ); 
                     self.map.setCenter(country.marker.position);
+
+                    setTimeout(function(){
+                      $('.easy-pie-custom').easyPieChart({
+                        lineWidth:11,
+                        barColor:'#447744',
+                        trackColor:'#e5e9ec',
+                        scaleColor:false
+                      });
+                    }, 500);
                   }
                 })(country.marker));
             });
@@ -61,6 +72,10 @@
                 });
 
             var infoBox = self._getInfoBox(country);
+
+            google.maps.event.addListener(infoBox,'closeclick',function(){
+              self.map.setOptions({ scrollwheel:true }); 
+            });
             countries.push({
                 marker: marker,
                 infoBox: infoBox
@@ -84,7 +99,9 @@
               '<div class="right-side">'+
                   '<div class="statistics">'+
                       '<span class="label-stats">Objetivos</span>'+
-                      '<div class="goal"></div>'+
+                      '<div class="goal">'+
+                        '<div class="easy-pie-custom" data-percent="{GOAL}"><span class="easy-pie-percent">{GOAL}%</span></div>'+
+                      '</div>'+
                   '</div>'+
               '</div>'+
           '</div>';
@@ -114,7 +131,10 @@
                                                 .replace("{TITLE}", country.name)
                                                 .replace("{SHORT_DESCRIPTION}", country.short_description)
                                                 .replace("{INFOS_URL}", country.infos_url)
+                                                .replace("{GOAL}", country.goal)
                                                 .replace("{GOAL}", country.goal);
+
+
         return new InfoBox(infoBoxOptions);
     }
 

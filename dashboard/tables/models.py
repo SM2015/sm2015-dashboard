@@ -87,6 +87,7 @@ class AvanceFisicoFinanciero(models.Model):
 
     alerta = models.TextField(null=True, blank=True, default=None)
     recomendacion = models.TextField(null=True, blank=True, default=None)
+    upcoming_policy_dialogue_events = models.TextField(null=True, blank=True, default='')
 
     @classmethod
     def upload_excel(cls, uploaded_file, sheet_lang):
@@ -142,7 +143,7 @@ class AvanceFisicoFinanciero(models.Model):
         return ('fecha_de_actualizacion', 'avance_fisico_planificado', 'avance_financiero_planificado',
         'avance_fisico_real', 'avance_financiero_actual', 'avances_fisicos_original_programado',
         'avances_financieros_original_programado', 'monto_desembolsado', 'monto_comprometido',
-        'alerta', 'recomendacion')
+        'alerta', 'recomendacion', 'upcoming_policy_dialogue_events')
 
     def __unicode__(self):
         return self.country.name

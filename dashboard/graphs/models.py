@@ -1,6 +1,7 @@
 # coding: utf-8
 import os
 from datetime import datetime
+from django.utils.translation import ugettext as _
 from tables.models import AvanceFisicoFinanciero, Operation, LifeSave, \
     CountryDisbursement, CountryOperation, Quarter
 
@@ -149,7 +150,7 @@ class TriangleGraph(object):
 
     @classmethod
     def get_triangle_categories(cls):
-        return ["% Avance Tiempo", "Ejecucion Financiera", "Ejecucion Fisica"]
+        return [_("% Avance Tiempo"), _("Ejecucion Financiera"), _("Ejecucion Fisica")]
 
     @classmethod
     def get_triangle_series(cls, country, lang):
