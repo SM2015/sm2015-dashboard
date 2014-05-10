@@ -266,22 +266,167 @@
 
 {% block js_bottom %}
     {{block.super}}
+    <script src="{% static "assets/plugins/jquery-easy-pie-chart/js/jquery.easypiechart.min.js" %}"></script>
     <script type="text/javascript" src="{% static "js/google-jsapi.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/highcharts/highcharts.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/highcharts/exporting.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/highcharts/highcharts-more.js" %}"></script>
+    <script src="{% static "js/dashboard-map.js" %}" type="text/javascript"></script>
+    <script src="{% static "js/grafico-triangulo-pais.js" %}" type="text/javascript"></script>
 
     <script>
+        $().ready(function(){
+            var triangle_title = '{% trans "Primera Operación SM2015" %}';
+            triangle_title = "[[COUNTRY]] - " + triangle_title;
+
+            $(".graph-triangle-wrapper").graficoTrianguloPorPais('{% url "get_triangle_graph_countries" %}', {title: triangle_title});
+            $("#map-goals").dashboardMap({{countries_map|safe}});
+
+            $(".hide-graph-triangle.show-more").live('click', function(){
+                $(".graph-triangle-container").animate({
+                    height: '100%'
+                }, 1000, function(){
+                    $(".hide-graph-triangle").removeClass("show-more");
+                    $(".hide-graph-triangle").addClass("show-less");
+                    $(".hide-graph-triangle").text("Show Less")
+                });
+            });
+            $(".hide-graph-triangle.show-less").live('click', function(){
+                $(".graph-triangle-container").animate({
+                    height: '270px'
+                }, 1000, function(){
+                    $(".hide-graph-triangle").removeClass("show-less");
+                    $(".hide-graph-triangle").addClass("show-more");
+                    $(".hide-graph-triangle").text("Show More")
+                });
+            });
+        });
     </script>
 
     <script>
+    (function(){
+        $(document).ready(function() {
+            $("#countryList option:first").attr("selected", true);
+            //drawVisualization($("#countryList option:first").val());
+            drawVisualization("nicaragua");
+
+            $("#countryList").change(function() {
+                drawVisualization($(this).val());
+            });
+        });
+
+        function drawVisualization(country_slug) {
+
+            $.getJSON("graphs/life_save/" + country_slug + '/', function(data){
+                drawChart(data, 'container', 'Mortality rate reduction in children under 5yrs attributed to the intervention', 'This graphic shows how many lives each intervention could save');
+            });
+        }
+
+        function drawChart(data, div, title, subtitle) {
+
+            var seriesArray = data.series;
+            var pieChartData = data.pie;
+
+            var pieChartConfigurationData = {
+                type: 'pie',
+                name: '% reducción mortalidad',
+                data: pieChartData,
+                center: [400, 120],
+                size: 160,
+                showInLegend: false,
+                dataLabels: {
+                    enabled: false
+                }
+            };
+
+            seriesArray.push(pieChartConfigurationData);
+
+            var chart;
+            $(document).ready(function() {
+                chart = new Highcharts.Chart({
+                    chart: {
+                        renderTo: 'container',
+                        type: 'bar'
+                    },
+
+                    title: {
+                        text: title
+                    },
+                    subtitle: {
+                        text: subtitle
+                    },
+
+                    labels: {
+                        items: [{
+                            html: '% reducción mortalidad',
+                            style: {
+                                left: '280px',
+                                top: '18px',
+                                color: 'black'
+                            }}]
+                    },
+
+                    xAxis: {
+                        categories: [''],
+                        title: {
+                            text: null
+                        }
+                    },
+
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: 'Lives Saved',
+                            align: 'high'
+                        },
+                        labels: {
+                            overflow: 'justify'
+                        }
+                    },
+
+                    tooltip: {
+                        formatter: function() {
+                            var s;
+                            if (this.point.name) { // the pie chart
+                                s = '' + this.point.name + ': ' + this.y + ' ';
+                            } else {
+                                s = '' + this.series.name + ': ' + this.y;
+                            }
+                            return s;
+                        }
+
+
+                    },
+
+                    plotOptions: {
+                        bar: {
+                            dataLabels: {
+                                enabled: true
+                            }
+                        }
+                    },
+
+                    credits: {
+                        enabled: false
+                    },
+
+                    series: seriesArray
+
+                });
+            });
+
+        };
+    })();
     </script>
 
     <script>
-    google.load('visualization', '1.1', {
-        packages: ['controls']
-    });
+      google.load('visualization', '1.1', {
+          packages: ['controls']
+      });
 
-    google.load('visualization', '1', {
-        'packages': ['motionchart']
-    });
+      google.load('visualization', '1', {
+          'packages': ['motionchart']
+      });
 
     (function(){
       var c = ["Belize","Costa Rica","El Salvador","Guatemala","Honduras","Mexico","Nicaragua","Panama"];
@@ -349,7 +494,7 @@
         var chart = new google.visualization.MotionChart(document.getElementById('motionchart-chartDiv'));
         chart.draw(data, options);
       }
-    })();
+    });
     </script>
 
 {% endblock js_bottom %}
