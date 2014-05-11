@@ -264,21 +264,6 @@
     </style>
 {% endblock css %}
 
-{% block js_top %}
-    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    <script>
-      google.load('visualization', '1.1', {
-          packages: ['controls']
-      });
-
-      google.load('visualization', '1', {
-          'packages': ['motionchart']
-      });
-    </script>
-    {{block.super}}
-
-{% endblock js_top %}
-
 {% block js_bottom %}
     {{block.super}}
     <script src="{% static "assets/plugins/jquery-easy-pie-chart/js/jquery.easypiechart.min.js" %}"></script>
@@ -433,7 +418,12 @@
     })();
     </script>
 
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script>
+      google.load('visualization', '1', {
+          'packages': ['motionchart']
+      });
+
     (function(){
       var c = ["Belize","Costa Rica","El Salvador","Guatemala","Honduras","Mexico","Nicaragua","Panama"];
       var i = ["Referencia durante Emergencia del Parto","4 Atenciones Prenatales segun las Normas","Atencion Post-Parto Instutional segun las Normas","Atencion de Parto segun las Normas","Tratamiento para Diarrea con ORS y Zinc","Cobertura de Anticonceptivos Modernos","Atencion Post-Parto por Personal Calificada","Cobertura de Parto Instutional con Personal Calificado","4 Atenciones Prenatles","Vacunacion completa para su edad","Lactancia Materna","Tratmiento de Antiparasitantes ","Prevalencia de baja talla por edad","Prevalencia de Anemia","(IGNORE) Muertes Neonatles","(IGNORE) Muerte Maternas","Centros de salud con servicios funcionales adaptados socioculturalmente","Abastimiento de 4 metodos Modernos de PF","Insumos para Atencion pre\/postnatal y para el parto","Insumos para atencion de emergencia obseterica y neonatal","Cobertura de Anticonceptivos Modernos en Adolecentes","Atencion Post-Parto Instutional segun las Normas en Adolecentes","Tipo de Indicador","Marco General","Unidad de Medida","Indicador Espec\u00edfico","Indicador Espec\u00edfico Fuente","Meta de 18 meses","Meta de 54 Meses","Mujeres en edad reproductiva (15-49) que recibieron 4 atenciones prenatales de acuerdo a las mejores pr\u00e1cticas por personal calificado seg\u00fan las mejores pr\u00e1cticas propuestas en su embarazo m\u00e1s reciente en los \u00faltimos dos a\u00f1os[]","Mujeres en edad reproductiva (15-49)  que actualmente utilizan (o cuya pareja utiliza) un m\u00e9todo moderno de planificaci\u00f3n familiar[].","Mujeres en edad reproductiva (15-49) que recibieron por lo menos 4 controles prenatales  en su embarazo m\u00e1s reciente por personal calificado en los \u00faltimos dos a\u00f1os","Ni\u00f1os de 0 a 5 meses que fueron alimentados exclusivamente con leche materna el d\u00eda anterior ","Ni\u00f1os  0-59  meses  con talla  < -2 SD de la media de la poblaci\u00f3n de referencia de longitud para edad ","N\u00famero de muertes durante el primer a\u00f1o de vida por cada 1.000 nacidos vivos en un a\u00f1o o periodo determinado","Servicios de salud[9]  que registran desabastecimiento de las existencias de alguno de los 4 de m\u00e9todos \u00a0(inyectables, orales,condon y DIU)  de planificaci\u00f3n familiar al momento de la entrevista, verificado a trav\u00e9s de observaci\u00f3n \u00a0y de acuerdo a nivel de atenci\u00f3n"];
