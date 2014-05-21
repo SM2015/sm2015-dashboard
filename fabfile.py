@@ -21,7 +21,7 @@ def prod():
     env.WEBHOST = 'sm2015dashboard.org'
     env.PROJECT_PATH = '/var/www/{host_name}'.format(host_name=env.WEBHOST)
     env.MYSQL_USER = PROD['MYSQL_USER']
-    env.MYSQL_PASSWORD = PROD['MYSQL_USER']
+    env.MYSQL_PASSWORD = PROD['MYSQL_PASSWORD']
     env.MYSQL_DB = PROD['MYSQL_DB']
 
 
@@ -31,7 +31,7 @@ def homolog():
     env.WEBHOST = 'homolog.sm2015dashboard.org'
     env.PROJECT_PATH = '/var/www/{host_name}'.format(host_name=env.WEBHOST)
     env.MYSQL_USER = HOMOLOG['MYSQL_USER']
-    env.MYSQL_PASSWORD = HOMOLOG['MYSQL_USER']
+    env.MYSQL_PASSWORD = HOMOLOG['MYSQL_PASSWORD']
     env.MYSQL_DB = HOMOLOG['MYSQL_DB']
 
 
