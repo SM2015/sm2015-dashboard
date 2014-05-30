@@ -496,34 +496,14 @@
 {% endblock js_bottom %}
 
 {% block content %}
-<div class="content">
-    <div class="row-fluid graph-triangle-wrapper">
-      <div class="grid simple">
-        <div class="grid-title no-border">
-          <h4>Welcome to the SM2015 Regional Dashboard!</h4>
-          <div class="tools"> <a class="collapse" href="javascript:;"></a> <a class="config" data-toggle="modal" href="#grid-config"></a> <a class="reload" href="javascript:;"></a> <a class="remove" href="javascript:;"></a> </div>
-        </div>
-        <div class="grid-body no-border">
-          The SM2015 Dashboard is updated with the help of the SM2015 Country Teams and Coordination Unit. <br />
-          Each graphic indicates the date it was updated, its source, and a brief interpretation of the information 
-          included. You can add a graphic to “My Dashboard” by clicking on the XXX. You can hide or remove 
-          a graphic by pressing the down arrow (v) or clicking on the X in the top left corner of each graphic. <br/>
-          The menu at the left contains the various types of information included in the Dashboard. If you have 
-          questions or comments, please let us know by emailing us at XXXXXXX.
-        </div>
-      </div>
-    </div>
+
+<div class="map-container">
+  <div id="map-goals"></div>
 </div>
-
-
 <div class="content">
     <div class="row-fluid">
       <div class="grid simple">
-        <div class="grid-title no-border">
-          <h4>Country Map</h4>
-          <div class="tools"> <a class="collapse" href="javascript:;"></a> <a class="config" data-toggle="modal" href="#grid-config"></a> <a class="reload" href="javascript:;"></a> <a class="remove" href="javascript:;"></a> </div>
-        </div>
-        <div class="grid-body no-border">
+        <div class="grid-body">
           <p>
             This map includes general information about each country. Click on the Pin to read about the objectives
             and see how much time has elapsed in the current operation. The color of the pin refers to the amount 
@@ -533,10 +513,6 @@
             are greater than 25%. For detailed information on variation, please see the Country Operation Status 
             Graphic.
           </p>
-
-          <div class="map-container">
-            <div id="map-goals"></div>
-          </div>
         </div>
       </div>
     </div>
