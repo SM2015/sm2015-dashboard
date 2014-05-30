@@ -22,6 +22,11 @@
 
                 $(".table-hitos").dashboardTable("/tables/render/hitos/"+country_slug, {
                     title: "Hitos",
+                    description: "During the planning stage, country teams select relevant quarterly events for each payment indicator, "+
+                                 "creating a critical pathway. This graphic shows the status of quarterly milestones contributing to success "+
+                                 "of payment indicators. Green means the milestone is completed, yellow means it is in progress and "+
+                                 "red means the milestone is pending, or past its expected date of completion. This graphic is updated "+
+                                 "monthly.",
                     url_save: "{% url 'save_milestone_data' %}",
                     url_export: "/tables/render/export/hitos_y_avances/"+country_slug
                 });

@@ -496,8 +496,50 @@
 {% endblock js_bottom %}
 
 {% block content %}
-<div class="map-container row-fluid">
-  <div id="map-goals"></div>
+<div class="content">
+    <div class="row-fluid graph-triangle-wrapper">
+      <div class="grid simple">
+        <div class="grid-title no-border">
+          <h4>Welcome to the SM2015 Regional Dashboard!</h4>
+          <div class="tools"> <a class="collapse" href="javascript:;"></a> <a class="config" data-toggle="modal" href="#grid-config"></a> <a class="reload" href="javascript:;"></a> <a class="remove" href="javascript:;"></a> </div>
+        </div>
+        <div class="grid-body no-border">
+          The SM2015 Dashboard is updated with the help of the SM2015 Country Teams and Coordination Unit. <br />
+          Each graphic indicates the date it was updated, its source, and a brief interpretation of the information 
+          included. You can add a graphic to “My Dashboard” by clicking on the XXX. You can hide or remove 
+          a graphic by pressing the down arrow (v) or clicking on the X in the top left corner of each graphic. <br/>
+          The menu at the left contains the various types of information included in the Dashboard. If you have 
+          questions or comments, please let us know by emailing us at XXXXXXX.
+        </div>
+      </div>
+    </div>
+</div>
+
+
+<div class="content">
+    <div class="row-fluid">
+      <div class="grid simple">
+        <div class="grid-title no-border">
+          <h4>Country Map</h4>
+          <div class="tools"> <a class="collapse" href="javascript:;"></a> <a class="config" data-toggle="modal" href="#grid-config"></a> <a class="reload" href="javascript:;"></a> <a class="remove" href="javascript:;"></a> </div>
+        </div>
+        <div class="grid-body no-border">
+          <p>
+            This map includes general information about each country. Click on the Pin to read about the objectives
+            and see how much time has elapsed in the current operation. The color of the pin refers to the amount 
+            of variation in planned and actual financial and physical progress. A Green pin means that the country 
+            has less than 25% physical and financial variation from the original plan. A Yellow pin means one of the 
+            variables is greater than 25% variation and a red pin means that both financial and physical variation 
+            are greater than 25%. For detailed information on variation, please see the Country Operation Status 
+            Graphic.
+          </p>
+
+          <div class="map-container">
+            <div id="map-goals"></div>
+          </div>
+        </div>
+      </div>
+    </div>
 </div>
 
 <div class="content">
@@ -508,6 +550,12 @@
             <div class="tools"> <a class="collapse" href="javascript:;"></a> <a class="config" data-toggle="modal" href="#grid-config"></a> <a class="reload" href="javascript:;"></a> <a class="remove" href="javascript:;"></a> </div>
           </div>
           <div class="grid-body no-border">
+            <p>
+              This graphic illustrates executed/real values and expected/programmed values, corresponding to %
+              of financial progress in execution, % of physical progress in execution, and % of time passed from 
+              operation eligibility to date the information was updated. Programs seek to reduce the amount of
+              variation (spaces between the triangles) between the planned and actual values.
+            </p>
             <div class="row-fluid graph-triangle-container"></div>
             <div class="hide-graph-triangle show-more">Show More</div>
           </div>
@@ -542,10 +590,17 @@
             <div class="grid simple">
               <div class="grid-title no-border">
                 <div class="tools"> <a class="collapse" href="javascript:;"></a> <a class="config" data-toggle="modal" href="#grid-config"></a> <a class="reload" href="javascript:;"></a> <a class="remove" href="javascript:;"></a> </div>
-                <h4></h4>
+                <h4>&nbsp;</h4>
               </div>
               <div class="grid-body no-border">
                 <div class="row-fluid">
+                  <p>
+                    During the planning stage, country teams select relevant quarterly events for each payment indicator, 
+                    creating a critical pathway. This graphic shows the status of quarterly milestones contributing to success 
+                    of payment indicators. Green means the milestone is completed, yellow means it is in progress and 
+                    red means the milestone is pending, or past its expected date of completion. This graphic is updated 
+                    monthly.
+                  </p>
                     <div id="dashboard">
                           <table>
                             <tr style='vertical-align: top;'>

@@ -30,8 +30,25 @@
     <script src="{% static "js/jquery.jeditable.datepicker.js" %}" type="text/javascript"></script>
     <script>
         $(document).ready(function() {
+            var gf_description = ''+
+            '<p>Financial Variation:</p>'+
+            '<ul>'+
+            '<li><strong>Definition:</strong> Shows percentage variation between amount executed and amount budgeted, '+
+            'calculated by subtracting % of financial progress in execution from % of amount budgeted in the '+
+            'period.</li>'+
+            '<li><strong>Interpretation:</strong> Negative values represent delays in financial execution, although in some cases '+
+            'they may represent savings if the products have been delivered by date of analysis. Positive '+
+            'values usually indicate advances, however they can be the result of an additional cost if the '+
+            'products have been delivered in the period.</li></ul>'+
+            '<p>*WBS = Work Breakdown Structure</p>'+
+            '<p>Financial Variation Over-time:</p>'+
+            '<p><i><strong>Interpretation:</strong> The points plotted on graph facilitate analysis of trends. '+
+            'Negative values or delays are seen when red curve is below the blue. Red curve above the blue indicates '+
+            'progress achieved.</i></p>';
+
             $(".table-grants-finances").dashboardTable("{% url 'table_render_grants_finances' %}", {
                 title: "Donor Disbursment Performance, by Quarter",
+                description: gf_description,
                 url_save: "{% url 'save_milestone_data' %}"
             });
 
@@ -68,6 +85,20 @@
 <div class="content">
     <div class="page-title">	
         <h3>Donors Disbursment Performance</h3>		
+    </div>
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="grid simple">
+              <div class="grid-body">
+                <div class="row-fluid">
+                  <p>
+                    Every Donor has committed its funds contributions schedule. Based on this commitment SM2015
+                    measures the compliance with it, every quarter.
+                  </p>
+                </div>
+              </div>
+            </div>
+        </div>
     </div>
     <div id="container">
         <div class="row-fluid spacing-bottom 2col tiles-container"></div>			

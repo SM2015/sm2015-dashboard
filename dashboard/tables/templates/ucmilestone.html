@@ -19,6 +19,10 @@
             $(window).bind("select-date", function(elem, v_date){
               $(".table-ucmilestones").dashboardTable("/tables/render/ucmilestone/" + v_date, {
                   title: "Objetivos y Hitos de la Unidad Coordinadora",
+                  description: "Each year, the Coordination Unit creates quarterly milestones to assure reaching the SM2015 yearly "+
+                               "milestones. This graphic displays the milestones and their current status. Green means the milestone is "+
+                               "completed, yellow means it is in progress and red means the milestone is pending, or past its expected "+
+                               "date of completion. This graphic is updated quarterly.",
                   url_save: "{% url 'save_milestone_data' %}",
               });
             });

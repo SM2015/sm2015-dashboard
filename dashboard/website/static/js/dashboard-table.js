@@ -119,6 +119,7 @@
                         '<div class="tools"> <a href="javascript:;" class="collapse"></a> <a href="#grid-config" data-toggle="modal" class="config"></a> <a href="javascript:;" class="reload"></a> <a href="javascript:;" class="remove"></a> </div>'+
                       '</div>'+
                       '<div class="grid-body ">'+
+                        '<p>{{DESCRIPTION_PLACEHOLDER}}</p>'+
                         '{{CONTENT_TOP_TO_APPEND}}' +
                         '<div class="row-fluid column-seperation table-content" style="{{SCROLL}}">'+
                             '{{TABLE_PLACEHOLDER}}'+
@@ -142,6 +143,12 @@
           html_box = html_box.replace("{{CONTENT_TOP_TO_APPEND}}", $elem.clone().html());
         } else {
           html_box = html_box.replace("{{CONTENT_TOP_TO_APPEND}}", '');
+        }
+
+        if(this.opts.description){
+          html_box = html_box.replace("{{DESCRIPTION_PLACEHOLDER}}", this.opts.description);
+        } else {
+          html_box = html_box.replace("{{DESCRIPTION_PLACEHOLDER}}", '');
         }
 
         this.loadTable(function(table_html){

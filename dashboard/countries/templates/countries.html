@@ -73,6 +73,8 @@
 
             $(".table-country-operation").dashboardTable("{% url 'table_render_country_operation_noneditable' %}?until_actual_quarter=true", {
                 title: "Country Operation Financial Execution Performance, by Quarter",
+                description: "Every quarter, based on actual execution this performance measurement is being evaluated to wath the "+
+                             "trend overtime",
                 url_save: "{% url 'save_milestone_data' %}"
             });
 
@@ -196,6 +198,20 @@
           <span class="switch-right">Execution</span>
         </div>
       </div>
+    </div>
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="grid simple">
+              <div class="grid-body">
+                <div class="row-fluid">
+                  <p>
+                    The Countries planned the financial execution at the beginning of the operation. This compares the
+                    planned financial execution and the actual execution for each country
+                  </p>
+                </div>
+              </div>
+            </div>
+        </div>
     </div>
     <div id="container">
         <div class="row-fluid spacing-bottom 2col tiles-container01"></div>			
