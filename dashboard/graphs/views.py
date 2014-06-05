@@ -9,7 +9,11 @@ from graphs.models import TriangleGraph, LiveSaveGraph, \
 
 @login_required
 def get_triangle_graph_countries(request):
-    countries = Country.objects.all()
+    country_slug = request.GET.get('country_slug')
+    if country_slug:
+        countries = Country.objects.filter(slug=country_slug).all()
+    else:
+        countries = Country.objects.all()
     return_data = []
 
     for country in countries:

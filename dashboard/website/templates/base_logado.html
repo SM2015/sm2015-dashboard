@@ -145,7 +145,7 @@
         }
       }
 
-      $("a.showModalHelp").click(function(){
+      $("a.showModalHelp").live('click', function(){
         var helpHtml = $(this).find('.content').html();
         $("#modal").find('.content').html(helpHtml);
         $("#modalWrapper").show();
@@ -255,7 +255,7 @@
       <li class="start with-submenu"><a href="#"><i class="icon-custom-paises"></i> <span class="title">{% trans "Paises" %}</span> <span class="arrow "></a>
         <ul class="sub-menu">
           <li> <a href="{% url 'countries' %}">Overview</a> </li>
-          <li> <a href="{% url 'countries_details' %}?country={{COUNTRIES.mexico.id}}">Chiapas</a> </li>
+          <li> <a href="{% url 'countries_details' %}?country={{COUNTRIES.mexico.id}}&country_slug={{COUNTRIES.mexico.slug}}">Chiapas</a> </li>
         </ul>
       </li>
       <li class="start"><a href="{% url 'metas_sm2015' %}"><i class="icon-custom-reports"></i> <span class="title">{% trans "Metas SM2015" %}</span></a></li>

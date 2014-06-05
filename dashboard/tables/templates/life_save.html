@@ -20,7 +20,7 @@
                 $(".country-name").text(country);
 
                 $(".table-life-save").dashboardTable("/tables/render/life_save/"+country_slug, {
-                    title: "LiST",
+                    title: 'LiST - {% trans "Herramientas de Vidas Salvadas" %}',
                     url_save: "{% url 'save_milestone_data' %}"
                 });
             });

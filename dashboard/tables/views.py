@@ -190,10 +190,17 @@ def countries_ongoing(request, country_slug, values_type):
             actual = actual_quarter.it_execution_actual * 1000000
             planned = actual_quarter.it_execution_planned * 1000000
 
+        if planned == 0:
+            percentage = 0
+            dpi = 0
+        else:
+            percentage = float("%.2f" % ((actual / planned) * 100))
+            dpi = float("%.1f" % (actual / planned))
+
         values = {
             'accumulated': intcomma(int(actual)),
-            'percentage': float("%.2f" % ((actual / planned) * 100)),
-            'dpi': float("%.1f" % (actual / planned)),
+            'percentage': percentage,
+            'dpi': dpi,
             'dv':  intcomma(int(actual) - int(planned))
         }
 

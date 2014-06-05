@@ -98,7 +98,7 @@
               '</div>'+
               '<div class="right-side">'+
                   '<div class="statistics">'+
-                      '<span class="label-stats">Objetivos</span>'+
+                      '<span class="label-stats">Tiempo</span>'+
                       '<div class="goal">'+
                         '<div class="easy-pie-custom" data-percent="{GOAL}"><span class="easy-pie-percent">{GOAL}%</span></div>'+
                       '</div>'+

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-02 17:38-0400\n"
+"POT-Creation-Date: 2014-06-05 14:49-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,51 +34,55 @@ msgstr "Physics Execution"
 msgid "Import Excel"
 msgstr "Cargar Excel"
 
-#: website/templates/base_logado.html:152
+#: tables/templates/life_save.html:23
+msgid "Herramientas de Vidas Salvadas"
+msgstr "Lives Saved Tool"
+
+#: website/templates/base_logado.html:214
 msgid "Hola"
 msgstr "Hello"
 
-#: website/templates/base_logado.html:192
+#: website/templates/base_logado.html:254
 msgid "Mi Tablero"
 msgstr "Dashboard"
 
-#: website/templates/base_logado.html:193
+#: website/templates/base_logado.html:255
 msgid "Paises"
 msgstr "Countries"
 
-#: website/templates/base_logado.html:199
+#: website/templates/base_logado.html:261
 msgid "Metas SM2015"
 msgstr "SM2015"
 
-#: website/templates/base_logado.html:200
+#: website/templates/base_logado.html:262
 msgid "Financiación"
 msgstr "Financing"
 
-#: website/templates/base_logado.html:201
+#: website/templates/base_logado.html:263
 msgid "SM2015"
 msgstr "SM2015"
 
-#: website/templates/base_logado.html:202
+#: website/templates/base_logado.html:264
 msgid "Informes"
 msgstr "Reports"
 
-#: website/templates/base_logado.html:203
+#: website/templates/base_logado.html:265
 msgid "Base de datos"
 msgstr "Databases"
 
-#: website/templates/base_logado.html:205
+#: website/templates/base_logado.html:267
 msgid "Ejecución Financiera y Hitos"
 msgstr "Financial Execution and Milestones"
 
-#: website/templates/base_logado.html:206
+#: website/templates/base_logado.html:268
 msgid "Unidad de Coordinación Hitos"
 msgstr "Coordination Unit Milestone"
 
-#: website/templates/base_logado.html:207
+#: website/templates/base_logado.html:269
 msgid "SM2015 Hitos"
 msgstr "SM2015 Milestones"
 
-#: website/templates/base_logado.html:209
+#: website/templates/base_logado.html:271
 msgid "País Operación"
 msgstr "Country Operation"
 
@@ -86,15 +90,15 @@ msgstr "Country Operation"
 msgid "Primera Operación SM2015"
 msgstr "First Operation SM2015"
 
-#: website/templates/index.html:510
+#: website/templates/index.html:524
 msgid "SM2015 Primeras Operaciones"
-msgstr "SM2015 Firsts Operations"
+msgstr "SM2015 First Operations"
 
-#: website/templates/index.html:523
+#: website/templates/index.html:549
 msgid "Metas por país SM2015"
 msgstr "SM2015 Country goals"
 
-#: website/templates/index.html:529
+#: website/templates/index.html:555
 msgid ""
 "Este gráfico muestra una selección de los valores de línea de base y las "
 "metas acordadas por los países SM2015 a 18, 36 y 54 meses. La línea de base "
@@ -107,7 +111,7 @@ msgstr ""
 "currently only confirmed by survey in El Salvador; the other countries have "
 "provided estimates of their current coverage levels in the targeted areas."
 
-#: website/templates/index.html:532
+#: website/templates/index.html:558
 msgid ""
 "Para ver cómo los países se han comprometido a cambiar las tasas de "
 "cobertura en función del tiempo, por favor seleccione la región o un país "
