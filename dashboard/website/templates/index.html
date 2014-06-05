@@ -499,12 +499,11 @@
 
 <div class="map-container">
   <div id="map-goals"></div>
-</div>
-<div class="content">
-    <div class="row-fluid">
-      <div class="grid simple">
-        <div class="grid-body">
-          <p>
+  <div style="position: absolute; top: 2px; right: 105px;">
+    <a class="showModalHelp" style="font-size:18px" href="javascript:;">
+      ?
+      <div class="content">
+        <p>
             This map includes general information about each country. Click on the Pin to read about the objectives
             and see how much time has elapsed in the current operation. The color of the pin refers to the amount 
             of variation in planned and actual financial and physical progress. A Green pin means that the country 
@@ -512,10 +511,10 @@
             variables is greater than 25% variation and a red pin means that both financial and physical variation 
             are greater than 25%. For detailed information on variation, please see the Country Operation Status 
             Graphic.
-          </p>
-        </div>
+        </p>
       </div>
-    </div>
+    </a> 
+  </div>
 </div>
 
 <div class="content">
@@ -523,15 +522,21 @@
         <div class="grid simple">
           <div class="grid-title no-border">
             <h4>{% trans "SM2015 Primeras Operaciones" %}</h4>
-            <div class="tools"> <a class="collapse" href="javascript:;"></a> <a class="config" data-toggle="modal" href="#grid-config"></a> <a class="reload" href="javascript:;"></a> <a class="remove" href="javascript:;"></a> </div>
+            <div class="tools">
+              <a class="showModalHelp" href="javascript:;">
+                ?
+                <div class="content">
+                  <p>
+                    This graphic illustrates executed/real values and expected/programmed values, corresponding to %
+                    of financial progress in execution, % of physical progress in execution, and % of time passed from 
+                    operation eligibility to date the information was updated. Programs seek to reduce the amount of
+                    variation (spaces between the triangles) between the planned and actual values.
+                  </p>
+                </div>
+              </a> 
+              <a class="collapse" href="javascript:;"></a> <a class="config" data-toggle="modal" href="#grid-config"></a> <a class="reload" href="javascript:;"></a> <a class="remove" href="javascript:;"></a> </div>
           </div>
           <div class="grid-body no-border">
-            <p>
-              This graphic illustrates executed/real values and expected/programmed values, corresponding to %
-              of financial progress in execution, % of physical progress in execution, and % of time passed from 
-              operation eligibility to date the information was updated. Programs seek to reduce the amount of
-              variation (spaces between the triangles) between the planned and actual values.
-            </p>
             <div class="row-fluid graph-triangle-container"></div>
             <div class="hide-graph-triangle show-more">Show More</div>
           </div>
@@ -542,16 +547,22 @@
         <div class="grid simple">
           <div class="grid-title no-border">
             <h4>{% trans "Metas por país SM2015" %}</h4>
-            <div class="tools"> <a class="collapse" href="javascript:;"></a> <a class="config" data-toggle="modal" href="#grid-config"></a> <a class="reload" href="javascript:;"></a> <a class="remove" href="javascript:;"></a> </div>
+            <div class="tools"> 
+              <a class="showModalHelp" href="javascript:;">
+                ?
+                <div class="content">
+                 <p>
+                  {% trans "Este gráfico muestra una selección de los valores de línea de base y las metas acordadas por los países SM2015 a 18, 36 y 54 meses. La línea de base de los datos está sólo confirmada por la encuesta en El Salvador; los demás países han proporcionado estimaciones de los niveles actuales de cobertura en las zonas seleccionadas." %}<br />
+                 </p>
+                 <p>
+                  {% trans "Para ver cómo los países se han comprometido a cambiar las tasas de cobertura en función del tiempo, por favor seleccione la región o un país específico en la parte superior de la esquina izquierda. A continuación, establezca el eje Y en porcentaje de la 'Población' y el eje X en 'Tiempo'. También puede seleccionar cómo desea que se muestren los colores (simples o únicos o cada indicador/país) y cambiar los tamaños de burbuja para representar el tamaño de la población objetivo. Seleccione un indicador específico y compruebe la caja de 'Trails' para ver cómo cambiará el indicador con el tiempo." %}
+                 </p>
+                </div>
+              </a> 
+              <a class="collapse" href="javascript:;"></a> <a class="config" data-toggle="modal" href="#grid-config"></a> <a class="reload" href="javascript:;"></a> <a class="remove" href="javascript:;"></a> </div>
           </div>
           <div class="grid-body no-border">
             <div class="row-fluid">
-               <p>
-                {% trans "Este gráfico muestra una selección de los valores de línea de base y las metas acordadas por los países SM2015 a 18, 36 y 54 meses. La línea de base de los datos está sólo confirmada por la encuesta en El Salvador; los demás países han proporcionado estimaciones de los niveles actuales de cobertura en las zonas seleccionadas." %}<br />
-               </p>
-               <p>
-                {% trans "Para ver cómo los países se han comprometido a cambiar las tasas de cobertura en función del tiempo, por favor seleccione la región o un país específico en la parte superior de la esquina izquierda. A continuación, establezca el eje Y en porcentaje de la 'Población' y el eje X en 'Tiempo'. También puede seleccionar cómo desea que se muestren los colores (simples o únicos o cada indicador/país) y cambiar los tamaños de burbuja para representar el tamaño de la población objetivo. Seleccione un indicador específico y compruebe la caja de 'Trails' para ver cómo cambiará el indicador con el tiempo." %}
-               </p>
                <select id="motionchart-countryList">
                  <option value="TODOS">TODOS</option>
                </select>
@@ -565,18 +576,24 @@
         <div class="span12">
             <div class="grid simple">
               <div class="grid-title no-border">
-                <div class="tools"> <a class="collapse" href="javascript:;"></a> <a class="config" data-toggle="modal" href="#grid-config"></a> <a class="reload" href="javascript:;"></a> <a class="remove" href="javascript:;"></a> </div>
+                <div class="tools"> 
+                  <a class="showModalHelp" href="javascript:;">
+                    ?
+                    <div class="content">
+                      <p>
+                        During the planning stage, country teams select relevant quarterly events for each payment indicator, 
+                        creating a critical pathway. This graphic shows the status of quarterly milestones contributing to success 
+                        of payment indicators. Green means the milestone is completed, yellow means it is in progress and 
+                        red means the milestone is pending, or past its expected date of completion. This graphic is updated 
+                        monthly.
+                      </p>
+                    </div>
+                  </a> 
+                  <a class="collapse" href="javascript:;"></a> <a class="config" data-toggle="modal" href="#grid-config"></a> <a class="reload" href="javascript:;"></a> <a class="remove" href="javascript:;"></a> </div>
                 <h4>&nbsp;</h4>
               </div>
               <div class="grid-body no-border">
                 <div class="row-fluid">
-                  <p>
-                    During the planning stage, country teams select relevant quarterly events for each payment indicator, 
-                    creating a critical pathway. This graphic shows the status of quarterly milestones contributing to success 
-                    of payment indicators. Green means the milestone is completed, yellow means it is in progress and 
-                    red means the milestone is pending, or past its expected date of completion. This graphic is updated 
-                    monthly.
-                  </p>
                     <div id="dashboard">
                           <table>
                             <tr style='vertical-align: top;'>

@@ -241,5 +241,35 @@
     </div>
 
     <div class="table-hitos"></div>
+
+    <script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization',
+       'version':'1','packages':['timeline']}]}"></script>
+    <script type="text/javascript">
+
+    google.setOnLoadCallback(drawChart);
+    function drawChart() {
+
+      var container = document.getElementById('example3.1');
+      var chart = new google.visualization.Timeline(container);
+
+      var dataTable = new google.visualization.DataTable();
+      dataTable.addColumn({ type: 'string', id: 'Country' });
+      dataTable.addColumn({ type: 'string', id: 'Name' });
+      dataTable.addColumn({ type: 'date', id: 'Start' });
+      dataTable.addColumn({ type: 'date', id: 'End' });
+      dataTable.addRows([
+        [ 'Belize',  'Label 1', new Date(1789, 3, 29), new Date(1797, 2, 3)],
+        [ 'Belize',  'Label 2', new Date(1797, 2, 4), new Date(1801, 12, 3)],
+        [ 'Chiapas',   'Label 1', new Date(1789, 2, 3),  new Date(1801, 2, 3)],
+        [ 'Costa Rica',   'Label 1',  new Date(1789, 2, 3),  new Date(1809, 2, 3)],
+        [ 'Panama',   'Label 1',  new Date(1789, 3, 20), new Date(1797, 2, 3)],
+        [ 'Nicaragua',   'Label 1', new Date(1789, 2, 3),  new Date(1801, 2, 3)],
+        [ 'Honduras',    'Label 1',     new Date(1789, 2, 3),  new Date(1805, 2, 3)],
+        [ 'El Salvador',   'Label 1',   new Date(1789, 2, 3),  new Date(1812, 3, 19)],
+        [ 'Guatemala',   'Label 1',   new Date(1789, 8, 25), new Date(1790, 2, 21)]]);
+      chart.draw(dataTable);
+    }
+    </script>
+    <div id="example3.1" style="height: 360px"></div>
 </div>
 {% endblock %}
