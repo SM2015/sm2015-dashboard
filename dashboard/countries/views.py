@@ -40,6 +40,22 @@ def country_details(request):
     countries = CountryDetails.objects \
                               .values('country__name', 'country__id') \
                               .distinct()
+
+    country_requested = request.GET.get('country_slug')
+    if country_requested:
+        country = Country.objects.get(slug=country_requested)
+        country_disbursement_values = {
+            'name': str(country.name),
+            'url_ongoing': reverse('countries_ongoing', args=[country.slug, 'disbursement'])
+        }
+        country_execution_values = {
+            'name': str(country.name),
+            'url_ongoing': reverse('countries_ongoing', args=[country.slug, 'execution'])
+        }
+
+        context.update({'country_disbursement': country_disbursement_values,
+                        'country_execution': country_execution_values})
+
     context.update({'countries': countries})
     return render_to_response("country_details.html", context)
 

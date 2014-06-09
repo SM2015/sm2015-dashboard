@@ -13,7 +13,7 @@
 
         $.getJSON(this.origin.url_ongoing, function(response){
             var color, html = ''+
-                '<div class="span3">'+
+                '<div class="span{TILE_SIZE}">'+
                     '<div class="tiles {TILE_COLOR} added-margin">'+
                       '<div class="tiles-body">'+
                         '<div class="controller">'+
@@ -53,9 +53,10 @@
             }
 
             html = html.replace("{TILE_COLOR}", color)
-                    .replace("{TILE_ORIGIN}", self.origin.name)
+                    .replace("{TILE_ORIGIN}", self.opts.title || self.origin.name)
                     .replace("{TILE_VALUE}", response.accumulated)
                     .replace("{TILE_PERCENTAGE}", response.percentage)
+                    .replace("{TILE_SIZE}", self.opts.tileSize || 3)
                     .replace("{TILE_DV}", tile_dv);
 
 

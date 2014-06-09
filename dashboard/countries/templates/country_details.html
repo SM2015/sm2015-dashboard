@@ -4,6 +4,7 @@
 
 {% block js_bottom %}
     {{ block.super }}
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
     <script src="{% static "assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js" %}" type="text/javascript"></script>
     <script src="{% static "assets/plugins/bootstrap-select2/select2.min.js" %}" type="text/javascript"></script>
     <script src="{% static "assets/plugins/jquery-datatable/js/jquery.dataTables.min.js" %}" type="text/javascript" ></script>
@@ -206,6 +207,14 @@
             var triangle_title = '{% trans "Primera Operación SM2015" %}';
             triangle_title = "[[COUNTRY]] - " + triangle_title;
             $(".graph-triangle-wrapper").graficoTrianguloPorPais('{% url "get_triangle_graph_countries" %}?country_slug='+initial_params['country_slug'], {title: triangle_title});
+
+            var country_disbursement = {{country_disbursement|safe}};
+            var country_execution = {{country_execution|safe}};
+            var tile_opts = 
+              $(".tiles-container-disbursement").html("").dashboardTile(country_disbursement,
+                                                                        {dv_money_format: true, title: 'Mexico Disbursement', tileSize:4 });
+              $(".tiles-container-execution").html("").dashboardTile(country_execution,
+                                                                     {dv_money_format: true, title: 'Mexico Execution', tileSize:4 });
         });
     </script>
 {% endblock js_bottom %}
@@ -214,6 +223,19 @@
     {{ block.super }}
     <link href="{% static "css/tables-custom.css" %}" rel="stylesheet" type="text/css"/>
     <style>
+      .tiles-container-disbursement .span4 {
+        margin-right: 20px;
+      }
+        .tiles .tiles-title {
+            font-size: 18px;
+            font-weight: lighter;
+        }
+        .tiles .tiles-title strong {
+            font-weight: 600;
+        }
+        .tiles.yellow {
+            background-color: #E0B500;
+        }
       .list-selects {
         height: 200px;
         padding-top: 10px;
@@ -232,11 +254,60 @@
             border-bottom: 1px solid #EEEEEE;
             padding: 5px 20px;
         }
+
+        .disbursement-table-header {
+          background-color: #ECF0F2;
+          border-left: 1px solid #E8EDF1;
+          padding: 10px 5px !important;
+          vertical-align: bottom !important;
+        }
+
+        .disbursement-table-cell {
+          border: 1px solid #E8EDF1;
+          color: #576475;
+          font-size: 13px;
+          padding: 10px 5px !important;
+          vertical-align: top !important;
+        }
+
+        .disbursement-table-row {
+          background-color: white;
+        }
+        .disbursement-table-row:hover {
+          background-color: #E2E8EB;
+        }
     </style>
 {% endblock css %}
 
 {% block content %}
 <div class="content">
+    <div class="page-title row-fluid">	
+      <div class="span12">
+        <h3>Country Operation Financial Execution Performance Summary</h3>		
+      </div>
+    </div>
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="grid simple">
+              <div class="grid-body">
+                <div class="row-fluid">
+                  <p>
+                    The Countries planned the financial execution at the beginning of the operation. This compares the
+                    planned financial execution and the actual execution for each country
+                  </p>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+    <div id="container">
+      <div class="row-fluid">
+        <div class="tiles-container-disbursement"></div>
+        <div class="tiles-container-execution"></div>
+      </div>
+    </div>  
+
+
     <div class="row-fluid">
       <div class="span12">
         <div class="grid simple transparent">

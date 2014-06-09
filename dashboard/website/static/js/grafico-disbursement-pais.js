@@ -7,8 +7,31 @@
         packages: ['table']
     });
 
-    function loadGraph($wrapper){
+    function loadGraph($wrapper, country_slug){
         $wrapper.find("*").remove();
+
+        if(!country_slug){
+          var countriesTableCell = ''+
+            '<td style="width: 160px; font-size: 0.9em;">'+
+              '<div id="control1">'+
+                '<form>'+
+                    '<fieldset>'+
+                        '<legend>Country</legend>'+
+                        '<p>'+
+                           '<select id = "operationList">'+
+                             '{OPTIONS_COUNTRIES}'+
+                           '</select>'+
+                        '</p>'+
+                    '</fieldset>'+
+                '</form>'+
+                ''+
+              '</div>'+
+              '<div id="control2" style="display: none;"></div>'+
+              '<div id="control3"></div>'+
+            '</td>';
+        } else {
+          var countriesTableCell = '';
+        }
 
         var html = ''+
             '<div class="span12">'+
@@ -21,23 +44,7 @@
                     '<div class="row-fluid">'+
                         '<table>'+
                             '<tr style="vertical-align: top;">'+
-                              '<td style="width: 160px; font-size: 0.9em;">'+
-                                '<div id="control1">'+
-                                  '<form>'+
-                                       '<fieldset>'+
-                                          '<legend>Country</legend>'+
-                                          '<p>'+
-                                             '<select id = "operationList">'+
-                                               '{OPTIONS_COUNTRIES}'+
-                                             '</select>'+
-                                          '</p>'+
-                                       '</fieldset>'+
-                                    '</form>'+
-                                    ''+
-                                 '</div>'+
-                                '<div id="control2" style="display: none;"></div>'+
-                                '<div id="control3"></div>'+
-                              '</td>'+
+                              countriesTableCell+
                               '<td style="width: 680px">'+
                                 '<div style="float: left;" id="chart1"></div>'+
                                 '<div style="float: left;" id="chart2"></div>'+
@@ -50,21 +57,26 @@
                 '</div>'+
             '</div>';
 
-        $.getJSON('/country/list', function(response){
-          var options_countries = [];
-          $.each(response, function(){
-            options_countries.push('<option value="'+this.slug+'">'+this.name+'</option>');
-          });
-          html = html.replace("{OPTIONS_COUNTRIES}", options_countries.join())
+        if(!country_slug){
+          $.getJSON('/country/list', function(response){
+            var options_countries = [];
+            $.each(response, function(){
+              options_countries.push('<option value="'+this.slug+'">'+this.name+'</option>');
+            });
+            html = html.replace("{OPTIONS_COUNTRIES}", options_countries.join())
 
+            $wrapper.html(html);
+
+            var DEFAULT = 'belize';
+            drawVisualization('belize');
+            $("#operationList").change(function() {
+                drawVisualization($(this).val());
+            });
+          });
+        } else {
           $wrapper.html(html);
-
-          var DEFAULT = 'belize';
-          drawVisualization('belize');
-          $("#operationList").change(function() {
-              drawVisualization($(this).val());
-          });
-        });
+          drawVisualization(country_slug);
+        }
     }
 
     function drawVisualization(country_slug) {
@@ -236,12 +248,12 @@
         return true;
     }
 
-    $.fn.graficoDisbursement = function() {
+    $.fn.graficoDisbursement = function(country_slug) {
         var wrapper = this;
-        loadGraph( this );
+        loadGraph( this, country_slug );
 
         $(this).find(".reload").click(function(){
-            loadGraph( wrapper );
+            loadGraph( wrapper, country_slug );
         });
         return this;
     };
