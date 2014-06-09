@@ -66,9 +66,21 @@
     .showModalHelp {
       background: none !important;
       color: #999999 !important;
+      cursor: pointer;
       font-size: 14px;
       font-weight: bold;
       top: -5px;
+    }
+    .showModalHelp.outside {
+      background: none !important;
+      border: 1px solid #CCCCCC;
+      border-radius: 24px;
+      color: #AAAAAA !important;
+      font-size: 17px;
+      font-weight: bold;
+      margin: 0 20px;
+      padding: 2px 11px;
+      top: 0;
     }
     .showModalHelp .content {
       display: none;
@@ -95,7 +107,11 @@
       z-index: 100;
     }
     #modal .modalTitle {
+      border: 1px solid #DDDDDD;
+      border-radius: 16px;
+      color: #AAAAAA;
       float: left;
+      padding: 1px 11px;
     }
     #modalClose {
       color: #999999;
@@ -166,7 +182,7 @@
   <div class="overlay"></div>
   <div id="modal">
     <div class="modalHeader clearfix">
-      <h3 class="modalTitle">Help Box</h3>
+      <h3 class="modalTitle">?</h3>
       <a id="modalClose">X</a>
     </div>
     <div class="content"></div>

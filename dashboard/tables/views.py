@@ -204,7 +204,8 @@ def countries_ongoing(request, country_slug, values_type):
             'dv':  intcomma(int(actual) - int(planned))
         }
 
-        return HttpResponse(json.dumps(values), content_type="application/json")
+        return HttpResponse(json.dumps(values),
+                            content_type="application/json")
 
     except Country.DoesNotExist:
         raise Http404

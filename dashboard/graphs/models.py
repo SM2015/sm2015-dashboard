@@ -12,6 +12,7 @@ class CountryDisbursementGraph(object):
         actual_quarter = Quarter.get_actual_quarter()
         table, quarters = CountryOperation.get_table_to_show(country=country,
                                                              until_quarter=actual_quarter)
+
         data = {
             "cols": [{
                  "id": "D",
