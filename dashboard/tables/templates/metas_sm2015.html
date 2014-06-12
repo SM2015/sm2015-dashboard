@@ -1,5 +1,6 @@
 {% extends 'base_logado.html' %}
 {% load staticfiles %}
+{% load i18n %}
 
 {% block js_bottom %}
     {{ block.super }}
@@ -18,12 +19,12 @@
         $(document).ready(function() {
             $(window).bind("select-date", function(elem, v_date){
               $(".table-sm2015milestones").dashboardTable("/tables/render/sm2015milestone-noneditable/" + v_date, {
-                  title: "Objetivos y Hitos SM2015",
+                  title: {% trans "Objetivos y Hitos SM2015" %},
                   url_save: "{% url 'save_milestone_data' %}",
               });
 
               $(".table-ucmilestones").dashboardTable("/tables/render/ucmilestone-noneditable/" + v_date, {
-                  title: "Objetivos y Hitos de la Unidad Coordinadora",
+                  title: {% trans "Objetivos y Hitos de la Unidad Coordinadora" %},
                   url_save: "{% url 'save_milestone_data' %}",
               });
             });
@@ -69,7 +70,7 @@
         <div class="grid simple ">
           <div class="grid-body ">
             <div class="row-fluid clearfix">
-                <h4 class="title-select-date">Seleccione una Data - </h4>
+              <h4 class="title-select-date">{% trans "Seleccione una Data" %} - </h4>
                 <select name="select-date" class="select-date">
                     {% for v_date in dates %}
                     <option value="{{v_date}}">{{v_date}}</option>

@@ -123,9 +123,8 @@
                             
                         }   
                     } else {
-                        var newValue = status[type].value + value;
                         status[type] = {
-                            value: newValue
+                            value: value
                         };
                     }
                 } else {

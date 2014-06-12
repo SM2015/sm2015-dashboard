@@ -20,6 +20,8 @@
     
     <script src="{% static "assets/js/datatables.js" %}" type="text/javascript"></script>
     
+    <script src="{% static "assets/plugins/jquery-easy-pie-chart/js/jquery.easypiechart.min.js" %}"></script>
+    <script src="{% static "js/dashboard-map.js" %}" type="text/javascript"></script>
     <script type="text/javascript" src="{% static "js/highcharts/highcharts.js" %}"></script>
     <script type="text/javascript" src="{% static "js/highcharts/exporting.js" %}"></script>
     <script type="text/javascript" src="{% static "js/highcharts/highcharts-more.js" %}"></script>
@@ -61,7 +63,7 @@
                     $('#rootwizard').find('.form-wizard').children('li').eq(index-1).find('.step').html('<i class="icon-ok"></i>');	
                     if(index == 3){
                       $(".table-country-operation").dashboardTable("{% url 'table_render_country_details' %}?" + $form.serialize(), {
-                          title: "Country Details",
+                        title: "{% trans 'Datos del País'%}",
                           url_save: "{% url 'save_milestone_data' %}"
                       });
                     }
@@ -188,33 +190,31 @@
 
 
             $(".table-hitos").dashboardTable("/tables/render/hitos/"+initial_params['country_slug'], {
-                title: "Hitos",
-                description: "During the planning stage, country teams select relevant quarterly events for each payment indicator, "+
-                             "creating a critical pathway. This graphic shows the status of quarterly milestones contributing to success "+
-                             "of payment indicators. Green means the milestone is completed, yellow means it is in progress and "+
-                             "red means the milestone is pending, or past its expected date of completion. This graphic is updated "+
-                             "monthly.",
+              title: '{% trans "Gráficas de Logros por País" %}',
+                description: '{% trans "Durante la etapa de planificación, los equipos nacionales seleccionan los eventos trimestrales pertinentes para cada indicador de pago, creando una ruta crítica. Esta gráfica muestra el estado de los hitos trimestrales que contribuyen al éxito de los indicadores de pago. El verde significa que el hito se ha completado, el amarillo significa que está en curso y el rojo significa el hito está pendiente, o más allá de su fecha prevista de finalización. Esta gráfica se actualiza mensualmente."%}',
                 url_save: "{% url 'save_milestone_data' %}",
                 url_export: "/tables/render/export/hitos_y_avances/"+initial_params['country_slug']
             });
 
             $(".table-avances").dashboardTable("/tables/render/avances_financeiros/"+initial_params['country_slug'], {
-                title: "Avance fisico financieros",
+              title: '{% trans "Avance fisico financieros" %}',
                 url_save: "{% url 'save_milestone_data' %}",
                 vertical: true
             });
 
-            var triangle_title = '{% trans "Primera Operación SM2015" %}';
+            var triangle_title = '{% trans "Estado de las Operaciones por País" %}';
             triangle_title = "[[COUNTRY]] - " + triangle_title;
-            $(".graph-triangle-wrapper").graficoTrianguloPorPais('{% url "get_triangle_graph_countries" %}?country_slug='+initial_params['country_slug'], {title: triangle_title});
+            $(".graph-triangle-wrapper").graficoTrianguloPorPais('{% url "get_triangle_graph_countries" %}?country_slug='+initial_params['country_slug'], {title: triangle_title, alone: true});
 
             var country_disbursement = {{country_disbursement|safe}};
             var country_execution = {{country_execution|safe}};
             var tile_opts = 
               $(".tiles-container-disbursement").html("").dashboardTile(country_disbursement,
-                                                                        {dv_money_format: true, title: 'Mexico Disbursement', tileSize:4 });
+                                                                        {dv_money_format: true, title: 'Mexico Disbursement', tileSize:12 });
               $(".tiles-container-execution").html("").dashboardTile(country_execution,
-                                                                     {dv_money_format: true, title: 'Mexico Execution', tileSize:4 });
+                                                                     {dv_money_format: true, title: 'Mexico Execution', tileSize:12 });
+            
+            $("#map-goals").dashboardMap({{countries_map|safe}}, {countryZoom: initial_params['country_slug']});
         });
     </script>
 {% endblock js_bottom %}
@@ -223,8 +223,8 @@
     {{ block.super }}
     <link href="{% static "css/tables-custom.css" %}" rel="stylesheet" type="text/css"/>
     <style>
-      .tiles-container-disbursement .span4 {
-        margin-right: 20px;
+      .tiles-container-disbursement .span12 {
+        margin-bottom: 20px;
       }
         .tiles .tiles-title {
             font-size: 18px;
@@ -280,26 +280,78 @@
 {% endblock css %}
 
 {% block content %}
+<div class="map-container">
+  <div id="map-goals"></div>
+  <div style="position: absolute; top: 2px; right: 105px;">
+    <a class="showModalHelp" style="font-size:18px" href="javascript:;">
+      ?
+      <div class="content">
+        <p>
+          {% trans "
+            Este mapa incluye información general sobre cada país. Haga clic en el Pin para leer acerca de 
+            los objetivos y ver cómo ha transcurrido mucho tiempo en la operación actual. El color de la espiga 
+            hace referencia a la cantidad de variación en el progreso físico, financiero previsto y real. 
+            Un pasador verde significa que el país tiene menos de 25% de variación física y financiera del plan original. 
+            Un pasador amarillo significa una de las variables es la variación superior al 25% y un pin rojo significa 
+            que la variación tanto financiera como física son mayores al 25%. Para obtener información detallada sobre 
+            la variación, por favor vea la Grafica de Estado del País por Operación."
+          %}
+        </p>
+      </div>
+    </a> 
+  </div>
+</div>
+
 <div class="content">
-    <div class="page-title row-fluid">	
-      <div class="span12">
-        <h3>Country Operation Financial Execution Performance Summary
-          <a class="showModalHelp outside">
-            ?
-            <p class="content">
-              The Countries planned the financial execution at the beginning of the operation. This compares the
-              planned financial execution and the actual execution for each country
-            </p>
-          </a>
-        </h3>
+    <div class="row-fluid graph-triangle-wrapper">
+      <div class="span6">
+        <div class="grid simple">
+          <div class="grid-title no-border">
+            <h4>{% trans "Estado de las Operaciones por País" %}</h4>
+            <div class="tools">
+              <a class="showModalHelp" href="javascript:;">
+                ?
+                <div class="content">
+                  <p>
+                    {% trans "
+                      Está gráfica ilustra ejecución / valores reales y esperados / valores programados, 
+                      lo que correspondiente % de avance financiero en la ejecución,% de avance físico en la ejecución, 
+                      y el% de tiempo transcurrido desde la elegibilidad de la operación hasta la fecha en la que la 
+                      información se ha actualizado. Los programas buscan reducir la cantidad de variación 
+                      (espacios entre los triángulos) entre los valores previstos y los valores reales."
+                    %}
+                  </p>
+                </div>
+              </a> 
+              <a class="collapse" href="javascript:;"></a> <a class="config" data-toggle="modal" href="#grid-config"></a> <a class="reload" href="javascript:;"></a> <a class="remove" href="javascript:;"></a> </div>
+          </div>
+          <div class="grid-body no-border">
+            <div class="row-fluid graph-triangle-container"></div>
+          </div>
+        </div>
       </div>
+      <div class="span6">	
+        <div class="span12">
+          <h3>Country Operation Financial Execution Performance Summary
+            <a class="showModalHelp outside">
+              ?
+              <p class="content">
+                The Countries planned the financial execution at the beginning of the operation. This compares the
+                planned financial execution and the actual execution for each country
+              </p>
+            </a>
+          </h3>
+        </div>
+        <div id="container">
+          <div class="row-fluid">
+            <div class="tiles-container-disbursement"></div>
+            <div class="tiles-container-execution"></div>
+          </div>
+        </div>  
+      </div>  
     </div>
-    <div id="container">
-      <div class="row-fluid">
-        <div class="tiles-container-disbursement"></div>
-        <div class="tiles-container-execution"></div>
-      </div>
-    </div>  
+
+
 
 
     <div class="row-fluid">
@@ -396,28 +448,5 @@
     <div class="table-avances"></div>
     <div class="table-hitos"></div>
 
-    <div class="row-fluid graph-triangle-wrapper">
-        <div class="grid simple">
-          <div class="grid-title no-border">
-            <h4>{% trans "SM2015 Primeras Operaciones" %}</h4>
-            <div class="tools">
-              <a class="showModalHelp" href="javascript:;">
-                ?
-                <div class="content">
-                  <p>
-                    This graphic illustrates executed/real values and expected/programmed values, corresponding to %
-                    of financial progress in execution, % of physical progress in execution, and % of time passed from 
-                    operation eligibility to date the information was updated. Programs seek to reduce the amount of
-                    variation (spaces between the triangles) between the planned and actual values.
-                  </p>
-                </div>
-              </a> 
-              <a class="collapse" href="javascript:;"></a> <a class="config" data-toggle="modal" href="#grid-config"></a> <a class="reload" href="javascript:;"></a> <a class="remove" href="javascript:;"></a> </div>
-          </div>
-          <div class="grid-body no-border">
-            <div class="row-fluid graph-triangle-container"></div>
-          </div>
-        </div>
-    </div>
 </div>
 {% endblock %}

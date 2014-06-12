@@ -504,13 +504,7 @@
       ?
       <div class="content">
         <p>
-            This map includes general information about each country. Click on the Pin to read about the objectives
-            and see how much time has elapsed in the current operation. The color of the pin refers to the amount 
-            of variation in planned and actual financial and physical progress. A Green pin means that the country 
-            has less than 25% physical and financial variation from the original plan. A Yellow pin means one of the 
-            variables is greater than 25% variation and a red pin means that both financial and physical variation 
-            are greater than 25%. For detailed information on variation, please see the Country Operation Status 
-            Graphic.
+          {% trans "Este mapa incluye información general sobre cada país. Haga clic en el Pin para leer acerca de los objetivos y ver cómo ha transcurrido mucho tiempo en la operación actual. El color de la espiga hace referencia a la cantidad de variación en el progreso físico, financiero previsto y real.  Un pasador verde significa que el país tiene menos de 25 por ciento de variación física y financiera del plan original.  Un pasador amarillo significa una de las variables es la variación superior al 25 por ciento y un pin rojo significa que la variación tanto financiera como física son mayores al 25 por ciento. Para obtener información detallada sobre la variación, por favor vea la Grafica de Estado del País por Operación." %}
         </p>
       </div>
     </a> 
@@ -521,16 +515,13 @@
     <div class="row-fluid graph-triangle-wrapper">
         <div class="grid simple">
           <div class="grid-title no-border">
-            <h4>{% trans "SM2015 Primeras Operaciones" %}</h4>
+            <h4>{% trans "Estado de las Operaciones por País" %}</h4>
             <div class="tools">
               <a class="showModalHelp" href="javascript:;">
                 ?
                 <div class="content">
                   <p>
-                    This graphic illustrates executed/real values and expected/programmed values, corresponding to %
-                    of financial progress in execution, % of physical progress in execution, and % of time passed from 
-                    operation eligibility to date the information was updated. Programs seek to reduce the amount of
-                    variation (spaces between the triangles) between the planned and actual values.
+                    {% trans "Está gráfica ilustra ejecución / valores reales y esperados / valores programados, lo que correspondiente porcentaje de avance financiero en la ejecución,porcentaje de avance físico en la ejecución, y el porcentaje de tiempo transcurrido desde la elegibilidad de la operación hasta la fecha en la que la información se ha actualizado. Los programas buscan reducir la cantidad de variación (espacios entre los triángulos) entre los valores previstos y los valores reales." %}
                   </p>
                 </div>
               </a> 
@@ -538,7 +529,7 @@
           </div>
           <div class="grid-body no-border">
             <div class="row-fluid graph-triangle-container"></div>
-            <div class="hide-graph-triangle show-more">Show More</div>
+            <div class="hide-graph-triangle show-more">{% trans "Mostrar Más" %}</div>
           </div>
         </div>
     </div>
@@ -564,7 +555,7 @@
           <div class="grid-body no-border">
             <div class="row-fluid">
                <select id="motionchart-countryList">
-                 <option value="TODOS">TODOS</option>
+                 <option value="TODOS">{% trans "TODOS" %}</option>
                </select>
                <div id="motionchart-chartDiv"></div>
             </div>
@@ -581,11 +572,7 @@
                     ?
                     <div class="content">
                       <p>
-                        During the planning stage, country teams select relevant quarterly events for each payment indicator, 
-                        creating a critical pathway. This graphic shows the status of quarterly milestones contributing to success 
-                        of payment indicators. Green means the milestone is completed, yellow means it is in progress and 
-                        red means the milestone is pending, or past its expected date of completion. This graphic is updated 
-                        monthly.
+                        {% trans "Durante la etapa de planificación, los equipos nacionales seleccionan los eventos trimestrales pertinentes para cada indicador de pago, creando una ruta crítica. Esta gráfica muestra el estado de los hitos trimestrales que contribuyen al éxito de los indicadores de pago. El verde significa que el hito se ha completado, el amarillo significa que está en curso y el rojo significa el hito está pendiente, o más allá de su fecha prevista de finalización. Esta gráfica se actualiza mensualmente." %}
                       </p>
                     </div>
                   </a> 
@@ -601,7 +588,7 @@
                                 <div id="control1">
                                   <form>
                                        <fieldset>
-                                          <legend>Country</legend>
+                                         <legend>{% trans "Pais" %}</legend>
                                           <p style="font-size:18px;">
                                              <!--<select id = "countryList">
                                                {% for country in countries_user %}

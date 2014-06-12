@@ -1,5 +1,5 @@
 (function ( $ ) {
-    var dashboardMap = function(wrapper, countries){
+    var dashboardMap = function(wrapper, countries, opts){
         var self = this;
         this.map;
         this.greenMarkerIcon = '/static/img/green_waypoint.png';
@@ -7,19 +7,44 @@
         this.redMarkerIcon = '/static/img/red_waypoint.png';
         this.wrapper = wrapper;
         this.countries = countries;
+        this.opts = opts || {};
 
         google.maps.event.addDomListener(window, 'load', function(){
             self.drawMap();
         });
     }
     
+    dashboardMap.prototype._getCountryBySlug = function(slug){
+      for(var i=0; i < this.countries.length; i++){
+        var country = this.countries[i];
+        if(country.slug == slug){
+          return country;
+        }
+      }
+    }
+
     dashboardMap.prototype.drawMap = function(){
         var self = this,
-            latLngCenter = new google.maps.LatLng(15.961329,-90.981447), //Guatemala
-            mapOptions = {
-                zoom: 5,
-                center: latLngCenter
-            };
+            latLngCenter, zoomMap;
+
+        if(this.opts.countryZoom){
+          var countryZoom = this._getCountryBySlug(this.opts.countryZoom);
+          if(countryZoom){
+            latLngCenter = new google.maps.LatLng(countryZoom.lat, countryZoom.lng);
+            zoomMap = 7;
+          }
+        }
+
+        if(!latLngCenter){
+          latLngCenter = new google.maps.LatLng(15.961329,-90.981447); //Guatemala
+          zoomMap = 5;
+        }
+        
+        mapOptions = {
+          zoom: zoomMap,
+          center: latLngCenter
+        };
+
 
         this.map = new google.maps.Map(this.wrapper[0], mapOptions);
 
@@ -138,8 +163,8 @@
         return new InfoBox(infoBoxOptions);
     }
 
-    $.fn.dashboardMap = function(countries) {
-        new dashboardMap( this, countries );
+    $.fn.dashboardMap = function(countries, opts) {
+        new dashboardMap( this, countries, opts );
         return this;
     };
  

@@ -5,8 +5,9 @@ from django.template import RequestContext
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from map.models import Map
 from core.models import Country
-from tables.models import CountryDetails, CountryDetailsValues
+from tables.models import CountryDetails, CountryDetailsValues, AvanceFisicoFinanciero
 
 
 @login_required
@@ -37,6 +38,47 @@ def countries(request):
 @login_required
 def country_details(request):
     context = RequestContext(request)
+
+    maps = Map.objects.filter(language__acronym=request.LANGUAGE_CODE)
+    countries_map = []
+    for country_map in maps:
+        try:
+            table_avances = AvanceFisicoFinanciero.objects \
+                .filter(country=country_map.country,
+                                            language__acronym=
+                                            request.LANGUAGE_CODE).last()
+
+            variation_physical = table_avances.avance_fisico_planificado - table_avances.avance_fisico_real
+            variation_financial = table_avances.avance_financiero_planificado - table_avances.avance_financiero_actual
+            if variation_physical <= 25 and variation_financial <= 25:
+                pin_color = 'green'
+            elif variation_physical >= 25 or variation_financial >= 25:
+                pin_color = 'yellow'
+            elif variation_physical >= 25 and variation_financial >= 25:
+                pin_color = 'red'
+
+            if country_map.more_info_link:
+                link = country_map.more_info_link.strip().lstrip('/')
+                infos_url = "/{0}".format(link)
+            else:
+                infos_url = "{0}?country={1}".format(reverse('countries_details'),
+                                                     country_map.country.id)
+            country = {
+                'lat': str(country_map.country.latlng.split(',')[0]),
+                'lng': str(country_map.country.latlng.split(',')[1]),
+                'name': str(country_map.country.name),
+                'slug': str(country_map.country.slug),
+                'goal': str(country_map.goal),
+                'short_description': unicode(country_map.short_description),
+                'pin_color': pin_color,
+                'infos_url': infos_url
+            }
+            countries_map.append(country)
+        except (AvanceFisicoFinanciero.DoesNotExist, IndexError, AttributeError):
+            continue
+
+    context.update({'countries_map': json.dumps(countries_map)})
+
     countries = CountryDetails.objects \
                               .values('country__name', 'country__id') \
                               .distinct()

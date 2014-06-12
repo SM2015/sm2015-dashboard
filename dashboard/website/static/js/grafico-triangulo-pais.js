@@ -12,22 +12,26 @@
         $.getJSON(url, function(data){
             $.each(data, function(i){
                 var div_triangle_id = 'graph-triangle-' + this.country_slug;
-                createDivTriangle(div_triangle_id, $container_graphs,i);
+                createDivTriangle(div_triangle_id, $container_graphs,i, opts);
                 drawSpider('#'+div_triangle_id, this.country, this.triangle_categories, this.series, title);
             });
         });
     }
 
-    function createDivTriangle(id_div, $container, position){
+    function createDivTriangle(id_div, $container, position, opts){
         var class_first = '';
         if(parseInt(position) == 0 || (parseInt(position)) % 3 == 0){
             class_first = 'first-column';
         }
-        
-        var html_div = ''+
-            '<div class="span4 '+class_first+'">'+
-              '<div id="'+id_div+'" style="height: 400px; margin: 0 auto"></div>'+
-            '</div>';
+       
+        if(opts.alone){
+          var html_div = '<div id="'+id_div+'" style="height: 400px; margin: 0 auto"></div>';
+        } else {
+          var html_div = ''+
+              '<div class="span4 '+class_first+'">'+
+                '<div id="'+id_div+'" style="height: 400px; margin: 0 auto"></div>'+
+              '</div>';
+        }
 
         $container.append(html_div);
     }

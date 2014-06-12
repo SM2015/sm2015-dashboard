@@ -1,5 +1,6 @@
 {% extends 'base_logado.html' %}
 {% load staticfiles %}
+{% load i18n %}
 
 {% block js_bottom %}
     {{ block.super }}
@@ -17,7 +18,7 @@
     <script>
         $(document).ready(function() {
             $(".table-country-operation").dashboardTable("{% url 'table_render_country_operation' %}", {
-                title: "Country Operation Financial Execution Performance, by Quarter",
+              title: {% trans "Desempeño de la Ejecución Financiera por Operación de País, por trimestre" %},
                 url_save: "{% url 'save_milestone_data' %}",
                 scroll: true
             });

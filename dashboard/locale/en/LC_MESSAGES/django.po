@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-05 14:49-0400\n"
+"POT-Creation-Date: 2014-06-12 12:44-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,72 +17,253 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: graphs/models.py:153
+#: countries/templates/country_details.html:66
+msgid "Datos del País"
+msgstr "Country Details"
+
+#: countries/templates/country_details.html:193
+msgid "Gráficas de Logros por País"
+msgstr "Country Milestone Graphics"
+
+#: countries/templates/country_details.html:194
+#: website/templates/index.html:575
+msgid ""
+"Durante la etapa de planificación, los equipos nacionales seleccionan los "
+"eventos trimestrales pertinentes para cada indicador de pago, creando una "
+"ruta crítica. Esta gráfica muestra el estado de los hitos trimestrales que "
+"contribuyen al éxito de los indicadores de pago. El verde significa que el "
+"hito se ha completado, el amarillo significa que está en curso y el rojo "
+"significa el hito está pendiente, o más allá de su fecha prevista de "
+"finalización. Esta gráfica se actualiza mensualmente."
+msgstr ""
+"During the planning stage, country teams select relevant quarterly events "
+"for each payment indicator, creating a critical pathway. This graphic shows "
+"the status of quarterly milestones contributing to success of payment "
+"indicators. Green means the milestone is completed, yellow means it is in "
+"progress and red means the milestone is pending, or past its expected date "
+"of completion. This graphic is updated monthly"
+
+#: countries/templates/country_details.html:200
+msgid "Avance fisico financieros"
+msgstr "Physical and financial progress"
+
+#: countries/templates/country_details.html:205
+#: countries/templates/country_details.html:310
+#: website/templates/index.html:518
+msgid "Estado de las Operaciones por País"
+msgstr "Country Operation Status"
+
+#: graphs/models.py:154
 msgid "% Avance Tiempo"
 msgstr "% Time Progress"
 
-#: graphs/models.py:153
+#: graphs/models.py:154
 msgid "Ejecucion Financiera"
 msgstr "Financial Execution"
 
-#: graphs/models.py:153
+#: graphs/models.py:154
 msgid "Ejecucion Fisica"
 msgstr "Physics Execution"
 
 #: tables/templates/change_list.html:45
-#: tables/templates/change_list_sheet_asking.html:63
 msgid "Import Excel"
 msgstr "Cargar Excel"
 
-#: tables/templates/life_save.html:23
+#: tables/templates/change_list_sheet_asking.html:63
+msgid "Cargar Excel"
+msgstr "Import Excel"
+
+#: tables/templates/country_operation.html:21
+msgid ""
+"Desempeño de la Ejecución Financiera por Operación de País, por trimestre"
+msgstr "Financial Execution Performance, by Quarter"
+
+#: tables/templates/grants_finances.html:34
+#, python-format
+msgid ""
+"<p>Financial Variation:</p><ul><li><strong>Definition:</strong> Shows "
+"percentage variation between amount executed and amount budgeted, calculated "
+"by subtracting %% of financial progress in execution from %% of amount "
+"budgeted in the period.</li><li><strong>Interpretation:</strong> Negative "
+"values represent delays in financial execution, although in some cases they "
+"may represent savings if the products have been delivered by date of "
+"analysis. Positive values usually indicate advances, however they can be the "
+"result of an additional cost if the products have been delivered in the "
+"period.</li></ul><p>*WBS = Work Breakdown Structure</p><p>Financial "
+"Variation Over-time:</p><p><i><strong>Interpretation:</strong> The points "
+"plotted on graph facilitate analysis of trends. Negative values or delays "
+"are seen when red curve is below the blue. Red curve above the blue "
+"indicates progress achieved.</i></p>"
+msgstr ""
+
+#: tables/templates/grants_finances.html:37
+msgid "Rendimiento por Desembolso de los Donantes, por trimestre"
+msgstr "Donor Disbursement Performance, by quarter"
+
+#: tables/templates/grants_finances.html:48
+msgid "Rendimiento por Desembolso de los Donantes: Real Vs. Expected"
+msgstr "Donor Disbursement Performance: Real Vs. Esperada"
+
+#: tables/templates/hitos_e_avances.html:91 tables/templates/life_save.html:84
+msgid "Seleccione un país"
+msgstr "Select a country"
+
+#: tables/templates/hitos_e_avances.html:98 tables/templates/life_save.html:91
+msgid "Usted está viendo"
+msgstr "You are viewing"
+
+#: tables/templates/life_save.html:24
 msgid "Herramientas de Vidas Salvadas"
 msgstr "Lives Saved Tool"
 
-#: website/templates/base_logado.html:214
-msgid "Hola"
-msgstr "Hello"
+#: tables/templates/metas_sm2015.html:22
+msgid "Objetivos y Hitos SM2015"
+msgstr "Objectives and Milestones SM2015"
 
-#: website/templates/base_logado.html:254
-msgid "Mi Tablero"
-msgstr "Dashboard"
+#: tables/templates/metas_sm2015.html:27 tables/templates/ucmilestone.html:22
+msgid "Objetivos y Hitos de la Unidad Coordinadora"
+msgstr "UC Milestone"
 
-#: website/templates/base_logado.html:255
-msgid "Paises"
-msgstr "Countries"
+#: tables/templates/metas_sm2015.html:73
+#: tables/templates/sm2015milestone.html:61
+#: tables/templates/ucmilestone.html:63
+msgid "Seleccione una Data"
+msgstr "Select a date"
 
-#: website/templates/base_logado.html:261
-msgid "Metas SM2015"
-msgstr "SM2015"
-
-#: website/templates/base_logado.html:262
-msgid "Financiación"
-msgstr "Financing"
-
-#: website/templates/base_logado.html:263
-msgid "SM2015"
-msgstr "SM2015"
-
-#: website/templates/base_logado.html:264
-msgid "Informes"
-msgstr "Reports"
-
-#: website/templates/base_logado.html:265
-msgid "Base de datos"
-msgstr "Databases"
-
-#: website/templates/base_logado.html:267
-msgid "Ejecución Financiera y Hitos"
-msgstr "Financial Execution and Milestones"
-
-#: website/templates/base_logado.html:268
-msgid "Unidad de Coordinación Hitos"
-msgstr "Coordination Unit Milestone"
-
-#: website/templates/base_logado.html:269
+#: tables/templates/sm2015milestone.html:22
+#: website/templates/base_logado.html:285
 msgid "SM2015 Hitos"
 msgstr "SM2015 Milestones"
 
+#: tables/templates/sm2015milestone.html:23
+msgid ""
+"Cada año, SM2015 acuerda un hito anual con el Comité de Donantes SM2015. "
+"Esta gráfica muestra los hitos y su estado actual. El verde significa que el "
+"hito se ha completado, el amarillo significa que está en curso y el rojo "
+"significa el hito está pendiente, o más allá de su fecha prevista de "
+"finalización. Esta gráfica se actualiza trimestralmente."
+msgstr ""
+"Each year, SM2015 agrees to yearly milestone with the SM2015 Donor "
+"Committee. This graphic displays the milestones and their current status. "
+"Green means the milestone is completed, yellow means it is in progress and "
+"red means the milestone is pending, or past its expected date of completion. "
+"This graphic is updated quarterly."
+
+#: tables/templates/ucmilestone.html:23
+msgid ""
+"Cada año, la Unidad Coordinadora crea hitos trimestrales para asegurar que "
+"se consigan los hitos anuales SM2015. Esta gráfica muestra los hitos y su "
+"estado actual. El verde significa que el hito se ha completado, el amarillo "
+"significa que está en curso y el rojo significa el hito está pendiente, o "
+"más allá de su fecha prevista de finalización. Esta gráfica se actualiza "
+"trimestralmente."
+msgstr ""
+"Each year, the Coordination Unit creates quarterly milestones to assure "
+"reaching the SM2015 yearly milestones. This graphic displays the milestones "
+"and their current status. Green means the milestone is completed, yellow "
+"means it is in progress and red means the milestone is pending, or past its "
+"expected date of completion. This graphic is updated quarterly."
+
+#: tables/templates/tables/avances_financeiros.html:10
+msgid ""
+"Cual es la fecha en que la información que está registrando fue actualizada"
+msgstr "What date was the registered information updated?"
+
+#: tables/templates/tables/avances_financeiros.html:16
+msgid "Avances Fisicos Planificados<br />(Meta Ejecución)"
+msgstr "Planned physical advances<br />(Execution goals)"
+
+#: tables/templates/tables/avances_financeiros.html:20
+msgid "Avances Fisicos Reales<br />(Avance en la ejecución real segun el PEP)"
+msgstr ""
+"Real physical advance<br />(real physical progress as measured in the PEP)"
+
+#: tables/templates/tables/avances_financeiros.html:24
+msgid ""
+"Avances Financieros Planificados<br />(Ejecución financiera planificados)"
+msgstr "Planned financial execution"
+
+#: tables/templates/tables/avances_financeiros.html:28
+msgid ""
+"Avances Financieros Reales<br />(Ejecución Financiera Final según la fecha "
+"del ejecutor)"
+msgstr ""
+"Real financial execution<br />(financial execution according to the executor "
+"to date)"
+
+#: tables/templates/tables/avances_financeiros.html:32
+msgid "Monto Total Desembolsado<br />(BID a PAIS)"
+msgstr "Total amount disbursed<br />(IDB to Country)"
+
+#: tables/templates/tables/avances_financeiros.html:40
+msgid "Monto Comprometido"
+msgstr "Committed amount"
+
+#: tables/templates/tables/avances_financeiros.html:44
+msgid ""
+"Avances Fisicos Planificados (Meta Ejecución):<br />De La Linea De Base "
+"Original"
+msgstr "Planned physical advances <br />according to the Original baseline"
+
+#: tables/templates/tables/avances_financeiros.html:48
+msgid ""
+"Avances Financieros Planificados (Ejecución financiera planificados):<br /"
+">Del Linea De Base Original"
+msgstr "Planned financial advances <br />according to the Original baseline."
+
+#: tables/templates/tables/avances_financeiros.html:52
+msgid "Alertas Temprana en General"
+msgstr "General Alerts"
+
+#: tables/templates/tables/avances_financeiros.html:56
+msgid "Recomendaciones"
+msgstr "Recommendations"
+
+#: tables/templates/tables/avances_financeiros.html:60
+msgid "Próximos eventos del Diálogos de Políticas"
+msgstr "Upcoming Policy Dialogue Events"
+
+#: website/templates/base_logado.html:230
+msgid "Hola"
+msgstr "Hello"
+
+#: website/templates/base_logado.html:270
+msgid "Mi Tablero"
+msgstr "Dashboard"
+
 #: website/templates/base_logado.html:271
+msgid "Paises"
+msgstr "Countries"
+
+#: website/templates/base_logado.html:277
+msgid "Metas SM2015"
+msgstr "SM2015"
+
+#: website/templates/base_logado.html:278
+msgid "Financiación"
+msgstr "Financing"
+
+#: website/templates/base_logado.html:279
+msgid "SM2015"
+msgstr "SM2015"
+
+#: website/templates/base_logado.html:280
+msgid "Informes"
+msgstr "Reports"
+
+#: website/templates/base_logado.html:281
+msgid "Base de datos"
+msgstr "Databases"
+
+#: website/templates/base_logado.html:283
+msgid "Ejecución Financiera y Hitos"
+msgstr "Financial Execution and Milestones"
+
+#: website/templates/base_logado.html:284
+msgid "Unidad de Coordinación Hitos"
+msgstr "Coordination Unit Milestone"
+
+#: website/templates/base_logado.html:287
 msgid "País Operación"
 msgstr "Country Operation"
 
@@ -90,15 +271,53 @@ msgstr "Country Operation"
 msgid "Primera Operación SM2015"
 msgstr "First Operation SM2015"
 
-#: website/templates/index.html:524
-msgid "SM2015 Primeras Operaciones"
-msgstr "SM2015 First Operations"
+#: website/templates/index.html:507
+msgid ""
+"Este mapa incluye información general sobre cada país. Haga clic en el Pin "
+"para leer acerca de los objetivos y ver cómo ha transcurrido mucho tiempo en "
+"la operación actual. El color de la espiga hace referencia a la cantidad de "
+"variación en el progreso físico, financiero previsto y real.  Un pasador "
+"verde significa que el país tiene menos de 25 por ciento de variación física "
+"y financiera del plan original.  Un pasador amarillo significa una de las "
+"variables es la variación superior al 25 por ciento y un pin rojo significa "
+"que la variación tanto financiera como física son mayores al 25 por ciento. "
+"Para obtener información detallada sobre la variación, por favor vea la "
+"Grafica de Estado del País por Operación."
+msgstr "This map includes general information about each country. Click on the "
+"Pin to read about the objectives and see how much time has elapsed in the current "
+"operation. The color of the pin refers to the amount of variation in planned and "
+"actual financial and physical progress. A Green pin means that the country has less "
+"than 25 percent physical and financial variation from the original plan. "
+"A Yellow pin means one of the variables is greater than 25 percent variation and "
+"a red pin means that both financial and physical variation are greater than 25 perent. "
+"For detailed information on variation, please see the Country Operation Status Graphic."
 
-#: website/templates/index.html:549
+#: website/templates/index.html:524
+msgid ""
+"Está gráfica ilustra ejecución / valores reales y esperados / valores "
+"programados, lo que correspondiente porcentaje de avance financiero en la "
+"ejecución,porcentaje de avance físico en la ejecución, y el porcentaje de "
+"tiempo transcurrido desde la elegibilidad de la operación hasta la fecha en "
+"la que la información se ha actualizado. Los programas buscan reducir la "
+"cantidad de variación (espacios entre los triángulos) entre los valores "
+"previstos y los valores reales."
+msgstr ""
+"This graphic illustrates executed/real values and expected/programmed "
+"values, corresponding to the percentage of financial progress in execution, "
+"percentage of physical progress in execution, and percentage of time passed "
+"from operation eligibility to date the information was updated. Programs "
+"seek to reduce the amount of variation (spaces between the triangles) "
+"between the planned and actual values."
+
+#: website/templates/index.html:532
+msgid "Mostrar Más"
+msgstr "Show More"
+
+#: website/templates/index.html:540
 msgid "Metas por país SM2015"
 msgstr "SM2015 Country goals"
 
-#: website/templates/index.html:555
+#: website/templates/index.html:546
 msgid ""
 "Este gráfico muestra una selección de los valores de línea de base y las "
 "metas acordadas por los países SM2015 a 18, 36 y 54 meses. La línea de base "
@@ -111,7 +330,7 @@ msgstr ""
 "currently only confirmed by survey in El Salvador; the other countries have "
 "provided estimates of their current coverage levels in the targeted areas."
 
-#: website/templates/index.html:558
+#: website/templates/index.html:549
 msgid ""
 "Para ver cómo los países se han comprometido a cambiar las tasas de "
 "cobertura en función del tiempo, por favor seleccione la región o un país "
@@ -130,3 +349,21 @@ msgstr ""
 "unique or each country/indicator) and change the bubble sizes to represent "
 "the size of the target population. Select a specific indicator and check the "
 "'Trails' box to see how the indicator will change over time."
+
+#: website/templates/index.html:558
+msgid "TODOS"
+msgstr "ALL"
+
+#: website/templates/index.html:591
+msgid "Pais"
+msgstr "Countries"
+
+#~ msgid "Country Operation Financial Execution Performance, by Quarter"
+#~ msgstr ""
+#~ "Desempeño de la Ejecución Financiera por Operación de País, por trimestre"
+
+#~ msgid "Country Details"
+#~ msgstr "Datos del País"
+
+#~ msgid "SM2015 Primeras Operaciones"
+#~ msgstr "SM2015 First Operations"
