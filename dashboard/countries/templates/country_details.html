@@ -189,17 +189,11 @@
             }
 
 
-            $(".table-hitos").dashboardTable("/tables/render/hitos/"+initial_params['country_slug'], {
+            $(".table-hitos").dashboardTable("/tables/render/hitos-noneditable/"+initial_params['country_slug'], {
               title: '{% trans "Gráficas de Logros por País" %}',
                 description: '{% trans "Durante la etapa de planificación, los equipos nacionales seleccionan los eventos trimestrales pertinentes para cada indicador de pago, creando una ruta crítica. Esta gráfica muestra el estado de los hitos trimestrales que contribuyen al éxito de los indicadores de pago. El verde significa que el hito se ha completado, el amarillo significa que está en curso y el rojo significa el hito está pendiente, o más allá de su fecha prevista de finalización. Esta gráfica se actualiza mensualmente."%}',
                 url_save: "{% url 'save_milestone_data' %}",
                 url_export: "/tables/render/export/hitos_y_avances/"+initial_params['country_slug']
-            });
-
-            $(".table-avances").dashboardTable("/tables/render/avances_financeiros/"+initial_params['country_slug'], {
-              title: '{% trans "Avance fisico financieros" %}',
-                url_save: "{% url 'save_milestone_data' %}",
-                vertical: true
             });
 
             var triangle_title = '{% trans "Estado de las Operaciones por País" %}';
@@ -301,6 +295,36 @@
     </a> 
   </div>
 </div>
+
+<script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization',
+   'version':'1','packages':['timeline']}]}"></script>
+<script type="text/javascript">
+
+google.setOnLoadCallback(drawChart);
+function drawChart() {
+
+  var container = document.getElementById('example3.1');
+  var chart = new google.visualization.Timeline(container);
+
+  var dataTable = new google.visualization.DataTable();
+  dataTable.addColumn({ type: 'string', id: 'Country' });
+  dataTable.addColumn({ type: 'string', id: 'Name' });
+  dataTable.addColumn({ type: 'date', id: 'Start' });
+  dataTable.addColumn({ type: 'date', id: 'End' });
+  dataTable.addRows([
+    [ 'Belize',  'Label 1', new Date(1789, 3, 29), new Date(1797, 2, 3)],
+    [ 'Belize',  'Label 2', new Date(1797, 2, 4), new Date(1801, 12, 3)],
+    [ 'Chiapas',   'Label 1', new Date(1789, 2, 3),  new Date(1801, 2, 3)],
+    [ 'Costa Rica',   'Label 1',  new Date(1789, 2, 3),  new Date(1809, 2, 3)],
+    [ 'Panama',   'Label 1',  new Date(1789, 3, 20), new Date(1797, 2, 3)],
+    [ 'Nicaragua',   'Label 1', new Date(1789, 2, 3),  new Date(1801, 2, 3)],
+    [ 'Honduras',    'Label 1',     new Date(1789, 2, 3),  new Date(1805, 2, 3)],
+    [ 'El Salvador',   'Label 1',   new Date(1789, 2, 3),  new Date(1812, 3, 19)],
+    [ 'Guatemala',   'Label 1',   new Date(1789, 8, 25), new Date(1790, 2, 21)]]);
+  chart.draw(dataTable);
+}
+</script>
+<div id="example3.1" style="height: 360px; margin-top: 50px;"></div>
 
 <div class="content">
     <div class="row-fluid graph-triangle-wrapper">
@@ -445,7 +469,6 @@
 
     <div class="table-country-operation"></div>
 
-    <div class="table-avances"></div>
     <div class="table-hitos"></div>
 
 </div>

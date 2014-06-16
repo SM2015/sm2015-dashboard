@@ -111,7 +111,7 @@
 
                     if (type.indexOf("Actual") > -1) {
                         if (validateQuarter(quarter)) {
-                            var newValue = status[type].value + value;
+                            var newValue = value;
                             status[type] = {
                                 value: newValue
                             };

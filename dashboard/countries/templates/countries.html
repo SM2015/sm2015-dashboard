@@ -80,37 +80,6 @@
             });
 
             $(".chart-disbursement-container").graficoDisbursement();
-
-            {% if countries|length > 1 %}
-            var $pais_initial = $("select[name='select-pais'] :selected");
-            var slug = $pais_initial.val();
-            {% else %}
-            var slug = "{{countries.0.slug}}";
-            {% endif %}
-
-            $(".table-hitos").dashboardTable("/tables/render/hitos-noneditable/"+slug, {
-                title: "Hitos",
-                url_save: "{% url 'save_milestone_data' %}",
-                element_top: '.container-select-countries'
-            }, function(){
-              $("select[name='select-pais']").live('change', function(){
-                  var name = $(this).find(":selected").text();
-                  var slug = $(this).find(":selected").val();
-                  $(window).trigger("select-country", [name, slug]);
-              });
-            });
-
-            $(window).bind("select-country", function(elem, country, country_slug){
-                $(".country-name").text(country);
-
-                $(".table-hitos").dashboardTable("/tables/render/hitos-noneditable/"+country_slug, {
-                    title: "Hitos",
-                    url_save: "{% url 'save_milestone_data' %}",
-                    element_top: '.container-select-countries'
-                }, function(){
-                  $("select[name='select-pais']").find("option[value='"+country_slug+"']").attr("selected", "selected")
-                });
-            });
         });
     </script>
 {% endblock js_bottom %}
@@ -217,25 +186,6 @@
 
     <div class="row-fluid chart-disbursement-container"></div>
 
-
-    <div class="container-select-countries">
-      <div class="row-fluid clearfix">
-          {% if countries|length > 1 %}
-          <div class="clearfix">
-            <div class="title-select-pais">Seleccione un país</div>
-            <select name="select-pais" class="select-pais">
-                {% for country in countries %}
-                <option value="{{country.slug}}">{{country.name}}</option>
-                {% endfor %}
-            </select>
-          </div>
-          {% else %}
-          <h4>Usted está viendo - <span class="semi-bold country-name"></span></h4>
-          {% endif %}
-      </div>
-    </div>
-
-    <div class="table-hitos"></div>
 
     <script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization',
        'version':'1','packages':['timeline']}]}"></script>
