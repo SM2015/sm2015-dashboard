@@ -18,7 +18,7 @@
     <script>
         $(document).ready(function() {
             $(".table-country-operation").dashboardTable("{% url 'table_render_country_operation' %}", {
-              title: {% trans "Desempeño de la Ejecución Financiera por Operación de País, por trimestre" %},
+              title: '{% trans "Desempeño de la Ejecución Financiera por Operación de País, por trimestre" %}',
                 url_save: "{% url 'save_milestone_data' %}",
                 scroll: true
             });
