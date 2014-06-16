@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-12 12:44-0400\n"
+"POT-Creation-Date: 2014-06-16 16:17-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,17 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: countries/templates/countries.html:76
+msgid "Donor Disbursment Performance"
+msgstr "Country Operation Financial Execution Performance, by Quarter"
+
+#: countries/templates/countries.html:77
+msgid ""
+"Esta tabla muestra los desembolsos reales y previstas del tramo de inversión "
+"y la ejecución del tramo de inversión, por trimestre."
+msgstr "This table displays the  actual and planned disbursements of the investment "
+"tranche and the execution of the investment tranche, per quarter."
 
 #: countries/templates/country_details.html:66
 msgid "Datos del País"
@@ -43,15 +54,15 @@ msgstr ""
 "progress and red means the milestone is pending, or past its expected date "
 "of completion. This graphic is updated monthly"
 
-#: countries/templates/country_details.html:200
-msgid "Avance fisico financieros"
-msgstr "Physical and financial progress"
-
-#: countries/templates/country_details.html:205
-#: countries/templates/country_details.html:310
+#: countries/templates/country_details.html:199
+#: countries/templates/country_details.html:334
 #: website/templates/index.html:518
 msgid "Estado de las Operaciones por País"
 msgstr "Country Operation Status"
+
+#: countries/templates/country_details.html:361
+msgid "Country Operation Financial <br />Execution Performance Summary"
+msgstr "Donor Disbursment Performance" 
 
 #: graphs/models.py:154
 msgid "% Avance Tiempo"
@@ -104,6 +115,14 @@ msgstr "Donor Disbursement Performance, by quarter"
 msgid "Rendimiento por Desembolso de los Donantes: Real Vs. Expected"
 msgstr "Donor Disbursement Performance: Real Vs. Esperada"
 
+#: tables/templates/hitos_e_avances.html:25
+msgid "Hitos"
+msgstr ""
+
+#: tables/templates/hitos_e_avances.html:31
+msgid "Avance fisico financieros"
+msgstr "Physical and financial progress"
+
 #: tables/templates/hitos_e_avances.html:91 tables/templates/life_save.html:84
 msgid "Seleccione un país"
 msgstr "Select a country"
@@ -131,7 +150,7 @@ msgid "Seleccione una Data"
 msgstr "Select a date"
 
 #: tables/templates/sm2015milestone.html:22
-#: website/templates/base_logado.html:285
+#: website/templates/base_logado.html:288
 msgid "SM2015 Hitos"
 msgstr "SM2015 Milestones"
 
@@ -223,47 +242,47 @@ msgstr "Recommendations"
 msgid "Próximos eventos del Diálogos de Políticas"
 msgstr "Upcoming Policy Dialogue Events"
 
-#: website/templates/base_logado.html:230
+#: website/templates/base_logado.html:233
 msgid "Hola"
 msgstr "Hello"
 
-#: website/templates/base_logado.html:270
+#: website/templates/base_logado.html:273
 msgid "Mi Tablero"
 msgstr "Dashboard"
 
-#: website/templates/base_logado.html:271
+#: website/templates/base_logado.html:274
 msgid "Paises"
 msgstr "Countries"
 
-#: website/templates/base_logado.html:277
+#: website/templates/base_logado.html:280
 msgid "Metas SM2015"
 msgstr "SM2015"
 
-#: website/templates/base_logado.html:278
+#: website/templates/base_logado.html:281
 msgid "Financiación"
 msgstr "Financing"
 
-#: website/templates/base_logado.html:279
+#: website/templates/base_logado.html:282
 msgid "SM2015"
 msgstr "SM2015"
 
-#: website/templates/base_logado.html:280
+#: website/templates/base_logado.html:283
 msgid "Informes"
 msgstr "Reports"
 
-#: website/templates/base_logado.html:281
+#: website/templates/base_logado.html:284
 msgid "Base de datos"
 msgstr "Databases"
 
-#: website/templates/base_logado.html:283
+#: website/templates/base_logado.html:286
 msgid "Ejecución Financiera y Hitos"
 msgstr "Financial Execution and Milestones"
 
-#: website/templates/base_logado.html:284
+#: website/templates/base_logado.html:287
 msgid "Unidad de Coordinación Hitos"
 msgstr "Coordination Unit Milestone"
 
-#: website/templates/base_logado.html:287
+#: website/templates/base_logado.html:290
 msgid "País Operación"
 msgstr "Country Operation"
 
@@ -283,14 +302,16 @@ msgid ""
 "que la variación tanto financiera como física son mayores al 25 por ciento. "
 "Para obtener información detallada sobre la variación, por favor vea la "
 "Grafica de Estado del País por Operación."
-msgstr "This map includes general information about each country. Click on the "
-"Pin to read about the objectives and see how much time has elapsed in the current "
-"operation. The color of the pin refers to the amount of variation in planned and "
-"actual financial and physical progress. A Green pin means that the country has less "
-"than 25 percent physical and financial variation from the original plan. "
-"A Yellow pin means one of the variables is greater than 25 percent variation and "
-"a red pin means that both financial and physical variation are greater than 25 perent. "
-"For detailed information on variation, please see the Country Operation Status Graphic."
+msgstr ""
+"This map includes general information about each country. Click on the Pin "
+"to read about the objectives and see how much time has elapsed in the "
+"current operation. The color of the pin refers to the amount of variation in "
+"planned and actual financial and physical progress. A Green pin means that "
+"the country has less than 25 percent physical and financial variation from "
+"the original plan. A Yellow pin means one of the variables is greater than "
+"25 percent variation and a red pin means that both financial and physical "
+"variation are greater than 25 perent. For detailed information on variation, "
+"please see the Country Operation Status Graphic."
 
 #: website/templates/index.html:524
 msgid ""
@@ -357,10 +378,6 @@ msgstr "ALL"
 #: website/templates/index.html:591
 msgid "Pais"
 msgstr "Countries"
-
-#~ msgid "Country Operation Financial Execution Performance, by Quarter"
-#~ msgstr ""
-#~ "Desempeño de la Ejecución Financiera por Operación de País, por trimestre"
 
 #~ msgid "Country Details"
 #~ msgstr "Datos del País"
