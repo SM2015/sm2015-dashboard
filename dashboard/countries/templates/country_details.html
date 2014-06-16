@@ -347,7 +347,8 @@ function drawChart() {
                   </p>
                 </div>
               </a> 
-              <a class="collapse" href="javascript:;"></a> <a class="config" data-toggle="modal" href="#grid-config"></a> <a class="reload" href="javascript:;"></a> <a class="remove" href="javascript:;"></a> </div>
+              <a class="collapse" href="javascript:;"></a> <a class="config" data-toggle="modal" href="#grid-config"></a> <a class="reload" href="javascript:;"></a> <a class="remove" href="javascript:;"></a> 
+            </div>
           </div>
           <div class="grid-body no-border">
             <div class="row-fluid graph-triangle-container"></div>
@@ -355,23 +356,27 @@ function drawChart() {
         </div>
       </div>
       <div class="span6">	
-        <div class="span12">
-          <h3>Country Operation Financial Execution Performance Summary
-            <a class="showModalHelp outside">
-              ?
-              <p class="content">
-                The Countries planned the financial execution at the beginning of the operation. This compares the
-                planned financial execution and the actual execution for each country
-              </p>
-            </a>
-          </h3>
-        </div>
-        <div id="container">
-          <div class="row-fluid">
+        <div class="grid simple">
+          <div class="grid-title no-border">
+            <h4>Country Operation Financial <br />Execution Performance Summary</h4>
+            <div class="tools">
+              <a class="showModalHelp" href="javascript:;">
+                ?
+                <div class="content">
+                  <p>
+                    The Countries planned the financial execution at the beginning of the operation. This compares the
+                    planned financial execution and the actual execution for each country
+                  </p>
+                </div>
+              </a> 
+              <a class="collapse" href="javascript:;"></a> <a class="config" data-toggle="modal" href="#grid-config"></a> <a class="reload" href="javascript:;"></a> <a class="remove" href="javascript:;"></a> 
+            </div>
+          </div>
+          <div class="grid-body no-border clearfix">
             <div class="tiles-container-disbursement"></div>
             <div class="tiles-container-execution"></div>
           </div>
-        </div>  
+        </div>
       </div>  
     </div>
 
