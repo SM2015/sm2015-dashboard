@@ -19,8 +19,8 @@
         $(document).ready(function() {
             $(window).bind("select-date", function(elem, v_date){
               $(".table-sm2015milestones").dashboardTable("/tables/render/sm2015milestone/" + v_date, {
-                  title: {% trans "SM2015 Hitos" %},
-                  description: {% trans "Cada año, SM2015 acuerda un hito anual con el Comité de Donantes SM2015. Esta gráfica muestra los hitos y su estado actual. El verde significa que el hito se ha completado, el amarillo significa que está en curso y el rojo significa el hito está pendiente, o más allá de su fecha prevista de finalización. Esta gráfica se actualiza trimestralmente." %},
+                  title: '{% trans "SM2015 Hitos" %}',
+                  description: '{% trans "Cada año, SM2015 acuerda un hito anual con el Comité de Donantes SM2015. Esta gráfica muestra los hitos y su estado actual. El verde significa que el hito se ha completado, el amarillo significa que está en curso y el rojo significa el hito está pendiente, o más allá de su fecha prevista de finalización. Esta gráfica se actualiza trimestralmente." %}',
                   url_save: "{% url 'save_milestone_data' %}"
               });
             });
