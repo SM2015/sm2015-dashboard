@@ -118,7 +118,7 @@
                         '<h4>{{TITLE_PLACEHOLDER}}</h4>'+
                         '<div class="tools"> '+
                         '{{DESCRIPTION_PLACEHOLDER}}'+
-                        '<a href="javascript:;" class="collapse"></a> <a href="#grid-config" data-toggle="modal" class="config"></a> <a href="javascript:;" class="reload"></a> <a href="javascript:;" class="remove"></a> </div>'+
+                        '<a href="javascript:;" class="collapse"></a> <a href="javascript:;" class="reload"></a> <a href="javascript:;" class="remove"></a> </div>'+
                       '</div>'+
                       '<div class="grid-body ">'+
                         '{{CONTENT_TOP_TO_APPEND}}' +

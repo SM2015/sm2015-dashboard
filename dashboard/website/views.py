@@ -39,7 +39,7 @@ def index(request):
                 link = country_map.more_info_link.strip().lstrip('/')
                 infos_url = "/{0}".format(link)
             else:
-                infos_url = "{0}?country={1}".format(reverse('countries_details'),
+                infos_url = "{0}?country={1}".format(reverse('country_details'),
                                                      country_map.country.id)
             country = {
                 'lat': str(country_map.country.latlng.split(',')[0]),

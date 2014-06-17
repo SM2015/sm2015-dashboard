@@ -4,22 +4,16 @@
 
 {% block js_bottom %}
     {{ block.super }}
-    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
     <script src="{% static "assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js" %}" type="text/javascript"></script>
     <script src="{% static "assets/plugins/bootstrap-select2/select2.min.js" %}" type="text/javascript"></script>
     <script src="{% static "assets/plugins/jquery-datatable/js/jquery.dataTables.min.js" %}" type="text/javascript" ></script>
     <script src="{% static "assets/plugins/jquery-datatable/extra/js/TableTools.min.js" %}" type="text/javascript" ></script>
     <script type="text/javascript" src="{% static "assets/plugins/datatables-responsive/js/datatables.responsive.js" %}"></script>
     <script type="text/javascript" src="{% static "assets/plugins/datatables-responsive/js/lodash.min.js" %}"></script>
-    <script src="{% static "assets/plugins/jquery-flot/jquery.flot.js" %}" type="text/javascript" ></script>
-    <script src="{% static "assets/plugins/jquery-flot/jquery.flot.time.min.js" %}" type="text/javascript" ></script>
-    <script src="{% static "assets/plugins/jquery-flot/jquery.flot.selection.min.js" %}" type="text/javascript" ></script>
-    <script src="{% static "assets/plugins/jquery-flot/jquery.flot.animator.min.js" %}" type="text/javascript" ></script>
-    <script src="{% static "assets/plugins/jquery-flot/jquery.flot.orderBars.js" %}" type="text/javascript" ></script>
-    <script src="{% static "assets/plugins/jquery-sparkline/jquery-sparkline.js" %}" type="text/javascript" ></script>
-    
     <script src="{% static "assets/js/datatables.js" %}" type="text/javascript"></script>
-    
+    <script src="{% static "assets/plugins/boostrap-form-wizard/js/jquery.bootstrap.wizard.min.js" %}" type="text/javascript"></script>
+    <script src="{% static "assets/plugins/bootstrap-select2/select2.min.js" type="text/javascript" %}"></script>
+    <script src="{% static "assets/js/datatables.js" %}" type="text/javascript"></script>
     <script src="{% static "assets/plugins/jquery-easy-pie-chart/js/jquery.easypiechart.min.js" %}"></script>
     <script src="{% static "js/dashboard-map.js" %}" type="text/javascript"></script>
     <script type="text/javascript" src="{% static "js/highcharts/highcharts.js" %}"></script>
@@ -35,6 +29,8 @@
     <script src="{% static "assets/plugins/boostrap-form-wizard/js/jquery.bootstrap.wizard.min.js" %}" type="text/javascript"></script>
     <script src="{% static "assets/plugins/bootstrap-select2/select2.min.js" type="text/javascript" %}"></script>
     <script>
+        var countries = {{COUNTRIES_DICT|safe}};
+
         $(document).ready(function() {
             $select_country = $(document.getElementById('country'));
             $select_isech = $(document.getElementById('isech'));
@@ -187,28 +183,6 @@
             if(initial_params['country']){
               $select_country.val(initial_params['country']).trigger("change");
             }
-
-
-            $(".table-hitos").dashboardTable("/tables/render/hitos-noneditable/"+initial_params['country_slug'], {
-              title: '{% trans "Gráficas de Logros por País" %}',
-                description: '{% trans "Durante la etapa de planificación, los equipos nacionales seleccionan los eventos trimestrales pertinentes para cada indicador de pago, creando una ruta crítica. Esta gráfica muestra el estado de los hitos trimestrales que contribuyen al éxito de los indicadores de pago. El verde significa que el hito se ha completado, el amarillo significa que está en curso y el rojo significa el hito está pendiente, o más allá de su fecha prevista de finalización. Esta gráfica se actualiza mensualmente."%}',
-                url_save: "{% url 'save_milestone_data' %}",
-                url_export: "/tables/render/export/hitos_y_avances/"+initial_params['country_slug']
-            });
-
-            var triangle_title = '{% trans "Estado de las Operaciones por País" %}';
-            triangle_title = "[[COUNTRY]] - " + triangle_title;
-            $(".graph-triangle-wrapper").graficoTrianguloPorPais('{% url "get_triangle_graph_countries" %}?country_slug='+initial_params['country_slug'], {title: triangle_title, alone: true});
-
-            var country_disbursement = {{country_disbursement|safe}};
-            var country_execution = {{country_execution|safe}};
-            var tile_opts = 
-              $(".tiles-container-disbursement").html("").dashboardTile(country_disbursement,
-                                                                        {dv_money_format: true, title: 'Mexico Disbursement', tileSize:12 });
-              $(".tiles-container-execution").html("").dashboardTile(country_execution,
-                                                                     {dv_money_format: true, title: 'Mexico Execution', tileSize:12 });
-            
-            $("#map-goals").dashboardMap({{countries_map|safe}}, {countryZoom: initial_params['country_slug']});
         });
     </script>
 {% endblock js_bottom %}
@@ -217,178 +191,24 @@
     {{ block.super }}
     <link href="{% static "css/tables-custom.css" %}" rel="stylesheet" type="text/css"/>
     <style>
-      .tiles-container-disbursement .span12 {
-        margin-bottom: 20px;
-      }
-        .tiles .tiles-title {
-            font-size: 18px;
-            font-weight: lighter;
-        }
-        .tiles .tiles-title strong {
-            font-weight: 600;
-        }
-        .tiles.yellow {
-            background-color: #E0B500;
-        }
       .list-selects {
         height: 200px;
         padding-top: 10px;
         overflow: auto;
       }
-
-        .table-avances {}
-        .table-avances .avances-header {
-            background-color: #ECF0F2;
-            border-bottom: 1px solid #DDDDDD;
-            padding: 10px;
-            text-align: right;
-            width: 340px;
-        }
-        .table-avances .avances-value {
-            border-bottom: 1px solid #EEEEEE;
-            padding: 5px 20px;
-        }
-
-        .disbursement-table-header {
-          background-color: #ECF0F2;
-          border-left: 1px solid #E8EDF1;
-          padding: 10px 5px !important;
-          vertical-align: bottom !important;
-        }
-
-        .disbursement-table-cell {
-          border: 1px solid #E8EDF1;
-          color: #576475;
-          font-size: 13px;
-          padding: 10px 5px !important;
-          vertical-align: top !important;
-        }
-
-        .disbursement-table-row {
-          background-color: white;
-        }
-        .disbursement-table-row:hover {
-          background-color: #E2E8EB;
-        }
     </style>
 {% endblock css %}
 
 {% block content %}
-<div class="map-container">
-  <div id="map-goals"></div>
-  <div style="position: absolute; top: 2px; right: 105px;">
-    <a class="showModalHelp" style="font-size:18px" href="javascript:;">
-      ?
-      <div class="content">
-        <p>
-          {% trans "
-            Este mapa incluye información general sobre cada país. Haga clic en el Pin para leer acerca de 
-            los objetivos y ver cómo ha transcurrido mucho tiempo en la operación actual. El color de la espiga 
-            hace referencia a la cantidad de variación en el progreso físico, financiero previsto y real. 
-            Un pasador verde significa que el país tiene menos de 25% de variación física y financiera del plan original. 
-            Un pasador amarillo significa una de las variables es la variación superior al 25% y un pin rojo significa 
-            que la variación tanto financiera como física son mayores al 25%. Para obtener información detallada sobre 
-            la variación, por favor vea la Grafica de Estado del País por Operación."
-          %}
-        </p>
-      </div>
-    </a> 
-  </div>
-</div>
-
-<script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization',
-   'version':'1','packages':['timeline']}]}"></script>
-<script type="text/javascript">
-
-google.setOnLoadCallback(drawChart);
-function drawChart() {
-
-  var container = document.getElementById('example3.1');
-  var chart = new google.visualization.Timeline(container);
-
-  var dataTable = new google.visualization.DataTable();
-  dataTable.addColumn({ type: 'string', id: 'Country' });
-  dataTable.addColumn({ type: 'string', id: 'Name' });
-  dataTable.addColumn({ type: 'date', id: 'Start' });
-  dataTable.addColumn({ type: 'date', id: 'End' });
-  dataTable.addRows([
-    [ 'Belize',  'Label 1', new Date(1789, 3, 29), new Date(1797, 2, 3)],
-    [ 'Belize',  'Label 2', new Date(1797, 2, 4), new Date(1801, 12, 3)],
-    [ 'Chiapas',   'Label 1', new Date(1789, 2, 3),  new Date(1801, 2, 3)],
-    [ 'Costa Rica',   'Label 1',  new Date(1789, 2, 3),  new Date(1809, 2, 3)],
-    [ 'Panama',   'Label 1',  new Date(1789, 3, 20), new Date(1797, 2, 3)],
-    [ 'Nicaragua',   'Label 1', new Date(1789, 2, 3),  new Date(1801, 2, 3)],
-    [ 'Honduras',    'Label 1',     new Date(1789, 2, 3),  new Date(1805, 2, 3)],
-    [ 'El Salvador',   'Label 1',   new Date(1789, 2, 3),  new Date(1812, 3, 19)],
-    [ 'Guatemala',   'Label 1',   new Date(1789, 8, 25), new Date(1790, 2, 21)]]);
-  chart.draw(dataTable);
-}
-</script>
-<div id="example3.1" style="height: 360px; margin-top: 50px;"></div>
 
 <div class="content">
-    <div class="row-fluid graph-triangle-wrapper">
-      <div class="span6">
-        <div class="grid simple">
-          <div class="grid-title no-border">
-            <h4>{% trans "Estado de las Operaciones por País" %}</h4>
-            <div class="tools">
-              <a class="showModalHelp" href="javascript:;">
-                ?
-                <div class="content">
-                  <p>
-                    {% trans "
-                      Está gráfica ilustra ejecución / valores reales y esperados / valores programados, 
-                      lo que correspondiente % de avance financiero en la ejecución,% de avance físico en la ejecución, 
-                      y el% de tiempo transcurrido desde la elegibilidad de la operación hasta la fecha en la que la 
-                      información se ha actualizado. Los programas buscan reducir la cantidad de variación 
-                      (espacios entre los triángulos) entre los valores previstos y los valores reales."
-                    %}
-                  </p>
-                </div>
-              </a> 
-              <a class="collapse" href="javascript:;"></a> <a class="config" data-toggle="modal" href="#grid-config"></a> <a class="reload" href="javascript:;"></a> <a class="remove" href="javascript:;"></a> 
-            </div>
-          </div>
-          <div class="grid-body no-border">
-            <div class="row-fluid graph-triangle-container"></div>
-          </div>
-        </div>
-      </div>
-      <div class="span6">	
-        <div class="grid simple">
-          <div class="grid-title no-border">
-            <h4>{% trans "Country Operation Financial <br />Execution Performance Summary" %}</h4>
-            <div class="tools">
-              <a class="showModalHelp" href="javascript:;">
-                ?
-                <div class="content">
-                  <p>
-                    The Countries planned the financial execution at the beginning of the operation. This compares the
-                    planned financial execution and the actual execution for each country
-                  </p>
-                </div>
-              </a> 
-              <a class="collapse" href="javascript:;"></a> <a class="config" data-toggle="modal" href="#grid-config"></a> <a class="reload" href="javascript:;"></a> <a class="remove" href="javascript:;"></a> 
-            </div>
-          </div>
-          <div class="grid-body no-border clearfix">
-            <div class="tiles-container-disbursement"></div>
-            <div class="tiles-container-execution"></div>
-          </div>
-        </div>
-      </div>  
-    </div>
-
-
-
 
     <div class="row-fluid">
       <div class="span12">
         <div class="grid simple transparent">
           <div class="grid-title">
             <h4>Country <span class="semi-bold">Details</span></h4>
-            <div class="tools"> <a href="javascript:;" class="collapse"></a> <a href="#grid-config" data-toggle="modal" class="config"></a> <a href="javascript:;" class="reload"></a> <a href="javascript:;" class="remove"></a> </div>
+            <div class="tools"> <a href="javascript:;" class="collapse"></a> <a href="javascript:;" class="reload"></a> <a href="javascript:;" class="remove"></a> </div>
           </div>
           <div class="grid-body ">
             <div class="row-fluid">
@@ -473,8 +293,5 @@ function drawChart() {
     </div>
 
     <div class="table-country-operation"></div>
-
-    <div class="table-hitos"></div>
-
 </div>
 {% endblock %}

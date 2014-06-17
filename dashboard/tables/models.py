@@ -781,7 +781,7 @@ class CountryOperation(models.Model):
                 for i_quarter in xrange(0, len(quarters)):
                     quarter = quarters[i_quarter]
                     operation_quarter = operation.get(quarter__name=quarter['quarter__name'])
-                    value = getattr(operation_quarter, field['field']) * 1000000
+                    value = getattr(operation_quarter, field['field'])
                     row['values'].append({'v': value, 'id': operation_quarter.id})
 
                     if with_total:

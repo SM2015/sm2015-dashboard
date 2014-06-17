@@ -9,11 +9,16 @@
         this.countries = countries;
         this.opts = opts || {};
 
+        this._bindEvents();
+
         google.maps.event.addDomListener(window, 'load', function(){
             self.drawMap();
         });
     }
     
+    dashboardMap.prototype._bindEvents = function(slug){
+    }
+
     dashboardMap.prototype._getCountryBySlug = function(slug){
       for(var i=0; i < this.countries.length; i++){
         var country = this.countries[i];

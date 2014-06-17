@@ -1,0 +1,240 @@
+{% extends 'base_logado.html' %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block js_bottom %}
+    {{ block.super }}
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <script src="{% static "assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js" %}" type="text/javascript"></script>
+    <script src="{% static "assets/plugins/bootstrap-select2/select2.min.js" %}" type="text/javascript"></script>
+    <script src="{% static "assets/plugins/jquery-datatable/js/jquery.dataTables.min.js" %}" type="text/javascript" ></script>
+    <script src="{% static "assets/plugins/jquery-datatable/extra/js/TableTools.min.js" %}" type="text/javascript" ></script>
+    <script type="text/javascript" src="{% static "assets/plugins/datatables-responsive/js/datatables.responsive.js" %}"></script>
+    <script type="text/javascript" src="{% static "assets/plugins/datatables-responsive/js/lodash.min.js" %}"></script>
+    <script src="{% static "assets/plugins/jquery-flot/jquery.flot.js" %}" type="text/javascript" ></script>
+    <script src="{% static "assets/plugins/jquery-flot/jquery.flot.time.min.js" %}" type="text/javascript" ></script>
+    <script src="{% static "assets/plugins/jquery-flot/jquery.flot.selection.min.js" %}" type="text/javascript" ></script>
+    <script src="{% static "assets/plugins/jquery-flot/jquery.flot.animator.min.js" %}" type="text/javascript" ></script>
+    <script src="{% static "assets/plugins/jquery-flot/jquery.flot.orderBars.js" %}" type="text/javascript" ></script>
+    <script src="{% static "assets/plugins/jquery-sparkline/jquery-sparkline.js" %}" type="text/javascript" ></script>
+    
+    <script src="{% static "assets/js/datatables.js" %}" type="text/javascript"></script>
+    
+    <script src="{% static "assets/plugins/jquery-easy-pie-chart/js/jquery.easypiechart.min.js" %}"></script>
+    <script src="{% static "js/dashboard-map.js" %}" type="text/javascript"></script>
+    <script type="text/javascript" src="{% static "js/highcharts/highcharts.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/highcharts/exporting.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/highcharts/highcharts-more.js" %}"></script>
+    <script src="{% static "js/grafico-triangulo-pais.js" %}" type="text/javascript"></script>
+    <script src="{% static "js/dashboard-table.js" %}" type="text/javascript"></script>
+    <script src="{% static "js/dashboard-tile.js" %}" type="text/javascript"></script>
+    <script src="{% static "js/dashboard-chart-flot.js" %}" type="text/javascript"></script>
+    <script src="{% static "js/django.csrf.js" %}" type="text/javascript"></script>
+    <script src="{% static "assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js" %}" type="text/javascript"></script>
+    <script src="{% static "js/jquery.jeditable.datepicker.js" %}" type="text/javascript"></script>
+    <script src="{% static "assets/plugins/boostrap-form-wizard/js/jquery.bootstrap.wizard.min.js" %}" type="text/javascript"></script>
+    <script src="{% static "assets/plugins/bootstrap-select2/select2.min.js" type="text/javascript" %}"></script>
+    <script>
+        var countries = {{COUNTRIES_DICT|safe}};
+
+        $(document).ready(function() {
+            var params_get = window.location.search.replace("?", "").split("&"),
+              initial_params = {};
+
+            for(var i=0; i < params_get.length; i++){
+              param = params_get[i].split("=");
+              param_name = param[0];
+              param_value = param[1];
+              initial_params[param_name] = param_value;
+            }
+
+            $(".table-hitos").dashboardTable("/tables/render/hitos-noneditable/"+initial_params['country_slug'], {
+              title: '{% trans "Gráficas de Logros por País" %}',
+                description: '{% trans "Durante la etapa de planificación, los equipos nacionales seleccionan los eventos trimestrales pertinentes para cada indicador de pago, creando una ruta crítica. Esta gráfica muestra el estado de los hitos trimestrales que contribuyen al éxito de los indicadores de pago. El verde significa que el hito se ha completado, el amarillo significa que está en curso y el rojo significa el hito está pendiente, o más allá de su fecha prevista de finalización. Esta gráfica se actualiza mensualmente."%}',
+                url_save: "{% url 'save_milestone_data' %}",
+                url_export: "/tables/render/export/hitos_y_avances/"+initial_params['country_slug']
+            });
+
+            var triangle_title = '{% trans "Estado de las Operaciones por País" %}';
+            triangle_title = "[[COUNTRY]] - " + triangle_title;
+            $(".graph-triangle-wrapper").graficoTrianguloPorPais('{% url "get_triangle_graph_countries" %}?country_slug='+initial_params['country_slug'], {title: triangle_title, alone: true});
+
+            var country_disbursement = {{country_disbursement|safe}};
+            var country_execution = {{country_execution|safe}};
+            var tile_opts = 
+              $(".tiles-container-disbursement").html("").dashboardTile(country_disbursement,
+                                                                        {dv_money_format: true, title: countries[initial_params['country_slug']].name + ' Disbursement', tileSize:12 });
+              $(".tiles-container-execution").html("").dashboardTile(country_execution,
+                                                                     {dv_money_format: true, title: countries[initial_params['country_slug']].name + ' Execution', tileSize:12 });
+            
+            $("#map-goals").dashboardMap({{countries_map|safe}}, {countryZoom: initial_params['country_slug']});
+
+
+            $(".map-container").find('.icon-down').live('click', function(){
+              $(this).removeClass('icon-down');
+              $(this).addClass('icon-up');
+              $(".map-container").find('.menu-country').addClass('closed');
+            });
+
+            $(".map-container").find('.icon-up').live('click', function(){
+              $(this).removeClass('icon-up');
+              $(this).addClass('icon-down');
+              $(".map-container").find('.menu-country').removeClass('closed');
+            });
+        });
+    </script>
+{% endblock js_bottom %}
+
+{% block css %}
+    {{ block.super }}
+    <link href="{% static "css/tables-custom.css" %}" rel="stylesheet" type="text/css"/>
+    <style>
+      .tiles-container-disbursement .span12 {
+        margin-bottom: 20px;
+      }
+        .tiles .tiles-title {
+            font-size: 18px;
+            font-weight: lighter;
+        }
+        .tiles .tiles-title strong {
+            font-weight: 600;
+        }
+        .tiles.yellow {
+            background-color: #E0B500;
+        }
+      .list-selects {
+        height: 200px;
+        padding-top: 10px;
+        overflow: auto;
+      }
+
+        .table-avances {}
+        .table-avances .avances-header {
+            background-color: #ECF0F2;
+            border-bottom: 1px solid #DDDDDD;
+            padding: 10px;
+            text-align: right;
+            width: 340px;
+        }
+        .table-avances .avances-value {
+            border-bottom: 1px solid #EEEEEE;
+            padding: 5px 20px;
+        }
+
+        .disbursement-table-header {
+          background-color: #ECF0F2;
+          border-left: 1px solid #E8EDF1;
+          padding: 10px 5px !important;
+          vertical-align: bottom !important;
+        }
+
+        .disbursement-table-cell {
+          border: 1px solid #E8EDF1;
+          color: #576475;
+          font-size: 13px;
+          padding: 10px 5px !important;
+          vertical-align: top !important;
+        }
+
+        .disbursement-table-row {
+          background-color: white;
+        }
+        .disbursement-table-row:hover {
+          background-color: #E2E8EB;
+        }
+
+        .map-container {
+          height: 600px;
+        }
+    </style>
+{% endblock css %}
+
+{% block content %}
+<div class="map-container">
+  <div id="map-goals"></div>
+  <div style="position: absolute; top: 2px; right: 105px;">
+    <a class="showModalHelp" style="font-size:18px" href="javascript:;">
+      ?
+      <div class="content">
+        <p>
+          {% trans "Este mapa incluye información general sobre cada país. Haga clic en el Pin para leer acerca de los objetivos y ver cómo ha transcurrido mucho tiempo en la operación actual. El color de la espiga hace referencia a la cantidad de variación en el progreso físico, financiero previsto y real.  Un pasador verde significa que el país tiene menos de 25 por ciento de variación física y financiera del plan original.  Un pasador amarillo significa una de las variables es la variación superior al 25 por ciento y un pin rojo significa que la variación tanto financiera como física son mayores al 25 por ciento. Para obtener información detallada sobre la variación, por favor vea la Grafica de Estado del País por Operación." %}
+        </p>
+      </div>
+    </a> 
+  </div>
+  <div class="menu-country">
+    <div class="map-overlay"></div>
+    <div class="map-infos-wrapper">
+      <i class="icon icon-down"></i>
+      <div class="columns">
+        <h6 class="title">Country: <strong>Honduras</strong></h6>
+        <label class="subtitle">Operation Number: <span>HO-G1001</span></label>
+        <label class="subtitle">Name: <span>Honduras Iniciativa Salud Mesoamérica 2015</span></label>
+        <label class="subtitle">Executing Agency: <span>SESAL</span></label>
+        <label class="subtitle">Eligibility Date: <span>JULY 23, 2012</span></label>
+      </div>
+      <div class="columns">
+        <h6 class="title">Focalized Zones</h6>
+        <label class="subtitle"><span>San antonio, Magdalena, Santa lucía, Concepción, Cabañas, San jerónimo, Copán</span></label>
+      </div>
+      <div class="columns">
+        <h6 class="title">Benefitted Population</h6>
+        <label class="subtitle"><span>33,261 Children Under Age 5 And 67,624 Women In Childbearing Age</span></label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+    <div class="row-fluid graph-triangle-wrapper">
+      <div class="span6">
+        <div class="grid simple">
+          <div class="grid-title no-border">
+            <h4>{% trans "Estado de las Operaciones por País" %}</h4>
+            <div class="tools">
+              <a class="showModalHelp" href="javascript:;">
+                ?
+                <div class="content">
+                  <p>
+                    {% trans "Está gráfica ilustra ejecución / valores reales y esperados / valores programados, lo que correspondiente porcentaje de avance financiero en la ejecución,porcentaje de avance físico en la ejecución, y el porcentaje de tiempo transcurrido desde la elegibilidad de la operación hasta la fecha en la que la información se ha actualizado. Los programas buscan reducir la cantidad de variación (espacios entre los triángulos) entre los valores previstos y los valores reales." %}
+                  </p>
+                </div>
+              </a> 
+              <a class="collapse" href="javascript:;"></a> <a class="reload" href="javascript:;"></a> <a class="remove" href="javascript:;"></a> 
+            </div>
+          </div>
+          <div class="grid-body no-border">
+            <div class="row-fluid graph-triangle-container"></div>
+          </div>
+        </div>
+      </div>
+      <div class="span6">	
+        <div class="grid simple">
+          <div class="grid-title no-border">
+            <h4>{% trans "Country Operation Financial <br />Execution Performance Summary" %}</h4>
+            <div class="tools">
+              <a class="showModalHelp" href="javascript:;">
+                ?
+                <div class="content">
+                  <p>
+                    The Countries planned the financial execution at the beginning of the operation. This compares the
+                    planned financial execution and the actual execution for each country
+                  </p>
+                </div>
+              </a> 
+              <a class="collapse" href="javascript:;"></a> <a class="reload" href="javascript:;"></a> <a class="remove" href="javascript:;"></a> 
+            </div>
+          </div>
+          <div class="grid-body no-border clearfix">
+            <div class="tiles-container-disbursement"></div>
+            <div class="tiles-container-execution"></div>
+          </div>
+        </div>
+      </div>  
+    </div>
+
+    <div class="table-country-operation"></div>
+
+    <div class="table-hitos"></div>
+</div>
+{% endblock %}

@@ -60,3 +60,73 @@
   padding-top: 15px;
   text-align: center;
 }
+.map-container {
+  position: relative;
+}
+.map-container .menu-country {
+  bottom: 0;
+  height: 200px;
+  position: absolute;
+  width: 100%;
+}
+.map-container .menu-country.closed {
+  height: 0px;
+}
+.menu-country.closed .map-overlay {
+  display: none;
+}
+.menu-country .map-overlay {
+  background-color: black;
+  height: 100%;
+  position: absolute;
+  opacity: 0.7;
+  width: 100%;
+}
+.menu-country .map-infos-wrapper {
+  border-top: 4px solid orange;
+  color: white;
+  padding: 20px 15px;
+  position: relative;
+}
+.menu-country.closed .map-infos-wrapper  {
+  height: 0px;
+}
+.menu-country.closed .map-infos-wrapper .columns {
+  display: none;
+}
+.menu-country .map-infos-wrapper .columns {
+  float: left;
+  padding: 0 10px;
+  width: 30%;
+}
+.menu-country .map-infos-wrapper .title {
+  color: #aaa;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.menu-country .map-infos-wrapper .title strong {
+  color: orange;
+  padding: 0 10px;
+}
+.menu-country .map-infos-wrapper .subtitle {
+  color: #aaa;
+  font-size: 13px;
+  font-weight: bold;
+}
+.menu-country .map-infos-wrapper .subtitle span {
+  color: white;
+  font-size: 12px;
+}
+.menu-country .icon:after {
+  background: orange;
+  border-radius: 16px;
+  cursor: pointer;
+  left: 50px;
+  padding: 6px 7px;
+  position: absolute;
+  top: -16px;
+}
+.menu-country.closed .icon:after {
+  top: -20px;
+}

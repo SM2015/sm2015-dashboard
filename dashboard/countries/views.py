@@ -38,6 +38,16 @@ def countries(request):
 @login_required
 def country_details(request):
     context = RequestContext(request)
+    countries = CountryDetails.objects \
+                              .values('country__name', 'country__id') \
+                              .distinct()
+    context.update({'countries': countries})
+    return render_to_response("country_details.html", context)
+
+
+@login_required
+def country(request):
+    context = RequestContext(request)
 
     maps = Map.objects.filter(language__acronym=request.LANGUAGE_CODE)
     countries_map = []
@@ -61,7 +71,7 @@ def country_details(request):
                 link = country_map.more_info_link.strip().lstrip('/')
                 infos_url = "/{0}".format(link)
             else:
-                infos_url = "{0}?country={1}".format(reverse('countries_details'),
+                infos_url = "{0}?country={1}".format(reverse('country_details'),
                                                      country_map.country.id)
             country = {
                 'lat': str(country_map.country.latlng.split(',')[0]),
@@ -99,7 +109,7 @@ def country_details(request):
                         'country_execution': country_execution_values})
 
     context.update({'countries': countries})
-    return render_to_response("country_details.html", context)
+    return render_to_response("country.html", context)
 
 
 def _get_filter_args_api(request):

@@ -9,7 +9,9 @@ urlpatterns = patterns(
     url(r'^/?$',
         views.countries, name="countries"),
     url(r'^country_details/?$',
-        views.country_details, name="countries_details"),
+        views.country_details, name="country_details"),
+    url(r'^country/?$',
+        views.country, name="country"),
 
     url(r'^api/list_location/?$',
         views.api_list_location, name="country_list_location"),

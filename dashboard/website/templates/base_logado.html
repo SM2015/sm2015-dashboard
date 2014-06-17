@@ -71,7 +71,7 @@
       cursor: pointer;
       font-size: 14px;
       font-weight: bold;
-      padding: 2px 6px 4px;
+      padding: 1px 6px 5px;
       top: -5px;
     }
     .showModalHelp.outside {
@@ -274,13 +274,21 @@
       <li class="start with-submenu"><a href="#"><i class="icon-custom-paises"></i> <span class="title">{% trans "Paises" %}</span> <span class="arrow "></a>
         <ul class="sub-menu">
           <li> <a href="{% url 'countries' %}">Overview</a> </li>
-          <li> <a href="{% url 'countries_details' %}?country={{COUNTRIES.mexico.id}}&country_slug={{COUNTRIES.mexico.slug}}">Chiapas</a> </li>
+          <li> <a href="{% url 'country' %}?country={{COUNTRIES.belize.id}}&country_slug={{COUNTRIES.belize.slug}}">Belize</a> </li>
+          <li> <a href="{% url 'country' %}?country={{COUNTRIES.mexico.id}}&country_slug={{COUNTRIES.mexico.slug}}">Chiapas (Mexico)</a> </li>
+          <li> <a href="{% url 'country' %}?country={{COUNTRIES.costa_rica.id}}&country_slug={{COUNTRIES.costa_rica.slug}}">Costa Rica</a> </li>
+          <li> <a href="{% url 'country' %}?country={{COUNTRIES.el_salvador.id}}&country_slug={{COUNTRIES.el_salvador.slug}}">El Salvador</a> </li>
+          <li> <a href="{% url 'country' %}?country={{COUNTRIES.guatemala.id}}&country_slug={{COUNTRIES.guatemala.slug}}">Guatamal</a> </li>
+          <li> <a href="{% url 'country' %}?country={{COUNTRIES.honduras.id}}&country_slug={{COUNTRIES.honduras.slug}}">Honduras</a> </li>
+          <li> <a href="{% url 'country' %}?country={{COUNTRIES.nicaragua.id}}&country_slug={{COUNTRIES.nicaragua.slug}}">Nicaragua</a> </li>
+          <li> <a href="{% url 'country' %}?country={{COUNTRIES.panama.id}}&country_slug={{COUNTRIES.panama.slug}}">Panama</a> </li>
         </ul>
       </li>
+      <li class="start"> <a href="{% url 'country_details' %}" class="clearfix"> <i class="icon-custom-paises"></i> <span class="title">{% trans "Detalles del País" %}</span></a> </li>
       <li class="start"><a href="{% url 'metas_sm2015' %}"><i class="icon-custom-reports"></i> <span class="title">{% trans "Metas SM2015" %}</span></a></li>
       <li class="start"><a href="{% url 'grants_finances' %}"> <i class="icon-custom-gantz"></i> <span class="title">{% trans "Financiación" %}</span></a> </li>
-      <li class="start"><a href="#"><i class="icon-custom-sm"></i> <span class="title">{% trans "SM2015" %}</span></a> </li>
-      <li class="start"><a href="#"><i class="icon-custom-reports"></i> <span class="title">{% trans "Informes" %}</span></a> </li>
+      <!--<li class="start"><a href="#"><i class="icon-custom-sm"></i> <span class="title">{% trans "SM2015" %}</span></a> </li>-->
+      <!--<li class="start"><a href="#"><i class="icon-custom-reports"></i> <span class="title">{% trans "Informes" %}</span></a> </li>-->
       <li class="start with-submenu"><a href="#"><i class="icon-custom-db"></i> <span class="title">{% trans "Base de datos" %}</span> <span class="arrow "></span></a>
         <ul class="sub-menu">
           <li> <a href="{% url 'hitos_e_avances' %}">{% trans "Ejecución Financiera y Hitos" %}</a> </li>
