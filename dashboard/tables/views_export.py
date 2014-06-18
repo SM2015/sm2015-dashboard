@@ -36,11 +36,14 @@ def render_export_hitos_and_avances(request, country_slug):
     document_font = 'Times New Roman'
     document = Docx()
 
-    logo_salud = Image("{root}/tables/files/logo_saludmesoam.png".format(root=root_dir_path), document=document)
-    logo_bid = Image("{root}/tables/files/logo-del-BID.jpg".format(root=root_dir_path), document=document)
-    table_logos = Table()
-    table_logos.add_row([Cell(logo_salud), Cell(logo_bid)])
+    logo_salud = Image("{root}/tables/files/logo_saludmesoam.png".format(root=root_dir_path),
+                       document=document, width="70%", height="70%")
+    logo_bid = Image("{root}/tables/files/logo-del-BID.jpg".format(root=root_dir_path),
+                     document=document, width="70%", height="70%")
+    table_logos = Table(width="100%")
+    table_logos.add_row([Cell(logo_salud, width="50%"), Cell(logo_bid, width="50%")])
     document.append(table_logos)
+    document.append(Break())
 
     # Heading
     date_today_str = date.today().strftime("%d de {MONTH} de %Y").lstrip("0")

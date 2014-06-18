@@ -9,6 +9,18 @@
         this.countries = countries;
         this.opts = opts || {};
 
+        /*if(this.opts.panel){
+          for(var i=0; i < this.countries.length; i++){
+            var country = this.countries[i];
+            if(country.slug == this.opts.panel){
+              self.panelCountry = country;
+              self.drawPanel();
+              break;
+            }
+          }
+        }*/
+
+
         this._bindEvents();
 
         google.maps.event.addDomListener(window, 'load', function(){
@@ -26,6 +38,34 @@
           return country;
         }
       }
+    }
+
+    dashboardMap.prototype.drawPanel = function(){
+      var country = this.panelCountry,
+        html = ''+
+        '<div class="menu-country">'+
+          '<div class="map-overlay"></div>'+
+          '<div class="map-infos-wrapper">'+
+            '<i class="icon icon-down"></i>'+
+            '<div class="columns">'+
+              '<h6 class="title">Country: <strong>'+country.name+'</strong></h6>'+
+              '<label class="subtitle">Operation Number: <span>'+country.operation.number+'</span></label>'+
+              '<label class="subtitle">Name: <span>'+country.operation.name+'</span></label>'+
+              '<label class="subtitle">Executing Agency: <span>'+country.operation.executing_agency+'</span></label>'+
+              '<label class="subtitle">Eligibility Date: <span>'+country.operation.starting_date+'</span></label>'+
+            '</div>'+
+            '<div class="columns">'+
+              '<h6 class="title">Focalized Zones</h6>'+
+              '<label class="subtitle"><span>San antonio, Magdalena, Santa lucía, Concepción, Cabañas, San jerónimo, Copán</span></label>'+
+            '</div>'+
+            '<div class="columns">'+
+              '<h6 class="title">Benefitted Population</h6>'+
+              '<label class="subtitle"><span>'+country.operation.benefitted_population+'</span></label>'+
+            '</div>'+
+          '</div>'+
+        '</div>';
+
+      this.wrapper.after(html);
     }
 
     dashboardMap.prototype.drawMap = function(){
@@ -53,31 +93,51 @@
 
         this.map = new google.maps.Map(this.wrapper[0], mapOptions);
 
-        this.getCountriesMarkers(function(countries){
-            $.each(countries, function(i, country){
-                google.maps.event.addListener(country.marker,'click', (function(marker) {
-                  return function(){ 
-                    $.each(countries, function(i, country_to_close){
-                      if(country != country_to_close){
-                        country_to_close.infoBox.close();
-                      }
-                    });
-
-                    country.infoBox.open(self.map, this);
-                    self.map.setOptions( {scrollwheel:false} ); 
-                    self.map.setCenter(country.marker.position);
-
-                    setTimeout(function(){
-                      $('.easy-pie-custom').easyPieChart({
-                        lineWidth:11,
-                        barColor:'#447744',
-                        trackColor:'#e5e9ec',
-                        scaleColor:false
+        if(self.opts.panel){
+          this.getOperationZoneMarkers();
+        } else {
+          this.getCountriesMarkers(function(countries){
+              $.each(countries, function(i, country){
+                  google.maps.event.addListener(country.marker,'click', (function(marker) {
+                    return function(){ 
+                      $.each(countries, function(i, country_to_close){
+                        if(country != country_to_close){
+                          country_to_close.infoBox.close();
+                        }
                       });
-                    }, 500);
-                  }
-                })(country.marker));
-            });
+
+                      country.infoBox.open(self.map, this);
+                      self.map.setOptions( {scrollwheel:false} ); 
+                      self.map.setCenter(country.marker.position);
+
+                      setTimeout(function(){
+                        $('.easy-pie-custom').easyPieChart({
+                          lineWidth:11,
+                          barColor:'#447744',
+                          trackColor:'#e5e9ec',
+                          scaleColor:false
+                        });
+                      }, 500);
+                    }
+                  })(country.marker));
+              });
+          });
+        }
+    }
+
+    dashboardMap.prototype.getOperationZoneMarkers = function(){
+        var self = this, countries = [];
+        console.log(this);
+        $.each(this.panelCountry.operation.zones, function(i, zone){
+            var icon = self.greenMarkerIcon;
+
+            var latLng = new google.maps.LatLng(zone.lat, zone.lng),
+                marker = new google.maps.Marker({
+                    position: latLng,
+                    map: self.map,
+                    icon: icon,
+                    visible: true
+                });
         });
     }
 

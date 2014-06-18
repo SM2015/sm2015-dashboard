@@ -7,7 +7,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from map.models import Map
 from core.models import Country
-from tables.models import CountryDetails, CountryDetailsValues, AvanceFisicoFinanciero
+from tables.models import CountryDetails, CountryDetailsValues, \
+    AvanceFisicoFinanciero, Operation
 
 
 @login_required
@@ -73,6 +74,8 @@ def country(request):
             else:
                 infos_url = "{0}?country={1}".format(reverse('country_details'),
                                                      country_map.country.id)
+
+            operation = Operation.objects.get(country__slug=country_map.country.slug)
             country = {
                 'lat': str(country_map.country.latlng.split(',')[0]),
                 'lng': str(country_map.country.latlng.split(',')[1]),
@@ -81,8 +84,25 @@ def country(request):
                 'goal': str(country_map.goal),
                 'short_description': unicode(country_map.short_description),
                 'pin_color': pin_color,
-                'infos_url': infos_url
+                'infos_url': infos_url,
+                'operation': {
+                    'name': operation.name,
+                    'number': operation.number,
+                    'executing_agency': operation.executing_agency,
+                    'benefitted_population': operation.benefitted_population,
+                    'starting_date': operation.starting_date.strftime('%B %d, %Y'),
+                    'zones': []
+                }
             }
+
+            for zone in operation.operation_zones.all():
+                zone_dict = {
+                    'name': zone.name,
+                    'lat': zone.latlng.split(',')[0],
+                    'lng': zone.latlng.split(',')[1]
+                }
+                country['operation']['zones'].append(zone_dict)
+
             countries_map.append(country)
         except (AvanceFisicoFinanciero.DoesNotExist, IndexError, AttributeError):
             continue

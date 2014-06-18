@@ -120,11 +120,19 @@ def grants_finances(request):
         origins_values.append({
             'uuid': str(origin.uuid),
             'name': str(origin.name),
-            'url_ongoing': reverse('grants_finances_ongoing', args=[origin.uuid])
+            'url_ongoing': reverse('grants_finances_ongoing',
+                                   args=[origin.uuid])
         })
 
     context.update({'origins': origins_values})
     return render_to_response("grants_finances.html", context)
+
+
+@login_required
+def grants_finances_noneditable(request):
+    context = RequestContext(request)
+    return render_to_response("grants_finances_noneditable.html", context)
+
 
 @login_required
 def life_save(request):

@@ -507,15 +507,31 @@ class GrantsFinances(models.Model):
         verbose_name_plural = u'Grants & Finances'
         verbose_name = u'Grants & Finances'
 
+
 class Operation(models.Model):
     country = models.ForeignKey(Country)
 
+    number = models.CharField(max_length=100, default='')
     name = models.CharField(max_length=100, default='')
+    executing_agency = models.CharField(max_length=100, default='')
+    benefitted_population = models.CharField(max_length=400, default='')
     starting_date = models.DateField()
     finish_date = models.DateField()
 
     def __unicode__(self):
         return self.name
+
+
+class OperationZones(models.Model):
+    operation = models.ForeignKey(Operation)
+
+    name = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=100)
+    latlng = models.CharField(max_length=100, default='')
+
+    def __unicode__(self):
+        return self.name
+
 
 class LifeSaveField(models.Model):
     name = models.CharField(max_length=500, default='', null=True)

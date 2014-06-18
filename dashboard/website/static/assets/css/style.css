@@ -134,7 +134,6 @@ Page sidebar
 
 .page-sidebar.mini > ul > li >a:hover, 
 .page-sidebar.mini > ul > li:hover >a {  
-  background: #0b9c8f;
 }
 .page-sidebar.mini  > ul > li > ul.sub-menu{
 	position:absolute;
@@ -475,7 +474,6 @@ hr {
 [class*=" icon-"],
 [class^="icon-"]:hover, 
 [class*=" icon-"]:hover { 
-  background: none !important;
 }
 .color-bands{
 	display:inline-block;
@@ -1389,7 +1387,6 @@ display:none;
 }
 
 .page-sidebar.mini{
-	 background-color: #0aa699 !important;
     height: 100%;
 	margin-top:0;
 	position:absolute;

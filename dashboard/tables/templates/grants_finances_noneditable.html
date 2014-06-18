@@ -1,0 +1,54 @@
+{% extends 'base_logado.html' %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block js_bottom %}
+    {{ block.super }}
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>
+    <script type="text/javascript" src="http://code.highcharts.com/modules/exporting.js"></script>
+    <script type="text/javascript" src="http://code.highcharts.com/highcharts-more.js"></script>
+    <script src="{% static "assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js" %}" type="text/javascript"></script>
+    <script src="{% static "assets/plugins/bootstrap-select2/select2.min.js" %}" type="text/javascript"></script>
+    <script src="{% static "assets/plugins/jquery-datatable/js/jquery.dataTables.min.js" %}" type="text/javascript" ></script>
+    <script src="{% static "assets/plugins/jquery-datatable/extra/js/TableTools.min.js" %}" type="text/javascript" ></script>
+    <script type="text/javascript" src="{% static "assets/plugins/datatables-responsive/js/datatables.responsive.js" %}"></script>
+    <script type="text/javascript" src="{% static "assets/plugins/datatables-responsive/js/lodash.min.js" %}"></script>
+    <script src="{% static "assets/plugins/jquery-flot/jquery.flot.js" %}" type="text/javascript" ></script>
+    <script src="{% static "assets/plugins/jquery-flot/jquery.flot.time.min.js" %}" type="text/javascript" ></script>
+    <script src="{% static "assets/plugins/jquery-flot/jquery.flot.selection.min.js" %}" type="text/javascript" ></script>
+    <script src="{% static "assets/plugins/jquery-flot/jquery.flot.animator.min.js" %}" type="text/javascript" ></script>
+    <script src="{% static "assets/plugins/jquery-flot/jquery.flot.orderBars.js" %}" type="text/javascript" ></script>
+    <script src="{% static "assets/plugins/jquery-sparkline/jquery-sparkline.js" %}" type="text/javascript" ></script>
+    
+    <script src="{% static "assets/js/datatables.js" %}" type="text/javascript"></script>
+    
+    <script src="{% static "js/dashboard-table.js" %}" type="text/javascript"></script>
+    <script src="{% static "js/dashboard-tile.js" %}" type="text/javascript"></script>
+    <script src="{% static "js/dashboard-chart-bar.js" %}" type="text/javascript"></script>
+    <script src="{% static "js/django.csrf.js" %}" type="text/javascript"></script>
+    <script src="{% static "assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js" %}" type="text/javascript"></script>
+    <script src="{% static "js/jquery.jeditable.datepicker.js" %}" type="text/javascript"></script>
+    <script>
+        $(document).ready(function() {
+            var gf_description = '{% trans "<p>Financial Variation:</p><ul><li><strong>Definition:</strong> Shows percentage variation between amount executed and amount budgeted, calculated by subtracting % of financial progress in execution from % of amount budgeted in the period.</li><li><strong>Interpretation:</strong> Negative values represent delays in financial execution, although in some cases they may represent savings if the products have been delivered by date of analysis. Positive values usually indicate advances, however they can be the result of an additional cost if the products have been delivered in the period.</li></ul><p>*WBS = Work Breakdown Structure</p><p>Financial Variation Over-time:</p><p><i><strong>Interpretation:</strong> The points plotted on graph facilitate analysis of trends. Negative values or delays are seen when red curve is below the blue. Red curve above the blue indicates progress achieved.</i></p>" %}';
+
+            $(".table-grants-finances").dashboardTable("{% url 'table_render_grants_finances_noneditable' %}", {
+                title: '{% trans "Rendimiento por Desembolso de los Donantes, por trimestre" %}',
+                description: gf_description,
+                url_save: "{% url 'save_milestone_data' %}"
+            });
+        });
+    </script>
+{% endblock js_bottom %}
+
+{% block css %}
+    {{ block.super }}
+    <link href="{% static "css/tables-custom.css" %}" rel="stylesheet" type="text/css"/>
+{% endblock css %}
+
+{% block content %}
+<div class="content">
+  <div class="table-grants-finances"></div>
+</div>
+{% endblock %}

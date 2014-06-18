@@ -72,7 +72,7 @@ def render_avances_financeiros(request, country_slug):
                                    .filter(country__slug=country_slug,
                                            language__acronym=
                                            request.LANGUAGE_CODE).last()
-    
+
     if not avance.upcoming_policy_dialogue_events:
         avance.upcoming_policy_dialogue_events = ''
 
@@ -109,7 +109,7 @@ def render_ucmilestone(request, year):
 def render_ucmilestone_noneditable(request, year):
     ucmilestones = UcMilestone.objects \
                               .filter(language__acronym=request.LANGUAGE_CODE)
-    
+
     ucmilestones = Quarter.filter_objects_by_year(ucmilestones, year)
 
     rendered = render_to_string("tables/ucmilestone_noneditable.html", {
@@ -148,8 +148,7 @@ def render_sm2015milestone_noneditable(request, year):
     return HttpResponse(rendered, content_type="text/html")
 
 
-@login_required
-def render_grants_finances(request):
+def _get_grants_finances_table(request):
     grants_fields = GrantsFinancesFields.objects.all().order_by('name')
     table = []
     periods = GrantsFinances.get_periods()[:14]
@@ -203,20 +202,38 @@ def render_grants_finances(request):
         values_real.append({'value': "%.1f" % totals[period]['real']})
         period_before = period
 
-    table.append({'name': 'Total Expected Donors Inflow', 'values': values_expected, 'highlight': True})
-    table.append({'name': 'Total Cummulative Donors Inflow', 'values': values_real, 'highlight': True})
+    table.append({'name': 'Total Expected Donors Inflow',
+                  'values': values_expected,
+                  'highlight': True})
+    table.append({'name': 'Total Cummulative Donors Inflow',
+                  'values': values_real,
+                  'highlight': True})
 
     can_edit = request.user.dashboarduser.can_edit_table(
         uuid_table_edit_access='TABLE_EDIT_ACCESS_GRANTS_FINANCES'
     )
-
-    rendered = render_to_string("tables/grants_finances.html", {
+    return {
         'periods': periods,
         'table': table,
         'totals': totals,
         'editable': can_edit
-    })
+    }
+
+
+@login_required
+def render_grants_finances(request):
+    context = _get_grants_finances_table(request)
+    rendered = render_to_string("tables/grants_finances.html", context)
     return HttpResponse(rendered, content_type="text/html")
+
+
+@login_required
+def render_grants_finances_noneditable(request):
+    context = _get_grants_finances_table(request)
+    rendered = render_to_string("tables/grants_finances_noneditable.html",
+                                context)
+    return HttpResponse(rendered, content_type="text/html")
+
 
 @login_required
 def render_life_save(request, country_slug):

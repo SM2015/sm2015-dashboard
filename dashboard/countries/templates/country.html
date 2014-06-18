@@ -67,7 +67,9 @@
               $(".tiles-container-execution").html("").dashboardTile(country_execution,
                                                                      {dv_money_format: true, title: countries[initial_params['country_slug']].name + ' Execution', tileSize:12 });
             
-            $("#map-goals").dashboardMap({{countries_map|safe}}, {countryZoom: initial_params['country_slug']});
+           $("#map-goals").dashboardMap({{countries_map|safe}}, 
+                                        {countryZoom: initial_params['country_slug'],
+                                         panel: initial_params['country_slug']});
 
 
             $(".map-container").find('.icon-down').live('click', function(){
@@ -152,8 +154,8 @@
 {% block content %}
 <div class="map-container">
   <div id="map-goals"></div>
-  <div style="position: absolute; top: 2px; right: 105px;">
-    <a class="showModalHelp" style="font-size:18px" href="javascript:;">
+  <div style="position: absolute; top: 6px; right: 105px;">
+    <a class="showModalHelp" href="javascript:;">
       ?
       <div class="content">
         <p>
@@ -167,11 +169,11 @@
     <div class="map-infos-wrapper">
       <i class="icon icon-down"></i>
       <div class="columns">
-        <h6 class="title">Country: <strong>Honduras</strong></h6>
-        <label class="subtitle">Operation Number: <span>HO-G1001</span></label>
-        <label class="subtitle">Name: <span>Honduras Iniciativa Salud Mesoamérica 2015</span></label>
-        <label class="subtitle">Executing Agency: <span>SESAL</span></label>
-        <label class="subtitle">Eligibility Date: <span>JULY 23, 2012</span></label>
+        <h6 class="title">Country: <strong>País</strong></h6>
+        <label class="subtitle">Operation Number: <span>Number</span></label>
+        <label class="subtitle">Name: <span>Operation Name</span></label>
+        <label class="subtitle">Executing Agency: <span>Agency</span></label>
+        <label class="subtitle">Eligibility Date: <span>Date</span></label>
       </div>
       <div class="columns">
         <h6 class="title">Focalized Zones</h6>
@@ -179,7 +181,7 @@
       </div>
       <div class="columns">
         <h6 class="title">Benefitted Population</h6>
-        <label class="subtitle"><span>33,261 Children Under Age 5 And 67,624 Women In Childbearing Age</span></label>
+        <label class="subtitle"><span>Benefitted</span></label>
       </div>
     </div>
   </div>
