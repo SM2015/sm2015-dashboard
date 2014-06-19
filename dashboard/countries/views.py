@@ -127,7 +127,7 @@ def country(request):
 
         context.update({'country_disbursement': country_disbursement_values,
                         'country_execution': country_execution_values,
-                        'operation': Operation.objects.get(country__slug=country_map.country.slug)})
+                        'operation': Operation.objects.get(country__slug=country.slug)})
 
     context.update({'countries': countries})
     return render_to_response("country.html", context)
