@@ -65,7 +65,8 @@
 }
 .map-container .menu-country {
   bottom: 0;
-  height: 200px;
+  min-height: 200px;
+  padding-bottom: 15px;
   position: absolute;
   width: 100%;
 }
