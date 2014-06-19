@@ -529,12 +529,16 @@ class OperationTotalInvestment(models.Model):
 
     investment_tranche_first_operation = models.FloatField()
     investment_tranche_second_operation = models.FloatField()
+    investment_tranche_third_operation = models.FloatField()
     counterpart_tranche_first_operation = models.FloatField()
     counterpart_tranche_second_operation = models.FloatField()
+    counterpart_tranche_third_operation = models.FloatField()
     cost_of_the_operation_first_operation = models.FloatField()
     cost_of_the_operation_second_operation = models.FloatField()
+    cost_of_the_operation_third_operation = models.FloatField()
     performance_tranche_first_operation = models.FloatField()
     performance_tranche_second_operation = models.FloatField()
+    performance_tranche_third_operation = models.FloatField()
 
     def __unicode__(self):
         return self.operation.name
