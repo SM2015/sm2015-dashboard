@@ -537,7 +537,7 @@ class OperationTotalInvestment(models.Model):
     performance_tranche_second_operation = models.FloatField()
 
     def __unicode__(self):
-        return self.name
+        return self.operation.name
 
 
 class OperationZones(models.Model):

@@ -2,12 +2,13 @@
 from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.contrib.humanize.templatetags.humanize import intcomma
 
 from tables.models import Hito, AvanceFisicoFinanciero, EstadoActual, \
     UcMilestone, Sm2015Milestone, GrantsFinances, \
     GrantsFinancesFields, LifeSaveField, LifeSave, \
     CountryOperation, CountryDetails, \
-    CountryDetailsValues, Quarter
+    CountryDetailsValues, Quarter, Operation, OperationTotalInvestment
 from countries.views import _get_obj_filtered_api
 
 
@@ -351,5 +352,52 @@ def render_country_details(request):
         'periods': periods,
         'table': table,
         'editable': can_edit
+    })
+    return HttpResponse(rendered, content_type="text/html")
+
+
+@login_required
+def render_operation_total_investment(request, country_slug):
+    operation = Operation.objects.get(country__slug=country_slug)
+    rows = OperationTotalInvestment.objects.get(operation=operation)
+
+    table = [
+        ['Investment tranche',
+         rows.investment_tranche_first_operation,
+         rows.investment_tranche_second_operation,
+         rows.investment_tranche_first_operation + rows.investment_tranche_second_operation],
+        ['Counterpart tranche',
+         rows.counterpart_tranche_first_operation,
+         rows.counterpart_tranche_second_operation,
+         rows.counterpart_tranche_first_operation + rows.counterpart_tranche_second_operation],
+        ['Cost of the Operation',
+         rows.cost_of_the_operation_first_operation,
+         rows.cost_of_the_operation_second_operation,
+         rows.cost_of_the_operation_first_operation + rows.cost_of_the_operation_second_operation],
+        ['Performance tranche*',
+         rows.performance_tranche_first_operation,
+         rows.performance_tranche_second_operation,
+         rows.performance_tranche_first_operation + rows.performance_tranche_second_operation],
+    ]
+
+    total = ['Total',
+             rows.investment_tranche_first_operation + 
+             rows.counterpart_tranche_first_operation +
+             rows.cost_of_the_operation_first_operation +
+             rows.performance_tranche_first_operation,
+
+             rows.investment_tranche_second_operation + 
+             rows.counterpart_tranche_second_operation +
+             rows.cost_of_the_operation_second_operation +
+             rows.performance_tranche_second_operation,
+
+             rows.investment_tranche_first_operation + rows.investment_tranche_second_operation + 
+             rows.counterpart_tranche_first_operation + rows.counterpart_tranche_second_operation +
+             rows.cost_of_the_operation_first_operation + rows.cost_of_the_operation_second_operation +
+             rows.performance_tranche_first_operation + rows.performance_tranche_second_operation]
+
+    rendered = render_to_string("tables/operation_total_investment.html", {
+        'table': table,
+        'total': total
     })
     return HttpResponse(rendered, content_type="text/html")

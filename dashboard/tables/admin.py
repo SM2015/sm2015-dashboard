@@ -1,9 +1,10 @@
 # coding: utf-8
 from django.contrib import admin
 from tables.models import AvanceFisicoFinanciero, Hito, UcMilestone, \
-        Sm2015Milestone, Objective, GrantsFinances, GrantsFinancesFields, Operation, \
-        LifeSave, LifeSaveField, CountryDisbursement, CountryDisbursementCharger, \
-        CountryOperation, CountryOperationIT, CountryDetails, OperationZones
+    Sm2015Milestone, Objective, GrantsFinances, GrantsFinancesFields, Operation, \
+    LifeSave, LifeSaveField, CountryDisbursement, CountryDisbursementCharger, \
+    CountryOperation, CountryOperationIT, CountryDetails, OperationZones, \
+    OperationTotalInvestment
 
 class HitoAdmin(admin.ModelAdmin):
     list_display = ('country', 'indicador_de_pago', 'language')
@@ -67,6 +68,7 @@ admin.site.register(GrantsFinances, GrantsFinancesAdmin)
 admin.site.register(GrantsFinancesFields)
 admin.site.register(Operation)
 admin.site.register(OperationZones)
+admin.site.register(OperationTotalInvestment)
 admin.site.register(LifeSave, LifeSaveAdmin)
 admin.site.register(LifeSaveField)
 admin.site.register(CountryDisbursement, CountryDisbursementAdmin)

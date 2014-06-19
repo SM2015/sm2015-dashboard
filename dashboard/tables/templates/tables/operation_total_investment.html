@@ -1,0 +1,52 @@
+{% load humanize %}
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<style>
+    .operation-total-investment .column-name {
+      text-align: center !important;
+      text-transform: uppercase;
+      vertical-align: middle !important;
+    }
+    .operation-total-investment .highlight {
+      background-color: #EEE;
+    }
+</style>
+
+<table class="table table-hover table-condensed table-bordered operation-total-investment">
+    <thead>
+        <tr>
+            <th class="column-name first" rowspan="2">Financing Tranches</th>
+            <th class="column-name" colspan="3">Total SM2015 Operating Budget for Panamá</th>
+        </tr>
+        <tr>
+          <th class="column-name">1st Operation (18 months)</th>
+          <th class="column-name">2nd Operation (36 months)</th>
+          <th class="column-name">Total</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for row in table %}
+        <tr>
+          {% for cell in row %}
+            {% if forloop.counter0 == 0 %}
+            <td>{{cell}}</td>
+            {% else %}
+            <td>{{cell|floatformat:0|intcomma}}</td>
+            {% endif %}
+          {% endfor %}
+        </tr>
+        {% endfor %}
+
+        <tr class="highlight">
+          {% for cell in total %}
+            {% if forloop.counter0 == 0 %}
+            <td>{{cell}}</td>
+            {% else %}
+            <td>{{cell|floatformat:0|intcomma}}</td>
+            {% endif %}
+          {% endfor %}
+        </tr>
+    </tbody>
+</table>
+
+<p>* The performance tranche will only be disbursed if the country meets the goals agreed in the agree-ments for each Operation.</p>
