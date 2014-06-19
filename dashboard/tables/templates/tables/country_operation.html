@@ -23,7 +23,7 @@
         {% endif %}
         <td class="text" name="">{{row.field.name}}</td>
         {% for value in row.values %}
-        <td class="{% if editable %}editable{% endif %} text" data-objid="{{value.id}}" name="{{row.field.field}}">{{value.v}}</td>
+        <td class="{% if editable %}editable{% endif %} text" data-objid="{{value.id}}" name="{{row.field.field}}">{{value.v|floatformat:0|intcomma}}</td>
         {% endfor %}
       </tr>
       {% endfor %}
@@ -38,7 +38,7 @@
         {% endif %}
         <td class="text" name="">{{row.field.name}}</td>
         {% for value in row.values %}
-        <td class="text">{{value}}</td>
+        <td class="text">{{value|floatformat:0|intcomma}}</td>
         {% endfor %}
       </tr>
       {% endfor %}

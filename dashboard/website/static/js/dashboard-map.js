@@ -71,7 +71,7 @@
           var countryZoom = this._getCountryBySlug(this.opts.countryZoom);
           if(countryZoom){
             latLngCenter = new google.maps.LatLng(countryZoom.lat, countryZoom.lng);
-            zoomMap = 7;
+            zoomMap = 8;
           }
         }
 

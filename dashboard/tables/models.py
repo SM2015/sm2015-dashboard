@@ -524,6 +524,22 @@ class Operation(models.Model):
         return self.name
 
 
+class OperationTotalInvestment(models.Model):
+    operation = models.ForeignKey(Operation)
+
+    investment_tranche_first_operation = models.FloatField()
+    investment_tranche_second_operation = models.FloatField()
+    counterpart_tranche_first_operation = models.FloatField()
+    counterpart_tranche_second_operation = models.FloatField()
+    cost_of_the_operation_first_operation = models.FloatField()
+    cost_of_the_operation_second_operation = models.FloatField()
+    performance_tranche_first_operation = models.FloatField()
+    performance_tranche_second_operation = models.FloatField()
+
+    def __unicode__(self):
+        return self.name
+
+
 class OperationZones(models.Model):
     operation = models.ForeignKey(Operation)
 
