@@ -388,25 +388,17 @@ def render_operation_total_investment(request, country_slug):
     table[3].append(rows.performance_tranche_first_operation + rows.performance_tranche_second_operation + rows.performance_tranche_third_operation)
 
     total = ['Total',
-             rows.investment_tranche_first_operation + 
-             rows.counterpart_tranche_first_operation +
              rows.cost_of_the_operation_first_operation +
              rows.performance_tranche_first_operation,
 
-             rows.investment_tranche_second_operation + 
-             rows.counterpart_tranche_second_operation +
              rows.cost_of_the_operation_second_operation +
              rows.performance_tranche_second_operation]
 
     if rows.investment_tranche_third_operation:
-        total.append(rows.investment_tranche_third_operation + 
-             rows.counterpart_tranche_third_operation +
-             rows.cost_of_the_operation_third_operation +
-             rows.performance_tranche_third_operation)
+        total.append(rows.cost_of_the_operation_third_operation +
+                     rows.performance_tranche_third_operation)
 
-    total.append(rows.investment_tranche_first_operation + rows.investment_tranche_second_operation + rows.investment_tranche_third_operation +
-    rows.counterpart_tranche_first_operation + rows.counterpart_tranche_second_operation + rows.counterpart_tranche_third_operation +
-    rows.cost_of_the_operation_first_operation + rows.cost_of_the_operation_second_operation + rows.cost_of_the_operation_third_operation +
+    total.append(rows.cost_of_the_operation_first_operation + rows.cost_of_the_operation_second_operation + rows.cost_of_the_operation_third_operation +
     rows.performance_tranche_first_operation + rows.performance_tranche_second_operation + rows.performance_tranche_third_operation)
 
 

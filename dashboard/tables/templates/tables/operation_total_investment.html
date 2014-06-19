@@ -25,7 +25,7 @@
           <th class="column-name">1st Operation (18 months)</th>
           <th class="column-name">2nd Operation (36 months)</th>
           {% if rows.investment_tranche_third_operation %}
-          <th class="column-name">3nd Operation (18 months)</th>
+          <th class="column-name">3rd Operation (18 months)</th>
           {% endif %}
           <th class="column-name">Total</th>
         </tr>
@@ -33,7 +33,12 @@
 
     <tbody>
         {% for row in table %}
-        <tr>
+          {% if forloop.counter == 3 %}
+          <tr class='highlight'>
+          {% else %}
+          <tr>
+          {% endif %}
+
           {% for cell in row %}
             {% if forloop.counter0 == 0 %}
             <td>{{cell}}</td>
@@ -41,7 +46,7 @@
             <td>{{cell|floatformat:0|intcomma}}</td>
             {% endif %}
           {% endfor %}
-        </tr>
+          </tr>
         {% endfor %}
 
         <tr class="highlight">

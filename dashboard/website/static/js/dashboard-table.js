@@ -87,7 +87,7 @@
                  "aoColumnDefs": [
                   { 'bSortable': false, 'aTargets': [ 0 ] }
                 ],
-                "aaSorting": [[ 0, "asc" ]],
+                "aaSorting": [],
                 "oLanguage": {
                     "sLengthMenu": "_MENU_ ",
                     "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries"
