@@ -3,7 +3,7 @@ from django.contrib import admin
 from tables.models import AvanceFisicoFinanciero, Hito, UcMilestone, \
         Sm2015Milestone, Objective, GrantsFinances, GrantsFinancesFields, Operation, \
         LifeSave, LifeSaveField, CountryDisbursement, CountryDisbursementCharger, \
-        CountryOperation, CountryOperationIT, CountryDetails
+        CountryOperation, CountryOperationIT, CountryDetails, OperationZones
 
 class HitoAdmin(admin.ModelAdmin):
     list_display = ('country', 'indicador_de_pago', 'language')
@@ -21,7 +21,7 @@ class UcMilestoneAdmin(admin.ModelAdmin):
         extra_context = {}
         extra_context['ask_sheet'] = True
         return super(UcMilestoneAdmin, self).changelist_view(request,
-                                                                extra_context)
+                                                             extra_context)
 
 class AvanceFisicoFinancieroAdmin(admin.ModelAdmin):
     list_display = ('country', 'language')
@@ -34,7 +34,7 @@ class Sm2015MilestoneAdmin(admin.ModelAdmin):
         extra_context = {}
         extra_context['ask_sheet'] = True
         return super(Sm2015MilestoneAdmin, self).changelist_view(request,
-                                                                extra_context)
+                                                                 extra_context)
 
 class LifeSaveAdmin(admin.ModelAdmin):
     list_display = ('country', 'field')
@@ -66,6 +66,7 @@ admin.site.register(Objective)
 admin.site.register(GrantsFinances, GrantsFinancesAdmin)
 admin.site.register(GrantsFinancesFields)
 admin.site.register(Operation)
+admin.site.register(OperationZones)
 admin.site.register(LifeSave, LifeSaveAdmin)
 admin.site.register(LifeSaveField)
 admin.site.register(CountryDisbursement, CountryDisbursementAdmin)

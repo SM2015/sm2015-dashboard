@@ -37,6 +37,7 @@ def save_milestone_data(request):
     for field_name in class_table.get_editable_fields():
         if request.POST.get(field_name, None) is not None:
             value = request.POST.get(field_name)
+            modifier = request.POST.get('modifier')
             try:
                 field = getattr(class_table, field_name)
                 if isinstance(field.field, ForeignKey):
@@ -47,9 +48,45 @@ def save_milestone_data(request):
                 field = class_table._meta.get_field_by_name(field_name)[0]
 
                 if isinstance(field, IntegerField):
-                    real_value = re.sub("\D", "", value)
+                    real_value = int(re.sub("\D", "", value))
+                    if modifier:
+                        operator = modifier[0]
+                        num = float(modifier[1:])
+                        if operator == '*':
+                            real_value *= num
+                        elif operator == '/':
+                            real_value /= num
+                        elif operator == '-':
+                            real_value -= num
+                        elif operator == '+':
+                            real_value += num
+
                 elif isinstance(field, FloatField):
-                    real_value = re.search('[\d\.\,]+', value).group(0).replace('.', '').replace(',', '')
+                    real_value = re.search('[\d\.\,]+', value).group(0)
+
+                    if request.LANGUAGE_CODE == 'en':
+                        thousand_separator = ','
+                        float_separator = '.'
+                    elif request.LANGUAGE_CODE == 'es':
+                        thousand_separator = '.'
+                        float_separator = ','
+
+                    real_value = real_value.replace(thousand_separator, '') \
+                                           .replace(float_separator, '.')
+
+                    real_value = float(real_value)
+                    if modifier:
+                        operator = modifier[0]
+                        num = float(modifier[1:])
+                        if operator == '*':
+                            real_value *= num
+                        elif operator == '/':
+                            real_value /= num
+                        elif operator == '-':
+                            real_value -= num
+                        elif operator == '+':
+                            real_value += num
+
                 elif isinstance(field, DateField):
                     real_value = datetime.strptime(value, "%m/%d/%Y").date()
 
@@ -142,6 +179,7 @@ def life_save(request):
     context.update({'countries': countries})
     return render_to_response("life_save.html", context)
 
+
 @login_required
 def grants_finances_ongoing(request, uuid_origin):
     try:
@@ -164,7 +202,7 @@ def grants_finances_ongoing(request, uuid_origin):
             expected_accumulated += grant.value
 
         values = {
-            'accumulated': float("%.2f" % (real_accumulated * 1000000)),
+            'accumulated': float("%.2f" % (real_accumulated)),
             'percentage': float("%.2f" % ((real_accumulated/expected_accumulated) * 100)),
             'dpi': float("%.1f" % (real_accumulated/expected_accumulated)),
             'dv':  float("%.2f" % (real_accumulated - expected_accumulated))
@@ -192,11 +230,11 @@ def countries_ongoing(request, country_slug, values_type):
         actual_quarter = CountryOperation.get_actual_quarter(country=country)
 
         if values_type == 'disbursement':
-            actual = actual_quarter.it_disbursements_actual * 1000000
-            planned = actual_quarter.it_disbursements_planned * 1000000
+            actual = actual_quarter.it_disbursements_actual
+            planned = actual_quarter.it_disbursements_planned
         elif values_type == 'execution':
-            actual = actual_quarter.it_execution_actual * 1000000
-            planned = actual_quarter.it_execution_planned * 1000000
+            actual = actual_quarter.it_execution_actual
+            planned = actual_quarter.it_execution_planned
 
         if planned == 0:
             percentage = 0

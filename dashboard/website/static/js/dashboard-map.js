@@ -9,18 +9,6 @@
         this.countries = countries;
         this.opts = opts || {};
 
-        /*if(this.opts.panel){
-          for(var i=0; i < this.countries.length; i++){
-            var country = this.countries[i];
-            if(country.slug == this.opts.panel){
-              self.panelCountry = country;
-              self.drawPanel();
-              break;
-            }
-          }
-        }*/
-
-
         this._bindEvents();
 
         google.maps.event.addDomListener(window, 'load', function(){
@@ -43,28 +31,35 @@
     dashboardMap.prototype.drawPanel = function(){
       var country = this.panelCountry,
         html = ''+
-        '<div class="menu-country">'+
-          '<div class="map-overlay"></div>'+
-          '<div class="map-infos-wrapper">'+
-            '<i class="icon icon-down"></i>'+
-            '<div class="columns">'+
-              '<h6 class="title">Country: <strong>'+country.name+'</strong></h6>'+
-              '<label class="subtitle">Operation Number: <span>'+country.operation.number+'</span></label>'+
-              '<label class="subtitle">Name: <span>'+country.operation.name+'</span></label>'+
-              '<label class="subtitle">Executing Agency: <span>'+country.operation.executing_agency+'</span></label>'+
-              '<label class="subtitle">Eligibility Date: <span>'+country.operation.starting_date+'</span></label>'+
+          '<div class="menu-country">'+
+            '<div class="map-overlay"></div>'+
+            '<div class="map-infos-wrapper">'+
+              '<i class="icon icon-down"></i>'+
+              '<div class="columns">'+
+                '<h6 class="title">Country: <strong>'+country.name+'</strong></h6>'+
+                '<label class="subtitle">Operation Number: <span>'+country.operation.number+'</span></label>'+
+                '<label class="subtitle">Name: <span>'+country.operation.name+'</span></label>'+
+                '<label class="subtitle">Executing Agency: <span>'+country.operation.executing_agency+'</span></label>'+
+                '<label class="subtitle">Eligibility Date: <span>'+country.operation.starting_date+'</span></label>'+
+              '</div>'+
+              '<div class="columns">'+
+                '<h6 class="title">Focalized Zones</h6>'+
+                '<label class="subtitle"><span>{ZONES}</span></label>'+
+              '</div>'+
+              '<div class="columns">'+
+                '<h6 class="title">Benefitted Population</h6>'+
+                '<label class="subtitle"><span>'+country.operation.benefitted_population+'</span></label>'+
+              '</div>'+
             '</div>'+
-            '<div class="columns">'+
-              '<h6 class="title">Focalized Zones</h6>'+
-              '<label class="subtitle"><span>San antonio, Magdalena, Santa lucía, Concepción, Cabañas, San jerónimo, Copán</span></label>'+
-            '</div>'+
-            '<div class="columns">'+
-              '<h6 class="title">Benefitted Population</h6>'+
-              '<label class="subtitle"><span>'+country.operation.benefitted_population+'</span></label>'+
-            '</div>'+
-          '</div>'+
-        '</div>';
+          '</div>';
 
+      zone_names = []
+      for(var i=0; i < country.operation.zones.length; i++){
+        var zone = country.operation.zones[i];
+        zone_names.push(zone.name);
+      }
+
+      html = html.replace('{ZONES}', zone_names.join(', '));
       this.wrapper.after(html);
     }
 
@@ -94,7 +89,15 @@
         this.map = new google.maps.Map(this.wrapper[0], mapOptions);
 
         if(self.opts.panel){
-          this.getOperationZoneMarkers();
+          for(var i=0; i < self.countries.length; i++){
+            var country = self.countries[i];
+            if(country.slug == this.opts.panel){
+              self.panelCountry = country;
+              self.drawPanel();
+              this.getOperationZoneMarkers();
+              break;
+            }
+          }
         } else {
           this.getCountriesMarkers(function(countries){
               $.each(countries, function(i, country){

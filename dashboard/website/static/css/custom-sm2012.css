@@ -57,6 +57,10 @@
 body {
     background-color: #1A1A1A;
 }
+.grid-title {
+  border-top: 2px solid #888 !important;
+}
+
 
 .graficos-triangulo td {
     padding: 10px;

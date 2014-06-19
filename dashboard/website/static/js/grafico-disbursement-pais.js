@@ -36,11 +36,11 @@
         var html = ''+
             '<div class="span12">'+
                 '<div class="grid simple">'+
-                  '<div class="grid-title no-border">'+
+                  '<div class="grid-title">'+
                     '<h4></h4>'+
                     '<div class="tools"> <a href="javascript:;" class="collapse"></a> <a href="javascript:;" class="reload"></a> <a href="javascript:;" class="remove"></a> </div>'+
                   '</div>'+
-                  '<div class="grid-body no-border">'+
+                  '<div class="grid-body">'+
                     '<div class="row-fluid">'+
                         '<table>'+
                             '<tr style="vertical-align: top;">'+

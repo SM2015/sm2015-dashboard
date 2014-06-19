@@ -164,34 +164,39 @@
       </div>
     </a> 
   </div>
-  <div class="menu-country">
-    <div class="map-overlay"></div>
-    <div class="map-infos-wrapper">
-      <i class="icon icon-down"></i>
-      <div class="columns">
-        <h6 class="title">Country: <strong>País</strong></h6>
-        <label class="subtitle">Operation Number: <span>Number</span></label>
-        <label class="subtitle">Name: <span>Operation Name</span></label>
-        <label class="subtitle">Executing Agency: <span>Agency</span></label>
-        <label class="subtitle">Eligibility Date: <span>Date</span></label>
-      </div>
-      <div class="columns">
-        <h6 class="title">Focalized Zones</h6>
-        <label class="subtitle"><span>San antonio, Magdalena, Santa lucía, Concepción, Cabañas, San jerónimo, Copán</span></label>
-      </div>
-      <div class="columns">
-        <h6 class="title">Benefitted Population</h6>
-        <label class="subtitle"><span>Benefitted</span></label>
-      </div>
-    </div>
-  </div>
 </div>
 
 <div class="content">
+
+    <div class="row-fluid">
+      <div class="span6">
+        <div class="grid simple">
+          <div class="grid-title">
+            <h4>{% trans "Operation objectives and progress" %}</h4>
+            <div class="tools"><a class="collapse" href="javascript:;"></a> <a class="remove" href="javascript:;"></a></div>
+          </div>
+          <div class="grid-body">
+            <p>{{operation.objectives_progress}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="span6">	
+        <div class="grid simple">
+          <div class="grid-title">
+            <h4>{% trans "Key results expected after 54 months" %}</h4>
+            <div class="tools"><a class="collapse" href="javascript:;"></a> <a class="remove" href="javascript:;"></a></div>
+          </div>
+          <div class="grid-body clearfix">
+            {{operation.key_results_expected|linebreaks}}
+          </div>
+        </div>
+      </div>  
+    </div>
+
     <div class="row-fluid graph-triangle-wrapper">
       <div class="span6">
         <div class="grid simple">
-          <div class="grid-title no-border">
+          <div class="grid-title">
             <h4>{% trans "Estado de las Operaciones por País" %}</h4>
             <div class="tools">
               <a class="showModalHelp" href="javascript:;">
@@ -205,14 +210,14 @@
               <a class="collapse" href="javascript:;"></a> <a class="reload" href="javascript:;"></a> <a class="remove" href="javascript:;"></a> 
             </div>
           </div>
-          <div class="grid-body no-border">
+          <div class="grid-body">
             <div class="row-fluid graph-triangle-container"></div>
           </div>
         </div>
       </div>
       <div class="span6">	
         <div class="grid simple">
-          <div class="grid-title no-border">
+          <div class="grid-title">
             <h4>{% trans "Country Operation Financial <br />Execution Performance Summary" %}</h4>
             <div class="tools">
               <a class="showModalHelp" href="javascript:;">
@@ -227,7 +232,7 @@
               <a class="collapse" href="javascript:;"></a> <a class="reload" href="javascript:;"></a> <a class="remove" href="javascript:;"></a> 
             </div>
           </div>
-          <div class="grid-body no-border clearfix">
+          <div class="grid-body clearfix">
             <div class="tiles-container-disbursement"></div>
             <div class="tiles-container-execution"></div>
           </div>

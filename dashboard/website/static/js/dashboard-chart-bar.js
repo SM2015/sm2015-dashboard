@@ -7,11 +7,11 @@
         title = opts.title || ''
         this.html = ''+
             '<div class="grid simple">'+
-              '<div class="grid-title no-border">'+
+              '<div class="grid-title">'+
                 '<h4>' + title + '</h4>'+
                 '<div class="tools"> <a href="javascript:;" class="collapse"></a> <a href="javascript:;" class="reload"></a> <a href="javascript:;" class="remove"></a> </div>'+
               '</div>'+
-              '<div class="grid-body no-border">'+
+              '<div class="grid-body">'+
                 '<div class="placeholder" style="width:960px;height:250px;position:relative; padding-top:10px;"></div>'+
               '</div>'+
             '</div>';

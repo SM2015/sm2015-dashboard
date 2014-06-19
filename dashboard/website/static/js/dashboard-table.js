@@ -34,6 +34,7 @@
                 var data = {};
                 data['objid'] = $(this).closest("[data-objid]").attr("data-objid");
                 data['model'] = $(this).closest("[data-model]").attr("data-model");
+                data['modifier'] = $(this).closest("[data-modifier-in-save]").attr("data-modifier-in-save");
                 data[field] = $(this).find("input").val();
                 return data;
             }

@@ -95,7 +95,7 @@ def country(request):
                 }
             }
 
-            for zone in operation.operation_zones.all():
+            for zone in operation.operationzones_set.all():
                 zone_dict = {
                     'name': zone.name,
                     'lat': zone.latlng.split(',')[0],
@@ -126,7 +126,8 @@ def country(request):
         }
 
         context.update({'country_disbursement': country_disbursement_values,
-                        'country_execution': country_execution_values})
+                        'country_execution': country_execution_values,
+                        'operation': Operation.objects.get(country__slug=country_map.country.slug)})
 
     context.update({'countries': countries})
     return render_to_response("country.html", context)

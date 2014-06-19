@@ -189,7 +189,7 @@ class Hito(models.Model):
             {'country': Country.objects.get(slug='nicaragua'), 'sheet': wb.get_sheet_by_name('Nicaragua') },
             {'country': Country.objects.get(slug='panama'), 'sheet': wb.get_sheet_by_name('Panama') }
         ]
-        
+
         language = Language.objects.get(acronym=sheet_lang)
 
         for sheet in sheets:
@@ -493,10 +493,10 @@ class GrantsFinances(models.Model):
                             quarter = Quarter.objects.create(name=Quarter.normalize_name(period_row[columns_index[cell.column]].value))
 
                         cls.objects.create(
-                            quarter = quarter,
-                            field = map_row['field'],
-                            value = cell.value
-                        ) 
+                            quarter=quarter,
+                            field=map_row['field'],
+                            value=cell.value * 1000000
+                        )
             except KeyError:
                 continue
 
@@ -517,6 +517,8 @@ class Operation(models.Model):
     benefitted_population = models.CharField(max_length=400, default='')
     starting_date = models.DateField()
     finish_date = models.DateField()
+    objectives_progress = models.TextField()
+    key_results_expected = models.TextField()
 
     def __unicode__(self):
         return self.name
@@ -789,10 +791,10 @@ class CountryOperation(models.Model):
                 row = {'field': field,
                        'country': country_operation.name,
                        'it_id': operation_it.id,
-                       'it': operation_it.it,
+                       'it': operation_it.it / 1000000,
                        'values': []}
                 if with_total:
-                    total[i]['it'] += operation_it.it
+                    total[i]['it'] += operation_it.it / 1000000
 
                 for i_quarter in xrange(0, len(quarters)):
                     quarter = quarters[i_quarter]
@@ -842,7 +844,7 @@ class CountryOperation(models.Model):
                 try:
                     CountryOperationIT.objects.get(country=country)
                 except CountryOperationIT.DoesNotExist:
-                    CountryOperationIT.objects.create(country=country, it=row[2].value)
+                    CountryOperationIT.objects.create(country=country, it=row[2].value * 1000000)
 
                 if not countries.has_key(country.name):
                     countries[country.name] = {}
@@ -852,22 +854,22 @@ class CountryOperation(models.Model):
                         quarter = quarters[cell.column]
                         countries[country.name][quarter] = {}
                         countries[country.name][quarter]['country'] = country
-                        countries[country.name][quarter]['it_disbursements_planned'] = cell.value or 0
+                        countries[country.name][quarter]['it_disbursements_planned'] = cell.value * 1000000 or 0
 
                 elif row[0].row in [6, 10, 14, 18, 22, 26, 30, 34]:
                     for cell in row[5:16]:
                         quarter = quarters[cell.column]
-                        countries[country.name][quarter]['it_disbursements_actual'] = cell.value or 0
+                        countries[country.name][quarter]['it_disbursements_actual'] = cell.value * 1000000 or 0
 
                 elif row[0].row in [7, 11, 15, 19, 23, 27, 31, 35]:
                     for cell in row[5:16]:
                         quarter = quarters[cell.column]
-                        countries[country.name][quarter]['it_execution_planned'] = cell.value or 0
+                        countries[country.name][quarter]['it_execution_planned'] = cell.value * 1000000 or 0
 
                 elif row[0].row in [8, 12, 16, 20, 24, 28, 32, 36]:
                     for cell in row[5:16]:
                         quarter = quarters[cell.column]
-                        countries[country.name][quarter]['it_execution_actual'] = cell.value or 0
+                        countries[country.name][quarter]['it_execution_actual'] = cell.value * 1000000 or 0
 
         for country_name in countries:
             quarters = countries[country_name]
