@@ -71,7 +71,9 @@
   width: 100%;
 }
 .map-container .menu-country.closed {
-  height: 0px;
+  height: 0;
+  min-height: 0;
+  padding-bottom: 0;
 }
 .menu-country.closed .map-overlay {
   display: none;
