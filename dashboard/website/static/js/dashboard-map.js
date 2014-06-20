@@ -70,8 +70,13 @@
         if(this.opts.countryZoom){
           var countryZoom = this._getCountryBySlug(this.opts.countryZoom);
           if(countryZoom){
-            latLngCenter = new google.maps.LatLng(countryZoom.lat, countryZoom.lng);
-            zoomMap = 8;
+            if(countryZoom.slug == 'el-salvador'){
+              latLngCenter = new google.maps.LatLng(13.502971, -88.814850);
+              zoomMap = 9;
+            } else {
+              latLngCenter = new google.maps.LatLng(countryZoom.lat, countryZoom.lng);
+              zoomMap = 8;
+            }
           }
         }
 
@@ -130,7 +135,6 @@
 
     dashboardMap.prototype.getOperationZoneMarkers = function(){
         var self = this, countries = [];
-        console.log(this);
         $.each(this.panelCountry.operation.zones, function(i, zone){
             var icon = self.greenMarkerIcon;
 
