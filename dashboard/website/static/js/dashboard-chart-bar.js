@@ -28,8 +28,10 @@
             "rgba(243, 89, 88, 0.7)",
             "rgba(251, 176, 94, 0.7)"
           ];
+
+          self.values_labels = [];
+
           $.each(response.values, function(i){
-            console.log(this);
             var row = {
               data: this,
               animator: {steps: 60, duration: 1000, start:0}, 		
@@ -45,10 +47,13 @@
               color:  colors[i]
             };
             rows_flot.push(row);
+
+            for(var i=0; i<this.length; i++){
+              self.values_labels.push([this[i][1], thousandSeparator(this[i][1])])
+            }
           });
 
           self.origins = response.origins;
-          self.values_labels = response.values_labels;
           self.plotChart(rows_flot, url);
         });
     }
@@ -80,6 +85,7 @@
               },
               yaxis: {
                 labelWidth: 50,
+                ticks: self.values_labels,
                 font :{
                     style: "normal",
                     weight: "bold",

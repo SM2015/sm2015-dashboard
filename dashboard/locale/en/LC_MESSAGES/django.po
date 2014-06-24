@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-24 16:31-0400\n"
+"POT-Creation-Date: 2014-06-24 17:31-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,7 +33,7 @@ msgstr ""
 msgid "Gráficas de Logros por País"
 msgstr "Country Milestone Graphics"
 
-#: countries/templates/country.html:53 website/templates/index.html:575
+#: countries/templates/country.html:53 website/templates/index.html:576
 msgid ""
 "Durante la etapa de planificación, los equipos nacionales seleccionan los "
 "eventos trimestrales pertinentes para cada indicador de pago, creando una "
@@ -172,11 +172,13 @@ msgstr ""
 msgid "Avance fisico financieros"
 msgstr "Physical and financial progress"
 
-#: tables/templates/hitos_e_avances.html:91 tables/templates/life_save.html:84
+#: tables/templates/hitos_e_avances.html:109
+#: tables/templates/life_save.html:84
 msgid "Seleccione un país"
 msgstr "Select a country"
 
-#: tables/templates/hitos_e_avances.html:98 tables/templates/life_save.html:91
+#: tables/templates/hitos_e_avances.html:116
+#: tables/templates/life_save.html:91
 msgid "Usted está viendo"
 msgstr "You are viewing"
 
@@ -393,7 +395,11 @@ msgstr ""
 msgid "TODOS"
 msgstr "ALL"
 
-#: website/templates/index.html:591
+#: website/templates/index.html:570
+msgid "Impacto en Mortalidad, Escenarios LiST (<i>_Lives Saved_ Tool</i>)"
+msgstr "Impact on Mortality, LiST (_Lives Saved_ Tool) Scenarios"
+
+#: website/templates/index.html:592
 msgid "Pais"
 msgstr "Countries"
 
