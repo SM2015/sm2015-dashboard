@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-16 16:17-0400\n"
+"POT-Creation-Date: 2014-06-24 16:31-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,19 +25,15 @@ msgstr "Country Operation Financial Execution Performance, by Quarter"
 msgid ""
 "Esta tabla muestra los desembolsos reales y previstas del tramo de inversión "
 "y la ejecución del tramo de inversión, por trimestre."
-msgstr "This table displays the  actual and planned disbursements of the investment "
+msgstr ""
+"This table displays the  actual and planned disbursements of the investment "
 "tranche and the execution of the investment tranche, per quarter."
 
-#: countries/templates/country_details.html:66
-msgid "Datos del País"
-msgstr "Country Details"
-
-#: countries/templates/country_details.html:193
+#: countries/templates/country.html:52
 msgid "Gráficas de Logros por País"
 msgstr "Country Milestone Graphics"
 
-#: countries/templates/country_details.html:194
-#: website/templates/index.html:575
+#: countries/templates/country.html:53 website/templates/index.html:575
 msgid ""
 "Durante la etapa de planificación, los equipos nacionales seleccionan los "
 "eventos trimestrales pertinentes para cada indicador de pago, creando una "
@@ -54,15 +50,66 @@ msgstr ""
 "progress and red means the milestone is pending, or past its expected date "
 "of completion. This graphic is updated monthly"
 
-#: countries/templates/country_details.html:199
-#: countries/templates/country_details.html:334
+#: countries/templates/country.html:58 countries/templates/country.html:207
 #: website/templates/index.html:518
 msgid "Estado de las Operaciones por País"
 msgstr "Country Operation Status"
 
-#: countries/templates/country_details.html:361
+#: countries/templates/country.html:167 website/templates/index.html:507
+msgid ""
+"Este mapa incluye información general sobre cada país. Haga clic en el Pin "
+"para leer acerca de los objetivos y ver cómo ha transcurrido mucho tiempo en "
+"la operación actual. El color de la espiga hace referencia a la cantidad de "
+"variación en el progreso físico, financiero previsto y real.  Un pasador "
+"verde significa que el país tiene menos de 25 por ciento de variación física "
+"y financiera del plan original.  Un pasador amarillo significa una de las "
+"variables es la variación superior al 25 por ciento y un pin rojo significa "
+"que la variación tanto financiera como física son mayores al 25 por ciento. "
+"Para obtener información detallada sobre la variación, por favor vea la "
+"Grafica de Estado del País por Operación."
+msgstr ""
+"This map includes general information about each country. Click on the Pin "
+"to read about the objectives and see how much time has elapsed in the "
+"current operation. The color of the pin refers to the amount of variation in "
+"planned and actual financial and physical progress. A Green pin means that "
+"the country has less than 25 percent physical and financial variation from "
+"the original plan. A Yellow pin means one of the variables is greater than "
+"25 percent variation and a red pin means that both financial and physical "
+"variation are greater than 25 perent. For detailed information on variation, "
+"please see the Country Operation Status Graphic."
+
+#: countries/templates/country.html:180
+msgid "Operation objectives and progress"
+msgstr ""
+
+#: countries/templates/country.html:191
+msgid "Key results expected after 54 months"
+msgstr ""
+
+#: countries/templates/country.html:213 website/templates/index.html:524
+msgid ""
+"Está gráfica ilustra ejecución / valores reales y esperados / valores "
+"programados, lo que correspondiente porcentaje de avance financiero en la "
+"ejecución,porcentaje de avance físico en la ejecución, y el porcentaje de "
+"tiempo transcurrido desde la elegibilidad de la operación hasta la fecha en "
+"la que la información se ha actualizado. Los programas buscan reducir la "
+"cantidad de variación (espacios entre los triángulos) entre los valores "
+"previstos y los valores reales."
+msgstr ""
+"This graphic illustrates executed/real values and expected/programmed "
+"values, corresponding to the percentage of financial progress in execution, "
+"percentage of physical progress in execution, and percentage of time passed "
+"from operation eligibility to date the information was updated. Programs "
+"seek to reduce the amount of variation (spaces between the triangles) "
+"between the planned and actual values."
+
+#: countries/templates/country.html:228
 msgid "Country Operation Financial <br />Execution Performance Summary"
-msgstr "Donor Disbursment Performance" 
+msgstr "Donor Disbursment Performance"
+
+#: countries/templates/country_details.html:62
+msgid "Datos del País"
+msgstr "Country Details"
 
 #: graphs/models.py:154
 msgid "% Avance Tiempo"
@@ -90,6 +137,7 @@ msgid ""
 msgstr "Financial Execution Performance, by Quarter"
 
 #: tables/templates/grants_finances.html:34
+#: tables/templates/grants_finances_editable.html:34
 #, python-format
 msgid ""
 "<p>Financial Variation:</p><ul><li><strong>Definition:</strong> Shows "
@@ -108,6 +156,7 @@ msgid ""
 msgstr ""
 
 #: tables/templates/grants_finances.html:37
+#: tables/templates/grants_finances_editable.html:37
 msgid "Rendimiento por Desembolso de los Donantes, por trimestre"
 msgstr "Donor Disbursement Performance, by quarter"
 
@@ -150,7 +199,7 @@ msgid "Seleccione una Data"
 msgstr "Select a date"
 
 #: tables/templates/sm2015milestone.html:22
-#: website/templates/base_logado.html:288
+#: website/templates/base_logado.html:316
 msgid "SM2015 Hitos"
 msgstr "SM2015 Milestones"
 
@@ -242,93 +291,62 @@ msgstr "Recommendations"
 msgid "Próximos eventos del Diálogos de Políticas"
 msgstr "Upcoming Policy Dialogue Events"
 
-#: website/templates/base_logado.html:233
+#: website/templates/base_logado.html:249
 msgid "Hola"
 msgstr "Hello"
 
-#: website/templates/base_logado.html:273
+#: website/templates/base_logado.html:289
 msgid "Mi Tablero"
 msgstr "Dashboard"
 
-#: website/templates/base_logado.html:274
+#: website/templates/base_logado.html:290
 msgid "Paises"
 msgstr "Countries"
 
-#: website/templates/base_logado.html:280
+#: website/templates/base_logado.html:303
+#, fuzzy
+msgid "Detalles del País"
+msgstr "Country Details"
+
+#: website/templates/base_logado.html:308
 msgid "Metas SM2015"
 msgstr "SM2015"
 
-#: website/templates/base_logado.html:281
+#: website/templates/base_logado.html:309
 msgid "Financiación"
 msgstr "Financing"
 
-#: website/templates/base_logado.html:282
+#: website/templates/base_logado.html:310
 msgid "SM2015"
 msgstr "SM2015"
 
-#: website/templates/base_logado.html:283
+#: website/templates/base_logado.html:311
 msgid "Informes"
 msgstr "Reports"
 
-#: website/templates/base_logado.html:284
+#: website/templates/base_logado.html:312
 msgid "Base de datos"
 msgstr "Databases"
 
-#: website/templates/base_logado.html:286
+#: website/templates/base_logado.html:314
 msgid "Ejecución Financiera y Hitos"
 msgstr "Financial Execution and Milestones"
 
-#: website/templates/base_logado.html:287
+#: website/templates/base_logado.html:315
 msgid "Unidad de Coordinación Hitos"
 msgstr "Coordination Unit Milestone"
 
-#: website/templates/base_logado.html:290
+#: website/templates/base_logado.html:317
+msgid "Rendimiento por Desembolso"
+msgstr "Disbursement Performance"
+
+#: website/templates/base_logado.html:319
 msgid "País Operación"
 msgstr "Country Operation"
 
 #: website/templates/index.html:278
 msgid "Primera Operación SM2015"
 msgstr "First Operation SM2015"
-
-#: website/templates/index.html:507
-msgid ""
-"Este mapa incluye información general sobre cada país. Haga clic en el Pin "
-"para leer acerca de los objetivos y ver cómo ha transcurrido mucho tiempo en "
-"la operación actual. El color de la espiga hace referencia a la cantidad de "
-"variación en el progreso físico, financiero previsto y real.  Un pasador "
-"verde significa que el país tiene menos de 25 por ciento de variación física "
-"y financiera del plan original.  Un pasador amarillo significa una de las "
-"variables es la variación superior al 25 por ciento y un pin rojo significa "
-"que la variación tanto financiera como física son mayores al 25 por ciento. "
-"Para obtener información detallada sobre la variación, por favor vea la "
-"Grafica de Estado del País por Operación."
-msgstr ""
-"This map includes general information about each country. Click on the Pin "
-"to read about the objectives and see how much time has elapsed in the "
-"current operation. The color of the pin refers to the amount of variation in "
-"planned and actual financial and physical progress. A Green pin means that "
-"the country has less than 25 percent physical and financial variation from "
-"the original plan. A Yellow pin means one of the variables is greater than "
-"25 percent variation and a red pin means that both financial and physical "
-"variation are greater than 25 perent. For detailed information on variation, "
-"please see the Country Operation Status Graphic."
-
-#: website/templates/index.html:524
-msgid ""
-"Está gráfica ilustra ejecución / valores reales y esperados / valores "
-"programados, lo que correspondiente porcentaje de avance financiero en la "
-"ejecución,porcentaje de avance físico en la ejecución, y el porcentaje de "
-"tiempo transcurrido desde la elegibilidad de la operación hasta la fecha en "
-"la que la información se ha actualizado. Los programas buscan reducir la "
-"cantidad de variación (espacios entre los triángulos) entre los valores "
-"previstos y los valores reales."
-msgstr ""
-"This graphic illustrates executed/real values and expected/programmed "
-"values, corresponding to the percentage of financial progress in execution, "
-"percentage of physical progress in execution, and percentage of time passed "
-"from operation eligibility to date the information was updated. Programs "
-"seek to reduce the amount of variation (spaces between the triangles) "
-"between the planned and actual values."
 
 #: website/templates/index.html:532
 msgid "Mostrar Más"

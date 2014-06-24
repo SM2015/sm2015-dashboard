@@ -157,9 +157,17 @@
           window_pathname = window_pathname.slice(0, -1);
         }
 
-        $item_menu = $main_menu.find("a[href^='"+window_pathname+"']");
+        $item_menu = $main_menu.find("a[href='"+window_pathname+"']");
         if($item_menu.length == 0){
-          $item_menu = $main_menu.find("a[href^='"+window_pathname+"/']");
+          $item_menu = $main_menu.find("a[href='"+window_pathname+"/']");
+
+          if($item_menu.length == 0){
+            $item_menu = $main_menu.find("a[href^='"+window_pathname+"']");
+
+            if($item_menu.length == 0){
+              $item_menu = $main_menu.find("a[href^='"+window_pathname+"/']");
+            }
+          }
         }
 
         if($item_menu){
@@ -306,7 +314,7 @@
           <li> <a href="{% url 'hitos_e_avances' %}">{% trans "Ejecución Financiera y Hitos" %}</a> </li>
           <li> <a href="{% url 'ucmilestone' %}">{% trans "Unidad de Coordinación Hitos" %}</a> </li>
           <li> <a href="{% url 'sm2015milestone' %}">{% trans "SM2015 Hitos" %}</a> </li>
-          <li> <a href="{% url 'grants_finances_noneditable' %}">{% trans "Rendimiento por Desembolso" %}</a> </li>
+          <li> <a href="{% url 'grants_finances_editable' %}">{% trans "Rendimiento por Desembolso" %}</a> </li>
           <li> <a href="{% url 'life_save' %}">LiST</a> </li>
           <li> <a href="{% url 'country_operation' %}">{% trans "País Operación" %}</a> </li>
         </ul>

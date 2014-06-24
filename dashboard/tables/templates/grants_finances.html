@@ -33,7 +33,7 @@
         $(document).ready(function() {
             var gf_description = '{% trans "<p>Financial Variation:</p><ul><li><strong>Definition:</strong> Shows percentage variation between amount executed and amount budgeted, calculated by subtracting % of financial progress in execution from % of amount budgeted in the period.</li><li><strong>Interpretation:</strong> Negative values represent delays in financial execution, although in some cases they may represent savings if the products have been delivered by date of analysis. Positive values usually indicate advances, however they can be the result of an additional cost if the products have been delivered in the period.</li></ul><p>*WBS = Work Breakdown Structure</p><p>Financial Variation Over-time:</p><p><i><strong>Interpretation:</strong> The points plotted on graph facilitate analysis of trends. Negative values or delays are seen when red curve is below the blue. Red curve above the blue indicates progress achieved.</i></p>" %}';
 
-            $(".table-grants-finances").dashboardTable("{% url 'table_render_grants_finances' %}", {
+            $(".table-grants-finances").dashboardTable("{% url 'table_render_grants_finances_noneditable' %}", {
                 title: '{% trans "Rendimiento por Desembolso de los Donantes, por trimestre" %}',
                 description: gf_description,
                 url_save: "{% url 'save_milestone_data' %}"

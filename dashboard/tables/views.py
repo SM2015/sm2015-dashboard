@@ -166,9 +166,9 @@ def grants_finances(request):
 
 
 @login_required
-def grants_finances_noneditable(request):
+def grants_finances_editable(request):
     context = RequestContext(request)
-    return render_to_response("grants_finances_noneditable.html", context)
+    return render_to_response("grants_finances_editable.html", context)
 
 
 @login_required
