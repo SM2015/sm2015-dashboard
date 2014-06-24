@@ -92,6 +92,7 @@
                     "sLengthMenu": "_MENU_ ",
                     "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries"
                 },
+                "scrollX": true,
                 bAutoWidth     : true,
                 fnPreDrawCallback: function () {
                     if (!responsiveHelper) {
