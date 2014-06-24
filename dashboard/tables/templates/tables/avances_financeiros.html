@@ -30,7 +30,7 @@
             </tr>
             <tr>
               <th class="avances-header">{% trans "Monto Total Desembolsado<br />(BID a PAIS)" %}</th>
-                <td class="avances-value {% if editable %}editable{% endif %} text" name="monto_desembolsado">${{avance.monto_desembolsado|intcomma}}</td>
+                <td class="avances-value {% if editable %}editable{% endif %} text" name="monto_desembolsado">${{avance.monto_desembolsado|floatformat:0|intcomma}}</td>
             </tr>
         </table>
     </div>
@@ -38,7 +38,7 @@
         <table class="table-bordered">
             <tr>
                 <th class="avances-header">{% trans "Monto Comprometido" %}</th>
-                <td class="avances-value {% if editable %}editable{% endif %} text" name="monto_comprometido">${{avance.monto_comprometido|intcomma}}</td>
+                <td class="avances-value {% if editable %}editable{% endif %} text" name="monto_comprometido">${{avance.monto_comprometido|floatformat:0|intcomma}}</td>
             </tr>
             <tr>
                 <th class="avances-header">{% trans "Avances Fisicos Planificados (Meta Ejecución):<br />De La Linea De Base Original" %}</th>

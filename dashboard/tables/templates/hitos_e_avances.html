@@ -37,17 +37,35 @@
                 var name = $(this).find(":selected").text();
                 var slug = $(this).find(":selected").val();
                 $(window).trigger("select-country", [name, slug]);
+
+                var newUrl = window.location.origin + window.location.pathname + '?country_slug=' + slug + '&country_name=' + name;
+                history.pushState({'country': name}, '', newUrl);
             });
 
-            {% if countries|length > 1 %}
-            var $pais_initial = $("select[name='select-pais'] :selected");
-            var name = $pais_initial.text();
-            var slug = $pais_initial.val();
-            $(window).trigger("select-country", [name, slug]);
-            {% else %}
-            $(window).trigger("select-country", ["{{countries.0.name}}", "{{countries.0.slug}}"]);
-            {% endif %}
+            if(window.location.search.indexOf('country_slug') != -1){
+              var searches = window.location.search.substr(1).split('&');
+              for(var i=0; i < searches.length; i++){
+                if(searches[i].indexOf('country_slug') != -1){
+                  var slug = searches[i].split('=')[1];
+                } else if(searches[i].indexOf('country_name') != -1){
+                  var name = searches[i].split('=')[1];
+                }
+              }
+              $("select[name='select-pais'] option[value='"+slug+"']").attr("selected", true);
+              $(window).trigger("select-country", [name, slug]);
+            } else {
+              {% if countries|length > 1 %}
+              var $pais_initial = $("select[name='select-pais'] :selected");
+              var name = $pais_initial.text();
+              var slug = $pais_initial.val();
+              $(window).trigger("select-country", [name, slug]);
+              {% else %}
+              $(window).trigger("select-country", ["{{countries.0.name}}", "{{countries.0.slug}}"]);
+              {% endif %}
+            }
+
         });
+
     </script>
 {% endblock js_bottom %}
 

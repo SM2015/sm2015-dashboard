@@ -73,6 +73,10 @@
             if(countryZoom.slug == 'el-salvador'){
               latLngCenter = new google.maps.LatLng(13.502971, -88.814850);
               zoomMap = 9;
+            }
+            else if(countryZoom.slug == 'honduras'){
+              latLngCenter = new google.maps.LatLng(14.400000, -87.083333);
+              zoomMap = 8;
             } else {
               latLngCenter = new google.maps.LatLng(countryZoom.lat, countryZoom.lng);
               zoomMap = 8;
