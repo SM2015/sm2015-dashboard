@@ -39,8 +39,10 @@ def index(request):
                 link = country_map.more_info_link.strip().lstrip('/')
                 infos_url = "/{0}".format(link)
             else:
-                infos_url = "{0}?country={1}".format(reverse('country_details'),
-                                                     country_map.country.id)
+                infos_url = "{0}?country={1}&country_slug={2}".format(reverse('country'),
+                                                                      country_map.country.id.
+                                                                      country_map.country.slug)
+                import ipdb; ipdb.set_trace()
             country = {
                 'lat': str(country_map.country.latlng.split(',')[0]),
                 'lng': str(country_map.country.latlng.split(',')[1]),
