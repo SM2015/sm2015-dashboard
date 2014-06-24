@@ -34,8 +34,8 @@
                 $(window).trigger("select-date", [v_date]);
             });
           
-            $("select[name='select-date'] option:first").attr("selected", true);
-            $(window).trigger("select-date", ["{{dates.0}}"]);
+            $("select[name='select-date'] option[value='2014']").attr("selected", true);
+            $(window).trigger("select-date", ["{{dates.1}}"]);
         });
     </script>
 {% endblock js_bottom %}
