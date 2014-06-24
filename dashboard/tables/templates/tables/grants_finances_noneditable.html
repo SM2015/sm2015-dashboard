@@ -1,3 +1,4 @@
+{% load humanize %}
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 <style>
     .column-name{
@@ -25,7 +26,7 @@
         <tr>
             <td data-objid="{{field.id}}" {% if field.highlight %}style="background-color: #fafafa;font-weight:bold"{% endif %} data-model="GrantsFinancesFields" class="{% if field.id %} text{% endif %}" name="name">{{field.name}}</td>
             {% for value in field.values %}
-            <td data-objid="{{value.id}}" {% if field.highlight %}style="background-color: #fafafa;"{% endif %} data-model="GrantsFinances" class="number-value {% if field.id %} text{% endif %}" name="value">{{value.value}}</td>
+            <td data-objid="{{value.id}}" {% if field.highlight %}style="background-color: #fafafa;"{% endif %} data-model="GrantsFinances" class="number-value {% if field.id %} text{% endif %}" name="value">{{value.value|floatformat:0|intcomma}}</td>
             {% endfor %}
         </tr>
         {% endfor %}
