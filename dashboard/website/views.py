@@ -42,7 +42,6 @@ def index(request):
                 infos_url = "{0}?country={1}&country_slug={2}".format(reverse('country'),
                                                                       country_map.country.id.
                                                                       country_map.country.slug)
-                import ipdb; ipdb.set_trace()
             country = {
                 'lat': str(country_map.country.latlng.split(',')[0]),
                 'lng': str(country_map.country.latlng.split(',')[1]),
