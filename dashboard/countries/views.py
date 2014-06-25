@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from map.models import Map
 from core.models import Country
 from tables.models import CountryDetails, CountryDetailsValues, \
-    AvanceFisicoFinanciero, Operation
+    AvanceFisicoFinanciero, Operation, OperationInfos
 
 
 @login_required
@@ -125,9 +125,19 @@ def country(request):
             'url_ongoing': reverse('countries_ongoing', args=[country.slug, 'execution'])
         }
 
+        operation = Operation.objects.get(country__slug=country.slug)
+        operation_infos = OperationInfos.objects \
+                                        .filter(language__acronym=request.LANGUAGE_CODE) \
+                                        .filter(operation=operation)
+
+        if operation_infos:
+            operation_infos = operation_infos[0]
+        else:
+            operation_infos = None
         context.update({'country_disbursement': country_disbursement_values,
                         'country_execution': country_execution_values,
-                        'operation': Operation.objects.get(country__slug=country.slug)})
+                        'operation': operation,
+                        'operation_infos': operation_infos})
 
     context.update({'countries': countries})
     return render_to_response("country.html", context)

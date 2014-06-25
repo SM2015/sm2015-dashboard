@@ -517,11 +517,20 @@ class Operation(models.Model):
     benefitted_population = models.CharField(max_length=400, default='')
     starting_date = models.DateField()
     finish_date = models.DateField()
+
+    def __unicode__(self):
+        return self.name
+
+
+class OperationInfos(models.Model):
+    operation = models.ForeignKey(Operation)
+    language = models.ForeignKey(Language, default=1)
+
     objectives_progress = models.TextField()
     key_results_expected = models.TextField()
 
     def __unicode__(self):
-        return self.name
+        return self.operation.name
 
 
 class OperationTotalInvestment(models.Model):
