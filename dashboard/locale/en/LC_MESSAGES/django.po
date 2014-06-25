@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-24 20:08-0400\n"
+"POT-Creation-Date: 2014-06-24 21:32-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -79,12 +79,12 @@ msgstr ""
 "please see the Country Operation Status Graphic."
 
 #: countries/templates/country.html:180
-msgid "Operation objectives and progress"
-msgstr ""
+msgid "Objetivo de la Operación"
+msgstr "Operation objectives and progress"
 
 #: countries/templates/country.html:191
-msgid "Key results expected after 54 months"
-msgstr ""
+msgid "Resultados Esperados Después de los 54 meses"
+msgstr "Key results expected after 54 months"
 
 #: countries/templates/country.html:213 website/templates/index.html:524
 msgid ""
