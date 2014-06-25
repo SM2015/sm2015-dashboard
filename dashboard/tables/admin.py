@@ -69,6 +69,13 @@ class CountryDetailsAdmin(admin.ModelAdmin):
                                                                 extra_context)
 
 
+class OperationZonesAdmin(admin.ModelAdmin):
+    list_display = ('name', 'country', 'operation')
+
+    def country(self, obj):
+        return obj.operation.country.name
+
+
 class OperationInfosAdmin(admin.ModelAdmin):
     list_display = ('operation', 'language')
 
@@ -81,7 +88,7 @@ admin.site.register(Objective)
 admin.site.register(GrantsFinances, GrantsFinancesAdmin)
 admin.site.register(GrantsFinancesFields)
 admin.site.register(Operation)
-admin.site.register(OperationZones)
+admin.site.register(OperationZones, OperationZonesAdmin)
 admin.site.register(OperationInfos, OperationInfosAdmin)
 admin.site.register(OperationTotalInvestment)
 admin.site.register(LifeSave, LifeSaveAdmin)
