@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-24 17:31-0400\n"
+"POT-Creation-Date: 2014-06-24 20:08-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -396,8 +396,8 @@ msgid "TODOS"
 msgstr "ALL"
 
 #: website/templates/index.html:570
-msgid "Impacto en Mortalidad, Escenarios LiST (<i>_Lives Saved_ Tool</i>)"
-msgstr "Impact on Mortality, LiST (_Lives Saved_ Tool) Scenarios"
+msgid "Impacto en Mortalidad, Escenarios LiST (<i>Lives Saved Tool</i>)"
+msgstr "Impact on Mortality, LiST (Lives Saved Tool) Scenarios"
 
 #: website/templates/index.html:592
 msgid "Pais"
