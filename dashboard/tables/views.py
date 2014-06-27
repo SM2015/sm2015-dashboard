@@ -96,6 +96,13 @@ def save_milestone_data(request):
                 else:
                     real_value = value
                 setattr(instance, field_name, real_value)
+
+                if hasattr(instance, 'replicate_in'):
+                    objs = instance.replicate_in
+                    for obj in objs:
+                        setattr(obj, field_name, real_value)
+                        obj.save()
+
             except FieldDoesNotExist:
                 continue
 

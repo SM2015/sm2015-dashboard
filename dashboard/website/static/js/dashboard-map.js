@@ -77,6 +77,18 @@
             else if(countryZoom.slug == 'honduras'){
               latLngCenter = new google.maps.LatLng(14.400000, -87.083333);
               zoomMap = 8;
+            }
+            else if(countryZoom.slug == 'mexico'){
+              latLngCenter = new google.maps.LatLng(16.908720, -92.094370);
+              zoomMap = 9;
+            }
+            else if(countryZoom.slug == 'guatemala'){
+              latLngCenter = new google.maps.LatLng(15.175556, -90.941667);
+              zoomMap = 9;
+            }
+            else if(countryZoom.slug == 'panama'){
+              latLngCenter = new google.maps.LatLng(8.462142, -79.451752);
+              zoomMap = 8;
             } else {
               latLngCenter = new google.maps.LatLng(countryZoom.lat, countryZoom.lng);
               zoomMap = 8;

@@ -74,7 +74,7 @@ def render_avances_financeiros(request, country_slug):
                                            language__acronym=
                                            request.LANGUAGE_CODE).last()
 
-    if not avance.upcoming_policy_dialogue_events:
+    if avance and not avance.upcoming_policy_dialogue_events:
         avance.upcoming_policy_dialogue_events = ''
 
     can_edit = request.user.dashboarduser.can_edit_table(

@@ -89,6 +89,14 @@ class AvanceFisicoFinanciero(models.Model):
     recomendacion = models.TextField(null=True, blank=True, default=None)
     upcoming_policy_dialogue_events = models.TextField(null=True, blank=True, default='')
 
+    @property
+    def replicate_in(self):
+        objs = AvanceFisicoFinanciero.objects \
+                                     .filter(country=self.country) \
+                                     .exclude(language=self.language) \
+                                     .all()
+        return objs
+
     @classmethod
     def upload_excel(cls, uploaded_file, sheet_lang):
         wb = load_workbook(uploaded_file, data_only=True)
