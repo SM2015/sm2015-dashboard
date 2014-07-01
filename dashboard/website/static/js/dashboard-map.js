@@ -79,7 +79,7 @@
               zoomMap = 8;
             }
             else if(countryZoom.slug == 'mexico'){
-              latLngCenter = new google.maps.LatLng(16.908720, -92.094370);
+              latLngCenter = new google.maps.LatLng(16.908720, -92.631226);
               zoomMap = 9;
             }
             else if(countryZoom.slug == 'guatemala'){
