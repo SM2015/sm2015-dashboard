@@ -79,3 +79,10 @@ SM2015 - Dashboard
     2. If you get a database error when doing "./manage.py runserver", try to do
     "python manage.py migrate" first. This will update your database with recents
     modifications of the project.
+    3. IMPORTANT: If you get the follow message when you run the migrations: 
+    
+    "Any objects related to these content types by a foreign key will also
+     be deleted. Are you sure you want to delete these content types?
+     If you're unsure, answer 'no'."
+
+     Always answer 'no'.
