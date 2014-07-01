@@ -87,7 +87,7 @@
               zoomMap = 9;
             }
             else if(countryZoom.slug == 'panama'){
-              latLngCenter = new google.maps.LatLng(8.462142, -79.451752);
+              latLngCenter = new google.maps.LatLng(7.726596, -80.013428);
               zoomMap = 8;
             } else {
               latLngCenter = new google.maps.LatLng(countryZoom.lat, countryZoom.lng);
