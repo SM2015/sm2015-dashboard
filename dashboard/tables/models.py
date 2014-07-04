@@ -1053,3 +1053,43 @@ class CountryDetailsValues(models.Model):
     def get_editable_fields(cls):
         return ('numerador_reportado', 'denominador_reportado',
                 'quarter')
+
+
+class CountryRiskIdentification(models.Model):
+    country = models.ForeignKey(Country)
+
+    date = models.DateField(null=True, default=None)
+
+    quality_negative = models.IntegerField(default=None, null=True)
+    context_negative = models.IntegerField(default=None, null=True)
+    strategic_negative = models.IntegerField(default=None, null=True)
+    financial_negative = models.IntegerField(default=None, null=True)
+    interested_negative = models.IntegerField(default=None, null=True)
+    institutional_leadership_negative = models.IntegerField(default=None, null=True)
+    operational_negative = models.IntegerField(default=None, null=True)
+    social_and_environmental_negative = models.IntegerField(default=None, null=True)
+    sustainability_negative = models.IntegerField(default=None, null=True)
+    quality_positive = models.IntegerField(default=None, null=True)
+    context_positive = models.IntegerField(default=None, null=True)
+    strategic_positive = models.IntegerField(default=None, null=True)
+    financial_positive = models.IntegerField(default=None, null=True)
+    interested_positive = models.IntegerField(default=None, null=True)
+    institutional_leadership_positive = models.IntegerField(default=None, null=True)
+    operational_positive = models.IntegerField(default=None, null=True)
+    social_and_environmental_positive = models.IntegerField(default=None, null=True)
+    sustainability_positive = models.IntegerField(default=None, null=True)
+
+    def __unicode__(self):
+        return "{0} - {1}".format(self.country.name,
+                                  self.quarter)
+
+    @classmethod
+    def get_editable_fields(cls):
+        return ('quality_negative', 'context_negative', 'strategic_negative',
+                'financial_negative', 'interested_negative',
+                'institutional_leadership_negative', 'operational_negative',
+                'social_and_environmental_negative', 'sustainability_negative',
+                'quality_positive', 'context_positive', 'strategic_positive',
+                'financial_positive', 'interested_positive',
+                'institutional_leadership_positive', 'operational_positive',
+                'social_and_environmental_positive', 'sustainability_positive')

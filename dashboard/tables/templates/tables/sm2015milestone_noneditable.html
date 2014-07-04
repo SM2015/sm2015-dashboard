@@ -1,6 +1,7 @@
 <style>
   .bg-completed { background-color: #32FF33; }
   .bg-progress { background-color: #FEFF00; }
+  .bg-pending { background-color: #FF9999 }
 </style>
 <table class="table table-hover table-condensed table-bordered">
     <thead>
@@ -22,6 +23,8 @@
           {% ifequal sm2015milestone.status|lower 'en proceso' %}bg-progress{% endifequal %}
           {% ifequal sm2015milestone.status|lower 'completed' %}bg-completed{% endifequal %}
           {% ifequal sm2015milestone.status|lower 'finalizado' %}bg-completed{% endifequal %}
+          {% ifequal sm2015milestone.status|lower 'pending' %}bg-pending{% endifequal %}
+          {% ifequal sm2015milestone.status|lower 'pendiente' %}bg-pending{% endifequal %}
           " name="status" nowrap>{{sm2015milestone.status}}</td>
       </tr>
       {% endfor %}
