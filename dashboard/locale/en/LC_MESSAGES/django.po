@@ -84,7 +84,7 @@ msgstr "Operation objectives and progress"
 
 #: countries/templates/country.html:191
 msgid "Resultados Esperados Después de los 54 meses"
-msgstr "Key results expected after 54 months"
+msgstr "Key Results"
 
 #: countries/templates/country.html:213 website/templates/index.html:524
 msgid ""
@@ -105,7 +105,7 @@ msgstr ""
 
 #: countries/templates/country.html:228
 msgid "Country Operation Financial <br />Execution Performance Summary"
-msgstr "Donor Disbursment Performance"
+msgstr "Country Financial Performance"
 
 #: countries/templates/country_details.html:62
 msgid "Datos del País"

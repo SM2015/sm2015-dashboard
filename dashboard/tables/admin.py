@@ -1,15 +1,21 @@
 # coding: utf-8
 from django.contrib import admin
 from tables.models import AvanceFisicoFinanciero, Hito, UcMilestone, \
-    Sm2015Milestone, Objective, GrantsFinances, GrantsFinancesFields, Operation, \
-    LifeSave, LifeSaveField, CountryDisbursement, CountryDisbursementCharger, \
-    CountryOperation, CountryOperationIT, CountryDetails, OperationZones, \
-    OperationTotalInvestment, OperationInfos
+    Sm2015Milestone, Objective, GrantsFinances, GrantsFinancesFields, \
+    Operation, LifeSave, LifeSaveField, CountryDisbursement, \
+    CountryDisbursementCharger, CountryOperation, CountryOperationIT, \
+    CountryDetails, OperationZones, OperationTotalInvestment, OperationInfos
 
 
 class HitoAdmin(admin.ModelAdmin):
     list_display = ('country', 'indicador_de_pago', 'language')
     change_list_template = 'change_list_sheet_asking.html'
+
+    def changelist_view(self, request, extra_context=None):
+        extra_context = {}
+        extra_context['ask_sheet'] = True
+        return super(HitoAdmin, self).changelist_view(request,
+                                                      extra_context)
 
 
 class GrantsFinancesAdmin(admin.ModelAdmin):

@@ -9,13 +9,19 @@ from tables.models import Hito, AvanceFisicoFinanciero, EstadoActual, \
     GrantsFinancesFields, LifeSaveField, LifeSave, \
     CountryOperation, CountryDetails, \
     CountryDetailsValues, Quarter, Operation, OperationTotalInvestment
+from core.models import Country
 from countries.views import _get_obj_filtered_api
 
 
 @login_required
 def render_hitos(request, country_slug):
+    if country_slug in ['belize']:
+        language_code = 'en'
+    else:
+        language_code = 'es'
+
     hitos = Hito.objects.filter(country__slug=country_slug,
-                                language__acronym=request.LANGUAGE_CODE)
+                                language__acronym=language_code)
     estados_actuais = EstadoActual.objects.all()
     options_estados_actuais = {}
     for estado in estados_actuais:
@@ -358,7 +364,8 @@ def render_country_details(request):
 
 @login_required
 def render_operation_total_investment(request, country_slug):
-    operation = Operation.objects.get(country__slug=country_slug)
+    country = Country.objects.get(slug=country_slug)
+    operation = Operation.objects.get(country=country)
     rows = OperationTotalInvestment.objects.get(operation=operation)
 
     table = [
@@ -405,6 +412,7 @@ def render_operation_total_investment(request, country_slug):
     rendered = render_to_string("tables/operation_total_investment.html", {
         'table': table,
         'total': total,
-        'rows': rows
+        'rows': rows,
+        'country': country
     })
     return HttpResponse(rendered, content_type="text/html")
