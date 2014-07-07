@@ -1,18 +1,19 @@
+{% load i18n %}
 <!DOCTYPE html>
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 
 <table class="table table-hover table-condensed table-bordered">
     <thead>
       <tr>
-        <th class="column-name word">Indicador de Pago</th>
-        <th class="column-name word">Hito</th>
-        <th class="column-name">Trimestre</th>
-        <th class="column-name">Audiencia</th>
-        <th class="column-name">Estado Actual</th>
-        <th class="column-name">Alerta/Notas</th>
-        <th class="column-name">Recomendación</th>
-        <th class="column-name">Acuerdo</th>
-        <th class="column-name">Actividad en POA</th>
+        <th class="column-name word">{% trans "Indicador de Pago" %}</th>
+        <th class="column-name word">{% trans "Hito" %}</th>
+        <th class="column-name">{% trans "Trimestre" %}</th>
+        <th class="column-name">{% trans "Audiencia" %}</th>
+        <th class="column-name">{% trans "Estado Actual" %}</th>
+        <th class="column-name">{% trans "Alerta/Notas" %}</th>
+        <th class="column-name">{% trans "Recomendación" %}</th>
+        <th class="column-name">{% trans "Acuerdo" %}</th>
+        <th class="column-name">{% trans "Actividad en POA" %}</th>
       </tr>
     </thead>
     <tbody>

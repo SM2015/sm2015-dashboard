@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-04 08:27-0400\n"
+"POT-Creation-Date: 2014-07-07 13:51-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -293,6 +293,46 @@ msgstr "Recommendations"
 msgid "Próximos eventos del Diálogos de Políticas"
 msgstr "Upcoming Policy Dialogue Events"
 
+#: tables/templates/tables/hitos.html:8
+#: tables/templates/tables/hitos_noneditable.html:12
+msgid "Indicador de Pago"
+msgstr "Payment Indicator"
+
+#: tables/templates/tables/hitos.html:9
+#: tables/templates/tables/hitos_noneditable.html:13
+msgid "Hito"
+msgstr "Milestone"
+
+#: tables/templates/tables/hitos.html:10
+#: tables/templates/tables/hitos_noneditable.html:11
+msgid "Trimestre"
+msgstr "Quarter"
+
+#: tables/templates/tables/hitos.html:11
+msgid "Audiencia"
+msgstr "Audience"
+
+#: tables/templates/tables/hitos.html:12
+#: tables/templates/tables/hitos_noneditable.html:14
+msgid "Estado Actual"
+msgstr "Current State"
+
+#: tables/templates/tables/hitos.html:13
+msgid "Alerta/Notas"
+msgstr "Alerts/Notes"
+
+#: tables/templates/tables/hitos.html:14
+msgid "Recomendación"
+msgstr "Recommendations"
+
+#: tables/templates/tables/hitos.html:15
+msgid "Acuerdo"
+msgstr "Agreement"
+
+#: tables/templates/tables/hitos.html:16
+msgid "Actividad en POA"
+msgstr "POA Activity"
+
 #: website/templates/base_logado.html:249
 msgid "Hola"
 msgstr "Hello"
@@ -306,7 +346,6 @@ msgid "Paises"
 msgstr "Countries"
 
 #: website/templates/base_logado.html:303
-#, fuzzy
 msgid "Detalles del País"
 msgstr "Country Details"
 

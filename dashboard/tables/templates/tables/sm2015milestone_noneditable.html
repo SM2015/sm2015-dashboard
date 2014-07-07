@@ -1,3 +1,4 @@
+{% load i18n %}
 <style>
   .bg-completed { background-color: #32FF33; }
   .bg-progress { background-color: #FEFF00; }
@@ -7,9 +8,9 @@
     <thead>
       <tr>
         <th class="column-name">Id</th>
-        <th class="column-name">Objective</th>
-        <th class="column-name">Hitos</th>
-        <th class="column-name">Status</th>
+        <th class="column-name">{% trans "Objective" %}</th>
+        <th class="column-name">{% trans "Hitos" %}</th>
+        <th class="column-name">{% trans "Estatus" %}</th>
       </tr>
     </thead>
     <tbody>

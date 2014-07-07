@@ -1055,41 +1055,59 @@ class CountryDetailsValues(models.Model):
                 'quarter')
 
 
+class CountryRiskIdentificationTypes(models.Model):
+
+    name = models.CharField(max_length=100, default='', null=True)
+    uuid = models.CharField(max_length=100, default='', null=True)
+
+    def __unicode__(self):
+        return self.name
+
+
+class CountryRiskIdentificationLevel(models.Model):
+
+    name = models.CharField(max_length=100, default='', null=True)
+    uuid = models.CharField(max_length=100, default='', null=True)
+
+    def __unicode__(self):
+        return self.name
+
+
+class CountryMainRisks(models.Model):
+
+    country = models.ForeignKey(Country)
+
+    description = models.TextField()
+    plan = models.TextField()
+
+    type = models.ForeignKey(CountryRiskIdentificationTypes)
+    level = models.ForeignKey(CountryRiskIdentificationLevel)
+
+    def __unicode__(self):
+        return self.country.name
+
+
 class CountryRiskIdentification(models.Model):
     country = models.ForeignKey(Country)
 
     date = models.DateField(null=True, default=None)
 
-    quality_negative = models.IntegerField(default=None, null=True)
-    context_negative = models.IntegerField(default=None, null=True)
-    strategic_negative = models.IntegerField(default=None, null=True)
-    financial_negative = models.IntegerField(default=None, null=True)
-    interested_negative = models.IntegerField(default=None, null=True)
-    institutional_leadership_negative = models.IntegerField(default=None, null=True)
-    operational_negative = models.IntegerField(default=None, null=True)
-    social_and_environmental_negative = models.IntegerField(default=None, null=True)
-    sustainability_negative = models.IntegerField(default=None, null=True)
-    quality_positive = models.IntegerField(default=None, null=True)
-    context_positive = models.IntegerField(default=None, null=True)
-    strategic_positive = models.IntegerField(default=None, null=True)
-    financial_positive = models.IntegerField(default=None, null=True)
-    interested_positive = models.IntegerField(default=None, null=True)
-    institutional_leadership_positive = models.IntegerField(default=None, null=True)
-    operational_positive = models.IntegerField(default=None, null=True)
-    social_and_environmental_positive = models.IntegerField(default=None, null=True)
-    sustainability_positive = models.IntegerField(default=None, null=True)
+    quality = models.IntegerField(default=None, null=True, blank=True)
+    context = models.IntegerField(default=None, null=True, blank=True)
+    strategic = models.IntegerField(default=None, null=True, blank=True)
+    financial = models.IntegerField(default=None, null=True, blank=True)
+    interested = models.IntegerField(default=None, null=True, blank=True)
+    institutional_leadership = models.IntegerField(default=None, null=True, blank=True)
+    operational = models.IntegerField(default=None, null=True, blank=True)
+    social_and_environmental = models.IntegerField(default=None, null=True, blank=True)
+    sustainability = models.IntegerField(default=None, null=True, blank=True)
 
     def __unicode__(self):
-        return "{0} - {1}".format(self.country.name,
-                                  self.quarter)
+        return self.country.name
 
     @classmethod
     def get_editable_fields(cls):
-        return ('quality_negative', 'context_negative', 'strategic_negative',
-                'financial_negative', 'interested_negative',
-                'institutional_leadership_negative', 'operational_negative',
-                'social_and_environmental_negative', 'sustainability_negative',
-                'quality_positive', 'context_positive', 'strategic_positive',
-                'financial_positive', 'interested_positive',
-                'institutional_leadership_positive', 'operational_positive',
-                'social_and_environmental_positive', 'sustainability_positive')
+        return ('quality', 'context', 'strategic',
+                'financial', 'interested',
+                'institutional_leadership', 'operational',
+                'social_and_environmental', 'sustainability')

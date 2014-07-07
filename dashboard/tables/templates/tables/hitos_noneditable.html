@@ -1,3 +1,4 @@
+{% load i18n %}
 <!DOCTYPE html>
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 <style>
@@ -8,10 +9,10 @@
 <table class="table table-hover table-condensed table-bordered">
     <thead>
       <tr>
-        <th class="column-name">Trimestre</th>
-        <th class="column-name">Indicador de Pago</th>
-        <th class="column-name">Hito</th>
-        <th class="column-name">Estado Actual</th>
+        <th class="column-name">{% trans "Trimestre" %}</th>
+        <th class="column-name">{% trans "Indicador de Pago" %}</th>
+        <th class="column-name">{% trans "Hito" %}</th>
+        <th class="column-name">{% trans "Estado Actual" %}</th>
       </tr>
     </thead>
     <tbody>

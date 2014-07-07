@@ -63,6 +63,13 @@ urlpatterns = patterns(
     url(r'render/operation_total_investment/(?P<country_slug>[-\w]+)/?$',
         views_render.render_operation_total_investment,
         name="table_render_operation_total_investment"),
+    url(r'render/country_risk_identification/(?P<country_slug>[-\w]+)/?$',
+        views_render.render_country_risk_identification,
+        name="table_render_country_risk_identificaction"),
+    url(r'render/country_risk_top/(?P<country_slug>[-\w]+)/?$',
+        views_render.render_country_risk_top,
+        name="table_render_country_risk_top"),
+
 
     url(r'render/export/hitos_y_avances/(?P<country_slug>[-\w]+)/?$',
         views_export.render_export_hitos_and_avances,

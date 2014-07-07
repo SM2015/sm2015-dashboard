@@ -88,6 +88,10 @@
               title: 'Total Investment Projected in '+countries[initial_params['country_slug']].name+' by SM2015 ',
                 url_save: "{% url 'save_milestone_data' %}",
             });
+
+            $(".table-country-risk-top").dashboardTable("/tables/render/country_risk_top/"+initial_params['country_slug'], {
+              title: countries[initial_params['country_slug']].name+' - {% trans "Riesgos Principales" %} '
+            });
         });
     </script>
 {% endblock js_bottom %}
@@ -250,5 +254,7 @@
     <div class="table-country-operation"></div>
 
     <div class="table-hitos"></div>
+
+    <div class="table-country-risk-top"></div>
 </div>
 {% endblock %}

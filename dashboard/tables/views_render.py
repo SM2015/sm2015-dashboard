@@ -8,7 +8,8 @@ from tables.models import Hito, AvanceFisicoFinanciero, EstadoActual, \
     UcMilestone, Sm2015Milestone, GrantsFinances, \
     GrantsFinancesFields, LifeSaveField, LifeSave, \
     CountryOperation, CountryDetails, \
-    CountryDetailsValues, Quarter, Operation, OperationTotalInvestment
+    CountryDetailsValues, Quarter, Operation, OperationTotalInvestment, \
+    CountryRiskIdentification, CountryMainRisks
 from core.models import Country
 from countries.views import _get_obj_filtered_api
 
@@ -413,6 +414,36 @@ def render_operation_total_investment(request, country_slug):
         'table': table,
         'total': total,
         'rows': rows,
+        'country': country
+    })
+    return HttpResponse(rendered, content_type="text/html")
+
+
+@login_required
+def render_country_risk_identification(request, country_slug):
+    country = Country.objects.get(slug=country_slug)
+    rows = CountryRiskIdentification.objects.get(country=country)
+
+    table = []
+
+    rendered = render_to_string("tables/country_risk_identification.html", {
+        'table': table,
+        'rows': rows,
+        'country': country
+    })
+    return HttpResponse(rendered, content_type="text/html")
+
+
+@login_required
+def render_country_risk_top(request, country_slug):
+    country = Country.objects.get(slug=country_slug)
+    rows = CountryMainRisks.objects.filter(country=country)
+
+    table = {'positives': [r for r in rows.filter(type__uuid='POSITIVE')],
+             'negatives': [r for r in rows.filter(type__uuid='NEGATIVE')]}
+
+    rendered = render_to_string("tables/country_risk_top.html", {
+        'table': table,
         'country': country
     })
     return HttpResponse(rendered, content_type="text/html")

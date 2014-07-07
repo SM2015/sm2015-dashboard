@@ -4,7 +4,8 @@ from tables.models import AvanceFisicoFinanciero, Hito, UcMilestone, \
     Sm2015Milestone, Objective, GrantsFinances, GrantsFinancesFields, \
     Operation, LifeSave, LifeSaveField, CountryDisbursement, \
     CountryDisbursementCharger, CountryOperation, CountryOperationIT, \
-    CountryDetails, OperationZones, OperationTotalInvestment, OperationInfos
+    CountryDetails, OperationZones, OperationTotalInvestment, OperationInfos, \
+    CountryRiskIdentification, CountryMainRisks
 
 
 class HitoAdmin(admin.ModelAdmin):
@@ -104,3 +105,5 @@ admin.site.register(CountryDisbursementCharger)
 admin.site.register(CountryOperation, CountryOperationAdmin)
 admin.site.register(CountryOperationIT)
 admin.site.register(CountryDetails, CountryDetailsAdmin)
+admin.site.register(CountryRiskIdentification)
+admin.site.register(CountryMainRisks)

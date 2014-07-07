@@ -1,0 +1,43 @@
+{% load i18n %}
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<style>
+    .column-name{
+        text-transform: uppercase;
+    }
+</style>
+
+<table class="table table-hover table-condensed table-bordered">
+  <caption>
+    {{country.name}} - {% trans "Riesgos Principales" %}
+  </caption>
+  <thead>
+    <tr>
+        <th class="column-name first">{% trans "Descripción del Riesgo" %}</th>
+        <th class="column-name">{% trans "Plan de respuesta" %}</th>
+        <th class="column-name">{% trans "Calificacion de Riesgo a Junio 30/2014" %}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td colspan="3">Riesgos Negativos</td>
+    </tr>
+    {% for row in table.negatives %}
+    <tr>
+      <td>{{row.description}}</td>
+      <td>{{row.plan}}</td>
+      <td>{{row.level.name}}</td>
+    </tr>
+    {% endfor %}
+
+    <tr>
+      <td colspan="3">Riesgos Positivos</td>
+    </tr>
+    {% for row in table.positives %}
+    <tr>
+      <td>{{row.description}}</td>
+      <td>{{row.plan}}</td>
+      <td>{{row.level.name}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
