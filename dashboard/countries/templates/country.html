@@ -92,6 +92,9 @@
             $(".table-country-risk-top").dashboardTable("/tables/render/country_risk_top/"+initial_params['country_slug'], {
               title: countries[initial_params['country_slug']].name+' - {% trans "Riesgos Principales" %} '
             });
+            $(".table-country-risk-identification").dashboardTable("/tables/render/country_risk_identification/"+initial_params['country_slug'], {
+              title: countries[initial_params['country_slug']].name+' - {% trans "Resumen de la Identificacion del riesgos" %} '
+            });
         });
     </script>
 {% endblock js_bottom %}
@@ -254,6 +257,8 @@
     <div class="table-country-operation"></div>
 
     <div class="table-hitos"></div>
+
+    <div class="table-country-risk-identification"></div>
 
     <div class="table-country-risk-top"></div>
 </div>

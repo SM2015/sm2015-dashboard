@@ -1055,7 +1055,7 @@ class CountryDetailsValues(models.Model):
                 'quarter')
 
 
-class CountryRiskIdentificationTypes(models.Model):
+class CountryRiskTypes(models.Model):
 
     name = models.CharField(max_length=100, default='', null=True)
     uuid = models.CharField(max_length=100, default='', null=True)
@@ -1064,7 +1064,16 @@ class CountryRiskIdentificationTypes(models.Model):
         return self.name
 
 
-class CountryRiskIdentificationLevel(models.Model):
+class CountryRiskLevels(models.Model):
+
+    name = models.CharField(max_length=100, default='', null=True)
+    uuid = models.CharField(max_length=100, default='', null=True)
+
+    def __unicode__(self):
+        return self.name
+
+
+class CountryRiskIdentificationFields(models.Model):
 
     name = models.CharField(max_length=100, default='', null=True)
     uuid = models.CharField(max_length=100, default='', null=True)
@@ -1074,14 +1083,14 @@ class CountryRiskIdentificationLevel(models.Model):
 
 
 class CountryMainRisks(models.Model):
-
     country = models.ForeignKey(Country)
 
     description = models.TextField()
     plan = models.TextField()
 
-    type = models.ForeignKey(CountryRiskIdentificationTypes)
-    level = models.ForeignKey(CountryRiskIdentificationLevel)
+    type = models.ForeignKey(CountryRiskTypes)
+    level = models.ForeignKey(CountryRiskLevels)
+    date = models.DateField(null=True, default=None)
 
     def __unicode__(self):
         return self.country.name
@@ -1092,22 +1101,14 @@ class CountryRiskIdentification(models.Model):
 
     date = models.DateField(null=True, default=None)
 
-    quality = models.IntegerField(default=None, null=True, blank=True)
-    context = models.IntegerField(default=None, null=True, blank=True)
-    strategic = models.IntegerField(default=None, null=True, blank=True)
-    financial = models.IntegerField(default=None, null=True, blank=True)
-    interested = models.IntegerField(default=None, null=True, blank=True)
-    institutional_leadership = models.IntegerField(default=None, null=True, blank=True)
-    operational = models.IntegerField(default=None, null=True, blank=True)
-    social_and_environmental = models.IntegerField(default=None, null=True, blank=True)
-    sustainability = models.IntegerField(default=None, null=True, blank=True)
+    type = models.ForeignKey(CountryRiskTypes)
+    field = models.ForeignKey(CountryRiskIdentificationFields)
+    level = models.ForeignKey(CountryRiskLevels)
+    value = models.IntegerField(default=None, null=True, blank=True)
 
     def __unicode__(self):
         return self.country.name
 
     @classmethod
     def get_editable_fields(cls):
-        return ('quality', 'context', 'strategic',
-                'financial', 'interested',
-                'institutional_leadership', 'operational',
-                'social_and_environmental', 'sustainability')
+        return ('value', )

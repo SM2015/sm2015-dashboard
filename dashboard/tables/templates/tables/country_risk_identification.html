@@ -4,40 +4,77 @@
     .column-name{
         text-transform: uppercase;
     }
+    .bg-red {
+      background-color: #F66;
+      color: white !important;
+    }
+    .bg-gray {
+      background-color: #FAFAFA;
+    }
 </style>
 
 <table class="table table-hover table-condensed table-bordered">
-  <caption>
-    {{country.name}} - {% trans "Riesgos Principales" %}
-  </caption>
   <thead>
     <tr>
-        <th class="column-name first">{% trans "Descripción del Riesgo" %}</th>
-        <th class="column-name">{% trans "Plan de respuesta" %}</th>
-        <th class="column-name">{% trans "Calificacion de Riesgo a Junio 30/2014" %}</th>
+        <th class="column-name first" style="text-align: center">{% trans "Riesgos Identificados" %}</th>
+        <th class="column-name" colspan=5 style="text-align: center">{% trans "Calificacion" %}</th>
+    </tr>
+    <tr>
+        <th class="column-name first" style="text-align: center">{% trans "Categorias de la causa del Riesgo" %}</th>
+        <th class="column-name" style="text-align: center">{% trans "Muy Alto" %}</th>
+        <th class="column-name" style="text-align: center">{% trans "Alto" %}</th>
+        <th class="column-name" style="text-align: center">{% trans "Medio" %}</th>
+        <th class="column-name" style="text-align: center">{% trans "Bajo" %}</th>
+        <th class="column-name" style="text-align: center">{% trans "Total" %}</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td colspan="3">Riesgos Negativos</td>
+      <td colspan="6" class="bg-gray"><strong>{% trans "Riesgos Negativos" %}</strong></td>
     </tr>
-    {% for row in table.negatives %}
+    {% for field in table.NEGATIVE %}
     <tr>
-      <td>{{row.description}}</td>
-      <td>{{row.plan}}</td>
-      <td>{{row.level.name}}</td>
+      <td>{{field.name}}</td>
+      <td style="text-align: center">{{field.level.very_high}}</td>
+      <td style="text-align: center">{{field.level.high}}</td>
+      <td style="text-align: center">{{field.level.medium}}</td>
+      <td style="text-align: center">{{field.level.low}}</td>
+      <td style="text-align: center">{{field.level.total}}</td>
     </tr>
     {% endfor %}
 
     <tr>
-      <td colspan="3">Riesgos Positivos</td>
+      <td><strong>Total</strong></td>
+      <td style="text-align: center">{{total.NEGATIVE.very_high}}</td>
+      <td style="text-align: center">{{total.NEGATIVE.high}}</td>
+      <td style="text-align: center">{{total.NEGATIVE.medium}}</td>
+      <td style="text-align: center">{{total.NEGATIVE.low}}</td>
+      <td style="text-align: center">{{total.NEGATIVE.total}}</td>
     </tr>
-    {% for row in table.positives %}
+
     <tr>
-      <td>{{row.description}}</td>
-      <td>{{row.plan}}</td>
-      <td>{{row.level.name}}</td>
+      <td colspan="6" class="bg-gray"><strong>{% trans "Riesgos Positivos" %}</strong></td>
     </tr>
+    {% for field in table.POSITIVE %}
+
+      <tr>
+        <td>{{field.name}}</td>
+        <td style="text-align: center">{{field.level.very_high}}</td>
+        <td style="text-align: center">{{field.level.high}}</td>
+        <td style="text-align: center">{{field.level.medium}}</td>
+        <td style="text-align: center">{{field.level.low}}</td>
+        <td style="text-align: center">{{field.level.total}}</td>
+      </tr>
     {% endfor %}
+
+    <tr>
+      <td><strong>Total</strong></td>
+      <td style="text-align: center">{{total.POSITIVE.very_high}}</td>
+      <td style="text-align: center">{{total.POSITIVE.high}}</td>
+      <td style="text-align: center">{{total.POSITIVE.medium}}</td>
+      <td style="text-align: center">{{total.POSITIVE.low}}</td>
+      <td style="text-align: center">{{total.POSITIVE.total}}</td>
+    </tr>
+
   </tbody>
 </table>

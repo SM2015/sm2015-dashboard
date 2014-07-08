@@ -9,7 +9,7 @@ from tables.models import Hito, AvanceFisicoFinanciero, EstadoActual, \
     GrantsFinancesFields, LifeSaveField, LifeSave, \
     CountryOperation, CountryDetails, \
     CountryDetailsValues, Quarter, Operation, OperationTotalInvestment, \
-    CountryRiskIdentification, CountryMainRisks
+    CountryRiskIdentification, CountryMainRisks, CountryRiskLevels
 from core.models import Country
 from countries.views import _get_obj_filtered_api
 
@@ -409,7 +409,6 @@ def render_operation_total_investment(request, country_slug):
     total.append(rows.cost_of_the_operation_first_operation + rows.cost_of_the_operation_second_operation + rows.cost_of_the_operation_third_operation +
     rows.performance_tranche_first_operation + rows.performance_tranche_second_operation + rows.performance_tranche_third_operation)
 
-
     rendered = render_to_string("tables/operation_total_investment.html", {
         'table': table,
         'total': total,
@@ -422,14 +421,58 @@ def render_operation_total_investment(request, country_slug):
 @login_required
 def render_country_risk_identification(request, country_slug):
     country = Country.objects.get(slug=country_slug)
-    rows = CountryRiskIdentification.objects.get(country=country)
+    fields = CountryRiskIdentification.objects.filter(country=country)
 
-    table = []
+    table = {'POSITIVE': [],
+             'NEGATIVE': []}
+
+    total = {'POSITIVE': {'total': 0},
+             'NEGATIVE': {'total': 0}}
+
+    for table_type in table:
+
+        fields_index_map = {}
+        fields_list = []
+
+        for field in fields.filter(type__uuid=table_type):
+            field_list_index = fields_index_map.get(field.field.uuid)
+
+            if field_list_index is None:
+                field_dict = {
+                    'name': field.field.name,
+                    'level': {'total': 0}
+                }
+            else:
+                field_dict = fields_list[field_list_index]
+
+            for level in CountryRiskLevels.objects.all():
+                if not field_dict['level'].get(level.uuid.lower()):
+                    field_value = fields.filter(level=level, type__uuid=table_type, field__uuid=field.field)
+                    if field_value:
+                        field_dict['level'][level.uuid.lower()] = field_value[0].value
+                        field_dict['level']['total'] += field_value[0].value
+
+                        if total[table_type].get(level.uuid):
+                            total[table_type][level.uuid.lower()] += field_value[0].value
+                        else:
+                            total[table_type][level.uuid.lower()] = field_value[0].value
+                        total[table_type]['total'] += field_value[0].value
+                    else:
+                        field_dict['level'][level.uuid.lower()] = ''
+
+            if field_list_index is None:
+                field_list_index = len(fields_list)
+                fields_index_map[field.field.uuid] = field_list_index
+                fields_list.append(field_dict)
+            else:
+                fields_list[field_list_index] = field_dict
+
+        table[table_type].extend(fields_list)
 
     rendered = render_to_string("tables/country_risk_identification.html", {
         'table': table,
-        'rows': rows,
-        'country': country
+        'country': country,
+        'total': total
     })
     return HttpResponse(rendered, content_type="text/html")
 
