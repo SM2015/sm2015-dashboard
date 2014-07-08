@@ -15,7 +15,8 @@ from django.template.defaultfilters import slugify
 from tables.models import Hito, AvanceFisicoFinanciero, UcMilestone, \
     Sm2015Milestone, GrantsFinancesOrigin, GrantsFinancesFields, \
     GrantsFinances, GrantsFinancesType, LifeSave, CountryDisbursement, \
-    CountryOperation, CountryDetails
+    CountryOperation, CountryDetails, CountryMainRisks, \
+    CountryRiskIdentification
 from tables import models as table_models
 from core.models import Country
 
@@ -344,5 +345,11 @@ def import_excel(request):
         CountryOperation.upload_excel(**sheet_args)
     elif app_name == 'tables.countrydetails':
         CountryDetails.upload_excel(**sheet_args)
+    elif app_name == 'tables.countrydetails':
+        CountryDetails.upload_excel(**sheet_args)
+    elif app_name == 'tables.countrymainrisks':
+        CountryMainRisks.upload_excel(**sheet_args)
+    elif app_name == 'tables.countryriskidentification':
+        CountryRiskIdentification.upload_excel(**sheet_args)
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

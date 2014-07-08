@@ -16,34 +16,38 @@
 <table class="table table-hover table-condensed table-bordered">
   <thead>
     <tr>
-        <th class="column-name first">{% trans "Descripción del Riesgo" %}</th>
-        <th class="column-name">{% trans "Plan de respuesta" %}</th>
-        <th class="column-name">{% trans "Calificacion de Riesgo a Junio 30/2014" %}</th>
+        <th class="column-name first" style="text-align: center">{% trans "Descripción del Riesgo" %}</th>
+        <th class="column-name" style="text-align: center">{% trans "Plan de respuesta" %}</th>
+        <th class="column-name" style="text-align: center">{% trans "Calificacion de Riesgo a Junio 30/2014" %}</th>
     </tr>
   </thead>
   <tbody>
     {% if table.negatives %}
     <tr>
-      <td colspan="3" class="bg-gray"><strong>Riesgos Negativos</strong></td>
+      <td colspan="" class="bg-gray"><strong>Riesgos Negativos</strong></td>
+      <td colspan="" class="bg-gray"></td>
+      <td colspan="" class="bg-gray"></td>
     </tr>
     {% for row in table.negatives %}
     <tr>
       <td>{{row.description}}</td>
       <td>{{row.plan}}</td>
-      <td class="{% if row.level.uuid == 'VERY_HIGH' %}bg-red{% endif %}" width="20%">{{row.level.name}}</td>
+      <td class="{% if row.level.uuid == 'VERY_HIGH' %}bg-red{% endif %}" width="20%" style="text-align: center">{{row.level.name}}</td>
     </tr>
     {% endfor %}
     {% endif %}
 
     {% if table.positives %}
     <tr>
-      <td colspan="3" class="bg-gray"><strong>Riesgos Positivos</strong></td>
+      <td colspan="" class="bg-gray"><strong>Riesgos Positivos</strong></td>
+      <td colspan="" class="bg-gray"></td>
+      <td colspan="" class="bg-gray"></td>
     </tr>
     {% for row in table.positives %}
     <tr>
       <td>{{row.description}}</td>
       <td>{{row.plan}}</td>
-      <td class="{% if row.level.uuid == 'VERY HIGH' %}bg-red{% endif %}" width="20%">{{row.level.name}}</td>
+      <td class="{% if row.level.uuid == 'VERY_HIGH' %}bg-red{% endif %}" width="20%" style="text-align: center">{{row.level.name}}</td>
     </tr>
     {% endfor %}
     {% endif %}

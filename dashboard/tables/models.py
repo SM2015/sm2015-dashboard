@@ -1095,6 +1095,56 @@ class CountryMainRisks(models.Model):
     def __unicode__(self):
         return self.country.name
 
+    @classmethod
+    def upload_excel(cls, uploaded_file):
+        wb = load_workbook(uploaded_file, data_only=True)
+        sheet = wb.get_sheet_by_name('Top 10 riesgos')
+
+        positives_rows = [15, 31, 44, 45, 61, 62, 76, 77, 78]
+
+        for row in sheet.rows:
+            country = None
+            if row[0].row >= 5 and row[0].row <= 15:
+                country = Country.objects.get(slug='belize')
+            elif row[0].row >= 20 and row[0].row <= 31:
+                country = Country.objects.get(slug='guatemala')
+            elif row[0].row >= 37 and row[0].row <= 45:
+                country = Country.objects.get(slug='mexico')
+            elif row[0].row >= 50 and row[0].row <= 62:
+                country = Country.objects.get(slug='nicaragua')
+            elif row[0].row >= 67 and row[0].row <= 78:
+                country = Country.objects.get(slug='el-salvador')
+            elif row[0].row >= 83 and row[0].row <= 92:
+                country = Country.objects.get(slug='honduras')
+
+            if not country or not row[2].value:
+                continue
+
+            description = row[2].value.strip()
+            plan = row[3].value.strip()
+            level_str = row[4].value.strip().lower()
+
+            if level_str == 'muy alto':
+                level = CountryRiskLevels.objects.get(uuid='VERY_HIGH')
+            elif level_str == 'alto':
+                level = CountryRiskLevels.objects.get(uuid='HIGH')
+            elif level_str == 'medio':
+                level = CountryRiskLevels.objects.get(uuid='MEDIUM')
+            elif level_str == 'bajo':
+                level = CountryRiskLevels.objects.get(uuid='LOW')
+
+            if row[0].row in positives_rows:
+                type = CountryRiskTypes.objects.get(uuid='POSITIVE')
+            else:
+                type = CountryRiskTypes.objects.get(uuid='NEGATIVE')
+
+            CountryMainRisks.objects.create(description=description,
+                                            plan=plan,
+                                            type=type,
+                                            level=level,
+                                            date=date.today(),
+                                            country=country)
+
 
 class CountryRiskIdentification(models.Model):
     country = models.ForeignKey(Country)
@@ -1112,3 +1162,78 @@ class CountryRiskIdentification(models.Model):
     @classmethod
     def get_editable_fields(cls):
         return ('value', )
+
+    @classmethod
+    def upload_excel(cls, uploaded_file):
+        wb = load_workbook(uploaded_file, data_only=True)
+        sheet = wb.get_sheet_by_name('Risk Identification Summary')
+
+        positives_rows = [22, 43, 66, 67, 91, 92, 114, 115, 116]
+        very_high = CountryRiskLevels.objects.get(uuid='VERY_HIGH')
+        high = CountryRiskLevels.objects.get(uuid='HIGH')
+        medium = CountryRiskLevels.objects.get(uuid='MEDIUM')
+        low = CountryRiskLevels.objects.get(uuid='LOW')
+
+        fields_map = {
+            'operacional': CountryRiskIdentificationFields.objects.get(uuid='OPERATIONAL'),
+            'sostenibilidad': CountryRiskIdentificationFields.objects.get(uuid='SUSTAINABILITY'),
+            'financieros': CountryRiskIdentificationFields.objects.get(uuid='FINANCIAL'),
+            'calidad': CountryRiskIdentificationFields.objects.get(uuid='QUALITY'),
+            'contexto': CountryRiskIdentificationFields.objects.get(uuid='CONTEXT'),
+            'interesados': CountryRiskIdentificationFields.objects.get(uuid='INTERESTED'),
+            'liderazgo institucional': CountryRiskIdentificationFields.objects.get(uuid='INSTITUTIONAL_LEADERSHIP'),
+            'sociales y ambientales': CountryRiskIdentificationFields.objects.get(uuid='SOCIAL_AND_ENVIRONMENTAL'),
+            'estrategicos': CountryRiskIdentificationFields.objects.get(uuid='STRATEGIC')
+        }
+
+        for row in sheet.rows:
+            country = None
+            if (row[0].row >= 8 and row[0].row <= 15) or row[0].row == 22:
+                country = Country.objects.get(slug='belize')
+                negative_levels = [very_high, high, medium]
+                positive_levels = [very_high]
+            elif (row[0].row >= 31 and row[0].row <= 36) or row[0].row == 43:
+                country = Country.objects.get(slug='guatemala')
+                negative_levels = [very_high, high, medium, low]
+                positive_levels = [very_high]
+            elif (row[0].row >= 52 and row[0].row <= 59) or (row[0].row >= 66 and row[0].row <= 67):
+                country = Country.objects.get(slug='mexico')
+                negative_levels = [very_high, high]
+                positive_levels = [very_high]
+            elif (row[0].row >= 76 and row[0].row <= 84) or (row[0].row >= 91 and row[0].row <= 92):
+                country = Country.objects.get(slug='nicaragua')
+                negative_levels = [high, medium, low]
+                positive_levels = [high]
+            elif (row[0].row >= 101 and row[0].row <= 107) or (row[0].row >= 114 and row[0].row <= 116):
+                country = Country.objects.get(slug='el-salvador')
+                negative_levels = [high, medium, low]
+                positive_levels = [high]
+            elif row[0].row >= 125 and row[0].row <= 131:
+                country = Country.objects.get(slug='honduras')
+                negative_levels = [very_high, high, medium]
+                positive_levels = []
+
+            if not country:
+                continue
+
+            field_str = row[1].value.strip().lower()
+            field = fields_map[field_str]
+
+            if row[0].row in positives_rows:
+                type_uuid = 'POSITIVE'
+                levels_list = positive_levels
+            else:
+                type_uuid = 'NEGATIVE'
+                levels_list = negative_levels
+
+            for i_level in range(0, len(levels_list)):
+                level = levels_list[i_level]
+                i_value = 2 + i_level
+
+                if row[i_value].value:
+                    cls.objects.create(country=country,
+                                       date=date.today(),
+                                       type=CountryRiskTypes.objects.get(uuid=type_uuid),
+                                       field=field,
+                                       level=level,
+                                       value=row[i_value].value)

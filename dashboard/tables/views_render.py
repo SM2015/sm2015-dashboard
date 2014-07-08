@@ -447,12 +447,12 @@ def render_country_risk_identification(request, country_slug):
 
             for level in CountryRiskLevels.objects.all():
                 if not field_dict['level'].get(level.uuid.lower()):
-                    field_value = fields.filter(level=level, type__uuid=table_type, field__uuid=field.field)
+                    field_value = fields.filter(level=level, type__uuid=table_type, field__uuid=field.field.uuid)
                     if field_value:
                         field_dict['level'][level.uuid.lower()] = field_value[0].value
                         field_dict['level']['total'] += field_value[0].value
 
-                        if total[table_type].get(level.uuid):
+                        if total[table_type].get(level.uuid.lower()):
                             total[table_type][level.uuid.lower()] += field_value[0].value
                         else:
                             total[table_type][level.uuid.lower()] = field_value[0].value
