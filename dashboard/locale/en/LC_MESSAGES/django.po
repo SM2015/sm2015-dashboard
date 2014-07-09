@@ -202,7 +202,7 @@ msgstr "Objectives and Milestones SM2015"
 
 #: tables/templates/metas_sm2015.html:27 tables/templates/ucmilestone.html:22
 msgid "Objetivos y Hitos de la Unidad Coordinadora"
-msgstr "UC Milestone"
+msgstr "Coordination Unit Milestones"
 
 #: tables/templates/metas_sm2015.html:73
 #: tables/templates/sm2015milestone.html:61
