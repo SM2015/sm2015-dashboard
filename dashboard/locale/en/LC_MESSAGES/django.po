@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-09 11:44-0400\n"
+"POT-Creation-Date: 2014-07-09 12:12-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -112,8 +112,8 @@ msgstr ""
 "between the planned and actual values."
 
 #: countries/templates/country.html:235
-msgid "Country Operation Financial <br />Execution Performance Summary"
-msgstr "Country Financial Performance"
+msgid "Desempeño de la Ejecución <br />Financiera"
+msgstr "Country Operation Financial <br />Execution Performance Summary"
 
 #: countries/templates/country_details.html:62
 msgid "Datos del País"
@@ -398,7 +398,6 @@ msgid "Actividad en POA"
 msgstr "POA Activity"
 
 #: tables/templates/tables/sm2015milestone.html:5
-#: tables/templates/tables/sm2015milestone_noneditable.html:11
 msgid "Objective"
 msgstr "Objective"
 
@@ -416,6 +415,7 @@ msgstr "Status"
 msgid "Observaciones"
 msgstr "Observations"
 
+#: tables/templates/tables/sm2015milestone_noneditable.html:11
 #: tables/templates/tables/ucmilestone.html:5
 #: tables/templates/tables/ucmilestone_noneditable.html:11
 msgid "Objectivo"
@@ -534,6 +534,9 @@ msgstr "Impact on Mortality, LiST (Lives Saved Tool) Scenarios"
 #: website/templates/index.html:592
 msgid "Pais"
 msgstr "Countries"
+
+#~ msgid "Country Operation Financial <br />Execution Performance Summary"
+#~ msgstr "Country Financial Performance"
 
 #~ msgid "Country Details"
 #~ msgstr "Datos del País"

@@ -20,12 +20,12 @@
         <th class="column-name" colspan=5 style="text-align: center">{% trans "Calificacion" %}</th>
     </tr>
     <tr>
-        <th class="column-name first" style="text-align: center">{% trans "Categorias de la causa del Riesgo" %}</th>
-        <th class="column-name" style="text-align: center">{% trans "Muy Alto" %}</th>
-        <th class="column-name" style="text-align: center">{% trans "Alto" %}</th>
-        <th class="column-name" style="text-align: center">{% trans "Medio" %}</th>
-        <th class="column-name" style="text-align: center">{% trans "Bajo" %}</th>
-        <th class="column-name" style="text-align: center">{% trans "Total" %}</th>
+        <th class="column-name first" style="text-align: center" width="68%">{% trans "Categorias de la causa del Riesgo" %}</th>
+        <th class="column-name" style="text-align: center; background-color: #F20200; color: white;">{% trans "Muy Alto" %}</th>
+        <th class="column-name" style="text-align: center; background-color: #FF5100; color: white;">{% trans "Alto" %}</th>
+        <th class="column-name" style="text-align: center; background-color: #FBFA01;">{% trans "Medio" %}</th>
+        <th class="column-name" style="text-align: center; background-color: #007876; color: white;">{% trans "Bajo" %}</th>
+        <th class="column-name" style="text-align: center; background-color: #002E66; color: white;">{% trans "Total" %}</th>
     </tr>
   </thead>
   <tbody>
@@ -39,17 +39,17 @@
       <td style="text-align: center">{{field.level.high}}</td>
       <td style="text-align: center">{{field.level.medium}}</td>
       <td style="text-align: center">{{field.level.low}}</td>
-      <td style="text-align: center">{{field.level.total}}</td>
+      <td style="text-align: center; background-color: #EEE">{{field.level.total}}</td>
     </tr>
     {% endfor %}
 
     <tr>
-      <td><strong>Total</strong></td>
-      <td style="text-align: center">{{total.NEGATIVE.very_high}}</td>
-      <td style="text-align: center">{{total.NEGATIVE.high}}</td>
-      <td style="text-align: center">{{total.NEGATIVE.medium}}</td>
-      <td style="text-align: center">{{total.NEGATIVE.low}}</td>
-      <td style="text-align: center">{{total.NEGATIVE.total}}</td>
+      <td style="background-color: #EEE"><strong>Total</strong></td>
+      <td style="text-align: center; background-color: #EEE"><strong>{{total.NEGATIVE.very_high}}</strong></td>
+      <td style="text-align: center; background-color: #EEE"><strong>{{total.NEGATIVE.high}}</strong></td>
+      <td style="text-align: center; background-color: #EEE"><strong>{{total.NEGATIVE.medium}}</strong></td>
+      <td style="text-align: center; background-color: #EEE"><strong>{{total.NEGATIVE.low}}</strong></td>
+      <td style="text-align: center; background-color: #EEE"><strong>{{total.NEGATIVE.total}}</strong></td>
     </tr>
 
     <tr>
@@ -68,12 +68,12 @@
     {% endfor %}
 
     <tr>
-      <td><strong>Total</strong></td>
-      <td style="text-align: center">{{total.POSITIVE.very_high}}</td>
-      <td style="text-align: center">{{total.POSITIVE.high}}</td>
-      <td style="text-align: center">{{total.POSITIVE.medium}}</td>
-      <td style="text-align: center">{{total.POSITIVE.low}}</td>
-      <td style="text-align: center">{{total.POSITIVE.total}}</td>
+      <td style="background-color: #EEE"><strong>Total</strong></td>
+      <td style="text-align: center; background-color: #EEE"><strong>{{total.POSITIVE.very_high}}</strong></td>
+      <td style="text-align: center; background-color: #EEE"><strong>{{total.POSITIVE.high}}</strong></td>
+      <td style="text-align: center; background-color: #EEE"><strong>{{total.POSITIVE.medium}}</strong></td>
+      <td style="text-align: center; background-color: #EEE"><strong>{{total.POSITIVE.low}}</strong></td>
+      <td style="text-align: center; background-color: #EEE"><strong>{{total.POSITIVE.total}}</strong></td>
     </tr>
 
   </tbody>
