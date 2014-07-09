@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-07 13:51-0400\n"
+"POT-Creation-Date: 2014-07-09 11:13-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -50,12 +50,20 @@ msgstr ""
 "progress and red means the milestone is pending, or past its expected date "
 "of completion. This graphic is updated monthly"
 
-#: countries/templates/country.html:58 countries/templates/country.html:207
+#: countries/templates/country.html:58 countries/templates/country.html:214
 #: website/templates/index.html:518
 msgid "Estado de las Operaciones por País"
 msgstr "Country Operation Status"
 
-#: countries/templates/country.html:167 website/templates/index.html:507
+#: countries/templates/country.html:93
+msgid "Riesgos Principales"
+msgstr "Major Risks"
+
+#: countries/templates/country.html:96
+msgid "Resumen de la Identificacion del riesgos"
+msgstr "Summary of Risk Identification"
+
+#: countries/templates/country.html:174 website/templates/index.html:507
 msgid ""
 "Este mapa incluye información general sobre cada país. Haga clic en el Pin "
 "para leer acerca de los objetivos y ver cómo ha transcurrido mucho tiempo en "
@@ -78,15 +86,15 @@ msgstr ""
 "variation are greater than 25 perent. For detailed information on variation, "
 "please see the Country Operation Status Graphic."
 
-#: countries/templates/country.html:180
+#: countries/templates/country.html:187
 msgid "Objetivo de la Operación"
 msgstr "Operation objectives and progress"
 
-#: countries/templates/country.html:191
+#: countries/templates/country.html:198
 msgid "Resultados Esperados"
 msgstr "Key Results"
 
-#: countries/templates/country.html:213 website/templates/index.html:524
+#: countries/templates/country.html:220 website/templates/index.html:524
 msgid ""
 "Está gráfica ilustra ejecución / valores reales y esperados / valores "
 "programados, lo que correspondiente porcentaje de avance financiero en la "
@@ -103,7 +111,7 @@ msgstr ""
 "seek to reduce the amount of variation (spaces between the triangles) "
 "between the planned and actual values."
 
-#: countries/templates/country.html:228
+#: countries/templates/country.html:235
 msgid "Country Operation Financial <br />Execution Performance Summary"
 msgstr "Country Financial Performance"
 
@@ -165,8 +173,10 @@ msgid "Rendimiento por Desembolso de los Donantes: Real Vs. Expected"
 msgstr "Donor Disbursement Performance: Real Vs. Esperada"
 
 #: tables/templates/hitos_e_avances.html:25
+#: tables/templates/tables/sm2015milestone.html:6
+#: tables/templates/tables/sm2015milestone_noneditable.html:12
 msgid "Hitos"
-msgstr ""
+msgstr "Milestones"
 
 #: tables/templates/hitos_e_avances.html:31
 msgid "Avance fisico financieros"
@@ -293,18 +303,72 @@ msgstr "Recommendations"
 msgid "Próximos eventos del Diálogos de Políticas"
 msgstr "Upcoming Policy Dialogue Events"
 
+#: tables/templates/tables/country_risk_identification.html:19
+msgid "Riesgos Identificados"
+msgstr "Identified Risks"
+
+#: tables/templates/tables/country_risk_identification.html:20
+msgid "Calificacion"
+msgstr "Rating"
+
+#: tables/templates/tables/country_risk_identification.html:23
+msgid "Categorias de la causa del Riesgo"
+msgstr "Categories of Risk Cause"
+
+#: tables/templates/tables/country_risk_identification.html:24
+msgid "Muy Alto"
+msgstr "Very High"
+
+#: tables/templates/tables/country_risk_identification.html:25
+msgid "Alto"
+msgstr "High"
+
+#: tables/templates/tables/country_risk_identification.html:26
+msgid "Medio"
+msgstr "Medium"
+
+#: tables/templates/tables/country_risk_identification.html:27
+msgid "Bajo"
+msgstr "Low"
+
+#: tables/templates/tables/country_risk_identification.html:28
+msgid "Total"
+msgstr "Total"
+
+#: tables/templates/tables/country_risk_identification.html:33
+msgid "Riesgos Negativos"
+msgstr "Negative Risks"
+
+#: tables/templates/tables/country_risk_identification.html:56
+msgid "Riesgos Positivos"
+msgstr "Positive Risks"
+
+#: tables/templates/tables/country_risk_top.html:19
+msgid "Descripción del Riesgo"
+msgstr "Description of Risk"
+
+#: tables/templates/tables/country_risk_top.html:20
+msgid "Plan de respuesta"
+msgstr "Response Plan"
+
+#: tables/templates/tables/country_risk_top.html:21
+msgid "Calificacion de Riesgo a Junio 30/2014"
+msgstr ""
+
 #: tables/templates/tables/hitos.html:8
-#: tables/templates/tables/hitos_noneditable.html:12
+#: tables/templates/tables/hitos_noneditable.html:13
 msgid "Indicador de Pago"
 msgstr "Payment Indicator"
 
 #: tables/templates/tables/hitos.html:9
-#: tables/templates/tables/hitos_noneditable.html:13
+#: tables/templates/tables/hitos_noneditable.html:14
 msgid "Hito"
 msgstr "Milestone"
 
 #: tables/templates/tables/hitos.html:10
-#: tables/templates/tables/hitos_noneditable.html:11
+#: tables/templates/tables/hitos_noneditable.html:12
+#: tables/templates/tables/ucmilestone.html:7
+#: tables/templates/tables/ucmilestone_noneditable.html:13
 msgid "Trimestre"
 msgstr "Quarter"
 
@@ -313,7 +377,7 @@ msgid "Audiencia"
 msgstr "Audience"
 
 #: tables/templates/tables/hitos.html:12
-#: tables/templates/tables/hitos_noneditable.html:14
+#: tables/templates/tables/hitos_noneditable.html:15
 msgid "Estado Actual"
 msgstr "Current State"
 
@@ -332,6 +396,33 @@ msgstr "Agreement"
 #: tables/templates/tables/hitos.html:16
 msgid "Actividad en POA"
 msgstr "POA Activity"
+
+#: tables/templates/tables/sm2015milestone.html:5
+#: tables/templates/tables/sm2015milestone_noneditable.html:11
+msgid "Objective"
+msgstr "Objective"
+
+#: tables/templates/tables/sm2015milestone.html:7
+#: tables/templates/tables/sm2015milestone_noneditable.html:13
+#: tables/templates/tables/ucmilestone.html:8
+#: tables/templates/tables/ucmilestone_noneditable.html:14
+msgid "Estatus"
+msgstr "Current State"
+
+#: tables/templates/tables/sm2015milestone.html:8
+#: tables/templates/tables/ucmilestone.html:9
+msgid "Observaciones"
+msgstr ""
+
+#: tables/templates/tables/ucmilestone.html:5
+#: tables/templates/tables/ucmilestone_noneditable.html:11
+msgid "Objectivo"
+msgstr "Objective"
+
+#: tables/templates/tables/ucmilestone.html:6
+#: tables/templates/tables/ucmilestone_noneditable.html:12
+msgid "Hito UC"
+msgstr "Milestone"
 
 #: website/templates/base_logado.html:249
 msgid "Hola"
