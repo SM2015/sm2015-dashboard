@@ -407,7 +407,7 @@ msgstr "Objective"
 #: tables/templates/tables/ucmilestone.html:8
 #: tables/templates/tables/ucmilestone_noneditable.html:14
 msgid "Estatus"
-msgstr "Current State"
+msgstr "Status"
 
 #: tables/templates/tables/sm2015milestone.html:8
 #: tables/templates/tables/ucmilestone.html:9
