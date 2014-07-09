@@ -11,6 +11,7 @@
         <th class="column-name">{% trans "Objective" %}</th>
         <th class="column-name">{% trans "Hitos" %}</th>
         <th class="column-name">{% trans "Estatus" %}</th>
+        <th class="column-name">{% trans "Observaciones" %}</th>
       </tr>
     </thead>
     <tbody>
@@ -27,6 +28,7 @@
           {% ifequal sm2015milestone.status|lower 'pending' %}bg-pending{% endifequal %}
           {% ifequal sm2015milestone.status|lower 'pendiente' %}bg-pending{% endifequal %}
           " name="status" nowrap>{{sm2015milestone.status}}</td>
+        <td class="" name="observation">{% if sm2015milestone.observation%}{{sm2015milestone.observation}}{% endif %}</td>
       </tr>
       {% endfor %}
     </tbody>

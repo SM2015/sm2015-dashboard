@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-09 11:13-0400\n"
+"POT-Creation-Date: 2014-07-09 11:44-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -410,9 +410,11 @@ msgid "Estatus"
 msgstr "Status"
 
 #: tables/templates/tables/sm2015milestone.html:8
+#: tables/templates/tables/sm2015milestone_noneditable.html:14
 #: tables/templates/tables/ucmilestone.html:9
+#: tables/templates/tables/ucmilestone_noneditable.html:15
 msgid "Observaciones"
-msgstr ""
+msgstr "Observations"
 
 #: tables/templates/tables/ucmilestone.html:5
 #: tables/templates/tables/ucmilestone_noneditable.html:11

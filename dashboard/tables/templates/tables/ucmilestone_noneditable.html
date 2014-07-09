@@ -12,6 +12,7 @@
         <th class="column-name">{% trans "Hito UC" %}</th>
         <th class="column-name">{% trans "Trimestre" %}</th>
         <th class="column-name">{% trans "Estatus" %}</th>
+        <th class="column-name">{% trans "Observaciones" %}</th>
       </tr>
     </thead>
     <tbody>
@@ -29,6 +30,7 @@
           {% ifequal milestone.status|lower 'pending' %}bg-pending{% endifequal %}
           {% ifequal milestone.status|lower 'pendiente' %}bg-pending{% endifequal %}
           " name="status">{{milestone.status}}</td>
+        <td class="text" name="observation">{% if milestone.observation %}{{milestone.observation}}{% endif %}</td>
       </tr>
       {% endfor %}
     </tbody>
