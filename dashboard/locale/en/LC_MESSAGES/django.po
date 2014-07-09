@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-09 12:12-0400\n"
+"POT-Creation-Date: 2014-07-09 12:27-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,6 +28,10 @@ msgid ""
 msgstr ""
 "This table displays the  actual and planned disbursements of the investment "
 "tranche and the execution of the investment tranche, per quarter."
+
+#: countries/templates/countries.html:159 countries/templates/country.html:235
+msgid "Desempeño de la Ejecución Financiera"
+msgstr "Country Operation Financial <br />Execution Performance Summary"
 
 #: countries/templates/country.html:52
 msgid "Gráficas de Logros por País"
@@ -110,10 +114,6 @@ msgstr ""
 "from operation eligibility to date the information was updated. Programs "
 "seek to reduce the amount of variation (spaces between the triangles) "
 "between the planned and actual values."
-
-#: countries/templates/country.html:235
-msgid "Desempeño de la Ejecución <br />Financiera"
-msgstr "Country Operation Financial <br />Execution Performance Summary"
 
 #: countries/templates/country_details.html:62
 msgid "Datos del País"
