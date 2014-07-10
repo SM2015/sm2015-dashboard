@@ -45,7 +45,7 @@ class DashboardUserForm(forms.ModelForm):
 
 class DashboardUserAdmin(admin.ModelAdmin):
     fields = ('first_name', 'last_name', 'username', 'email', 'countries',
-              'tables')
+              'tables', 'have_database_access')
     form = DashboardUserForm
 
     def queryset(self, request):

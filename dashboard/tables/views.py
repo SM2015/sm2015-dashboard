@@ -6,7 +6,8 @@ from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render_to_response, get_object_or_404, \
+    redirect
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.contrib.humanize.templatetags.humanize import intcomma
 from django.db.models import ForeignKey, FieldDoesNotExist, IntegerField, \
@@ -115,6 +116,9 @@ def save_milestone_data(request):
 @login_required
 def hitos_e_avances(request):
     context = RequestContext(request)
+    user = context.get('user')
+    if user.dashboarduser.have_database_access is False:
+        return redirect('index')
     countries = context.get('user').dashboarduser.countries.all()
 
     context.update({'countries': countries})
@@ -124,6 +128,9 @@ def hitos_e_avances(request):
 @login_required
 def ucmilestone(request):
     context = RequestContext(request)
+    user = context.get('user')
+    if user.dashboarduser.have_database_access is False:
+        return redirect('index')
     dates = UcMilestone.get_dates()
     context.update({'dates': dates})
     return render_to_response("ucmilestone.html", context)
@@ -132,6 +139,9 @@ def ucmilestone(request):
 @login_required
 def sm2015milestone(request):
     context = RequestContext(request)
+    user = context.get('user')
+    if user.dashboarduser.have_database_access is False:
+        return redirect('index')
     dates = Sm2015Milestone.get_dates()
     context.update({'dates': dates})
     return render_to_response("sm2015milestone.html", context)
@@ -176,12 +186,18 @@ def grants_finances(request):
 @login_required
 def grants_finances_editable(request):
     context = RequestContext(request)
+    user = context.get('user')
+    if user.dashboarduser.have_database_access is False:
+        return redirect('index')
     return render_to_response("grants_finances_editable.html", context)
 
 
 @login_required
 def life_save(request):
     context = RequestContext(request)
+    user = context.get('user')
+    if user.dashboarduser.have_database_access is False:
+        return redirect('index')
     countries = context.get('user').dashboarduser.countries.all()
 
     context.update({'countries': countries})
@@ -228,6 +244,9 @@ def grants_finances_ongoing(request, uuid_origin):
 @login_required
 def country_operation(request):
     context = RequestContext(request)
+    user = context.get('user')
+    if user.dashboarduser.have_database_access is False:
+        return redirect('index')
     return render_to_response("country_operation.html", context)
 
 
