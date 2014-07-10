@@ -2,14 +2,14 @@
 from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-from django.contrib.humanize.templatetags.humanize import intcomma
 
 from tables.models import Hito, AvanceFisicoFinanciero, EstadoActual, \
     UcMilestone, Sm2015Milestone, GrantsFinances, \
     GrantsFinancesFields, LifeSaveField, LifeSave, \
     CountryOperation, CountryDetails, \
     CountryDetailsValues, Quarter, Operation, OperationTotalInvestment, \
-    CountryRiskIdentification, CountryMainRisks, CountryRiskLevels
+    CountryRiskIdentification, CountryMainRisks, CountryRiskLevels, \
+    CountryRiskIdentificationFields
 from core.models import Country
 from countries.views import _get_obj_filtered_api
 
@@ -488,5 +488,53 @@ def render_country_risk_top(request, country_slug):
     rendered = render_to_string("tables/country_risk_top.html", {
         'table': table,
         'country': country
+    })
+    return HttpResponse(rendered, content_type="text/html")
+
+
+@login_required
+def render_country_risk_causes(request):
+    fields = CountryRiskIdentificationFields.objects.all()
+    table = []
+    total = {'total': 0}
+
+    for field in fields:
+        field_dict = {
+            'name': field.name,
+            'level': {'total': 0}
+        }
+        for level in CountryRiskLevels.objects.all():
+            field_level = CountryRiskIdentification.objects.filter(level=level,
+                                                                   field=field)
+            for identification in field_level:
+                if field_dict['level'].get(level.uuid.lower()):
+                    field_dict['level'][level.uuid.lower()] += identification.value
+                else:
+                    field_dict['level'][level.uuid.lower()] = identification.value
+
+                field_dict['level']['total'] += identification.value
+
+                if total.get(level.uuid.lower()):
+                    total[level.uuid.lower()] += identification.value
+                else:
+                    total[level.uuid.lower()] = identification.value
+
+                total['total'] += identification.value
+
+        table.append(field_dict)
+
+    total_percentage = float(total.get('total')) / 100
+    for row in table:
+        for level_uuid in row.get('level'):
+            value = float(row['level'][level_uuid])
+            row['level'][level_uuid] = "%0.f" % (value / total_percentage)
+
+    for level_uuid in total:
+        value = float(total[level_uuid])
+        total[level_uuid] = "%0.f" % (value / total_percentage)
+
+    rendered = render_to_string("tables/country_risk_causes.html", {
+        'table': table,
+        'total': total
     })
     return HttpResponse(rendered, content_type="text/html")

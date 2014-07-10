@@ -69,6 +69,10 @@ urlpatterns = patterns(
     url(r'render/country_risk_top/(?P<country_slug>[-\w]+)/?$',
         views_render.render_country_risk_top,
         name="table_render_country_risk_top"),
+    url(r'render/country_risk_causes/?$',
+        views_render.render_country_risk_causes,
+        name="table_render_country_risk_causes"),
+
 
 
     url(r'render/export/hitos_y_avances/(?P<country_slug>[-\w]+)/?$',

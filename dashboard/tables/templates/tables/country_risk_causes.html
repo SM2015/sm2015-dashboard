@@ -1,0 +1,52 @@
+{% load i18n %}
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<style>
+    .column-name{
+        text-transform: uppercase;
+    }
+    .bg-red {
+      background-color: #F66;
+      color: white !important;
+    }
+    .bg-gray {
+      background-color: #FAFAFA;
+    }
+</style>
+
+<table class="table table-hover table-condensed table-bordered">
+  <thead>
+    <tr>
+        <th class="column-name first" style="text-align: center">{% trans "Riesgos Identificados" %}</th>
+        <th class="column-name" colspan=5 style="text-align: center">{% trans "Calificacion" %}</th>
+    </tr>
+    <tr>
+        <th class="column-name first" style="text-align: center" width="68%">{% trans "Categorias de la causa del Riesgo" %}</th>
+        <th class="column-name" style="text-align: center; background-color: #F20200; color: white;">{% trans "Muy Alto" %}</th>
+        <th class="column-name" style="text-align: center; background-color: #FF5100; color: white;">{% trans "Alto" %}</th>
+        <th class="column-name" style="text-align: center; background-color: #FBFA01;">{% trans "Medio" %}</th>
+        <th class="column-name" style="text-align: center; background-color: #007876; color: white;">{% trans "Bajo" %}</th>
+        <th class="column-name" style="text-align: center; background-color: #002E66; color: white;">{% trans "Total" %}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for field in table %}
+    <tr>
+      <td>{{field.name}}</td>
+      <td style="text-align: center">{{field.level.very_high}}%</td>
+      <td style="text-align: center">{{field.level.high}}%</td>
+      <td style="text-align: center">{{field.level.medium}}%</td>
+      <td style="text-align: center">{{field.level.low}}%</td>
+      <td style="text-align: center; background-color: #EEE">{{field.level.total}}%</td>
+    </tr>
+    {% endfor %}
+
+    <tr>
+      <td style="background-color: #EEE"><strong>Total</strong></td>
+      <td style="text-align: center; background-color: #EEE"><strong>{{total.very_high}}%</strong></td>
+      <td style="text-align: center; background-color: #EEE"><strong>{{total.high}}%</strong></td>
+      <td style="text-align: center; background-color: #EEE"><strong>{{total.medium}}%</strong></td>
+      <td style="text-align: center; background-color: #EEE"><strong>{{total.low}}%</strong></td>
+      <td style="text-align: center; background-color: #EEE"><strong>{{total.total}}%</strong></td>
+    </tr>
+  </tbody>
+</table>

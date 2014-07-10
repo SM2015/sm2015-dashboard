@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-09 12:27-0400\n"
+"POT-Creation-Date: 2014-07-09 22:02-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,9 +29,13 @@ msgstr ""
 "This table displays the  actual and planned disbursements of the investment "
 "tranche and the execution of the investment tranche, per quarter."
 
-#: countries/templates/countries.html:159 countries/templates/country.html:235
+#: countries/templates/countries.html:83
+msgid "Todos los Paises - Identificacion de Causas"
+msgstr "All Countries - Identification of Causes"
+
+#: countries/templates/countries.html:166 countries/templates/country.html:235
 msgid "Desempeño de la Ejecución Financiera"
-msgstr "Country Operation Financial <br />Execution Performance Summary"
+msgstr "Country Operation Financial Execution Performance Summary"
 
 #: countries/templates/country.html:52
 msgid "Gráficas de Logros por País"
@@ -303,34 +307,42 @@ msgstr "Recommendations"
 msgid "Próximos eventos del Diálogos de Políticas"
 msgstr "Upcoming Policy Dialogue Events"
 
+#: tables/templates/tables/country_risk_causes.html:19
 #: tables/templates/tables/country_risk_identification.html:19
 msgid "Riesgos Identificados"
 msgstr "Identified Risks"
 
+#: tables/templates/tables/country_risk_causes.html:20
 #: tables/templates/tables/country_risk_identification.html:20
 msgid "Calificacion"
 msgstr "Rating"
 
+#: tables/templates/tables/country_risk_causes.html:23
 #: tables/templates/tables/country_risk_identification.html:23
 msgid "Categorias de la causa del Riesgo"
 msgstr "Categories of Risk Cause"
 
+#: tables/templates/tables/country_risk_causes.html:24
 #: tables/templates/tables/country_risk_identification.html:24
 msgid "Muy Alto"
 msgstr "Very High"
 
+#: tables/templates/tables/country_risk_causes.html:25
 #: tables/templates/tables/country_risk_identification.html:25
 msgid "Alto"
 msgstr "High"
 
+#: tables/templates/tables/country_risk_causes.html:26
 #: tables/templates/tables/country_risk_identification.html:26
 msgid "Medio"
 msgstr "Medium"
 
+#: tables/templates/tables/country_risk_causes.html:27
 #: tables/templates/tables/country_risk_identification.html:27
 msgid "Bajo"
 msgstr "Low"
 
+#: tables/templates/tables/country_risk_causes.html:28
 #: tables/templates/tables/country_risk_identification.html:28
 msgid "Total"
 msgstr "Total"

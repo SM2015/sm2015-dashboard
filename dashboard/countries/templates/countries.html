@@ -78,6 +78,13 @@
                 url_save: "{% url 'save_milestone_data' %}"
             });
 
+
+            $(".table-country-risk-causes").dashboardTable("{% url 'table_render_country_risk_causes' %}", {
+              title: '{% trans "Todos los Paises - Identificacion de Causas" %}',
+              description: '',
+              url_save: "{% url 'save_milestone_data' %}"
+            });
+
             $(".chart-disbursement-container").graficoDisbursement();
         });
     </script>
@@ -184,5 +191,7 @@
     <div class="table-country-operation"></div>
 
     <div class="row-fluid chart-disbursement-container"></div>
+
+    <div class="table-country-risk-causes"></div>
 </div>
 {% endblock %}
