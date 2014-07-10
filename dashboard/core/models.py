@@ -39,7 +39,7 @@ class DashboardUser(models.Model):
     forgot_password_token = models.CharField(max_length=100, null=True, blank=True, default=None)
     countries = models.ManyToManyField(Country)
     tables = models.ManyToManyField(TableEditAccess)
-    have_database_access = models.BooleanField(default=False)
+    have_database_access = models.BooleanField(default=True)
 
     def _generate_token(self):
         hash_obj = hashlib.new('md5')
