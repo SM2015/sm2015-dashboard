@@ -36,6 +36,8 @@ INSTALLED_APPS = (
     'tables',
     'map',
     'countries',
+    'reports',
+    'elfinder',
 )
 
 MIDDLEWARE_CLASSES = (

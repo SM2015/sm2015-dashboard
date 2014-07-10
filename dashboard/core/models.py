@@ -36,7 +36,8 @@ class TableEditAccess(models.Model):
 class DashboardUser(models.Model):
     user = models.OneToOneField(User, verbose_name=u"Dashboard User")
     activation_key = models.CharField(max_length=100)
-    forgot_password_token = models.CharField(max_length=100, null=True, blank=True, default=None)
+    forgot_password_token = models.CharField(max_length=100, null=True,
+                                             blank=True, default=None)
     countries = models.ManyToManyField(Country)
     tables = models.ManyToManyField(TableEditAccess)
     have_database_access = models.BooleanField(default=True)

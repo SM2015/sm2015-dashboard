@@ -308,7 +308,7 @@
       <li class="start"><a href="{% url 'metas_sm2015' %}"><i class="icon-custom-reports"></i> <span class="title">{% trans "Metas SM2015" %}</span></a></li>
       <li class="start"><a href="{% url 'grants_finances' %}"> <i class="icon-custom-gantz"></i> <span class="title">{% trans "Financiación" %}</span></a> </li>
       <!--<li class="start"><a href="#"><i class="icon-custom-sm"></i> <span class="title">{% trans "SM2015" %}</span></a> </li>-->
-      <!--<li class="start"><a href="#"><i class="icon-custom-reports"></i> <span class="title">{% trans "Informes" %}</span></a> </li>-->
+      <li class="start"><a href="{% url 'reports' %}"><i class="icon-custom-reports"></i> <span class="title">{% trans "Informes" %}</span></a> </li>
       {% if user.dashboarduser.have_database_access %}
       <li class="start with-submenu"><a href="#"><i class="icon-custom-db"></i> <span class="title">{% trans "Base de datos" %}</span> <span class="arrow "></span></a>
         <ul class="sub-menu">

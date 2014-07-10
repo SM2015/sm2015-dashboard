@@ -1,0 +1,28 @@
+{% extends 'base_logado.html' %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block js_bottom %}
+  {{ block.super }}
+  <script type="text/javascript" src="{% static "elfinder/js/elfinder.full.js" %}"></script>
+  <script>
+    $(document).ready( function() {
+        var elf = $('#elfinder').elfinder({
+          "url": "/elfinder/yawd-connector/default/default/",
+          "rmSoundUrl": "{% static 'elfinder/sounds/rm.wav' %}",
+          "rememberLastDir": true
+        }).elfinder('instance'); 
+    });
+  </script>
+{% endblock js_bottom %}
+
+{% block css %}
+  {{ block.super }}
+  <link href="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.22/themes/smoothness/jquery-ui.css" type="text/css" media="screen" rel="stylesheet" />
+  <link href="{% static "elfinder/css/elfinder.min.css" %}" type="text/css" media="screen" rel="stylesheet" />
+  <link href="{% static "css/jquery.elfinder-widget.full.css" %}" type="text/css" media="screen" rel="stylesheet" />
+{% endblock css %}
+
+{% block content %}
+  <div id="elfinder"></div>
+{% endblock %}
