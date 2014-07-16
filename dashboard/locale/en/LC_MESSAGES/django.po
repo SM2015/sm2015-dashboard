@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-09 22:02-0400\n"
+"POT-Creation-Date: 2014-07-16 07:52-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -135,6 +135,10 @@ msgstr "Financial Execution"
 msgid "Ejecucion Fisica"
 msgstr "Physics Execution"
 
+#: reports/templates/reports.html:51
+msgid "Gerenciador de Arquivos"
+msgstr "File Manager"
+
 #: tables/templates/change_list.html:45
 msgid "Import Excel"
 msgstr "Cargar Excel"
@@ -215,7 +219,7 @@ msgid "Seleccione una Data"
 msgstr "Select a date"
 
 #: tables/templates/sm2015milestone.html:22
-#: website/templates/base_logado.html:316
+#: website/templates/base_logado.html:317
 msgid "SM2015 Hitos"
 msgstr "SM2015 Milestones"
 
@@ -470,23 +474,23 @@ msgstr "SM2015"
 msgid "Informes"
 msgstr "Reports"
 
-#: website/templates/base_logado.html:312
+#: website/templates/base_logado.html:313
 msgid "Base de datos"
 msgstr "Databases"
 
-#: website/templates/base_logado.html:314
+#: website/templates/base_logado.html:315
 msgid "Ejecución Financiera y Hitos"
 msgstr "Financial Execution and Milestones"
 
-#: website/templates/base_logado.html:315
+#: website/templates/base_logado.html:316
 msgid "Unidad de Coordinación Hitos"
 msgstr "Coordination Unit Milestone"
 
-#: website/templates/base_logado.html:317
+#: website/templates/base_logado.html:318
 msgid "Rendimiento por Desembolso"
 msgstr "Disbursement Performance"
 
-#: website/templates/base_logado.html:319
+#: website/templates/base_logado.html:320
 msgid "País Operación"
 msgstr "Country Operation"
 
