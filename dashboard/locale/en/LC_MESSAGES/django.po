@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-16 12:44-0400\n"
+"POT-Creation-Date: 2014-07-16 13:12-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -352,12 +352,12 @@ msgid "Total"
 msgstr "Total"
 
 #: tables/templates/tables/country_risk_identification.html:33
-#: tables/templates/tables/country_risk_top.html:27
+#: tables/templates/tables/country_risk_top.html:28
 msgid "Riesgos Negativos"
 msgstr "Negative Risks"
 
 #: tables/templates/tables/country_risk_identification.html:56
-#: tables/templates/tables/country_risk_top.html:42
+#: tables/templates/tables/country_risk_top.html:45
 msgid "Riesgos Positivos"
 msgstr "Positive Risks"
 
@@ -366,10 +366,14 @@ msgid "Descripción del Riesgo"
 msgstr "Description of Risk"
 
 #: tables/templates/tables/country_risk_top.html:20
+msgid "Estrategia de respuesta"
+msgstr "Risk Response strategy"
+
+#: tables/templates/tables/country_risk_top.html:21
 msgid "Plan de respuesta"
 msgstr "Response Plan"
 
-#: tables/templates/tables/country_risk_top.html:21
+#: tables/templates/tables/country_risk_top.html:22
 msgid "Calificacion de Riesgo a Junio 30/2014"
 msgstr ""
 

@@ -1085,6 +1085,7 @@ class CountryMainRisks(models.Model):
     language = models.ForeignKey(Language, default=1)
 
     description = models.TextField()
+    response_strategy = models.TextField()
     plan = models.TextField()
 
     type = models.ForeignKey(CountryRiskTypes)
@@ -1117,10 +1118,11 @@ class CountryMainRisks(models.Model):
             elif row[0].row >= 82 and row[0].row <= 91:
                 country = Country.objects.get(slug='honduras')
 
-            if not country or not row[2].value:
+            if not country or not row[1].value:
                 continue
 
-            description = row[2].value.strip()
+            description = row[1].value.strip()
+            response_strategy = row[2].value.strip() if row[2].value else ''
             plan = row[3].value.strip() if row[3].value else ''
             level_str = row[4].value.strip().lower()
 
@@ -1144,6 +1146,7 @@ class CountryMainRisks(models.Model):
                                             level=level,
                                             date=date.today(),
                                             country=country,
+                                            response_strategy=response_strategy,
                                             language=language)
 
 
