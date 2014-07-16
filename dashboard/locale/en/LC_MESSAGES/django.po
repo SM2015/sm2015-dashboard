@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-16 10:22-0400\n"
+"POT-Creation-Date: 2014-07-16 12:44-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -135,7 +135,7 @@ msgstr "Financial Execution"
 msgid "Ejecucion Fisica"
 msgstr "Physics Execution"
 
-#: reports/templates/reports.html:51
+#: reports/templates/reports.html:45
 msgid "Gestión de Archivos"
 msgstr "File Manager"
 
@@ -352,10 +352,12 @@ msgid "Total"
 msgstr "Total"
 
 #: tables/templates/tables/country_risk_identification.html:33
+#: tables/templates/tables/country_risk_top.html:27
 msgid "Riesgos Negativos"
 msgstr "Negative Risks"
 
 #: tables/templates/tables/country_risk_identification.html:56
+#: tables/templates/tables/country_risk_top.html:42
 msgid "Riesgos Positivos"
 msgstr "Positive Risks"
 

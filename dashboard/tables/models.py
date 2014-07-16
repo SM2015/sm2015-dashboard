@@ -191,8 +191,6 @@ class Hito(models.Model):
         sheet = {'country': Country.objects.get(slug=slugify(sheet_name)),
                  'sheet': wb.get_sheet_by_name(sheet_name)}
 
-        import ipdb; ipdb.set_trace()
-
         language = Language.objects.get(acronym=sheet_lang)
 
         real_sheet = sheet.get('sheet')
@@ -1084,6 +1082,7 @@ class CountryRiskIdentificationFields(models.Model):
 
 class CountryMainRisks(models.Model):
     country = models.ForeignKey(Country)
+    language = models.ForeignKey(Language, default=1)
 
     description = models.TextField()
     plan = models.TextField()
@@ -1096,41 +1095,42 @@ class CountryMainRisks(models.Model):
         return self.country.name
 
     @classmethod
-    def upload_excel(cls, uploaded_file):
+    def upload_excel(cls, uploaded_file, sheet_lang):
         wb = load_workbook(uploaded_file, data_only=True)
         sheet = wb.get_sheet_by_name('Top 10 riesgos')
+        language = Language.objects.get(acronym=sheet_lang)
 
-        positives_rows = [15, 31, 44, 45, 61, 62, 76, 77, 78]
+        positives_rows = [14, 30, 43, 44, 60, 61, 75, 76, 77]
 
         for row in sheet.rows:
             country = None
-            if row[0].row >= 5 and row[0].row <= 15:
+            if row[0].row >= 5 and row[0].row <= 14:
                 country = Country.objects.get(slug='belize')
-            elif row[0].row >= 20 and row[0].row <= 31:
+            elif row[0].row >= 19 and row[0].row <= 30:
                 country = Country.objects.get(slug='guatemala')
-            elif row[0].row >= 37 and row[0].row <= 45:
+            elif row[0].row >= 36 and row[0].row <= 44:
                 country = Country.objects.get(slug='mexico')
-            elif row[0].row >= 50 and row[0].row <= 62:
+            elif row[0].row >= 49 and row[0].row <= 61:
                 country = Country.objects.get(slug='nicaragua')
-            elif row[0].row >= 67 and row[0].row <= 78:
+            elif row[0].row >= 66 and row[0].row <= 77:
                 country = Country.objects.get(slug='el-salvador')
-            elif row[0].row >= 83 and row[0].row <= 92:
+            elif row[0].row >= 82 and row[0].row <= 91:
                 country = Country.objects.get(slug='honduras')
 
             if not country or not row[2].value:
                 continue
 
             description = row[2].value.strip()
-            plan = row[3].value.strip()
+            plan = row[3].value.strip() if row[3].value else ''
             level_str = row[4].value.strip().lower()
 
-            if level_str == 'muy alto':
+            if level_str in ['muy alto', 'very high']:
                 level = CountryRiskLevels.objects.get(uuid='VERY_HIGH')
-            elif level_str == 'alto':
+            elif level_str in ['alto', 'high']:
                 level = CountryRiskLevels.objects.get(uuid='HIGH')
-            elif level_str == 'medio':
+            elif level_str in ['medio', 'medium']:
                 level = CountryRiskLevels.objects.get(uuid='MEDIUM')
-            elif level_str == 'bajo':
+            elif level_str in ['bajo', 'low']:
                 level = CountryRiskLevels.objects.get(uuid='LOW')
 
             if row[0].row in positives_rows:
@@ -1143,7 +1143,8 @@ class CountryMainRisks(models.Model):
                                             type=type,
                                             level=level,
                                             date=date.today(),
-                                            country=country)
+                                            country=country,
+                                            language=language)
 
 
 class CountryRiskIdentification(models.Model):

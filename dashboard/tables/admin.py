@@ -103,9 +103,9 @@ class CountryRiskIdentificationAdmin(admin.ModelAdmin):
 
 
 class CountryMainRisksAdmin(admin.ModelAdmin):
-    list_display = ('country', 'level', 'type')
-    list_filter = ('country', 'level', 'type')
-    change_list_template = 'change_list.html'
+    list_display = ('country', 'level', 'type', 'language')
+    list_filter = ('country', 'level', 'type', 'language')
+    change_list_template = 'change_list_sheet_asking.html'
 
 
 admin.site.register(Hito, HitoAdmin)
