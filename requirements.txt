@@ -6,5 +6,5 @@ openpyxl==1.8.2
 py2docx==0.2.0
 django-suit==0.2.7
 uWSGI==1.9.20
-https://github.com/yawd/yawd-elfinder/archive/master.zip
+https://github.com/rafaels88/yawd-elfinder/archive/master.zip
 python-magic==0.4.6
