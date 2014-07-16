@@ -484,6 +484,18 @@ def render_country_risk_top(request, country_slug):
     table = {'positives': [r for r in rows.filter(type__uuid='POSITIVE')],
              'negatives': [r for r in rows.filter(type__uuid='NEGATIVE')]}
 
+    if request.LANGUAGE_CODE == 'es':
+        for type in table:
+            for row in table[type]:
+                if row.level.uuid == 'VERY_HIGH':
+                    row.level.name = 'Muy Alto'
+                elif row.level.uuid == 'HIGH':
+                    row.level.name = 'Alto'
+                elif row.level.uuid == 'MEDIUM':
+                    row.level.name = 'Medio'
+                elif row.level.uuid == 'LOW':
+                    row.level.name = 'Bajo'
+
     rendered = render_to_string("tables/country_risk_top.html", {
         'table': table,
         'country': country
