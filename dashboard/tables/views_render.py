@@ -167,16 +167,14 @@ def _get_grants_finances_table(request):
 
     for field in grants_fields:
         values = []
-        accumulated_value = 0
         for period in periods:
             grant = GrantsFinances.objects \
                                   .filter(field__id=field.id) \
                                   .filter(quarter__name=period)
 
             if grant:
-                accumulated_value += grant[0].value
                 values.append({
-                    'value': "%.1f" % accumulated_value,
+                    'value': "%.1f" % grant[0].value,
                     'id': grant[0].id,
                     'period': grant[0].quarter.name
                 })
