@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-16 07:52-0400\n"
+"POT-Creation-Date: 2014-07-16 10:22-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -136,7 +136,7 @@ msgid "Ejecucion Fisica"
 msgstr "Physics Execution"
 
 #: reports/templates/reports.html:51
-msgid "Gerenciador de Arquivos"
+msgid "Gestión de Archivos"
 msgstr "File Manager"
 
 #: tables/templates/change_list.html:45

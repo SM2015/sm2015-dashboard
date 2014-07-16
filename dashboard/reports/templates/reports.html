@@ -33,12 +33,6 @@
     input[type="text"] {
       padding: 6px 21px !important;
     }
-    .grid.simple .grid-title {
-      background-color: #da587d;
-    }
-    .grid-title h4 {
-      color: white;
-    }
   </style>
 {% endblock css %}
 
@@ -48,7 +42,15 @@
   <div class="row-fluid">
       <div class="grid simple">
         <div class="grid-title">
-          <h4>{% trans "Gerenciador de Arquivos" %}</h4>
+          <h4>{% trans "Gestión de Archivos" %}</h4>
+          <div class="tools"> 
+            <a class="showModalHelp" href="javascript:;">
+              ?
+              <div class="content">
+              </div>
+            </a> 
+            <a class="collapse" href="javascript:;"></a> <a class="reload" href="javascript:;"></a> <a class="remove" href="javascript:;"></a>
+          </div>
         </div>
         <div class="grid-body">
           <div class="row-fluid">
