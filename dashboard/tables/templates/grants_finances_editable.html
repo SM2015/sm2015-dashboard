@@ -35,7 +35,7 @@
 
             $(".table-grants-finances").dashboardTable("{% url 'table_render_grants_finances' %}", {
                 title: '{% trans "Rendimiento por Desembolso de los Donantes, por trimestre" %}',
-                description: gf_description,
+                description: "{% trans 'Esta tabla muestra los desembolsos previstos y reales de cada miembro del Comité de Donantes, por trimestre' %}",
                 url_save: "{% url 'save_milestone_data' %}"
             });
         });

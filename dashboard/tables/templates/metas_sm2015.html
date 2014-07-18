@@ -20,11 +20,13 @@
             $(window).bind("select-date", function(elem, v_date){
               $(".table-sm2015milestones").dashboardTable("/tables/render/sm2015milestone-noneditable/" + v_date, {
                   title: '{% trans "Objetivos y Hitos SM2015" %}',
+                  description: '{% trans "Cada año, SM2015 acuerda hitos anuales con el Comité de Donantes SM2015. Esta gráfica muestra los hitos y su estado actual. El verde significa que el hito se ha completado, el amarillo significa que está en curso y el rojo significa el hito está pendiente, o más allá de su fecha prevista de finalización. Esta gráfica se actualiza trimestralmente." %}',
                   url_save: "{% url 'save_milestone_data' %}",
               });
 
               $(".table-ucmilestones").dashboardTable("/tables/render/ucmilestone-noneditable/" + v_date, {
                   title: '{% trans "Objetivos y Hitos de la Unidad Coordinadora" %}',
+                  description: '{% trans "Cada año, la Unidad Coordinadora crea hitos trimestrales para asegurar que se consigan los hitos anuales SM2015. Esta gráfica muestra los hitos y su estado actual. El verde significa que el hito se ha completado, el amarillo significa que está en curso y el rojo significa el hito está pendiente, o más allá de su fecha prevista de finalización. Esta gráfica se actualiza trimestralmente." %}',
                   url_save: "{% url 'save_milestone_data' %}",
               });
             });

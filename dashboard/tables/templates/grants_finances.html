@@ -35,7 +35,7 @@
 
             $(".table-grants-finances").dashboardTable("{% url 'table_render_grants_finances_noneditable' %}", {
                 title: '{% trans "Rendimiento por Desembolso de los Donantes, por trimestre" %}',
-                description: gf_description,
+                description: "{% trans 'Esta tabla muestra los desembolsos previstos y reales de cada miembro del Comité de Donantes, por trimestre' %}",
                 url_save: "{% url 'save_milestone_data' %}"
             });
 
@@ -74,12 +74,11 @@
 {% block content %}
 <div class="content">
     <div class="page-title">	
-      <h3>Donors Disbursment Performance
+      <h3>{% trans "Rendimiento por Desembolso de los Donantes" %}
           <a class="showModalHelp outside">
             ?
             <p class="content">
-              Every Donor has committed its funds contributions schedule. Based on this commitment SM2015
-              measures the compliance with it, every quarter.
+              {% trans "Comprometido a su calendario de contribuciones por fondos. Sobre la base de este compromiso, SM2015 mide el cumplimiento del programa de contribución por trimestre. <br /> <br />Cada cuadro representa un donante. El primer número en el cuadro es la cantidad de dinero que con el que los donantes ha contribuido a SM2015 hasta la fecha. La barra bajo esta figura representa que porcentaje se ha desembolsado. La variable se incluye debajo de la barra. El color de la caja representa la variable: <span style='red'>Verde = <X porcentaje variación; Amarillo = <X>porcentaje variación; Rojo => X porcentaje de variación.</span>" %}
             </p>
           </a>
       </h3>		

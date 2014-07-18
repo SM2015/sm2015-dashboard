@@ -22,6 +22,7 @@
 
                 $(".table-life-save").dashboardTable("/tables/render/life_save/"+country_slug, {
                     title: 'LiST - {% trans "Herramientas de Vidas Salvadas" %}',
+                    description: '{% trans "Esta tabla muestra el número y porcentaje de muertes evitadas en niños menores de 5 años atribuidas a cada una de las intervenciones SM2015. La tabla utiliza el ’Modelo de Vidas Salvadas‘ o LiST desarrollado con la Universidad Johns Hopkins y las ’Spectrum Policy Tools‘ desarrolladas con Futures Institute. Actualmente sólo están disponibles los datos de intervenciones de SM2015 y áreas objetivo de Nicaragua." %}',
                     url_save: "{% url 'save_milestone_data' %}"
                 });
             });
