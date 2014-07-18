@@ -7,7 +7,15 @@
 </style>
 <script>
     $().ready(function(){
-        $(".number-value").each(function(){ $(this).on("change", function(){ $(".reload").click(); }) })
+      $(".number-value").each(function(){ 
+
+        $(this).on("change", function(){ 
+          setTimeout(function(){
+            $(".reload").click(); 
+          }, 500);
+        });
+
+      });
     });
 </script>
 
