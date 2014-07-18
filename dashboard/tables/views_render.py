@@ -198,15 +198,9 @@ def _get_grants_finances_table(request):
 
     values_expected = []
     values_real = []
-    period_before = None
     for period in periods:
-        if period_before:
-            totals[period]['expected'] += totals[period_before]['expected']
-            totals[period]['real'] += totals[period_before]['real']
-
         values_expected.append({'value': "%.1f" % totals[period]['expected']})
         values_real.append({'value': "%.1f" % totals[period]['real']})
-        period_before = period
 
     table.append({'name': 'Total Expected Donors Inflow',
                   'values': values_expected,
@@ -467,6 +461,28 @@ def render_country_risk_identification(request, country_slug):
 
         table[table_type].extend(fields_list)
 
+    if request.LANGUAGE_CODE == 'es':
+        for type in table:
+            for row in table[type]:
+                if row['name'] == 'Quality':
+                    row['name'] = 'Calidad'
+                elif row['name'] == 'Context':
+                    row['name'] = 'Contexto'
+                elif row['name'] == 'Strategic':
+                    row['name'] = 'Estrategicos'
+                elif row['name'] == 'Financial':
+                    row['name'] = 'Financieros'
+                elif row['name'] == 'Stakeholders':
+                    row['name'] = 'Interesados'
+                elif row['name'] == 'Institutional Leadership':
+                    row['name'] = 'Liderazgo institucional'
+                elif row['name'] == 'Operational':
+                    row['name'] = 'Operacional'
+                elif row['name'] == 'Social and Environmental':
+                    row['name'] = 'Sociales y Ambientales'
+                elif row['name'] == 'Sustainability':
+                    row['name'] = 'Sostenibilidad'
+
     rendered = render_to_string("tables/country_risk_identification.html", {
         'table': table,
         'country': country,
@@ -544,8 +560,30 @@ def render_country_risk_causes(request):
         value = float(total[level_uuid])
         total[level_uuid] = "%0.f" % (value / total_percentage)
 
+    if request.LANGUAGE_CODE == 'es':
+        for row in table:
+            if row['name'] == 'Quality':
+                row['name'] = 'Calidad'
+            elif row['name'] == 'Context':
+                row['name'] = 'Contexto'
+            elif row['name'] == 'Strategic':
+                row['name'] = 'Estrategicos'
+            elif row['name'] == 'Financial':
+                row['name'] = 'Financieros'
+            elif row['name'] == 'Stakeholders':
+                row['name'] = 'Interesados'
+            elif row['name'] == 'Institutional Leadership':
+                row['name'] = 'Liderazgo institucional'
+            elif row['name'] == 'Operational':
+                row['name'] = 'Operacional'
+            elif row['name'] == 'Social and Environmental':
+                row['name'] = 'Sociales y Ambientales'
+            elif row['name'] == 'Sustainability':
+                row['name'] = 'Sostenibilidad'
+
     rendered = render_to_string("tables/country_risk_causes.html", {
         'table': table,
         'total': total
     })
+
     return HttpResponse(rendered, content_type="text/html")

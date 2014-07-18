@@ -88,6 +88,10 @@
             }
             else if(countryZoom.slug == 'panama'){
               latLngCenter = new google.maps.LatLng(8.020974, -80.013428);
+              zoomMap = 7;
+            }
+            else if(countryZoom.slug == 'guatemala'){
+              latLngCenter = new google.maps.LatLng(8.938617, -83.150024);
               zoomMap = 8;
             } else {
               latLngCenter = new google.maps.LatLng(countryZoom.lat, countryZoom.lng);
