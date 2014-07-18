@@ -300,11 +300,13 @@
           <li> <a href="{% url 'country' %}?country={{COUNTRIES.panama.id}}&country_slug={{COUNTRIES.panama.slug}}">Panama</a> </li>
         </ul>
       </li>
+      {% if user.dashboarduser.have_database_access %}
       <li class="start with-submenu"><a href="#"><i class="icon-custom-paises"></i> <span class="title">{% trans "Detalles del País" %}</span> <span class="arrow "></a>
         <ul class="sub-menu">
           <li> <a href="{% url 'country_details' %}?country={{COUNTRIES.mexico.id}}&country_slug={{COUNTRIES.mexico.slug}}">Chiapas (Mexico)</a> </li>
         </ul>
       </li>
+      {% endif %}
       <li class="start"><a href="{% url 'metas_sm2015' %}"><i class="icon-custom-reports"></i> <span class="title">{% trans "Metas SM2015" %}</span></a></li>
       <li class="start"><a href="{% url 'grants_finances' %}"> <i class="icon-custom-gantz"></i> <span class="title">{% trans "Financiación" %}</span></a> </li>
       <!--<li class="start"><a href="#"><i class="icon-custom-sm"></i> <span class="title">{% trans "SM2015" %}</span></a> </li>-->
