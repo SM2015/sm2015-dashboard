@@ -7,6 +7,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
+from django.views.decorators.clickjacking import xframe_options_exempt
 
 from website.forms import LoginForm, SetPasswordForm, \
     ForgotPasswordForm, ChangePasswordForm
@@ -61,9 +62,11 @@ def index(request):
 
     context.update({'countries_map': json.dumps(countries_map)})
     context.update({'countries_user': countries_user})
-    
+
     return render_to_response('index.html', context)
 
+
+@xframe_options_exempt
 def dashboard_login(request):
     context = RequestContext(request)
     if context.get('user').is_authenticated():
