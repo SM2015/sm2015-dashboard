@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-18 00:21-0400\n"
+"POT-Creation-Date: 2014-07-18 20:38-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,6 +38,7 @@ msgid "Desempeño de la Ejecución Financiera"
 msgstr "Country Operation Financial Execution Performance Summary"
 
 #: countries/templates/countries.html:170
+#, fuzzy
 msgid ""
 "Los Países planearon la ejecución financiera al inicio de la operación. "
 "Estas cifras muestran la ejecución financiera/desembolsos prevista y la "
@@ -45,9 +46,9 @@ msgid ""
 "país. El primer número en el cuadro es la cantidad de dinero que el país ha "
 "ejecutado/recibido. La barra bajo esta figura representa qué porcentaje de "
 "la cantidad total se ha ejecutado. La variable se incluye debajo de la "
-"barra. El color de la caja representa la variación:  <span style='color: "
-"red'>Verde = <X porcentaje variación; Amarillo = <X>porcentaje variación; "
-"Rojo => X porcentaje de variación.</span>"
+"barra. El color de la caja representa la variación: Verde = 100 porcentaje "
+"variación; Amarillo <= 99 porcentaje variación; Rojo <= 80 porcentaje de "
+"variación."
 msgstr ""
 "The Countries planned the financial execution and disbursements at the "
 "beginning of the operation. These figures display the planned financial "
@@ -55,7 +56,9 @@ msgstr ""
 "country.<br />Each box represents a country. The first number in the box is "
 "how much money the country has executed/received. The bar under this figure "
 "represents what percent of the total amount has been executed. Variance is "
-"included below the bar.  The color of the box represents variation:"
+"included below the bar.  The color of the box represents variation: "
+"Green = 100 percentage variation; Yellow <= 99 percentage variation; "
+"Red <= 80 percentage variation."
 
 #: countries/templates/country.html:52
 msgid "Gráficas de Logros por País"
@@ -191,6 +194,7 @@ msgid "Rendimiento por Desembolso de los Donantes"
 msgstr "Donor Disbursement Performance, by quarter"
 
 #: tables/templates/grants_finances.html:81
+#, fuzzy
 msgid ""
 "Comprometido a su calendario de contribuciones por fondos. Sobre la base de "
 "este compromiso, SM2015 mide el cumplimiento del programa de contribución "
@@ -198,9 +202,9 @@ msgid ""
 "número en el cuadro es la cantidad de dinero que con el que los donantes ha "
 "contribuido a SM2015 hasta la fecha. La barra bajo esta figura representa "
 "que porcentaje se ha desembolsado. La variable se incluye debajo de la "
-"barra. El color de la caja representa la variable: <span style='red'>Verde = "
-"<X porcentaje variación; Amarillo = <X>porcentaje variación; Rojo => X "
-"porcentaje de variación.</span>"
+"barra. El color de la caja representa la variable: Verde = 100 porcentaje "
+"variación; Amarillo <= 99 porcentaje variación; Rojo <= 80 porcentaje de "
+"variación."
 msgstr ""
 "Every Donor has committed to their funds contributions schedule. Based on "
 "this commitment, SM2015 measures compliance the contribution schedule by "
@@ -208,8 +212,8 @@ msgstr ""
 "box is how much money the Donor has contributed to SM2015 to date. The bar "
 "under this figure represents what percent of the total amount committed has "
 "been disbursed. Variance is included below the bar. The color of the box "
-"represents variation: <span style='red'>Green= < X percentage variation; "
-"Yellow = <X> percentage variation; Red = >X percentage variation"
+"represents variation: Green = 100 percentage variation; Yellow <= 99 "
+"percentage variation; Red <= 80 percentage variation."
 
 #: tables/templates/hitos_e_avances.html:25
 #: tables/templates/tables/sm2015milestone.html:6
@@ -294,7 +298,7 @@ msgid "Seleccione una Data"
 msgstr "Select a date"
 
 #: tables/templates/sm2015milestone.html:22
-#: website/templates/base_logado.html:317
+#: website/templates/base_logado.html:319
 msgid "SM2015 Hitos"
 msgstr "SM2015 Milestones"
 
@@ -520,43 +524,43 @@ msgstr "Dashboard"
 msgid "Paises"
 msgstr "Countries"
 
-#: website/templates/base_logado.html:303
+#: website/templates/base_logado.html:304
 msgid "Detalles del País"
 msgstr "Country Details"
 
-#: website/templates/base_logado.html:308
+#: website/templates/base_logado.html:310
 msgid "Metas SM2015"
 msgstr "SM2015"
 
-#: website/templates/base_logado.html:309
+#: website/templates/base_logado.html:311
 msgid "Financiación"
 msgstr "Financing"
 
-#: website/templates/base_logado.html:310
+#: website/templates/base_logado.html:312
 msgid "SM2015"
 msgstr "SM2015"
 
-#: website/templates/base_logado.html:311
+#: website/templates/base_logado.html:313
 msgid "Informes"
 msgstr "Reports"
 
-#: website/templates/base_logado.html:313
+#: website/templates/base_logado.html:315
 msgid "Base de datos"
 msgstr "Databases"
 
-#: website/templates/base_logado.html:315
+#: website/templates/base_logado.html:317
 msgid "Ejecución Financiera y Hitos"
 msgstr "Financial Execution and Milestones"
 
-#: website/templates/base_logado.html:316
+#: website/templates/base_logado.html:318
 msgid "Unidad de Coordinación Hitos"
 msgstr "Coordination Unit Milestone"
 
-#: website/templates/base_logado.html:318
+#: website/templates/base_logado.html:320
 msgid "Rendimiento por Desembolso"
 msgstr "Disbursement Performance"
 
-#: website/templates/base_logado.html:320
+#: website/templates/base_logado.html:322
 msgid "País Operación"
 msgstr "Country Operation"
 
@@ -615,12 +619,12 @@ msgid ""
 "específico y compruebe la caja de 'Trails' para ver cómo cambiará el "
 "indicador con el tiempo."
 msgstr ""
-"To see how countries have pledged to change coverage rates over time, "
-"please select the region or a specific country from the top left-hand corner. "
-"Then set the Y axis to percentage of the 'Population' and X axis to 'Time'. "
-"You can also select how you would like the colors to be displayed (single or "
-"unique or each country/indicator) and change the bubble sizes to represent the "
-"size of the target population. Select a specific indicator and check the "
+"To see how countries have pledged to change coverage rates over time, please "
+"select the region or a specific country from the top left-hand corner. Then "
+"set the Y axis to percentage of the 'Population' and X axis to 'Time'. You "
+"can also select how you would like the colors to be displayed (single or "
+"unique or each country/indicator) and change the bubble sizes to represent "
+"the size of the target population. Select a specific indicator and check the "
 "'Trails' box to see how the indicator will change over time."
 
 #: website/templates/index.html:558
