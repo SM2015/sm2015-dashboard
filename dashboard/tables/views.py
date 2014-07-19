@@ -304,8 +304,8 @@ def chart_flot(request):
     count = 1
     for origin in grants_origins:
         for origin_type in grants_types:
-            accumulated = GrantsFinances.get_accumulated(origin.uuid,
-                                                         origin_type.uuid)
+            accumulated = GrantsFinances.get_current_value(origin.uuid,
+                                                           origin_type.uuid)
             values[origin_type.name].append([int(origin.id), accumulated])
         origins.append([count, "Donors {0}".format(origin.name)])
         count += 1

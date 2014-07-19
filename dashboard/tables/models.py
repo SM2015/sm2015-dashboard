@@ -452,6 +452,17 @@ class GrantsFinances(models.Model):
         return accumulated
 
     @classmethod
+    def get_current_value(cls, uuid_origin, uuid_type):
+        field = GrantsFinancesFields.objects \
+                                    .filter(field_type__uuid=uuid_type) \
+                                    .filter(field_origin__uuid=uuid_origin)
+
+        grant = cls.objects.filter(field=field) \
+                           .filter(quarter=Quarter.get_quarter_by_number(date.today().year, 4))
+
+        return grant[0].value
+
+    @classmethod
     def upload_excel(cls, uploaded_file):
         wb = load_workbook(uploaded_file, data_only=True)
         sheet = wb.get_sheet_by_name('D.1.1.')
