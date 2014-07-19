@@ -22,13 +22,13 @@ class Quarter(models.Model):
     @classmethod
     def get_actual_quarter(cls):
         today = date.today()
-        if today.month / 3 <= 1:
+        if today.month / 3.0 <= 1:
             number_quarter = 1
-        elif today.month / 3 <= 2:
+        elif today.month / 3.0 <= 2:
             number_quarter = 2
-        elif today.month / 3 <= 3:
+        elif today.month / 3.0 <= 3:
             number_quarter = 3
-        elif today.month / 3 <= 4:
+        elif today.month / 3.0 <= 4:
             number_quarter = 4
         return cls.get_quarter_by_number(today.year, number_quarter)
 
