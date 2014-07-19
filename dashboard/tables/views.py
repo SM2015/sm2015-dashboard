@@ -1,7 +1,7 @@
 # coding: utf-8
 import json
 import re
-from datetime import datetime
+from datetime import datetime, date
 from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
@@ -17,7 +17,7 @@ from tables.models import Hito, AvanceFisicoFinanciero, UcMilestone, \
     Sm2015Milestone, GrantsFinancesOrigin, GrantsFinancesFields, \
     GrantsFinances, GrantsFinancesType, LifeSave, CountryDisbursement, \
     CountryOperation, CountryDetails, CountryMainRisks, \
-    CountryRiskIdentification
+    CountryRiskIdentification, Quarter
 from tables import models as table_models
 from core.models import Country
 
@@ -219,16 +219,26 @@ def grants_finances_ongoing(request, uuid_origin):
         real_accumulated = 0
         expected_accumulated = 0
 
-        for grant in grants_real:
-            real_accumulated += grant.value
+        today = date.today()
+        current_quarter = Quarter.get_quarter_by_number(today.year, 4)
 
-        for grant in grants_expected:
-            expected_accumulated += grant.value
+        real_accumulated = grants_real.get(quarter=current_quarter).value
+        expected_accumulated = grants_expected.get(quarter=current_quarter).value
+
+        if expected_accumulated == 0:
+            percentage = 100
+            dpi = 0
+        elif real_accumulated == 0:
+            percentage = 0
+            dpi = 0
+        else:
+            percentage = float("%.2f" % ((real_accumulated/expected_accumulated) * 100))
+            dpi = float("%.1f" % (real_accumulated/expected_accumulated))
 
         values = {
             'accumulated': float("%.2f" % (real_accumulated)),
-            'percentage': float("%.2f" % ((real_accumulated/expected_accumulated) * 100)),
-            'dpi': float("%.1f" % (real_accumulated/expected_accumulated)),
+            'percentage': percentage,
+            'dpi': dpi,
             'dv':  float("%.2f" % (real_accumulated - expected_accumulated))
         }
 
