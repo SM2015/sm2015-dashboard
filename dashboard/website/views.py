@@ -130,6 +130,50 @@ def forgot_password(request):
     return render_to_response('forgot_password.html',
                           context_instance=context)
 
+def forgot_password(request):
+    context = RequestContext(request)
+
+    if request.method == "GET":
+        form_forgot_password = ForgotPasswordForm()
+    else:
+        form_forgot_password = ForgotPasswordForm(request.POST)
+        if form_forgot_password.validate():
+
+            dashboard_user = DashboardUser.objects.get(user__email=request.POST.get('email'))
+            response_email = dashboard_user.send_forgot_password_email()
+
+            if not response_email:
+                form_forgot_password.errors.update({'invalid': u"Something bad happened. Try again, please."})
+            else:
+                form_forgot_password.errors.update({'success': u"We sent you an email with instructions."})
+    
+    context.update({'form': form_forgot_password})
+    
+    return render_to_response('forgot_password.html',
+                          context_instance=context)
+
+def forgot_password_external(request):
+    context = RequestContext(request)
+
+    if request.method == "GET":
+        form_forgot_password = ForgotPasswordForm()
+    else:
+        form_forgot_password = ForgotPasswordForm(request.POST)
+        if form_forgot_password.validate():
+
+            dashboard_user = DashboardUser.objects.get(user__email=request.POST.get('email'))
+            response_email = dashboard_user.send_forgot_password_email()
+
+            if not response_email:
+                form_forgot_password.errors.update({'invalid': u"Something bad happened. Try again, please."})
+            else:
+                form_forgot_password.errors.update({'success': u"We sent you an email with instructions."})
+    
+    context.update({'form': form_forgot_password})
+    
+    return render_to_response('forgot_password_external.html',
+                          context_instance=context)
+
 def reset_password(request, forgot_password_token):
 
     try:
