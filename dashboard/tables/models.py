@@ -198,7 +198,8 @@ class Hito(models.Model):
 
         for row in real_sheet.rows:
             if row[0].row >= 6 and (row[1].value or row[2].value):
-                if country.slug in ['el-salvador', 'mexico', 'costa-rica']:
+                if country.slug in ['el-salvador', 'mexico', 'costa-rica',
+                                    'nicaragua']:
                     indicador_de_pago_str = row[1].value
                     hito_str = row[3].value
                     quarter_str = row[4].value
@@ -212,8 +213,8 @@ class Hito(models.Model):
                     indicador_de_pago_str = row[1].value
                     hito_str = row[2].value
                     quarter_str = row[3].value
-                    audiencias_str = row[5].value
                     estado_actual_str = row[4].value
+                    audiencias_str = row[5].value
                     alerta_notas_str = row[6].value
                     recomendacion_str = row[7].value
                     acuerdo_str = row[8].value
