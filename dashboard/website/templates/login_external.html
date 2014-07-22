@@ -11,15 +11,14 @@
     .row-fluid [class*="span"] {
       margin-bottom: 5px;
     }
+    .btn-primary {
+      background-color: #5e8ec8;
+      color: #fff;
+    }
   </style>
 <div class="row">
   <div class="login-container span12">
     <div class="row-fluid">
-        <div class="row-fluid">
-          <div class="span10">
-            <h4>Sign in to Dashboard</h4>
-          </div>
-        </div>
         <form id="login-form" class="login-form" action="{% url 'dashboard_login_external' %}" method="post" target="_blank">
           {% csrf_token %}
           {% if form_login.errors.invalid %}
