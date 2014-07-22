@@ -83,6 +83,26 @@ def dashboard_login(request):
     return render_to_response('login.html',
                           context_instance=context)
 
+
+def dashboard_login_external(request):
+    context = RequestContext(request)
+    if context.get('user').is_authenticated():
+        return redirect('index')
+
+    if request.method == "POST":
+        form_login = LoginForm(request.POST)
+        if form_login.validate():
+            user = form_login.get_user()
+            login(request, user)
+            if request.POST.get('remember', None):
+                request.session.set_expiry(0)
+            return redirect('index')
+    else:
+        form_login = LoginForm()
+    context.update({'form_login': form_login})
+    return render_to_response('login_external.html',
+                          context_instance=context)
+
 def dashboard_logout(request):
     if request.user.is_authenticated():
         logout(request)
