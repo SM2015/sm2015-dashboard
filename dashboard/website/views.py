@@ -7,6 +7,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
+from django.views.decorators.clickjacking import xframe_options_exempt
 
 from website.forms import LoginForm, SetPasswordForm, \
     ForgotPasswordForm, ChangePasswordForm
@@ -64,6 +65,7 @@ def index(request):
     
     return render_to_response('index.html', context)
 
+
 def dashboard_login(request):
     context = RequestContext(request)
     if context.get('user').is_authenticated():
@@ -84,6 +86,7 @@ def dashboard_login(request):
                           context_instance=context)
 
 
+@xframe_options_exempt
 def dashboard_login_external(request):
     context = RequestContext(request)
     if context.get('user').is_authenticated():
@@ -124,34 +127,14 @@ def forgot_password(request):
                 form_forgot_password.errors.update({'invalid': u"Something bad happened. Try again, please."})
             else:
                 form_forgot_password.errors.update({'success': u"We sent you an email with instructions."})
-    
+
     context.update({'form': form_forgot_password})
-    
+
     return render_to_response('forgot_password.html',
                           context_instance=context)
 
-def forgot_password(request):
-    context = RequestContext(request)
 
-    if request.method == "GET":
-        form_forgot_password = ForgotPasswordForm()
-    else:
-        form_forgot_password = ForgotPasswordForm(request.POST)
-        if form_forgot_password.validate():
-
-            dashboard_user = DashboardUser.objects.get(user__email=request.POST.get('email'))
-            response_email = dashboard_user.send_forgot_password_email()
-
-            if not response_email:
-                form_forgot_password.errors.update({'invalid': u"Something bad happened. Try again, please."})
-            else:
-                form_forgot_password.errors.update({'success': u"We sent you an email with instructions."})
-    
-    context.update({'form': form_forgot_password})
-    
-    return render_to_response('forgot_password.html',
-                          context_instance=context)
-
+@xframe_options_exempt
 def forgot_password_external(request):
     context = RequestContext(request)
 
@@ -168,9 +151,9 @@ def forgot_password_external(request):
                 form_forgot_password.errors.update({'invalid': u"Something bad happened. Try again, please."})
             else:
                 form_forgot_password.errors.update({'success': u"We sent you an email with instructions."})
-    
+
     context.update({'form': form_forgot_password})
-    
+
     return render_to_response('forgot_password_external.html',
                           context_instance=context)
 
@@ -180,7 +163,7 @@ def reset_password(request, forgot_password_token):
         usuario = DashboardUser.objects.get(forgot_password_token=forgot_password_token)
         context = RequestContext(request)
         context.update({'forgot_password_token': forgot_password_token})
-        
+
         if request.method == "GET":
             set_password_form = SetPasswordForm()
         else:
