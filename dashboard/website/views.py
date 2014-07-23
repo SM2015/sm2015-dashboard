@@ -62,8 +62,17 @@ def index(request):
 
     context.update({'countries_map': json.dumps(countries_map)})
     context.update({'countries_user': countries_user})
-    
+
     return render_to_response('index.html', context)
+
+
+@xframe_options_exempt
+@login_required
+def index_external(request, language_code):
+    context = RequestContext(request)
+    context.update({'language_code': language_code})
+    return render_to_response('index_external.html',
+                              context_instance=context)
 
 
 def dashboard_login(request):
@@ -83,14 +92,14 @@ def dashboard_login(request):
         form_login = LoginForm()
     context.update({'form_login': form_login})
     return render_to_response('login.html',
-                          context_instance=context)
+                              context_instance=context)
 
 
 @xframe_options_exempt
-def dashboard_login_external(request):
+def dashboard_login_external(request, language_code):
     context = RequestContext(request)
     if context.get('user').is_authenticated():
-        return redirect('index')
+        return redirect('index_external', language_code=language_code)
 
     if request.method == "POST":
         form_login = LoginForm(request.POST)
@@ -102,9 +111,11 @@ def dashboard_login_external(request):
             return redirect('index')
     else:
         form_login = LoginForm()
-    context.update({'form_login': form_login})
+    context.update({'form_login': form_login,
+                    'language_code': language_code})
     return render_to_response('login_external.html',
-                          context_instance=context)
+                              context_instance=context)
+
 
 def dashboard_logout(request):
     if request.user.is_authenticated():

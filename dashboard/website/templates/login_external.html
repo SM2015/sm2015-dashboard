@@ -6,7 +6,7 @@
       margin-top: 20px;
     }
     .error-body {
-      background-color: white !important;
+      background-color: #eaeff6 !important;
     }
     .row-fluid [class*="span"] {
       margin-bottom: 5px;
@@ -19,12 +19,12 @@
 <div class="row">
   <div class="login-container span12">
     <div class="row-fluid">
-        <form id="login-form" class="login-form" action="{% url 'dashboard_login_external' %}" method="post" target="_blank">
+      <form id="login-form" class="login-form" action="{% url 'dashboard_login_external' language_code=language_code %}" method="post" target="_blank">
           {% csrf_token %}
           {% if form_login.errors.invalid %}
           <div class="row-fluid">
             <div class="control-group span10" style="color:red">
-                    {{form_login.errors.invalid}}
+              {{form_login.errors.invalid}}
             </div>
           </div>
           {% endif %}
@@ -42,7 +42,7 @@
           <div class="row-fluid">
             <div class="span10">
               <div class="pull-left">
-                    <a href="{% url "forgot_password_external" %}">Forgot password? </a>
+                    <a href="{% url "forgot_password_external" language_code=language_code %}">Forgot password?</a>
               </div>
               <div class="pull-right">
                 <input class="btn btn-primary btn-cons pull-right" value="Sign in" type="submit" />

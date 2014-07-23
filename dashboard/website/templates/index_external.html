@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <style>
+    .row-fluid [class*="span"] {
+      margin: 5px;
+    }
+    .wrapper {
+      margin-top: -25px;
+      padding: 0 10px;
+      position: absolute;
+      top: 50%;
+    }
+    .btn-primary {
+      background-color: #5e8ec8;
+      margin: 0 10px;
+      color: #fff;
+    }
+    .error-body {
+      background-color: #eaeff6 !important;
+    }
+  </style>
+<div class="row">
+  <div class="span10 wrapper">
+    <div class="row-fluid">
+      <div class="span12">
+        <a name="username" href="{% url 'index' %}" target="_blank" class="span12 btn-primary btn">
+          {% if language_code == 'es'%}
+          Acceso interno al Tablero de Control
+          {% else %}
+          Dashboard Internal Access
+          {% endif %}
+        </a>                                 
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
