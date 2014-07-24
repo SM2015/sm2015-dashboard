@@ -146,7 +146,7 @@ def forgot_password(request):
 
 
 @xframe_options_exempt
-def forgot_password_external(request):
+def forgot_password_external(request, language_code):
     context = RequestContext(request)
 
     if request.method == "GET":
