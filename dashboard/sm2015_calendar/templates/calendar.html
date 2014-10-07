@@ -8,20 +8,69 @@
   <script src="{% static "assets/plugins/jquery-numberAnimate/jquery.animateNumbers.js" %}" type="text/javascript"></script>
   <script src="{% static "assets/plugins/jquery-ui-touch/jquery.ui.touch-punch.min.js" %}" type="text/javascript"></script>
   <script src="{% static "assets/plugins/fullcalendar/fullcalendar.min.js" %}"></script>
-  <script src="{% static "assets/js/calender.js" %}" type="text/javascript"></script>
+  <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
   <script>
     $().ready(function(){
       var events = {{events|safe}}, $calendar =  $("#calendar");
-      for(var i=0; i < events.length; i++){
-        $calendar.fullCalendar('renderEvent', events[i], true);
-      }
+      $calendar.fullCalendar({
+        header: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'month, agendaWeek, agendaDay'
+        },
+        events: events,
+        eventRender: function(event, element) {
+          element.attr("title", event.description);
+        },
+        /*eventMouseout: function( event, jsEvent, view ) {
+          $(this).tooltip( "disable" );
+        },
+        eventMouseover: function( event, jsEvent, view ) {
+          $(this).tooltip( "enable" );
+        },
+        eventAfterAllRender: function( view ){
+          $(document).tooltip();
+        }*/
+      });
+
+      $('.fc-header').hide();
+      
+      //Get the current date and display on the tile
+      var currentDate = $('#calendar').fullCalendar('getDate');
+      
+      $('#calender-current-day').html($.fullCalendar.formatDate(currentDate, "dddd"));
+      $('#calender-current-date').html($.fullCalendar.formatDate(currentDate, "MMM yyyy"));
+      
+    
+      $('#calender-prev').click(function(){
+        $('#calendar').fullCalendar( 'prev' );
+        currentDate = $('#calendar').fullCalendar('getDate');		
+        $('#calender-current-day').html($.fullCalendar.formatDate(currentDate, "dddd"));
+        $('#calender-current-date').html($.fullCalendar.formatDate(currentDate, "MMM yyyy"));
+      });
+      $('#calender-next').click(function(){
+        $('#calendar').fullCalendar( 'next' );
+        currentDate = $('#calendar').fullCalendar('getDate');		
+        $('#calender-current-day').html($.fullCalendar.formatDate(currentDate, "dddd"));
+        $('#calender-current-date').html($.fullCalendar.formatDate(currentDate, "MMM yyyy"));
+      });
+      
+      $('#change-view-month').click(function(){
+        $('#calendar').fullCalendar('changeView', 'month');
+      });
+      $('#change-view-week').click(function(){
+         $('#calendar').fullCalendar( 'changeView', 'agendaWeek');
+      });
+      $('#change-view-day').click(function(){
+        $('#calendar').fullCalendar( 'changeView','agendaDay');
+      });
     });
   </script>
 {% endblock js_bottom %}
 
 {% block css %}
   {{ block.super }}
-
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
 {% endblock css %}
 
 {% block content %}

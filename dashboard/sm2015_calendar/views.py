@@ -12,9 +12,11 @@ def index(request):
     events = []
 
     for event in Event.objects.all():
+        description = "Local: {0}\n\n{1}".format(event.local,
+                                                  event.description)
         event_dict = {
             'title': str(event.name),
-            'description': str(event.description),
+            'description': description,
             'start': str(event.start.isoformat()),
             'editable': False,
             'allDay': False
