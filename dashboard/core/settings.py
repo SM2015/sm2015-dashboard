@@ -82,7 +82,7 @@ LOCALE_PATHS = (
     os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'locale'),
 )
 
-TIME_ZONE = 'US/Eastern'
+TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
