@@ -2,8 +2,8 @@
 
 from os.path import dirname, abspath, join
 import os
-import logging
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
+
 
 def get_local_file(path):
     return (lambda *x: abspath(join(dirname(path), *x)))
@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'countries',
     'reports',
     'elfinder',
+    'sm2015_calendar',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -104,7 +105,7 @@ LOGGING = {
             'maxBytes': 1024*1024*5, # 5 MB
             'backupCount': 5,
             'formatter':'standard',
-        },  
+        },
         'request_handler': {
                 'level':'INFO',
                 'class':'logging.handlers.RotatingFileHandler',

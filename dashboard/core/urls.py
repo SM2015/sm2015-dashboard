@@ -22,6 +22,7 @@ urlpatterns = patterns(
 
     url(r'^country/list/?$', views.list_country),
     url(r'^elfinder/', include('elfinder.urls')),
+    url(r'^calendar/', include('sm2015_calendar.urls')),
 
     url(r'', include(website_urls)),
 )

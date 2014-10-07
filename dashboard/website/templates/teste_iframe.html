@@ -1,0 +1,32 @@
+<html>
+<head>
+    <script>
+      var iframes;
+
+      var loadIframes = function(){
+        iframes = document.getElementsByClassName('custom-iframe');
+        for(var i=0; i<iframes.length; i++){
+
+          var iframe = iframes[i],
+              seconds = iframe.getAttribute('data-seconds'),
+              src = iframe.getAttribute('data-src');
+
+          run(i, src, seconds);
+        }
+      }
+
+      var run = function(i, src, seconds){
+        setTimeout(function(){
+          iframes[i].src = src;
+        }, seconds);
+      }
+
+    </script>
+</head>
+<body>
+    <button onclick="loadIframes()">Load iframes</button>
+
+    <iframe class="custom-iframe" data-seconds="3000" data-src="http://example.com"></iframe>
+    <iframe class="custom-iframe" data-seconds="900" data-src="http://google.com"></iframe>
+</body>
+</html>
