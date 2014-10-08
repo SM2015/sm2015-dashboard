@@ -13,9 +13,9 @@ def index(request):
 
     for event in Event.objects.all():
         event_dict = {
-            'title': str(event.name),
-            'description': str(event.description),
-            'local': str(event.local),
+            'title': str(event.name.encode('utf8')),
+            'description': str(event.description.encode('utf8')),
+            'local': str(event.local.encode('utf8')),
             'start': str(event.start.isoformat()),
             'editable': False,
             'allDay': False
