@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-21 11:31-0400\n"
+"POT-Creation-Date: 2014-10-08 19:10+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,6 +38,7 @@ msgid "Desempeño de la Ejecución Financiera"
 msgstr "Country Operation Financial Execution Performance Summary"
 
 #: countries/templates/countries.html:170
+#: sm2015_calendar/templates/calendar.html:97
 msgid ""
 "Los Países planearon la ejecución financiera al inicio de la operación. "
 "Estas cifras muestran la ejecución financiera/desembolsos prevista y la "
@@ -137,6 +138,10 @@ msgstr "Physics Execution"
 #: reports/templates/reports.html:45
 msgid "Gestión de Archivos"
 msgstr "File Manager"
+
+#: sm2015_calendar/templates/calendar.html:93
+msgid "Calendario"
+msgstr "Calendar"
 
 #: tables/templates/change_list.html:45
 msgid "Import Excel"
