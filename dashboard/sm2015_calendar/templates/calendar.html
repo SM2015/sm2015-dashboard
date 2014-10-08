@@ -11,7 +11,13 @@
   <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
   <script>
     $().ready(function(){
-      var events = {{events|safe}}, $calendar =  $("#calendar");
+      var events = {{events|safe}}, $calendar =  $("#calendar"),
+                   $dialog = $("#calendar-dialog");
+
+      $dialog.dialog({
+        autoOpen: false,
+      });
+
       $calendar.fullCalendar({
         header: {
           left: 'prev,next today',
@@ -22,15 +28,13 @@
         eventRender: function(event, element) {
           element.attr("title", event.description);
         },
-        /*eventMouseout: function( event, jsEvent, view ) {
-          $(this).tooltip( "disable" );
-        },
-        eventMouseover: function( event, jsEvent, view ) {
-          $(this).tooltip( "enable" );
-        },
-        eventAfterAllRender: function( view ){
-          $(document).tooltip();
-        }*/
+        eventClick: function( event, jsEvent, view ) {
+          var html = "Local: " + event.local;
+          html += '<br /><br />';
+          html += event.description;
+          $dialog.html(html);
+          $dialog.dialog( "open" );
+        }
       });
 
       $('.fc-header').hide();
@@ -71,9 +75,18 @@
 {% block css %}
   {{ block.super }}
   <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+  <style>
+    .fc-event-inner {
+      cursor: pointer;
+    }
+    #calendar-dialog {
+      font-size: 12px;
+    }
+  </style>
 {% endblock css %}
 
 {% block content %}
+<div id="calendar-dialog"></div>
 <div class="content">
       <div class="row-fluid" style="max-height:600px;">
         <div class="span12 tiles red added-margin">
