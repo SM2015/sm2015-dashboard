@@ -191,8 +191,8 @@ class TriangleGraph(object):
         }
 
         return [
-           {'name': 'Ejecucion Actual', 'data': [avance_tiempo, financiera.get('actual'), fisica.get('actual')], 'pointPlacement': 'on'},
-           {'name': 'Ejecucion Programada', 'data': [avance_tiempo, financiera.get('programada'), fisica.get('programada')], 'pointPlacement': 'on'},
-           {'name': 'Ejecucion Original Programada', 'data': [avance_tiempo, financiera.get('original_programada'), fisica.get('original_programada')], 'pointPlacement': 'on'},
-           {'name': '$ Comprometido', 'data': ['-', '-', '-'], 'pointPlacement': 'on'}
+           {'name': 'Ejecucion Actual (%)', 'data': [avance_tiempo, financiera.get('actual'), fisica.get('actual')], 'pointPlacement': 'on'},
+           {'name': 'Ejecucion Programada (%)', 'data': [avance_tiempo, financiera.get('programada'), fisica.get('programada')], 'pointPlacement': 'on'},
+           {'name': 'Ejecucion Original Programada (%)', 'data': [avance_tiempo, financiera.get('original_programada'), fisica.get('original_programada')], 'pointPlacement': 'on'},
+           {'name': '$ Comprometido', 'data': [avances.monto_comprometido, avances.monto_comprometido, avances.monto_comprometido], 'pointPlacement': 'on'}
         ]

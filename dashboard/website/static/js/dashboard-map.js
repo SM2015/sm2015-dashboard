@@ -206,21 +206,11 @@
         var InfoBoxHTML = ''+
           '<div class="content-info-window">'+
               '<div class="arrow-container"></div>'+
-              '<div class="left-side">'+
-                  '<div class="main-info">'+
-                      '<h4 class="title-info">{TITLE}</h4>'+
-                      '<p class="desc">{SHORT_DESCRIPTION}</p>'+
-                  '</div>'+
-                  '<a class="more-info" href="{INFOS_URL}">Más infos</a>'+
+              '<div class="main-info">'+
+                  '<h4 class="title-info">{TITLE}</h4>'+
+                  '<p class="desc">{SHORT_DESCRIPTION}</p>'+
               '</div>'+
-              '<div class="right-side">'+
-                  /*'<div class="statistics">'+
-                      '<span class="label-stats">Tiempo</span>'+
-                      '<div class="goal">'+
-                        '<div class="easy-pie-custom" data-percent="{GOAL}"><span class="easy-pie-percent">{GOAL}%</span></div>'+
-                      '</div>'+
-                  '</div>'+*/
-              '</div>'+
+              '<a class="more-info" href="{INFOS_URL}">Más infos</a>'+
           '</div>';
 
         var infoBoxDefault = document.createElement("div");

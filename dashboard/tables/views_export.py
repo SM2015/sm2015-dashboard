@@ -109,7 +109,7 @@ def render_export_hitos_and_avances(request, country_slug):
             Cell(BlockText(avance.recomendacion, size=10, font=document_font), valign='center')]
 
     row3 = [Cell(BlockText(u'Upcoming Policy Dialogue Events', color='#6F7B8A', font=document_font), bgcolor='#ECF0F2', width='7cm', valign='center'),
-            Cell(BlockText(avance.upcoming_policy_dialogue_events, size=10, font=document_font), valign='center')]
+            Cell(BlockText(avance.upcoming_policy_dialogue_events or '', size=10, font=document_font), valign='center')]
 
     table_avances2 = Table(width="100%", padding='3pt')
     table_avances2.add_row(row1)

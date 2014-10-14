@@ -1,64 +1,50 @@
 .content-info-window {
-    background: url('/static/img/country_details.png') no-repeat;
-    height: 263px;
-    width: 531px;
+    background-color: #505050;
+    border-radius: 8px;
+    box-shadow: 10px 10px 20px #555;
+    height: 240px;
+    margin-left: 10px;
+    width: 490px;
 }
 .content-info-window .arrow-container {
-    background: url('/static/img/country_details_arrow.png') no-repeat;
-    float:left;
-    height: 37px;
-    margin-top:90px;
-    width: 18px;
+  border-bottom: 10px solid transparent;
+  border-right: 10px solid #505050;
+  border-top: 10px solid transparent;
+  height: 0;
+  left: 0;
+  position: absolute;
+  top: 100px;
+  width: 0;
 }
-.content-info-window .left-side {
-    float: left;
-    padding-left: 25px;
-    padding-right: 20px;
-    width: 267px;
-}
-.content-info-window .left-side .main-info {
+.content-info-window  .main-info {
     height: 175px;
     padding-top:10px;
+    padding-left: 25px;
+    padding-right: 40px;
 }
-.content-info-window .left-side .main-info .title-info {
+.content-info-window  .main-info .title-info {
     color: white;
     font-family: "Oswald";
     font-size: 30px;
 }
-.content-info-window .left-side .main-info .desc {
+.content-info-window  .main-info .desc {
     color: #FFFFFF;
     font-family: "Arial";
     font-size: 14px;
     height: 125px;
     overflow-y: auto;
 }
-.content-info-window .left-side .more-info {
-    color: #DB26B6;
+.content-info-window  .more-info {
+    background-color: #eee;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    color: #db26b6;
     display: block;
     font-family: "Oswald";
     font-size: 16px;
-    padding-top: 8px;
+    margin-top: 12px;
+    padding: 10px 25px;
     text-transform: uppercase;
-}
-.content-info-window .right-side {
-    float: left;
-    height: 225px;
-    padding-left: 15px;
-    padding-top: 15px;
-    width: 112px;
-}
-.content-info-window .right-side .statistics {}
-.content-info-window .right-side .statistics .label-stats {
-    color: #666;
-    font-family: "Oswald";
-    font-size: 30px;
-}
-.content-info-window .right-side .goal {
-  color: #447744;
-  font-family: "Oswald";
-  font-size: 25px;
-  padding-top: 15px;
-  text-align: center;
 }
 .map-container {
   position: relative;
