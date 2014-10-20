@@ -32,12 +32,16 @@
 .icon-custom-db { 
     background: url('/static/img/databases.png') no-repeat !important;
 }
+.icon-custom-calendar { 
+    background: url('/static/img/calendar.png') no-repeat !important;
+}
 .icon-custom-db,
 .icon-custom-sm,
 .icon-custom-gantz,
 .icon-custom-paises,
 .icon-custom-dashboard,
-.icon-custom-reports { 
+.icon-custom-reports,
+.icon-custom-calendar { 
     height: 28px;
     width: 25px !important;
 }
