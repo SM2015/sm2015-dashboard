@@ -93,6 +93,10 @@
                     "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries"
                 },
                 "scrollX": true,
+                "dom": 'T<"clear">lfrtip',
+                "tableTools": {
+                    "sSwfPath": "/swf/copy_csv_xls_pdf.swf"
+                },
                 bAutoWidth     : true,
                 fnPreDrawCallback: function () {
                     if (!responsiveHelper) {

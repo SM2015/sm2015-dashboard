@@ -14,6 +14,7 @@ from website.forms import LoginForm, SetPasswordForm, \
 from core.models import *
 from map.models import Map
 from tables.models import AvanceFisicoFinanciero
+from sm2015_calendar.models import Event
 
 
 @login_required
@@ -62,6 +63,27 @@ def index(request):
 
     context.update({'countries_map': json.dumps(countries_map)})
     context.update({'countries_user': countries_user})
+
+    events = []
+
+    for event in Event.objects.all():
+        event_dict = {
+            'title': str(event.name.encode('utf8')),
+            'description': str(event.description.encode('utf8')),
+            'local': str(event.local.encode('utf8')),
+            'start': str(event.start.isoformat()),
+            'editable': False,
+            'allDay': False
+        }
+
+        if event.all_day:
+            event_dict['allDay'] = True
+
+        if event.end:
+            event_dict['end'] = str(event.end.isoformat())
+
+        events.append(event_dict)
+    context.update({'events': json.dumps(events)})
 
     return render_to_response('index.html', context)
 

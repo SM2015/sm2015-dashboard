@@ -18,8 +18,13 @@ from core.models import Country
 @login_required
 def render_export_hitos_and_avances(request, country_slug):
     context = RequestContext(request)
+    if country_slug in ['belize']:
+        language_code = 'en'
+    else:
+        language_code = 'es'
     root_dir_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    hitos = Hito.objects.filter(country__slug=country_slug)
+    hitos = Hito.objects.filter(country__slug=country_slug,
+                                language__acronym=language_code)
     estados_actuais = EstadoActual.objects.all()
     country = Country.objects.get(slug=country_slug)
     options_estados_actuais = {}
