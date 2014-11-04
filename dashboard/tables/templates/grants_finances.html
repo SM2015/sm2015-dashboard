@@ -42,7 +42,7 @@
 
             var origins = {{origins|safe}};
             $(origins).each(function(i, origin){
-                $(".tiles-container").dashboardTile(origin);
+              $(".tiles-container").dashboardTile(origin, {dv_money_format: true});
             });
 
             $(".chart-container").dashboardChartBar("{% url 'chart_flot' %}", {

@@ -12,7 +12,7 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.contrib.humanize.templatetags.humanize import intcomma
 from django.db.models import ForeignKey, FieldDoesNotExist, IntegerField, \
     FloatField, DateField
-from django.template.defaultfilters import slugify
+from django.template.defaultfilters import slugify, floatformat
 from tables.models import Hito, AvanceFisicoFinanciero, UcMilestone, \
     Sm2015Milestone, GrantsFinancesOrigin, GrantsFinancesFields, \
     GrantsFinances, GrantsFinancesType, LifeSave, CountryDisbursement, \
@@ -235,11 +235,13 @@ def grants_finances_ongoing(request, uuid_origin):
             percentage = float("%.2f" % ((real_accumulated/expected_accumulated) * 100))
             dpi = float("%.1f" % (real_accumulated/expected_accumulated))
 
+        dv = intcomma(floatformat(float("%.2f" % (real_accumulated - expected_accumulated)), 0))
+
         values = {
             'accumulated': float("%.2f" % (real_accumulated)),
             'percentage': percentage,
             'dpi': dpi,
-            'dv':  float("%.2f" % (real_accumulated - expected_accumulated))
+            'dv': dv
         }
 
         return HttpResponse(json.dumps(values), content_type="application/json")
