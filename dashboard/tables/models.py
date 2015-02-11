@@ -445,6 +445,16 @@ class GrantsFinances(models.Model):
         return periods
 
     @classmethod
+    def get_periods_until_now(cls, count=14):
+        periods = cls.get_periods()
+        current_quarter_name = Quarter.get_actual_quarter().name
+        index_stop_in_quarter = periods.index(current_quarter_name)+1
+        index_start_by_quarter = index_stop_in_quarter-count
+        if index_start_by_quarter < 0:
+            index_start_by_quarter = 0
+        return periods[index_start_by_quarter:index_stop_in_quarter]
+
+    @classmethod
     def get_accumulated(cls, uuid_origin, uuid_type):
         accumulated = 0
         field = GrantsFinancesFields.objects.filter(field_type__uuid=uuid_type).filter(field_origin__uuid=uuid_origin)

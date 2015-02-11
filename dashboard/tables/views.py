@@ -219,8 +219,9 @@ def grants_finances_ongoing(request, uuid_origin):
         real_accumulated = 0
         expected_accumulated = 0
 
-        today = date.today()
-        current_quarter = Quarter.get_quarter_by_number(today.year, 4)
+        # today = date.today()
+        # current_quarter = Quarter.get_quarter_by_number(today.year, 4)
+        current_quarter = Quarter.get_actual_quarter()
 
         real_accumulated = grants_real.get(quarter=current_quarter).value
         expected_accumulated = grants_expected.get(quarter=current_quarter).value
