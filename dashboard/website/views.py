@@ -17,7 +17,7 @@ from tables.models import AvanceFisicoFinanciero
 from sm2015_calendar.models import Event
 
 
-@login_required
+# @login_required
 def index(request):
     maps = Map.objects.filter(language__acronym=request.LANGUAGE_CODE)
     countries_map = []
@@ -59,7 +59,13 @@ def index(request):
 
 
     context = RequestContext(request)
-    countries_user = context.get('user').dashboarduser.countries.all()
+
+    if context.get('user').is_anonymous():
+        countries_user = Country.objects.all()
+        context.update({'user' : {'is_anonymous': True } })
+    else:
+        countries_user = context.get('user').dashboarduser.countries.all()
+        context.update({'user' : {'is_anonymous': False } })
 
     context.update({'countries_map': json.dumps(countries_map)})
     context.update({'countries_user': countries_user})
@@ -140,9 +146,12 @@ def dashboard_login_external(request, language_code):
 
 
 def dashboard_logout(request):
+    context = RequestContext(request)
+    context.update({'user' : {'is_anonymous': False } })
+    
     if request.user.is_authenticated():
         logout(request)
-    return redirect("dashboard_login")
+    return redirect("index")
 
 def forgot_password(request):
     context = RequestContext(request)

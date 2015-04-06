@@ -243,14 +243,22 @@
         <div class="chat-toggler">
 
             {% include 'change_language.html' %}
-            <a href="#" class="dropdown-toggle" id="my-task-list">
-                <div class="user-details">
-                    <div class="username">
-                        {% trans "Hola" %}, <span class="bold">{{user.first_name}}</span>
-                    </div>
-                </div>
-            </a>						
+            
+            {% if user.is_anonymous %}
+              <div class="user-details">
+                    <div class="username"><a href="{% url 'dashboard_login' %}">{% trans 'Login' %}</a></div>
+              </div>
+            {% else %}
+              <a href="#" class="dropdown-toggle" id="my-task-list">
+                  <div class="user-details">
+                      <div class="username">
+                          {% trans "Hola" %}, <span class="bold">{{user.first_name}}</span>
+                      </div>
+                  </div>
+              </a>            
+            {% endif %}
         </div>
+        {% if not user.is_anonymous %}
         <ul class="nav quick-section ">
             <li class="quicklinks"> 
             <a data-toggle="dropdown" class="dropdown-toggle  pull-right" href="#">
@@ -265,6 +273,7 @@
                </ul>
             </li> 
         </ul>
+        {% endif %}
       </div>
        <!-- END CHAT TOGGLER -->
       </div> 

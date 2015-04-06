@@ -721,8 +721,7 @@
             </div>
         </div>
     </div>
-
-    <div class="row-fluid" style="max-height:600px;">
+    <div class="row-fluid" style="max-height:600px; {% if user.is_anonymous %} display:none; {% endif %}">
       <div class="span12 tiles red added-margin">
         <div class="span12 tiles white margin-reset added-margin">
           <div class="tiles-body">

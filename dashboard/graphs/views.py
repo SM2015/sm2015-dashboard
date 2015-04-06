@@ -7,7 +7,7 @@ from graphs.models import TriangleGraph, LiveSaveGraph, \
     CountryDisbursementGraph
 
 
-@login_required
+#@login_required
 def get_triangle_graph_countries(request):
     country_slug = request.GET.get('country_slug')
     if country_slug:
@@ -25,7 +25,7 @@ def get_triangle_graph_countries(request):
                         content_type="application/json")
 
 
-@login_required
+#@login_required
 def get_life_save(request, country_slug):
     country = Country.objects.get(slug=country_slug)
 

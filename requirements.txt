@@ -1,9 +1,11 @@
 Django==1.6
-MySQL-python==1.2.4
+#MySQL-python==1.2.4
+MySQL-python==1.2.5
 South==0.8.3
 flup==1.0.3.dev-20110405
 openpyxl==1.8.2
-py2docx==0.2.0
+#py2docx==0.2.0
+https://github.com/felipepavao/py2docx/archive/master.zip
 django-suit==0.2.7
 uWSGI==1.9.20
 https://github.com/rafaels88/yawd-elfinder/archive/master.zip
