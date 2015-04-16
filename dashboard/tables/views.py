@@ -263,7 +263,7 @@ def country_operation(request):
     return render_to_response("country_operation.html", context)
 
 
-@login_required
+#@login_required
 def countries_ongoing(request, country_slug, values_type):
     try:
         country = Country.objects.get(slug=country_slug)

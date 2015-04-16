@@ -11,7 +11,7 @@ from tables.models import CountryDetails, CountryDetailsValues, \
     AvanceFisicoFinanciero, Operation, OperationInfos
 
 
-@login_required
+#@login_required
 def countries(request):
     context = RequestContext(request)
     countries = Country.objects.all()
@@ -31,7 +31,13 @@ def countries(request):
     context.update({'countries_disbursement': countries_disbursement_values,
                     'countries_execution': countries_execution_values})
 
-    countries = context.get('user').dashboarduser.countries.all()
+    if context.get('user').is_anonymous():
+        countries_user = Country.objects.all()
+        context.update({'user' : {'is_anonymous': True } })
+    else:
+        countries = context.get('user').dashboarduser.countries.all()
+        context.update({'user' : {'is_anonymous': False } })
+
     context.update({'countries': countries})
     return render_to_response("countries.html", context)
 
@@ -46,7 +52,7 @@ def country_details(request):
     return render_to_response("country_details.html", context)
 
 
-@login_required
+#@login_required
 def country(request):
     context = RequestContext(request)
 

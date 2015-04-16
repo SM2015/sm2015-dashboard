@@ -778,7 +778,11 @@ class CountryOperation(models.Model):
             number_quarter = 4
 
         quarter = Quarter.get_quarter_by_number(today.year, number_quarter)
-        return cls.objects.filter(country=country, quarter=quarter)[0]
+        
+        if cls.objects.filter(country=country, quarter=quarter).count() > 0:
+            return cls.objects.filter(country=country, quarter=quarter)[0]
+        else:
+            return cls.objects.filter(country=country)[0]
 
     @classmethod
     def get_table_to_show(cls, country=None, fields=None, with_total=False, until_quarter=None):
