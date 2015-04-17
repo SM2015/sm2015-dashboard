@@ -77,13 +77,14 @@
                 description: '{% trans "Esta tabla muestra los desembolsos reales y previstas del tramo de inversión y la ejecución del tramo de inversión, por trimestre." %}',
                 url_save: "{% url 'save_milestone_data' %}"
             });
-
+            {% if not user.is_anonymous %}
 
             $(".table-country-risk-causes").dashboardTable("{% url 'table_render_country_risk_causes' %}", {
               title: '{% trans "Todos los Paises - Identificacion de Causas" %}',
               description: '',
               url_save: "{% url 'save_milestone_data' %}"
             });
+            {% endif %}
 
             $(".chart-disbursement-container").graficoDisbursement();
         });
