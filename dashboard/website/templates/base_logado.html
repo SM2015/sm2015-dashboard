@@ -296,8 +296,8 @@
    <!-- BEGIN SIDEBAR MENU -->	
     <ul>	
       <li class="start"> <a href="{% url 'index' %}" class="clearfix"> <i class="icon-custom-dashboard"></i> <span class="title">{% trans "Mi Tablero" %}</span></a> </li>
-      <li class="start with-submenu"><a href="#"><i class="icon-custom-paises"></i> <span class="title">{% trans "Paises" %}</span> <span class="arrow "></a>
-        <ul class="sub-menu">
+      <li class="start with-submenu {% if user.is_anonymous %}open{% endif %}"><a href="#"><i class="icon-custom-paises"></i> <span class="title">{% trans "Paises" %}</span> <span class="arrow "></a>
+        <ul class="sub-menu" {% if user.is_anonymous %} style="display:block;" {% endif %}> 
           <li> <a href="{% url 'countries' %}">Overview</a> </li>
           <li> <a href="{% url 'country' %}?country={{COUNTRIES.belize.id}}&country_slug={{COUNTRIES.belize.slug}}">Belize</a> </li>
           <li> <a href="{% url 'country' %}?country={{COUNTRIES.mexico.id}}&country_slug={{COUNTRIES.mexico.slug}}">Chiapas (Mexico)</a> </li>
