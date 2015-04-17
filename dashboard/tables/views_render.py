@@ -286,7 +286,7 @@ def render_country_operation(request):
     return HttpResponse(rendered, content_type="text/html")
 
 
-@login_required
+#@login_required
 def render_country_operation_noneditable(request):
     until_actual_quarter = request.GET.get('until_actual_quarter', None)
     if until_actual_quarter:
@@ -519,7 +519,7 @@ def render_country_risk_top(request, country_slug):
     return HttpResponse(rendered, content_type="text/html")
 
 
-@login_required
+#@login_required
 def render_country_risk_causes(request):
     fields = CountryRiskIdentificationFields.objects.all()
     table = []

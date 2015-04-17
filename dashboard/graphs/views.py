@@ -35,7 +35,7 @@ def get_life_save(request, country_slug):
                         content_type="application/json")
 
 
-@login_required
+#@login_required
 def get_country_disbursement(request, country_slug):
     country = Country.objects.get(slug=country_slug)
 
