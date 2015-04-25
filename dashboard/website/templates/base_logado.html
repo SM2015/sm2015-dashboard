@@ -324,7 +324,10 @@
       <li class="start"><a href="{% url 'calendar' %}"><i class="icon-custom-calendar"></i> <span class="title">{% trans "Calendario" %}</span></a></li>
       {% endif %}
       {% if user.dashboarduser.have_database_access %}
-      <li class="start with-submenu"><a href="#"><i class="icon-custom-db"></i> <span class="title">{% trans "Base de datos" %}</span> <span class="arrow "></span></a>
+      <li class="start with-submenu">
+        <a href="#"><i class="icon-custom-db"></i> 
+        <span class="title">{% trans "Base de datos" %}</span> 
+        <span class="arrow "></span></a>
         <ul class="sub-menu">
           <li> <a href="{% url 'hitos_e_avances' %}">{% trans "Ejecución Financiera y Hitos" %}</a> </li>
           <li> <a href="{% url 'ucmilestone' %}">{% trans "Unidad de Coordinación Hitos" %}</a> </li>
@@ -335,6 +338,7 @@
         </ul>
       </li>
       {% endif %}
+    </ul>
     <a href="#" class="scrollup">Scroll</a>
     <div class="clearfix"></div>
     <!-- END SIDEBAR MENU --> 

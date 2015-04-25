@@ -65,7 +65,7 @@ def index(request):
         context.update({'user' : {'is_anonymous': True } })
     else:
         countries_user = context.get('user').dashboarduser.countries.all()
-        context.update({'user' : {'is_anonymous': False } })
+        context.update({'user' : context.get('user') })
 
     context.update({'countries_map': json.dumps(countries_map)})
     context.update({'countries_user': countries_user})

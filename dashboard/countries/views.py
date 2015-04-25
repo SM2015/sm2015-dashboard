@@ -36,7 +36,7 @@ def countries(request):
         context.update({'user' : {'is_anonymous': True } })
     else:
         countries = context.get('user').dashboarduser.countries.all()
-        context.update({'user' : {'is_anonymous': False } })
+        context.update({'user' : context.get('user') })
 
     context.update({'countries': countries})
     return render_to_response("countries.html", context)
