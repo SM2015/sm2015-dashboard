@@ -322,6 +322,7 @@
       <!--<li class="start"><a href="#"><i class="icon-custom-sm"></i> <span class="title">{% trans "SM2015" %}</span></a> </li>-->
       <li class="start"><a href="{% url 'reports' %}"><i class="icon-custom-reports"></i> <span class="title">{% trans "Informes" %}</span></a> </li>
       <li class="start"><a href="{% url 'calendar' %}"><i class="icon-custom-calendar"></i> <span class="title">{% trans "Calendario" %}</span></a></li>
+      {% endif %}
       {% if user.dashboarduser.have_database_access %}
       <li class="start with-submenu"><a href="#"><i class="icon-custom-db"></i> <span class="title">{% trans "Base de datos" %}</span> <span class="arrow "></span></a>
         <ul class="sub-menu">
@@ -333,7 +334,6 @@
           <li> <a href="{% url 'country_operation' %}">{% trans "País Operación" %}</a> </li>
         </ul>
       </li>
-      {% endif %}
       {% endif %}
     <a href="#" class="scrollup">Scroll</a>
     <div class="clearfix"></div>
