@@ -46,7 +46,7 @@ LOGGING = {
             'filename': '/var/www/sm2015dashboard.org/logs/app/dashboard.log',
             'maxBytes': 1024*1024*5,  # 5 MB
             'backupCount': 5,
-            'formatter': 'standard',
+            'formatter': 'standard'
         },
   {
             'level': 'INFO',
@@ -54,7 +54,7 @@ LOGGING = {
             'filename': '/var/www/sm2015dashboard.org/logs/app/dashboard_request.log',
             'maxBytes': 1024*1024*5,  # 5 MB
             'backupCount': 5,
-            'formatter': 'standard',
+            'formatter': 'standard'
         },
     },
     'loggers': {
