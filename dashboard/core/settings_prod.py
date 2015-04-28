@@ -48,7 +48,7 @@ LOGGING = {
             'backupCount': 5,
             'formatter': 'standard'
         },
-  {
+        'request_handler': {
             'level': 'INFO',
             'class': 'logging.handlers.RotatingFileHandler',
             'filename': '/var/www/sm2015dashboard.org/logs/app/dashboard_request.log',
