@@ -304,8 +304,7 @@ class UcMilestone(models.Model):
         language = Language.objects.get(acronym=sheet_lang)
 
         date_field = None
-        test_find_year = re.search('(2010|2011|2012|2013|2014|2015)',
-                                   sheet_name)
+        test_find_year = re.search('(2010|2011|2012|2013|2014|2015)', sheet_name)
         if test_find_year:
             year = int(test_find_year.group(0))
             date_field = date(year, 1, 1)
@@ -316,9 +315,9 @@ class UcMilestone(models.Model):
                     quarter = Quarter.objects.get(name=Quarter.normalize_name(row[2].value))
                 except:
                     quarter = Quarter.objects.create(name=Quarter.normalize_name(row[2].value))
-
+                
                 cls.objects.create(
-                    date=date_field,
+                    #date=date_field,
                     language=language,
                     objective=row[0].value,
                     coordination_unit_milestone=row[1].value,
