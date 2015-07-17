@@ -285,9 +285,9 @@
 
     <script>
         $().ready(function(){
-            var triangle_title = '{% trans "Primera Operación SM2015" %}';
-            triangle_title = "[[COUNTRY]] - " + triangle_title;
-
+            //var triangle_title = '{% trans "Primera Operación SM2015" %}';
+            //triangle_title = "[[COUNTRY]] - " + triangle_title;
+            var triangle_title = "[[COUNTRY]]";
             $(".graph-triangle-wrapper").graficoTrianguloPorPais('{% url "get_triangle_graph_countries" %}', {title: triangle_title});
             $("#map-goals").dashboardMap({{countries_map|safe}});
 
