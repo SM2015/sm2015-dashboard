@@ -198,6 +198,7 @@ class Hito(models.Model):
 
         for row in real_sheet.rows:
             if row[0].row >= 6 and (row[1].value or row[2].value):
+                import ipdb; ipdb.set_trace();
                 if country.slug in ['el-salvador', 'mexico', 'costa-rica',
                                     'nicaragua']:
                     indicador_de_pago_str = row[1].value
@@ -468,7 +469,7 @@ class GrantsFinances(models.Model):
                                     .filter(field_origin__uuid=uuid_origin)
 
         grant = cls.objects.filter(field=field) \
-                           .filter(quarter=Quarter.get_quarter_by_number(date.today().year, 4))
+                           .filter(quarter=Quarter.get_quarter_by_number(date.today().year, 3))
 
         return grant[0].value
 
