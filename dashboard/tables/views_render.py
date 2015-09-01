@@ -25,14 +25,13 @@ def render_hitos(request, country_slug):
     
     estados_actuais = EstadoActual.objects.all()
     options_estados_actuais = {}
-
+    option = {}
     for estado in estados_actuais:
         options_estados_actuais.update({
             "{id}".format(id=estado.id): str(estado.name)
         })
 
     for hito in hitos:
-        #import ipdb;ipdb.set_trace();
         if hito.estado_actual:
             option = {
                 'selected': str(hito.estado_actual.id)
