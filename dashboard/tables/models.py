@@ -293,7 +293,6 @@ class Hito(models.Model):
                         
                         hito.save()
             except Exception as e:
-                import ipdb; ipdb.set_trace();
                 print(e)
                 pass
     
