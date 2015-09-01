@@ -197,81 +197,106 @@ class Hito(models.Model):
         country = sheet.get('country')
 
         for row in real_sheet.rows:
-            if row[0].row >= 6 and (row[1].value or row[2].value):
-                import ipdb; ipdb.set_trace();
-                if country.slug in ['el-salvador', 'mexico', 'costa-rica',
-                                    'nicaragua']:
-                    indicador_de_pago_str = row[1].value
-                    hito_str = row[3].value
-                    quarter_str = row[4].value
-                    audiencias_str = row[5].value
-                    estado_actual_str = row[6].value
-                    alerta_notas_str = row[7].value
-                    recomendacion_str = row[8].value
-                    acuerdo_str = row[9].value
-                    actividad_en_poa_str = row[10].value
-                elif country.slug in ['belize']:
-                    indicador_de_pago_str = row[1].value
-                    hito_str = row[2].value
-                    quarter_str = row[3].value
-                    estado_actual_str = row[4].value
-                    audiencias_str = row[5].value
-                    alerta_notas_str = row[6].value
-                    recomendacion_str = row[7].value
-                    acuerdo_str = row[8].value
-                    actividad_en_poa_str = row[9].value
-                else:
-                    indicador_de_pago_str = row[1].value
-                    hito_str = row[2].value
-                    quarter_str = row[3].value
-                    audiencias_str = row[4].value
-                    estado_actual_str = row[5].value
-                    alerta_notas_str = row[6].value
-                    recomendacion_str = row[7].value
-                    acuerdo_str = row[8].value
-                    actividad_en_poa_str = row[9].value
+            try:
+                if row[0].row >= 6 and (row[1].value or row[2].value):
+                    if country.slug in ['el-salvador', 'mexico', 'costa-rica', 'nicaragua']:
+                        indicador_de_pago_str = row[1].value
+                        hito_str = row[2].value
+                        quarter_str = row[3].value
+                        audiencias_str = row[4].value
+                        
+                        if row[5].value != None:
+                            estado_actual_str = row[5].value
+                        else:
+                            estado_actual_str = ""
 
-                try:
-                    if estado_actual_str.lower() == 'completed' or estado_actual_str.lower() == 'cumplido':
-                        estado_actual = EstadoActual.objects.get(name='Cumplido')
-                    elif estado_actual_str.lower() == 'in progress' or estado_actual_str.lower() == 'en proceso':
-                        estado_actual = EstadoActual.objects.get(name='En proceso')
-                    elif estado_actual_str.lower() == 'delayed' or estado_actual_str.lower() == 'retrasado':
-                        estado_actual = EstadoActual.objects.get(name='Retrasado')
+                        if row[6].value != None:
+                            alerta_notas_str = row[6].value
+                        else:
+                            alerta_notas_str = ""
+
+                        if row[7].value != None:
+                            recomendacion_str = row[7].value
+                        else:
+                            recomendacion_str = ""
+
+                        if row[8].value != None:
+                            acuerdo_str = row[8].value                            
+                        else:
+                            acuerdo_str = ""
+
+                        if row[9].value != None:
+                            actividad_en_poa_str = row[9].value
+                        else:
+                            actividad_en_poa_str = ""
+                    elif country.slug in ['belize']:
+                        indicador_de_pago_str = row[1].value
+                        hito_str = row[2].value
+                        quarter_str = row[3].value
+                        estado_actual_str = row[4].value
+                        audiencias_str = row[5].value
+                        alerta_notas_str = row[6].value
+                        recomendacion_str = row[7].value
+                        acuerdo_str = row[8].value
+                        actividad_en_poa_str = row[9].value
                     else:
+                        indicador_de_pago_str = row[1].value
+                        hito_str = row[2].value
+                        quarter_str = row[3].value
+                        audiencias_str = row[4].value
+                        estado_actual_str = row[5].value
+                        alerta_notas_str = row[6].value
+                        recomendacion_str = row[7].value
+                        acuerdo_str = row[8].value
+                        actividad_en_poa_str = row[9].value
+                
+                    try:
+                        if estado_actual_str.lower() == 'completed' or estado_actual_str.lower() == 'cumplido':
+                            estado_actual = EstadoActual.objects.get(name='Cumplido')
+                        elif estado_actual_str.lower() == 'in progress' or estado_actual_str.lower() == 'en proceso':
+                            estado_actual = EstadoActual.objects.get(name='En proceso')
+                        elif estado_actual_str.lower() == 'delayed' or estado_actual_str.lower() == 'retrasado':
+                            estado_actual = EstadoActual.objects.get(name='Retrasado')
+                        else:
+                            estado_actual = None
+                    except AttributeError:
                         estado_actual = None
-                except AttributeError:
-                    estado_actual = None
 
-                try:
-                    quarter = Quarter.objects.get(name=Quarter.normalize_name(quarter_str))
-                except:
-                    quarter = Quarter.objects.create(name=Quarter.normalize_name(quarter_str))
+                    try:
+                        quarter = Quarter.objects.get(name=Quarter.normalize_name(quarter_str))
+                    except:
+                        quarter = Quarter.objects.create(name=Quarter.normalize_name(quarter_str))
 
-                hito = cls.objects.create(
-                    language = language,
-                    country = country,
-                    indicador_de_pago = indicador_de_pago_str,
-                    hito = hito_str,
-                    quarter = quarter,
-                    estado_actual = estado_actual,
-                    alerta_notas = alerta_notas_str,
-                    recomendacion = recomendacion_str,
-                    acuerdo = acuerdo_str,
-                    actividad_en_poa = actividad_en_poa_str
-                )
+                    hito = cls.objects.create(
+                        language = language,
+                        country = country,
+                        indicador_de_pago = indicador_de_pago_str,
+                        hito = hito_str,
+                        quarter = quarter,
+                        estado_actual = estado_actual,
+                        alerta_notas = alerta_notas_str,
+                        recomendacion = recomendacion_str,
+                        acuerdo = acuerdo_str,
+                        actividad_en_poa = actividad_en_poa_str
+                    )
 
-                if audiencias_str:
-                    text_audiencias = audiencias_str.replace(' ', '').split(',')
-                    for i in xrange(0, len(text_audiencias)):
-                        audiencia_str = text_audiencias[i].replace('Country', 'Pais').replace('Donors', 'Donantes')
-                        text_audiencias[i] = audiencia_str
+                    if audiencias_str:
+                        text_audiencias = audiencias_str.replace(' ', '').split(',')
+                        for i in xrange(0, len(text_audiencias)):
+                            audiencia_str = text_audiencias[i].replace('Country', 'Pais').replace('Donors', 'Donantes')
+                            text_audiencias[i] = audiencia_str
 
-                    audiencias = Audiencia.objects.filter(name__in=text_audiencias)
-                    for audiencia in audiencias:
-                        hito.audiencia.add(audiencia)
-                    hito.save()
-
+                        audiencias = Audiencia.objects.filter(name__in=text_audiencias)
+                        
+                        for audiencia in audiencias:
+                            hito.audiencia.add(audiencia)
+                        
+                        hito.save()
+            except Exception as e:
+                import ipdb; ipdb.set_trace();
+                print(e)
+                pass
+    
     @classmethod
     def get_editable_fields(cls):
         return ('estado_actual', 'alerta_notas', 'recomendacion', 'acuerdo', 'actividad_en_poa')
