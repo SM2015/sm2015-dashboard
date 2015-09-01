@@ -146,11 +146,9 @@ def upload(site):
     print(green("Deploying site %s" % site))
 
     # upload site
-    #local("git archive --format=tar --prefix={site}/ HEAD:{path}/ | gzip > /tmp/{site}.tgz".format(site=site, path=site))
-    local("git archive --format=zip --prefix={site}/ HEAD:{path}/ | gzip > /tmp/{site}.zip".format(site=site, path=site))
+    local("git archive --format=tar --prefix={site}/ HEAD:{path}/ | gzip > /tmp/{site}.tgz".format(site=site, path=site))
     put("/tmp/{site}.tgz".format(site=site), "/tmp/")
-    #run("tar -C /tmp -xzf /tmp/{site}.tgz".format(site=site))
-    run("unzip /tmp/{site}.tgz".format(site=site))
+    run("tar -C /tmp -xzf /tmp/{site}.tgz".format(site=site))
     run("rm -rf {project_path}/src/{site}".format(site=site, project_path=env.PROJECT_PATH))
     run("mv /tmp/{site} {project_path}/src/".format(site=site, project_path=env.PROJECT_PATH))
     run("rm /tmp/{site}.tgz".format(site=site))
