@@ -57,6 +57,7 @@ def render_hitos_noneditable(request, country_slug):
                                 language__acronym=request.LANGUAGE_CODE)
     estados_actuais = EstadoActual.objects.all()
     options_estados_actuais = {}
+    option = {}
     for estado in estados_actuais:
         options_estados_actuais.update({
             "{id}".format(id=estado.id): str(estado.name)
