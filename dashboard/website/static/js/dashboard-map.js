@@ -148,6 +148,7 @@
                       }, 500);
                     }
                   })(country.marker));
+
               });
           });
         }
@@ -197,6 +198,13 @@
                 marker: marker,
                 infoBox: infoBox
             });
+
+            google.maps.event.addListener(marker, "mouseover", function() {
+              $('.dateToolTipOnMouseover').html('Fecha de actualización: ' + country.fecha_actualizacion).show('slideUp');
+            });
+            google.maps.event.addListener(marker, "mouseout", function() {
+              $('.dateToolTipOnMouseover').hide('slideDown');
+            });
         });
         callback(countries);
     }
@@ -238,7 +246,6 @@
                                                 .replace("{TITLE}", country.name)
                                                 .replace("{SHORT_DESCRIPTION}", country.short_description)
                                                 .replace("{INFOS_URL}", country.infos_url)
-                                                .replace("{GOAL}", country.goal)
                                                 .replace("{GOAL}", country.goal);
 
 

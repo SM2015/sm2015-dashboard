@@ -6,3 +6,5 @@
 fabfile.pyc
 pendencias_dashboard.txt
 /dashboard/media/
+.idea
+.idea/

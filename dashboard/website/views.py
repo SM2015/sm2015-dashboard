@@ -28,6 +28,8 @@ def index(request):
                                             language__acronym=
                                             request.LANGUAGE_CODE).last()
 
+
+
             variation_physical = table_avances.avance_fisico_planificado - table_avances.avance_fisico_real
             variation_financial = table_avances.avance_financiero_planificado - table_avances.avance_financiero_actual
             if variation_physical <= 25 and variation_financial <= 25:
@@ -51,7 +53,8 @@ def index(request):
                 'goal': str(country_map.goal),
                 'short_description': unicode(country_map.short_description),
                 'pin_color': pin_color,
-                'infos_url': infos_url
+                'infos_url': infos_url,
+                'fecha_actualizacion': table_avances.fecha_de_actualizacion.strftime('%d/%m/%Y')
             }
             countries_map.append(country)
         except (AvanceFisicoFinanciero.DoesNotExist, IndexError, AttributeError):
