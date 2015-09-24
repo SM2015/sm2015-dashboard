@@ -34,9 +34,9 @@
                     '</div>'+
                 '</div>';
 
-            if(response.dpi < 0.6){ 
+            if(response.dpi < 0.75){
                 color = 'red';
-            } else if(response.dpi < 0.8){ 
+            } else if(response.dpi < 0.9){
                 color = 'yellow';
             } else { 
                 color = 'green';

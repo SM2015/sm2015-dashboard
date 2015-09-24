@@ -234,7 +234,7 @@ def grants_finances_ongoing(request, uuid_origin):
             dpi = 0
         else:
             percentage = float("%.2f" % ((real_accumulated/expected_accumulated) * 100))
-            dpi = float("%.1f" % (real_accumulated/expected_accumulated))
+            dpi = float("%.2f" % (real_accumulated/expected_accumulated))
 
         dv = intcomma(floatformat(float("%.2f" % (real_accumulated - expected_accumulated)), 0))
 

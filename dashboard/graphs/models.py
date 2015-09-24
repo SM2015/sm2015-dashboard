@@ -1,5 +1,6 @@
 # coding: utf-8
 import os
+import json
 from datetime import datetime
 from django.utils.translation import ugettext as _
 from tables.models import AvanceFisicoFinanciero, Operation, LifeSave, \
@@ -89,48 +90,48 @@ class TriangleGraph(object):
     @classmethod
     def export_graph_options(cls, country, lang):
         options = u""\
-            "options = {"\
-                "chart: {"\
-                    "polar: true,"\
-                    "type: 'line',"\
-                    "marginLeft: 10,"\
-                    "marginRight: 10,"\
-                "},"\
-                "title: {"\
-                    "text: '%s Primera Operacion SM2015'"\
-                "},"\
-                "pane: {"\
-                    "size: '85%%'"\
-                "},"\
-                "xAxis: {"\
-                    "categories: %s,"\
-                    "tickmarkPlacement: 'on',"\
-                    "lineWidth: 0,"\
-                    "labels: {"\
-                        "style: {"\
-                            "width: '30px'"\
-                        "}"\
-                    "}"\
-                "},"\
-                "yAxis: {"\
-                    "gridLineInterpolation: 'polygon',"\
-                    "lineWidth: 0,"\
-                    "min: 0,"\
-                    "width: 30"\
-                "},"\
-                "tooltip: {"\
-                    "shared: true,"\
-                    "pointFormat: '%sspan style=\"color:{series.color}\"%s{series.name}: %sb%s{point.y}%% %s/b%s%sbr/%s'"\
-                "},"\
-                "exporting: {"\
-                    "enabled: true"\
-                "},"\
-                "credits: {"\
-                    "enabled: false"\
-                "},"\
-                "series: %s"\
-            "}" % (country.name, unicode(cls.get_triangle_categories()),\
-                 "<", ">", "<", ">", "<", ">", "<", ">", unicode(cls.get_triangle_series(country=country, lang=lang)))
+            'options = {'\
+                '"chart": {'\
+                    '"polar": true,'\
+                    '"type": "line",'\
+                    '"marginLeft": 10,'\
+                    '"marginRight": 10'\
+                '},'\
+                '"title": {'\
+                    '"text": "%s Primera Operacion SM2015"'\
+                '},'\
+                '"pane": {'\
+                    '"size": "85%%"'\
+                '},'\
+                '"xAxis": {'\
+                    '"categories": %s,'\
+                    '"tickmarkPlacement": "on",'\
+                    '"lineWidth": 0,'\
+                    '"labels": {'\
+                        '"style": {'\
+                            '"width": "30px"'\
+                        '}'\
+                    '}'\
+                '},'\
+                '"yAxis": {'\
+                    '"gridLineInterpolation": "polygon",'\
+                    '"lineWidth": 0,'\
+                    '"min": 0,'\
+                    '"width": 30'\
+                '},'\
+                '"tooltip": {'\
+                    '"shared": true,'\
+                    '"pointFormat": "%sspan style=\'color:{series.color}\'%s{series.name}: %sb%s{point.y}%% %s/b%s%sbr/%s"'\
+                '},'\
+                '"exporting": {'\
+                    '"enabled": true'\
+                '},'\
+                '"credits": {'\
+                    '"enabled": false'\
+                '},'\
+                '"series": %s'\
+            '}' % (country.name, json.dumps(cls.get_triangle_categories()),\
+                 "<", ">", "<", ">", "<", ">", "<", ">", json.dumps(cls.get_triangle_series(country=country, lang=lang)))
 
         dir_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'graphs', 'files')
         path = "{dir_path}/options-{country_name}.js".format(dir_path=dir_path, country_name=country.slug)
