@@ -83,7 +83,7 @@ class TriangleGraph(object):
         path_chart = "{root}/tables/files/{file_name}".format(root=dir_path, file_name=file_name)
 
         os.system("phantomjs {root}/website/static/js/highcharts/highcharts-convert.js "\
-                  "-infile {options_path} -outfile {path_chart}  -scale 3 -width 350"
+                  "-infile {options_path} -outfile {path_chart}  -scale 3 -width 430"
                   .format(root=dir_path, country_name=country.slug, path_chart=path_chart, options_path=path_options_highcharts))
         return path_chart, file_name
 
@@ -181,19 +181,16 @@ class TriangleGraph(object):
         financiera = {
             'actual': avances.avance_financiero_actual or '',
             'programada': avances.avance_financiero_planificado or '',
-            'original_programada': avances.avances_financieros_original_programado or '',
-            'monto_comprometido': avances.monto_comprometido or ''
+            'original_programada': avances.avances_financieros_original_programado or ''
         }
         fisica = {
             'actual': avances.avance_fisico_real or '',
             'programada': avances.avance_fisico_planificado or '',
-            'original_programada': avances.avances_fisicos_original_programado or '',
-            'monto_comprometido': avances.monto_comprometido or ''
+            'original_programada': avances.avances_fisicos_original_programado or ''
         }
 
         return [
            {'name': 'Ejecucion Actual (%)', 'data': [avance_tiempo, financiera.get('actual'), fisica.get('actual')], 'pointPlacement': 'on'},
            {'name': 'Ejecucion Programada (%)', 'data': [avance_tiempo, financiera.get('programada'), fisica.get('programada')], 'pointPlacement': 'on'},
-           {'name': 'Ejecucion Original Programada (%)', 'data': [avance_tiempo, financiera.get('original_programada'), fisica.get('original_programada')], 'pointPlacement': 'on'},
-           {'name': '$ Comprometido', 'data': [avances.monto_comprometido, avances.monto_comprometido, avances.monto_comprometido], 'pointPlacement': 'on'}
+           {'name': 'Ejecucion Original Programada (%)', 'data': [avance_tiempo, financiera.get('original_programada'), fisica.get('original_programada')], 'pointPlacement': 'on'}
         ]
