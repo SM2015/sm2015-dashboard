@@ -25,7 +25,7 @@
                     title: '{% trans "Hitos" %}',
                     url_save: "{% url 'save_milestone_data' %}",
                     url_export: "/tables/render/export/hitos_y_avances/"+country_slug,
-                    order: [[ 2, "desc" ]]
+                    aaSorting: [[ 2, 'desc' ]]
                 });
 
                 $(".table-avances").dashboardTable("/tables/render/avances_financeiros/"+country_slug, {
