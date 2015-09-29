@@ -83,7 +83,7 @@ class TriangleGraph(object):
         path_chart = "{root}/tables/files/{file_name}".format(root=dir_path, file_name=file_name)
 
         os.system("phantomjs {root}/website/static/js/highcharts/highcharts-convert.js "\
-                  "-infile {options_path} -outfile {path_chart}  -scale 3 -width 430"
+                  "-infile {options_path} -outfile {path_chart}  -scale 3 -width 350"
                   .format(root=dir_path, country_name=country.slug, path_chart=path_chart, options_path=path_options_highcharts))
         return path_chart, file_name
 
@@ -91,45 +91,45 @@ class TriangleGraph(object):
     def export_graph_options(cls, country, lang):
         options = u""\
             'options = {'\
-                '"chart": {'\
-                    '"polar": true,'\
-                    '"type": "line",'\
-                    '"marginLeft": 10,'\
-                    '"marginRight": 10'\
+                'chart: {'\
+                    'polar: true,'\
+                    'type: "line",'\
+                    'marginLeft: 10,'\
+                    'marginRight: 10'\
                 '},'\
-                '"title": {'\
-                    '"text": "%s Primera Operacion SM2015"'\
+                'title: {'\
+                    '"text": "%s SM2015"'\
                 '},'\
-                '"pane": {'\
-                    '"size": "85%%"'\
+                'pane: {'\
+                    'size: "85%%"'\
                 '},'\
-                '"xAxis": {'\
-                    '"categories": %s,'\
-                    '"tickmarkPlacement": "on",'\
-                    '"lineWidth": 0,'\
-                    '"labels": {'\
-                        '"style": {'\
-                            '"width": "30px"'\
+                'xAxis: {'\
+                    'categories: %s,'\
+                    'tickmarkPlacement: "on",'\
+                    'lineWidth: 0,'\
+                    'labels: {'\
+                        'style: {'\
+                            'width: "30px"'\
                         '}'\
                     '}'\
                 '},'\
-                '"yAxis": {'\
-                    '"gridLineInterpolation": "polygon",'\
-                    '"lineWidth": 0,'\
-                    '"min": 0,'\
-                    '"width": 30'\
+                'yAxis: {'\
+                    'gridLineInterpolation: "polygon",'\
+                    'lineWidth: 0,'\
+                    'min: 0,'\
+                    'width: 30'\
                 '},'\
-                '"tooltip": {'\
-                    '"shared": true,'\
-                    '"pointFormat": "%sspan style=\'color:{series.color}\'%s{series.name}: %sb%s{point.y}%% %s/b%s%sbr/%s"'\
+                'tooltip: {'\
+                    'shared: true,'\
+                    'pointFormat: "%sspan style=\'color:{series.color}\'%s{series.name}: %sb%s{point.y}%% %s/b%s%sbr/%s"'\
                 '},'\
-                '"exporting": {'\
-                    '"enabled": true'\
+                'exporting: {'\
+                    'enabled: true'\
                 '},'\
-                '"credits": {'\
-                    '"enabled": false'\
+                'credits: {'\
+                    'enabled: false'\
                 '},'\
-                '"series": %s'\
+                'series: %s'\
             '}' % (country.name, json.dumps(cls.get_triangle_categories()),\
                  "<", ">", "<", ">", "<", ">", "<", ">", json.dumps(cls.get_triangle_series(country=country, lang=lang)))
 

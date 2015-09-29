@@ -183,8 +183,8 @@ def render_export_hitos_and_avances(request, country_slug):
                     'right': {'color': '#000000', 'size': '1pt', 'style': 'solid'}}
 
     table_empty = Table(width="100%", padding='3pt')
-    table_empty.add_row([Cell(Block(InlineText(u'DISCUSION CON EL JEFE DE DIVISION Y UC', font=document_font), align="center"), valign='center', border=border_cell)])
-    table_empty.add_row([Cell(BlockText(""), valign='center', border=border_cell)])
+    #table_empty.add_row([Cell(Block(InlineText(u'DISCUSION CON EL JEFE DE DIVISION Y UC', font=document_font), align="center"), valign='center', border=border_cell)])
+    #table_empty.add_row([Cell(BlockText(""), valign='center', border=border_cell)])
 
     table_empty.add_row([Cell(Block(InlineText(u'AVANCES PARA EL INFORME TRIMESTRAL', font=document_font), align="center"), valign='center', border=border_cell)])
     table_empty.add_row([Cell(BlockText(""), valign='center', border=border_cell)])
