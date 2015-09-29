@@ -21,7 +21,7 @@ def render_hitos(request, country_slug):
     else:
         language_code = 'es'
 
-    hitos = Hito.objects.filter(country__slug=country_slug, language__acronym=language_code)
+    hitos = Hito.objects.filter(country__slug=country_slug, language__acronym=language_code).order_by('-quarter')
     
     estados_actuais = EstadoActual.objects.all()
     options_estados_actuais = {}
