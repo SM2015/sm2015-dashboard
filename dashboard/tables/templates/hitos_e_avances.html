@@ -22,9 +22,10 @@
                 $(".country-name").text(country);
 
                 $(".table-hitos").dashboardTable("/tables/render/hitos/"+country_slug, {
-                  title: '{% trans "Hitos" %}',
+                    title: '{% trans "Hitos" %}',
                     url_save: "{% url 'save_milestone_data' %}",
-                    url_export: "/tables/render/export/hitos_y_avances/"+country_slug
+                    url_export: "/tables/render/export/hitos_y_avances/"+country_slug,
+                    order: [[ 2, "desc" ]]
                 });
 
                 $(".table-avances").dashboardTable("/tables/render/avances_financeiros/"+country_slug, {
