@@ -77,19 +77,25 @@ def render_export_hitos_and_avances(request, country_slug):
         else:
             fecha_de_actualization_str = ''
 
-        row1 = [Cell(BlockText(u'¿Cuándo fue la última vez que actualizó los datos?', bold=True, font=document_font, size=10)),
-                Cell(BlockText(u'Avances Fisicos Planificados (Meta Ejecución)', bold=True, font=document_font, size=10)),
-                Cell(BlockText(u'Avances Físicos Reales (Avance en la ejecución real)', bold=True, font=document_font, size=10)),
-                Cell(BlockText(u'Avances Financieros Planificados (Ejecución financiera planificados)', bold=True, font=document_font, size=10)),
-                Cell(BlockText(u'Avances Financieros Actuales (Ejecución financiera real)', bold=True, font=document_font, size=10)),
-                Cell(BlockText(u'Monto Desembolsado', bold=True, font=document_font, size=10))]
+        row1 = [
+            Cell(BlockText(u'¿Cuándo fue la última vez que actualizó los datos?', bold=True, font=document_font, size=10)),
+            Cell(BlockText(u'Avances Fisicos Planificados (Meta Ejecución)', bold=True, font=document_font, size=10)),
+            Cell(BlockText(u'Avances Físicos Reales (Avance en la ejecución real)', bold=True, font=document_font, size=10)),
+            Cell(BlockText(u'Avances Financieros Planificados (Ejecución financiera planificados)', bold=True, font=document_font, size=10)),
+            Cell(BlockText(u'Avances Financieros Actuales (Ejecución financiera real)', bold=True, font=document_font, size=10)),
+            Cell(BlockText(u'Monto Desembolsado', bold=True, font=document_font, size=10)),
+            Cell(BlockText(u'Monto Comprometido', bold=True, font=document_font, size=10))
+        ]
 
-        row2 = [Cell(BlockText(fecha_de_actualization_str, size=10, font=document_font)),
-                Cell(BlockText("{0}%".format(avance.avance_fisico_planificado), size=10, font=document_font)),
-                Cell(BlockText("{0}%".format(avance.avance_fisico_real), size=10, font=document_font)),
-                Cell(BlockText("{0}%".format(avance.avance_financiero_planificado), size=10, font=document_font)),
-                Cell(BlockText("{0}%".format(avance.avance_financiero_actual), size=10, font=document_font)),
-                Cell(BlockText(avance.monto_desembolsado, size=10, font=document_font))]
+        row2 = [
+            Cell(BlockText(fecha_de_actualization_str, size=10, font=document_font)),
+            Cell(BlockText("{0}%".format(avance.avance_fisico_planificado), size=10, font=document_font)),
+            Cell(BlockText("{0}%".format(avance.avance_fisico_real), size=10, font=document_font)),
+            Cell(BlockText("{0}%".format(avance.avance_financiero_planificado), size=10, font=document_font)),
+            Cell(BlockText("{0}%".format(avance.avance_financiero_actual), size=10, font=document_font)),
+            Cell(BlockText(avance.monto_desembolsado, size=10, font=document_font)),
+            Cell(BlockText(avance.monto_comprometido, size=10, font=document_font))
+        ]
 
         table_avances = Table(width="100%", padding='3pt',
                               border={'top': {'color': '#000000', 'size': '1pt', 'style': 'solid'},
