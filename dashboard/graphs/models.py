@@ -163,7 +163,7 @@ class TriangleGraph(object):
             return []
 
         try:
-            operation = Operation.objects.get(country=country)
+            operation = Operation.objects.filter(country=country).order_by('-id')[0]
             total_days_operation = operation.finish_date - operation.starting_date
             total_days_operation = total_days_operation.days
 
