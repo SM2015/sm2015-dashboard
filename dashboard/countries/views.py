@@ -81,7 +81,8 @@ def country(request):
                 infos_url = "{0}?country={1}".format(reverse('country_details'),
                                                      country_map.country.id)
 
-            operation = Operation.objects.get(country__slug=country_map.country.slug)
+            import ipdb;ipdb.set_trace();
+            operation = Operation.objects.filter(country__slug=country_map.country.slug)[0]
             country = {
                 'lat': str(country_map.country.latlng.split(',')[0]),
                 'lng': str(country_map.country.latlng.split(',')[1]),
@@ -131,7 +132,7 @@ def country(request):
             'url_ongoing': reverse('countries_ongoing', args=[country.slug, 'execution'])
         }
 
-        operation = Operation.objects.get(country__slug=country.slug)
+        operation = Operation.objects.filter(country__slug=country.slug)[0]
         operation_infos = OperationInfos.objects \
                                         .filter(language__acronym=request.LANGUAGE_CODE) \
                                         .filter(operation=operation)

@@ -36,8 +36,8 @@
                 $(window).trigger("select-date", [v_date]);
             });
           
-            $("select[name='select-date'] option[value='2015']").attr("selected", true);
-            $(window).trigger("select-date", ["{{dates.1}}"]);
+            $("select[name='select-date'] option[value='"+"{{dates|last}}"+"']").attr("selected", true);
+            $(window).trigger("select-date", ["{{dates|last}}"]);
         });
     </script>
 {% endblock js_bottom %}
