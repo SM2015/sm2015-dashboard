@@ -81,7 +81,6 @@ def country(request):
                 infos_url = "{0}?country={1}".format(reverse('country_details'),
                                                      country_map.country.id)
 
-            import ipdb;ipdb.set_trace();
             operation = Operation.objects.filter(country__slug=country_map.country.slug)[0]
             country = {
                 'lat': str(country_map.country.latlng.split(',')[0]),
