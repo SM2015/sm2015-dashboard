@@ -163,7 +163,6 @@ class TriangleGraph(object):
         if not avances:
             return []
 
-        import ipdb;ipdb.set_trace()
         try:
             operation = Operation.objects.filter(country=country).order_by('-id')[0]
 
