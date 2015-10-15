@@ -29,7 +29,7 @@ def render_export_hitos_and_avances(request, country_slug):
     country = Country.objects.get(slug=country_slug)
     options_estados_actuais = {}
     triangle_path, triangle_file_name = TriangleGraph.export_graph(country=country, lang=request.LANGUAGE_CODE)
-    operation = Operation.objects.get(country=country)
+    operation = Operation.objects.filter(country=country).order_by('-id')[0]
     for estado in estados_actuais:
         options_estados_actuais.update({
             "{id}".format(id=estado.id): str(estado.name)
