@@ -8,3 +8,5 @@ pendencias_dashboard.txt
 /dashboard/media/
 .idea
 .idea/
+dashboard/graphs/files/.
+dashboard/graphs/files/*
