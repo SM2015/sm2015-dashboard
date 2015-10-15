@@ -163,11 +163,9 @@ class TriangleGraph(object):
         if not avances:
             return []
 
+        import ipdb;ipdb.set_trace()
         try:
             operation = Operation.objects.filter(country=country).order_by('-id')[0]
-
-            print vars(operation)
-            print '########'
 
             total_days_operation = operation.finish_date - operation.starting_date
             total_days_operation = total_days_operation.days
@@ -176,14 +174,10 @@ class TriangleGraph(object):
             total_days_left = total_days_left.days
             if total_days_left < 0:
                 time_remaining = 0
-                print 'time_remaining < 0'
             else:
-                time_remaining = total_days_operation / total_days_left
-                print 'time_remaining > 0'
-                print time_remaining
+                time_remaining = (float(total_days_left) / float(total_days_operation)) * 100
             avance_tiempo = round(100 - time_remaining, 2)
 
-            print avance_tiempo
         except (Operation.DoesNotExist, ZeroDivisionError):
             avance_tiempo = 0
 
