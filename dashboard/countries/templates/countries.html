@@ -73,7 +73,7 @@
             showDisbursement();
 
             $(".table-country-operation").dashboardTable("{% url 'table_render_country_operation_noneditable' %}?until_actual_quarter=true", {
-              title: '{% trans "Donor Disbursment Performance" %}',
+              title: '{% trans "Country Disbursment Performance" %}',
                 description: '{% trans "Esta tabla muestra los desembolsos reales y previstas del tramo de inversión y la ejecución del tramo de inversión, por trimestre." %}',
                 url_save: "{% url 'save_milestone_data' %}"
             });
