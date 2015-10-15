@@ -171,8 +171,11 @@ class TriangleGraph(object):
 
             total_days_left = operation.finish_date - datetime.date(datetime.today())
             total_days_left = total_days_left.days
+
             if total_days_left < 0:
                 time_remaining = 0
+            elif total_days_left > total_days_operation:
+                time_remaining = 100
             else:
                 time_remaining = (float(total_days_left) / float(total_days_operation)) * 100
             avance_tiempo = round(100 - time_remaining, 2)
