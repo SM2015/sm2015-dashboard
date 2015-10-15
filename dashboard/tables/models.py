@@ -806,7 +806,7 @@ class CountryOperation(models.Model):
         if cls.objects.filter(country=country, quarter=quarter).count() > 0:
             return cls.objects.filter(country=country, quarter=quarter)[0]
         else:
-            return cls.objects.filter(country=country)[0]
+            return cls.objects.filter(country=country).order_by('-id')[0]
 
     @classmethod
     def get_table_to_show(cls, country=None, fields=None, with_total=False, until_quarter=None):
