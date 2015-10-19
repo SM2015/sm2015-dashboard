@@ -169,7 +169,7 @@ class TriangleGraph(object):
             total_days_operation = operation.finish_date - operation.starting_date
             total_days_operation = total_days_operation.days
 
-            total_days_left = operation.finish_date - datetime.date(datetime.today())
+            total_days_left = operation.finish_date - avances.fecha_de_actualizacion
             total_days_left = total_days_left.days
 
             if total_days_left < 0:
