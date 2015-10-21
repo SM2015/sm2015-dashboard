@@ -1206,7 +1206,6 @@ class CountryMainRisks(models.Model):
                 current_risk_rating = None
 
             if row[0].row in positives_rows:
-                import ipdb;ipdb.set_trace()
                 type = CountryRiskTypes.objects.get(uuid='POSITIVE')
             else:
                 type = CountryRiskTypes.objects.get(uuid='NEGATIVE')
