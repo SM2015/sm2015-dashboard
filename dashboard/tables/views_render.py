@@ -496,6 +496,7 @@ def render_country_risk_identification(request, country_slug):
 
 @login_required
 def render_country_risk_top(request, country_slug):
+
     country = Country.objects.get(slug=country_slug)
     rows = CountryMainRisks.objects.filter(country=country,
                                            language__acronym=request.LANGUAGE_CODE)

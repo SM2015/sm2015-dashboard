@@ -17,25 +17,26 @@
   <thead>
     <tr>
         <th class="column-name first" style="text-align: center">{% trans "Descripción del Riesgo" %}</th>
-        <th class="column-name" style="text-align: center">{% trans "Estrategia de respuesta" %}</th>
         <th class="column-name" style="text-align: center">{% trans "Plan de respuesta" %}</th>
-        <th class="column-name" style="text-align: center">{% trans "Calificacion de Riesgo a Junio 30/2014" %}</th>
+        <th class="column-name" style="text-align: center">{% trans "Estado actual" %}</th>
+        <th class="column-name" style="text-align: center">{% trans "Estado" %}</th>
+        <th class="column-name" style="text-align: center">{% trans "Calificacion de Riesgo Linea de Base" %}</th>
+        <th class="column-name" style="text-align: center">{% trans "Calificacion Actual" %}</th>
     </tr>
   </thead>
   <tbody>
     {% if table.negatives %}
     <tr>
-      <td colspan="" class="bg-gray"><strong>{% trans "Riesgos Negativos" %}</strong></td>
-      <td colspan="" class="bg-gray"></td>
-      <td colspan="" class="bg-gray"></td>
-      <td colspan="" class="bg-gray"></td>
+      <td colspan="6" class="bg-gray"><strong>{% trans "Riesgos Negativos" %}</strong></td>
     </tr>
     {% for row in table.negatives %}
     <tr>
       <td>{{row.description}}</td>
-      <td style="text-align: center">{{row.response_strategy}}</td>
       <td>{{row.plan}}</td>
-      <td class="{% if row.level.uuid == 'VERY_HIGH' %}bg-red{% endif %}" width="20%" style="text-align: center">{{row.level.name}}</td>
+      <td>{{row.current_status}}</td>
+      <td>{{row.qualification}}</td>
+      <td class="{% if row.current_risk_rating.uuid == 'VERY_HIGH' %}bg-red{% endif %}" width="20%" style="text-align: center">{{row.current_risk_rating.name}}</td>
+      <td class="{% if row.risk_rating_base.uuid == 'VERY_HIGH' %}bg-red{% endif %}" width="20%" style="text-align: center">{{row.risk_rating_base.name}}</td>
     </tr>
     {% endfor %}
     {% endif %}

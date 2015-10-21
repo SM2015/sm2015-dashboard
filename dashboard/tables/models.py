@@ -1134,12 +1134,15 @@ class CountryMainRisks(models.Model):
     country = models.ForeignKey(Country)
     language = models.ForeignKey(Language, default=1)
 
+    current_status = models.TextField()
     description = models.TextField()
-    response_strategy = models.TextField()
     plan = models.TextField()
 
+    qualification = models.CharField(max_length=100, default='', null=True)
+    current_risk_rating = models.ForeignKey(CountryRiskLevels, related_name='current_risk_rating', default=None, null=True)
+    risk_rating_base = models.ForeignKey(CountryRiskLevels, related_name='risk_rating_base', default=None, null=True)
+
     type = models.ForeignKey(CountryRiskTypes)
-    level = models.ForeignKey(CountryRiskLevels)
     date = models.DateField(null=True, default=None)
 
     def __unicode__(self):
@@ -1147,6 +1150,7 @@ class CountryMainRisks(models.Model):
 
     @classmethod
     def upload_excel(cls, uploaded_file, sheet_lang):
+
         wb = load_workbook(uploaded_file, data_only=True)
         sheet = wb.get_sheet_by_name('Top 10 riesgos')
         language = Language.objects.get(acronym=sheet_lang)
@@ -1172,20 +1176,37 @@ class CountryMainRisks(models.Model):
                 continue
 
             description = row[1].value.strip()
-            response_strategy = row[2].value.strip() if row[2].value else ''
-            plan = row[3].value.strip() if row[3].value else ''
-            level_str = row[4].value.strip().lower()
 
-            if level_str in ['muy alto', 'very high']:
-                level = CountryRiskLevels.objects.get(uuid='VERY_HIGH')
-            elif level_str in ['alto', 'high']:
-                level = CountryRiskLevels.objects.get(uuid='HIGH')
-            elif level_str in ['medio', 'medium']:
-                level = CountryRiskLevels.objects.get(uuid='MEDIUM')
-            elif level_str in ['bajo', 'low']:
-                level = CountryRiskLevels.objects.get(uuid='LOW')
+            plan = row[2].value.strip() if row[2].value else ''
+            current_status = row[3].value.strip() if row[3].value else ''
+            qualification = row[4].value.strip()
+            risk_rating_base = row[5].value.strip().lower() if row[5].value else None
+            current_risk_rating = row[6].value.strip().lower() if row[6].value else None
+
+            if risk_rating_base in ['muy alto', 'very high']:
+                risk_rating_base = CountryRiskLevels.objects.get(uuid='VERY_HIGH')
+            elif risk_rating_base in ['alto', 'high']:
+                risk_rating_base = CountryRiskLevels.objects.get(uuid='HIGH')
+            elif risk_rating_base in ['medio', 'medium']:
+                risk_rating_base = CountryRiskLevels.objects.get(uuid='MEDIUM')
+            elif risk_rating_base in ['bajo', 'low']:
+                risk_rating_base = CountryRiskLevels.objects.get(uuid='LOW')
+            else:
+                risk_rating_base = None
+
+            if current_risk_rating in ['muy alto', 'very high']:
+                current_risk_rating = CountryRiskLevels.objects.get(uuid='VERY_HIGH')
+            elif current_risk_rating in ['alto', 'high']:
+                current_risk_rating = CountryRiskLevels.objects.get(uuid='HIGH')
+            elif current_risk_rating in ['medio', 'medium']:
+                current_risk_rating = CountryRiskLevels.objects.get(uuid='MEDIUM')
+            elif current_risk_rating in ['bajo', 'low']:
+                current_risk_rating = CountryRiskLevels.objects.get(uuid='LOW')
+            else:
+                current_risk_rating = None
 
             if row[0].row in positives_rows:
+                import ipdb;ipdb.set_trace()
                 type = CountryRiskTypes.objects.get(uuid='POSITIVE')
             else:
                 type = CountryRiskTypes.objects.get(uuid='NEGATIVE')
@@ -1193,10 +1214,12 @@ class CountryMainRisks(models.Model):
             CountryMainRisks.objects.create(description=description,
                                             plan=plan,
                                             type=type,
-                                            level=level,
                                             date=date.today(),
                                             country=country,
-                                            response_strategy=response_strategy,
+                                            current_risk_rating=current_risk_rating,
+                                            risk_rating_base=risk_rating_base,
+                                            qualification=qualification,
+                                            current_status=current_status,
                                             language=language)
 
 

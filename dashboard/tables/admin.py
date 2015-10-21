@@ -103,8 +103,8 @@ class CountryRiskIdentificationAdmin(admin.ModelAdmin):
 
 
 class CountryMainRisksAdmin(admin.ModelAdmin):
-    list_display = ('country', 'level', 'type', 'language')
-    list_filter = ('country', 'level', 'type', 'language')
+    list_display = ('country', 'type', 'language')
+    list_filter = ('country', 'type', 'language')
     change_list_template = 'change_list_sheet_asking.html'
 
 
