@@ -1152,74 +1152,75 @@ class CountryMainRisks(models.Model):
     def upload_excel(cls, uploaded_file, sheet_lang):
 
         wb = load_workbook(uploaded_file, data_only=True)
-        sheet = wb.get_sheet_by_name('Top 10 riesgos')
         language = Language.objects.get(acronym=sheet_lang)
 
-        positives_rows = [14, 30, 43, 44, 60, 61, 75, 76, 77]
+        countries = Country.objects.all()
+        for country in countries:
+            sheet = wb.get_sheet_by_name(country.slug)
 
-        for row in sheet.rows:
-            country = None
-            if row[0].row >= 5 and row[0].row <= 14:
-                country = Country.objects.get(slug='belize')
-            elif row[0].row >= 19 and row[0].row <= 30:
-                country = Country.objects.get(slug='guatemala')
-            elif row[0].row >= 36 and row[0].row <= 44:
-                country = Country.objects.get(slug='mexico')
-            elif row[0].row >= 49 and row[0].row <= 61:
-                country = Country.objects.get(slug='nicaragua')
-            elif row[0].row >= 66 and row[0].row <= 77:
-                country = Country.objects.get(slug='el-salvador')
-            elif row[0].row >= 82 and row[0].row <= 91:
-                country = Country.objects.get(slug='honduras')
-
-            if not country or not row[1].value:
+            if not sheet:
                 continue
 
-            description = row[1].value.strip()
+            for row in sheet.rows:
+                if not row[0].value:
+                    continue
 
-            plan = row[2].value.strip() if row[2].value else ''
-            current_status = row[3].value.strip() if row[3].value else ''
-            qualification = row[4].value.strip()
-            risk_rating_base = row[5].value.strip().lower() if row[5].value else None
-            current_risk_rating = row[6].value.strip().lower() if row[6].value else None
+                try:
+                    if 'negative' in row[0].value.lower():
+                        type = CountryRiskTypes.objects.get(uuid='NEGATIVE')
+                    elif 'positive' in row[0].value.lower():
+                        type = CountryRiskTypes.objects.get(uuid='POSITIVE')
+                except:
+                    pass
 
-            if risk_rating_base in ['muy alto', 'very high']:
-                risk_rating_base = CountryRiskLevels.objects.get(uuid='VERY_HIGH')
-            elif risk_rating_base in ['alto', 'high']:
-                risk_rating_base = CountryRiskLevels.objects.get(uuid='HIGH')
-            elif risk_rating_base in ['medio', 'medium']:
-                risk_rating_base = CountryRiskLevels.objects.get(uuid='MEDIUM')
-            elif risk_rating_base in ['bajo', 'low']:
-                risk_rating_base = CountryRiskLevels.objects.get(uuid='LOW')
-            else:
-                risk_rating_base = None
+                if not row[1].value:
+                    continue
+                elif 'type' not in locals():
+                    continue
 
-            if current_risk_rating in ['muy alto', 'very high']:
-                current_risk_rating = CountryRiskLevels.objects.get(uuid='VERY_HIGH')
-            elif current_risk_rating in ['alto', 'high']:
-                current_risk_rating = CountryRiskLevels.objects.get(uuid='HIGH')
-            elif current_risk_rating in ['medio', 'medium']:
-                current_risk_rating = CountryRiskLevels.objects.get(uuid='MEDIUM')
-            elif current_risk_rating in ['bajo', 'low']:
-                current_risk_rating = CountryRiskLevels.objects.get(uuid='LOW')
-            else:
-                current_risk_rating = None
+                description = row[1].value.strip()
 
-            if row[0].row in positives_rows:
-                type = CountryRiskTypes.objects.get(uuid='POSITIVE')
-            else:
-                type = CountryRiskTypes.objects.get(uuid='NEGATIVE')
+                if description.strip().lower() == 'description of risk':
+                    continue
 
-            CountryMainRisks.objects.create(description=description,
-                                            plan=plan,
-                                            type=type,
-                                            date=date.today(),
-                                            country=country,
-                                            current_risk_rating=current_risk_rating,
-                                            risk_rating_base=risk_rating_base,
-                                            qualification=qualification,
-                                            current_status=current_status,
-                                            language=language)
+                plan = row[2].value.strip() if row[2].value else ''
+                current_status = row[3].value.strip() if row[3].value else ''
+                qualification = row[4].value.strip() if row[4].value else ''
+                risk_rating_base = row[5].value.strip().lower() if row[5].value else None
+                current_risk_rating = row[6].value.strip().lower() if row[6].value else None
+
+                if risk_rating_base in ['muy alto', 'very high']:
+                    risk_rating_base = CountryRiskLevels.objects.get(uuid='VERY_HIGH')
+                elif risk_rating_base in ['alto', 'high']:
+                    risk_rating_base = CountryRiskLevels.objects.get(uuid='HIGH')
+                elif risk_rating_base in ['medio', 'medium']:
+                    risk_rating_base = CountryRiskLevels.objects.get(uuid='MEDIUM')
+                elif risk_rating_base in ['bajo', 'low']:
+                    risk_rating_base = CountryRiskLevels.objects.get(uuid='LOW')
+                else:
+                    risk_rating_base = None
+
+                if current_risk_rating in ['muy alto', 'very high']:
+                    current_risk_rating = CountryRiskLevels.objects.get(uuid='VERY_HIGH')
+                elif current_risk_rating in ['alto', 'high']:
+                    current_risk_rating = CountryRiskLevels.objects.get(uuid='HIGH')
+                elif current_risk_rating in ['medio', 'medium']:
+                    current_risk_rating = CountryRiskLevels.objects.get(uuid='MEDIUM')
+                elif current_risk_rating in ['bajo', 'low']:
+                    current_risk_rating = CountryRiskLevels.objects.get(uuid='LOW')
+                else:
+                    current_risk_rating = None
+
+                CountryMainRisks.objects.create(description=description,
+                                                plan=plan,
+                                                type=type,
+                                                date=date.today(),
+                                                country=country,
+                                                current_risk_rating=current_risk_rating,
+                                                risk_rating_base=risk_rating_base,
+                                                qualification=qualification,
+                                                current_status=current_status,
+                                                language=language)
 
 
 class CountryRiskIdentification(models.Model):

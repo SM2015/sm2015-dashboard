@@ -19,7 +19,7 @@
         <th class="column-name first" style="text-align: center">{% trans "Descripción del Riesgo" %}</th>
         <th class="column-name" style="text-align: center">{% trans "Plan de respuesta" %}</th>
         <th class="column-name" style="text-align: center">{% trans "Estado actual" %}</th>
-        <th class="column-name" style="text-align: center">{% trans "Estado" %}</th>
+        <th class="column-name" style="text-align: center">{% trans "Calificacion" %}</th>
         <th class="column-name" style="text-align: center">{% trans "Calificacion de Riesgo Linea de Base" %}</th>
         <th class="column-name" style="text-align: center">{% trans "Calificacion Actual" %}</th>
     </tr>
@@ -34,7 +34,7 @@
       <td>{{row.description}}</td>
       <td>{{row.plan}}</td>
       <td>{{row.current_status}}</td>
-      <td>{{row.qualification}}</td>
+      <td style="text-align: center">{{row.qualification}}</td>
       <td class="{% if row.current_risk_rating.uuid == 'VERY_HIGH' %}bg-red{% endif %}" width="20%" style="text-align: center">{{row.current_risk_rating.name}}</td>
       <td class="{% if row.risk_rating_base.uuid == 'VERY_HIGH' %}bg-red{% endif %}" width="20%" style="text-align: center">{{row.risk_rating_base.name}}</td>
     </tr>
