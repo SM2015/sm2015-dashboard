@@ -507,14 +507,23 @@ def render_country_risk_top(request, country_slug):
     if request.LANGUAGE_CODE == 'es':
         for type in table:
             for row in table[type]:
-                if row.level.uuid == 'VERY_HIGH':
-                    row.level.name = 'Muy Alto'
-                elif row.level.uuid == 'HIGH':
-                    row.level.name = 'Alto'
-                elif row.level.uuid == 'MEDIUM':
-                    row.level.name = 'Medio'
-                elif row.level.uuid == 'LOW':
-                    row.level.name = 'Bajo'
+                if row.current_risk_rating.uuid == 'VERY_HIGH':
+                    row.current_risk_rating.name = 'Muy Alto'
+                elif row.current_risk_rating.uuid == 'HIGH':
+                    row.current_risk_rating.name = 'Alto'
+                elif row.current_risk_rating.uuid == 'MEDIUM':
+                    row.current_risk_rating.name = 'Medio'
+                elif row.current_risk_rating.uuid == 'LOW':
+                    row.current_risk_rating.name = 'Bajo'
+
+                if row.risk_rating_base.uuid == 'VERY_HIGH':
+                    row.risk_rating_base.name = 'Muy Alto'
+                elif row.risk_rating_base.uuid == 'HIGH':
+                    row.risk_rating_base.name = 'Alto'
+                elif row.risk_rating_base.uuid == 'MEDIUM':
+                    row.risk_rating_base.name = 'Medio'
+                elif row.risk_rating_base.uuid == 'LOW':
+                    row.risk_rating_base.name = 'Bajo'
 
     rendered = render_to_string("tables/country_risk_top.html", {
         'table': table,
