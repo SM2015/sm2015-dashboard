@@ -96,6 +96,10 @@
               title: countries[initial_params['country_slug']].name+' - {% trans "Resumen de la Identificacion del riesgos" %} '
             });
             {% endif %}
+
+            $('.select-operation').on('change', function(){
+                window.location.href = window.location + '&operation=' + $(this).val();
+            });
         });
     </script>
 {% endblock js_bottom %}
@@ -169,7 +173,27 @@
   <div id="map-goals"></div>
 </div>
 
+
+
 <div class="content">
+
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="grid simple">
+          <div class="grid-title">
+            <h4>Operations</h4>
+            <div class="tools"><a class="collapse" href="javascript:;"></a> <a class="remove" href="javascript:;"></a></div>
+          </div>
+          <div class="grid-body">
+            <select name="select-operation" class="select-operation">
+                {% for op in operations %}
+                <option value="{{op.number}}">{{op.name}}</option>
+                {% endfor %}
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="row-fluid">
       <div class="span6">

@@ -54,8 +54,8 @@ def country_details(request):
 
 #@login_required
 def country(request):
+    import ipdb;ipdb.set_trace()
     context = RequestContext(request)
-
     maps = Map.objects.filter(language__acronym=request.LANGUAGE_CODE)
     countries_map = []
     for country_map in maps:
@@ -81,7 +81,12 @@ def country(request):
                 infos_url = "{0}?country={1}".format(reverse('country_details'),
                                                      country_map.country.id)
 
-            operation = Operation.objects.filter(country__slug=country_map.country.slug)[0]
+            operations = Operation.objects.filter(country__slug=country_map.country.slug)
+            if request.GET.get('operation'):
+                operation = operations.get(number=request.GET.get('operation'))
+            else:
+                operation = operations.last()
+
             country = {
                 'lat': str(country_map.country.latlng.split(',')[0]),
                 'lng': str(country_map.country.latlng.split(',')[1]),
@@ -131,7 +136,13 @@ def country(request):
             'url_ongoing': reverse('countries_ongoing', args=[country.slug, 'execution'])
         }
 
-        operation = Operation.objects.filter(country__slug=country.slug)[0]
+        operations = Operation.objects.filter(country__slug=country.slug)
+
+        if request.GET.get('operation'):
+                operation = operations.get(number=request.GET.get('operation'))
+        else:
+            operation = operations.last()
+
         operation_infos = OperationInfos.objects \
                                         .filter(language__acronym=request.LANGUAGE_CODE) \
                                         .filter(operation=operation)
@@ -140,10 +151,13 @@ def country(request):
             operation_infos = operation_infos[0]
         else:
             operation_infos = None
-        context.update({'country_disbursement': country_disbursement_values,
+        context.update({
+                        'country_disbursement': country_disbursement_values,
                         'country_execution': country_execution_values,
                         'operation': operation,
-                        'operation_infos': operation_infos})
+                        'operation_infos': operation_infos,
+                        'operations': operations
+                        })
 
     context.update({'countries': countries})
     return render_to_response("country.html", context)
