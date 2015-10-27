@@ -82,7 +82,10 @@ def country(request):
 
             operations = Operation.objects.filter(country__slug=country_map.country.slug)
             if request.GET.get('operation'):
-                operation = operations.get(number=request.GET.get('operation'))
+                try:
+                    operation = operations.get(number=request.GET.get('operation'))
+                except Operation.DoesNotExist:
+                    operation = operations.last()
             else:
                 operation = operations.last()
 
@@ -136,9 +139,12 @@ def country(request):
         }
 
         operations = Operation.objects.filter(country__slug=country.slug)
-
+        import ipdb;ipdb.set_trace()
         if request.GET.get('operation'):
+            try:
                 operation = operations.get(number=request.GET.get('operation'))
+            except Operation.DoesNotExist:
+                operation = operations.last()
         else:
             operation = operations.last()
 
