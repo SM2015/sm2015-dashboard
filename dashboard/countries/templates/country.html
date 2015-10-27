@@ -187,7 +187,11 @@
           <div class="grid-body">
             <select name="select-operation" class="select-operation">
                 {% for op in operations %}
-                <option value="{{op.number}}">{{op.name}}</option>
+                    {% if op.number == operation.number %}
+                        <option selected value="{{op.number}}">{{op.name}}</option>
+                    {% else %}
+                        <option value="{{op.number}}">{{op.name}}</option>
+                    {% endif %}
                 {% endfor %}
             </select>
           </div>
