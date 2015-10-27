@@ -35,8 +35,8 @@
       <td width="25%">{{row.plan}}</td>
       <td width="25%">{{row.current_status}}</td>
       <td style="text-align: center;">{{row.qualification}}</td>
-      <td class="{% if row.current_risk_rating.uuid == 'VERY_HIGH' %}bg-red{% endif %}" style="width: 10%; text-align: center">{{row.current_risk_rating.name}}</td>
       <td class="{% if row.risk_rating_base.uuid == 'VERY_HIGH' %}bg-red{% endif %}" style="width: 10%; text-align: center">{{row.risk_rating_base.name}}</td>
+      <td class="{% if row.current_risk_rating.uuid == 'VERY_HIGH' %}bg-red{% endif %}" style="width: 10%; text-align: center">{{row.current_risk_rating.name}}</td>
     </tr>
     {% endfor %}
     {% endif %}
