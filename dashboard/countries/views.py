@@ -54,7 +54,6 @@ def country_details(request):
 
 #@login_required
 def country(request):
-    import ipdb;ipdb.set_trace()
     context = RequestContext(request)
     maps = Map.objects.filter(language__acronym=request.LANGUAGE_CODE)
     countries_map = []
