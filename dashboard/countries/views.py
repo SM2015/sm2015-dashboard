@@ -139,7 +139,7 @@ def country(request):
         }
 
         operations = Operation.objects.filter(country__slug=country.slug)
-        import ipdb;ipdb.set_trace()
+
         if request.GET.get('operation'):
             try:
                 operation = operations.get(number=request.GET.get('operation'))
