@@ -1155,6 +1155,7 @@ class CountryMainRisks(models.Model):
         language = Language.objects.get(acronym=sheet_lang)
 
         countries = Country.objects.all()
+
         for country in countries:
             sheet = wb.get_sheet_by_name(country.slug)
 
@@ -1166,9 +1167,9 @@ class CountryMainRisks(models.Model):
                     continue
 
                 try:
-                    if 'negative' in row[0].value.lower():
+                    if 'negative' in row[0].value.lower() or 'negativo' in row[0].value.lower():
                         type = CountryRiskTypes.objects.get(uuid='NEGATIVE')
-                    elif 'positive' in row[0].value.lower():
+                    elif 'positive' in row[0].value.lower() or 'positivo' in row[0].value.lower():
                         type = CountryRiskTypes.objects.get(uuid='POSITIVE')
                 except:
                     pass
