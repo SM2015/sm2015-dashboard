@@ -508,8 +508,17 @@ def render_country_risk_identification(request, country_slug):
 def render_country_risk_top(request, country_slug):
 
     country = Country.objects.get(slug=country_slug)
+
+    if request.GET.get('operation'):
+        operation = Operation.objects.filter(country=country, number=request.GET.get('operation')).last()
+        if not operation:
+            operation = Operation.objects.filter(country=country).last()
+    else:
+        operation = Operation.objects.filter(country=country).last()
+
     rows = CountryMainRisks.objects.filter(country=country,
-                                           language__acronym=request.LANGUAGE_CODE)
+                                           language__acronym=request.LANGUAGE_CODE,
+                                           operation=operation)
 
     table = {'positives': [r for r in rows.filter(type__uuid='POSITIVE')],
              'negatives': [r for r in rows.filter(type__uuid='NEGATIVE')]}
