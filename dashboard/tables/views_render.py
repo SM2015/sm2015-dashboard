@@ -57,6 +57,8 @@ def render_hitos_noneditable(request, country_slug):
 
     if operation_number:
         operation = Operation.objects.filter(number=operation_number)[0]
+    else:
+        operation = None
 
     hitos = Hito.objects.filter(country__slug=country_slug,
                                 language__acronym=request.LANGUAGE_CODE)

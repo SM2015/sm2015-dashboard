@@ -1133,6 +1133,7 @@ class CountryRiskIdentificationFields(models.Model):
 class CountryMainRisks(models.Model):
     country = models.ForeignKey(Country)
     language = models.ForeignKey(Language, default=1)
+    operation = models.ForeignKey(Operation)
 
     current_status = models.TextField()
     description = models.TextField()
@@ -1188,6 +1189,14 @@ class CountryMainRisks(models.Model):
                 qualification = row[4].value.strip() if row[4].value else ''
                 risk_rating_base = row[5].value.strip().lower() if row[5].value else None
                 current_risk_rating = row[6].value.strip().lower() if row[6].value else None
+                operation_number = row[7].value.strip().upper() if row[7].value else None
+
+                if not operation_number:
+                    continue
+                else:
+                    operation = Operation.objects.filter(number=operation_number).last()
+                    if not operation:
+                        continue
 
                 if risk_rating_base in ['muy alto', 'very high']:
                     risk_rating_base = CountryRiskLevels.objects.get(uuid='VERY_HIGH')
@@ -1220,7 +1229,8 @@ class CountryMainRisks(models.Model):
                                                 risk_rating_base=risk_rating_base,
                                                 qualification=qualification,
                                                 current_status=current_status,
-                                                language=language)
+                                                language=language,
+                                                operation=operation)
 
 
 class CountryRiskIdentification(models.Model):
