@@ -71,10 +71,23 @@ class Quarter(models.Model):
     class Meta:
         ordering = ['name']
 
+class Operation(models.Model):
+    country = models.ForeignKey(Country)
+
+    number = models.CharField(max_length=100, default='')
+    name = models.CharField(max_length=100, default='')
+    executing_agency = models.CharField(max_length=100, default='')
+    benefitted_population = models.CharField(max_length=400, default='')
+    starting_date = models.DateField()
+    finish_date = models.DateField()
+
+    def __unicode__(self):
+        return self.name
 
 class AvanceFisicoFinanciero(models.Model):
     country = models.ForeignKey(Country)
     language = models.ForeignKey(Language, default=1)
+    operation = models.ForeignKey(Operation)
 
     fecha_de_actualizacion = models.DateField(null=True, default=None, blank=True)
     avance_fisico_planificado = models.FloatField(null=True, blank=True, default=None)
@@ -175,6 +188,7 @@ class Hito(models.Model):
     country = models.ForeignKey(Country)
     language = models.ForeignKey(Language, default=1)
     quarter = models.ForeignKey(Quarter)
+    operation = models.ForeignKey(Operation)
 
     indicador_de_pago = models.CharField(max_length=500, null=True, blank=True, default=None)
     hito = models.CharField(max_length=500, null=True, blank=True, default=None)
@@ -552,20 +566,6 @@ class GrantsFinances(models.Model):
     class Meta:
         verbose_name_plural = u'Grants & Finances'
         verbose_name = u'Grants & Finances'
-
-
-class Operation(models.Model):
-    country = models.ForeignKey(Country)
-
-    number = models.CharField(max_length=100, default='')
-    name = models.CharField(max_length=100, default='')
-    executing_agency = models.CharField(max_length=100, default='')
-    benefitted_population = models.CharField(max_length=400, default='')
-    starting_date = models.DateField()
-    finish_date = models.DateField()
-
-    def __unicode__(self):
-        return self.name
 
 
 class OperationInfos(models.Model):
@@ -1180,8 +1180,7 @@ class CountryMainRisks(models.Model):
                     continue
 
                 description = row[1].value.strip()
-
-                if description.strip().lower() == 'description of risk':
+                if description.strip().lower() == 'description of risk' or description.strip().lower() == u'descripci\xf3n del riesgo':
                     continue
 
                 plan = row[2].value.strip() if row[2].value else ''

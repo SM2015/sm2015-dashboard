@@ -53,8 +53,16 @@ def render_hitos(request, country_slug):
 
 @login_required
 def render_hitos_noneditable(request, country_slug):
+    operation_number = request.GET.get('operation')
+
+    if operation_number:
+        operation = Operation.objects.filter(number=operation_number)[0]
+
     hitos = Hito.objects.filter(country__slug=country_slug,
                                 language__acronym=request.LANGUAGE_CODE)
+    if operation:
+        hitos = hitos.filter(operation=operation)
+
     estados_actuais = EstadoActual.objects.all()
     options_estados_actuais = {}
     option = {}

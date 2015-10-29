@@ -142,12 +142,12 @@ class TriangleGraph(object):
         return path
 
     @classmethod
-    def get_graph_data_by_country(cls, country, lang):
+    def get_graph_data_by_country(cls, country, lang, operation_number=None):
         graph_data = {
             'country_slug': country.slug,
             'country': country.name,
             'triangle_categories': cls.get_triangle_categories(),
-            'series': cls.get_triangle_series(country=country, lang=lang)
+            'series': cls.get_triangle_series(country=country, lang=lang, operation_number=operation_number)
         }
         return graph_data
 
@@ -156,16 +156,21 @@ class TriangleGraph(object):
         return [_("% Avance Tiempo"), _("Ejecucion Financiera"), _("Ejecucion Fisica")]
 
     @classmethod
-    def get_triangle_series(cls, country, lang):
+    def get_triangle_series(cls, country, lang, operation_number=None):
+        if operation_number:
+            operation = Operation.objects.filter(country=country, number=operation_number)[0]
+            if not operation:
+                operation = Operation.objects.filter(country=country).order_by('-id')[0]
+        else:
+            operation = Operation.objects.filter(country=country).order_by('-id')[0]
+
         avances = AvanceFisicoFinanciero.objects.filter(country=country,
-                                                        language__acronym=lang).last()
+                                                        language__acronym=lang, operation=operation).last()
 
         if not avances:
             return []
 
         try:
-            operation = Operation.objects.filter(country=country).order_by('-id')[0]
-
             total_days_operation = operation.finish_date - operation.starting_date
             total_days_operation = total_days_operation.days
 

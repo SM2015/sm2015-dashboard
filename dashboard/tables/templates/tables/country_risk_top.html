@@ -27,7 +27,12 @@
   <tbody>
     {% if table.negatives %}
     <tr>
-      <td colspan="6" class="bg-gray"><strong>{% trans "Riesgos Negativos" %}</strong></td>
+      <td class="bg-gray"><strong>{% trans "Riesgos Negativos" %}</strong></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
     </tr>
     {% for row in table.negatives %}
     <tr>
@@ -43,14 +48,21 @@
 
     {% if table.positives %}
     <tr>
-      <td colspan="6" class="bg-gray"><strong>{% trans "Riesgos Positivos" %}</strong></td>
+      <td class="bg-gray"><strong>{% trans "Riesgos Positivos" %}</strong></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
     </tr>
     {% for row in table.positives %}
     <tr>
-      <td>{{row.description}}</td>
-      <td style="text-align: center">{{row.response_strategy}}</td>
-      <td>{{row.plan}}</td>
-      <td class="{% if row.level.uuid == 'VERY_HIGH' %}bg-red{% endif %}" width="20%" style="text-align: center">{{row.level.name}}</td>
+      <td width="25%">{{row.description}}</td>
+      <td width="25%">{{row.plan}}</td>
+      <td width="25%">{{row.current_status}}</td>
+      <td style="text-align: center;">{{row.qualification}}</td>
+      <td class="{% if row.risk_rating_base.uuid == 'VERY_HIGH' %}bg-red{% endif %}" style="width: 10%; text-align: center">{{row.risk_rating_base.name}}</td>
+      <td class="{% if row.current_risk_rating.uuid == 'VERY_HIGH' %}bg-red{% endif %}" style="width: 10%; text-align: center">{{row.current_risk_rating.name}}</td>
     </tr>
     {% endfor %}
     {% endif %}

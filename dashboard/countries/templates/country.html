@@ -42,22 +42,26 @@
               initial_params = {};
 
             for(var i=0; i < params_get.length; i++){
-              param = params_get[i].split("=");
-              param_name = param[0];
-              param_value = param[1];
+              var param = params_get[i].split("=");
+              var param_name = param[0];
+              var param_value = param[1];
               initial_params[param_name] = param_value;
             }
+            var operation_param = '';
+            if (initial_params['operation']){
+                operation_param = "operation="+initial_params['operation'];
+            }
 
-            $(".table-hitos").dashboardTable("/tables/render/hitos-noneditable/"+initial_params['country_slug'], {
+            $(".table-hitos").dashboardTable("/tables/render/hitos-noneditable/"+initial_params['country_slug']+"?"+operation_param, {
               title: '{% trans "Gráficas de Logros por País" %}',
                 description: '{% trans "Durante la etapa de planificación, los equipos nacionales seleccionan los eventos trimestrales pertinentes para cada indicador de pago, creando una ruta crítica. Esta gráfica muestra el estado de los hitos trimestrales que contribuyen al éxito de los indicadores de pago. El verde significa que el hito se ha completado, el amarillo significa que está en curso y el rojo significa el hito está pendiente, o más allá de su fecha prevista de finalización. Esta gráfica se actualiza mensualmente."%}',
                 url_save: "{% url 'save_milestone_data' %}",
-                url_export: "/tables/render/export/hitos_y_avances/"+initial_params['country_slug']
+                url_export: "/tables/render/export/hitos_y_avances/"+initial_params['country_slug']+"?"+operation_param
             });
 
             var triangle_title = '{% trans "Estado de las Operaciones por País" %}';
             triangle_title = "[[COUNTRY]] - " + triangle_title;
-            $(".graph-triangle-wrapper").graficoTrianguloPorPais('{% url "get_triangle_graph_countries" %}?country_slug='+initial_params['country_slug'], {title: triangle_title, alone: true});
+            $(".graph-triangle-wrapper").graficoTrianguloPorPais('{% url "get_triangle_graph_countries" %}?country_slug='+initial_params['country_slug']+"&"+operation_param, {title: triangle_title, alone: true});
 
             var country_disbursement = {{country_disbursement|safe}};
             var country_execution = {{country_execution|safe}};
@@ -89,16 +93,20 @@
                 url_save: "{% url 'save_milestone_data' %}",
             });*/
             {% if not user.is_anonymous %}
-            $(".table-country-risk-top").dashboardTable("/tables/render/country_risk_top/"+initial_params['country_slug'], {
+            $(".table-country-risk-top").dashboardTable("/tables/render/country_risk_top/"+initial_params['country_slug']+'?'+operation_param, {
               title: countries[initial_params['country_slug']].name+' - {% trans "Riesgos Principales" %} '
             });
-            $(".table-country-risk-identification").dashboardTable("/tables/render/country_risk_identification/"+initial_params['country_slug'], {
+            $(".table-country-risk-identification").dashboardTable("/tables/render/country_risk_identification/"+initial_params['country_slug']+'?'+operation_param, {
               title: countries[initial_params['country_slug']].name+' - {% trans "Resumen de la Identificacion del riesgos" %} '
             });
             {% endif %}
 
             $('.select-operation').on('change', function(){
-                window.location.href = window.location + '&operation=' + $(this).val();
+                if (initial_params['operation']){
+                    window.location.href = window.location.search.replace(initial_params['operation'], $(this).val());
+                } else {
+                    window.location.href = window.location + '&operation=' + $(this).val();
+                }
             });
         });
     </script>

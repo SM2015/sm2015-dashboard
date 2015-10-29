@@ -10,6 +10,7 @@ from graphs.models import TriangleGraph, LiveSaveGraph, \
 #@login_required
 def get_triangle_graph_countries(request):
     country_slug = request.GET.get('country_slug')
+    operation_number = request.GET.get('operation')
     if country_slug:
         countries = Country.objects.filter(slug=country_slug).all()
     else:
@@ -18,7 +19,8 @@ def get_triangle_graph_countries(request):
 
     for country in countries:
         graph_data = TriangleGraph.get_graph_data_by_country(country=country,
-                                                             lang=request.LANGUAGE_CODE)
+                                                             lang=request.LANGUAGE_CODE,
+                                                             operation_number=operation_number)
         return_data.append(graph_data)
 
     return HttpResponse(json.dumps(return_data),
