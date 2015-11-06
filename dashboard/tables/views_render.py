@@ -16,7 +16,8 @@ from countries.views import _get_obj_filtered_api
 
 
 @login_required
-def render_hitos(request, country_slug, operation=None):
+def render_hitos(request, country_slug):
+    operation = request.GET.get('operation')
 
     if country_slug in ['belize']:
         language_code = 'en'
@@ -29,7 +30,7 @@ def render_hitos(request, country_slug, operation=None):
         operation = Operation.objects.filter(country__slug=country_slug).last()
 
     hitos = Hito.objects.filter(country__slug=country_slug, language__acronym=language_code, operation=operation).order_by('-quarter')
-    
+
     estados_actuais = EstadoActual.objects.all()
     options_estados_actuais = {}
     option = {}
@@ -96,10 +97,18 @@ def render_hitos_noneditable(request, country_slug):
 
 @login_required
 def render_avances_financeiros(request, country_slug):
+    operation = request.GET.get('operation')
+
+    if operation:
+        operation = Operation.objects.filter(country__slug=country_slug, number=operation).last()
+    else:
+        operation = Operation.objects.filter(country__slug=country_slug).last()
+
     avance = AvanceFisicoFinanciero.objects \
                                    .filter(country__slug=country_slug,
                                            language__acronym=
-                                           request.LANGUAGE_CODE).last()
+                                           request.LANGUAGE_CODE,
+                                           operation=operation).last()
 
     if avance and not avance.upcoming_policy_dialogue_events:
         avance.upcoming_policy_dialogue_events = ''
@@ -632,7 +641,7 @@ def render_country_risk_causes(request):
 def country_operations(request, country_slug):
 
     country = Country.objects.get(slug=country_slug)
-    operations = Operation.objects.filter(country__slug=country)
+    operations = Operation.objects.filter(country__slug=country_slug)
     operations_number = [o.number for o in operations]
 
     return HttpResponse(json.dumps({'operations': operations_number}), content_type="application/json")
