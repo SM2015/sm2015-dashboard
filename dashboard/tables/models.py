@@ -212,6 +212,13 @@ class Hito(models.Model):
 
         for row in real_sheet.rows:
             try:
+
+                operation_number = row[10].value
+                operation = Operation.objects.filter(number=operation_number, country=country).last()
+
+                if not operation_number or not operation:
+                    continue
+
                 if row[0].row >= 6 and (row[1].value or row[2].value):
                     if country.slug in ['el-salvador', 'mexico', 'costa-rica', 'nicaragua']:
                         indicador_de_pago_str = row[1].value
@@ -282,16 +289,17 @@ class Hito(models.Model):
                         quarter = Quarter.objects.create(name=Quarter.normalize_name(quarter_str))
 
                     hito = cls.objects.create(
-                        language = language,
-                        country = country,
-                        indicador_de_pago = indicador_de_pago_str,
-                        hito = hito_str,
-                        quarter = quarter,
-                        estado_actual = estado_actual,
-                        alerta_notas = alerta_notas_str,
-                        recomendacion = recomendacion_str,
-                        acuerdo = acuerdo_str,
-                        actividad_en_poa = actividad_en_poa_str
+                        language=language,
+                        country=country,
+                        indicador_de_pago=indicador_de_pago_str,
+                        hito=hito_str,
+                        quarter=quarter,
+                        estado_actual=estado_actual,
+                        alerta_notas=alerta_notas_str,
+                        recomendacion=recomendacion_str,
+                        acuerdo=acuerdo_str,
+                        actividad_en_poa=actividad_en_poa_str,
+                        operation=operation
                     )
 
                     if audiencias_str:
