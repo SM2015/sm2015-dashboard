@@ -71,6 +71,7 @@ class Quarter(models.Model):
     class Meta:
         ordering = ['name']
 
+
 class Operation(models.Model):
     country = models.ForeignKey(Country)
 
@@ -82,8 +83,22 @@ class Operation(models.Model):
     finish_date = models.DateField()
     is_current = models.BooleanField(default=False)
 
+    def save(self, *args, **kwargs):
+        # set all other operation as not current
+        if self.is_current:
+            try:
+                operations = Operation.objects.filter(is_current=True, country=self.country)
+                for operation in operations:
+                    if self != operation:
+                        operation.is_current = False
+                        operation.save()
+            except Operation.DoesNotExist:
+                pass
+        super(Operation, self).save(*args, **kwargs)
+
     def __unicode__(self):
         return self.name
+
 
 class AvanceFisicoFinanciero(models.Model):
     country = models.ForeignKey(Country)
@@ -170,6 +185,7 @@ class AvanceFisicoFinanciero(models.Model):
 
     def __unicode__(self):
         return self.country.name
+
 
 class Audiencia(models.Model):
     language = models.ForeignKey(Language, default=1)
