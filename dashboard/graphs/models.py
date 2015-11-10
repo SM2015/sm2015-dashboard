@@ -164,8 +164,6 @@ class TriangleGraph(object):
         else:
             operation = Operation.objects.filter(country=country, is_current=True).last()
 
-        import ipdb;ipdb.set_trace()
-
         avances = AvanceFisicoFinanciero.objects.filter(country=country,
                                                         language__acronym=lang, operation=operation).last()
 
