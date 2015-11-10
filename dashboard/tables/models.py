@@ -80,6 +80,7 @@ class Operation(models.Model):
     benefitted_population = models.CharField(max_length=400, default='')
     starting_date = models.DateField()
     finish_date = models.DateField()
+    is_current = models.BooleanField(default=False)
 
     def __unicode__(self):
         return self.name
