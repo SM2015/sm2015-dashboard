@@ -158,7 +158,10 @@ class TriangleGraph(object):
     @classmethod
     def get_triangle_series(cls, country, lang, operation_number=None):
         if operation_number:
-            operation = Operation.objects.filter(country=country, number=operation_number).last()
+            if operation_number == 'last':
+                operation = Operation.objects.filter(country=country).last()
+            else:
+                operation = Operation.objects.filter(country=country, number=operation_number).last()
             if not operation:
                 operation = Operation.objects.filter(country=country, is_current=True).last()
         else:

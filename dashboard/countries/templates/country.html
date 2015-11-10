@@ -61,8 +61,11 @@
 
             var triangle_title = '{% trans "Estado de las Operaciones por País" %}';
             triangle_title = "[[COUNTRY]] - " + triangle_title;
-            $(".graph-triangle-wrapper").graficoTrianguloPorPais('{% url "get_triangle_graph_countries" %}?country_slug='+initial_params['country_slug']+"&"+operation_param, {title: triangle_title, alone: true});
-
+            if (operation_param == ''){
+                $(".graph-triangle-wrapper").graficoTrianguloPorPais('{% url "get_triangle_graph_countries" %}?country_slug='+initial_params['country_slug']+"&operation=last", {title: triangle_title, alone: true});
+            } else {
+                $(".graph-triangle-wrapper").graficoTrianguloPorPais('{% url "get_triangle_graph_countries" %}?country_slug='+initial_params['country_slug']+"&"+operation_param, {title: triangle_title, alone: true});
+            }
             var country_disbursement = {{country_disbursement|safe}};
             var country_execution = {{country_execution|safe}};
             var tile_opts = 
