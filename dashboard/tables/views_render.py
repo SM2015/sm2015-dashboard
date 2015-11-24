@@ -442,7 +442,14 @@ def render_operation_total_investment(request, country_slug):
 @login_required
 def render_country_risk_identification(request, country_slug):
     country = Country.objects.get(slug=country_slug)
-    fields = CountryRiskIdentification.objects.filter(country=country)
+
+    operation_number = request.GET.get('operation')
+    if operation_number:
+        operation = Operation.objects.filter(number=operation_number, country=country).last()
+    else:
+        operation = Operation.objects.filter(country=country).last()
+
+    fields = CountryRiskIdentification.objects.filter(country=country, operation=operation)
 
     table = {'POSITIVE': [],
              'NEGATIVE': []}

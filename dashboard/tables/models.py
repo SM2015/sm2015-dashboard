@@ -1260,6 +1260,7 @@ class CountryMainRisks(models.Model):
 
 class CountryRiskIdentification(models.Model):
     country = models.ForeignKey(Country)
+    operation = models.ForeignKey(Operation)
 
     date = models.DateField(null=True, default=None)
 
