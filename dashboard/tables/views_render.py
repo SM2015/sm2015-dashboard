@@ -29,7 +29,7 @@ def render_hitos(request, country_slug):
     else:
         operation = Operation.objects.filter(country__slug=country_slug, is_current=True).last()
 
-    hitos = Hito.objects.filter(country__slug=country_slug, language__acronym=language_code, operation=operation).order_by('-quarter')
+    hitos = Hito.objects.filter(country__slug=country_slug, language__acronym=language_code, operation=operation).order_by('quarter')
 
     estados_actuais = EstadoActual.objects.all()
     options_estados_actuais = {}
@@ -71,7 +71,7 @@ def render_hitos_noneditable(request, country_slug):
     hitos = Hito.objects.filter(
         country__slug=country_slug,
         operation=operation
-    )
+    ).order_by('quarter')
 
     estados_actuais = EstadoActual.objects.all()
     options_estados_actuais = {}
