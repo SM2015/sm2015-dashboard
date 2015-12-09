@@ -22,20 +22,28 @@ def render_export_hitos_and_avances(request, country_slug):
         language_code = 'en'
     else:
         language_code = 'es'
+
+    country = Country.objects.get(slug=country_slug)
+
+    if request.GET.get('operation'):
+        operation = Operation.objects.filter(country=country, number=request.GET.get('operation')).last()
+    else:
+        operation = Operation.objects.filter(country=country).first()
+
     root_dir_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     hitos = Hito.objects.filter(country__slug=country_slug,
-                                language__acronym=language_code)
+                                language__acronym=language_code,
+                                operation=operation)
     estados_actuais = EstadoActual.objects.all()
-    country = Country.objects.get(slug=country_slug)
     options_estados_actuais = {}
-    triangle_path, triangle_file_name = TriangleGraph.export_graph(country=country, lang=request.LANGUAGE_CODE)
-    operation = Operation.objects.filter(country=country).order_by('-id')[0]
+    triangle_path, triangle_file_name = TriangleGraph.export_graph(country=country, lang=request.LANGUAGE_CODE, operation_number=operation.number)
+
     for estado in estados_actuais:
         options_estados_actuais.update({
             "{id}".format(id=estado.id): str(estado.name)
         })
 
-    avances = AvanceFisicoFinanciero.objects.filter(country=country)
+    avances = AvanceFisicoFinanciero.objects.filter(country=country, operation=operation)
 
     # DOCX
     document_font = 'Times New Roman'

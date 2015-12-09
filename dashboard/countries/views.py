@@ -33,10 +33,10 @@ def countries(request):
 
     if context.get('user').is_anonymous():
         countries_user = Country.objects.all()
-        context.update({'user' : {'is_anonymous': True } })
+        context.update({'user': {'is_anonymous': True}})
     else:
         countries = context.get('user').dashboarduser.countries.all()
-        context.update({'user' : context.get('user') })
+        context.update({'user': context.get('user')})
 
     context.update({'countries': countries})
     return render_to_response("countries.html", context)
@@ -85,9 +85,9 @@ def country(request):
                 try:
                     operation = operations.get(number=request.GET.get('operation'))
                 except Operation.DoesNotExist:
-                    operation = operations.last()
+                    operation = operations.filter(is_current=True).last()
             else:
-                operation = operations.last()
+                operation = operations.filter(is_current=True).last()
 
             country = {
                 'lat': str(country_map.country.latlng.split(',')[0]),
@@ -144,9 +144,9 @@ def country(request):
             try:
                 operation = operations.get(number=request.GET.get('operation'))
             except Operation.DoesNotExist:
-                operation = operations.last()
+                operation = operations.filter(is_current=True).last()
         else:
-            operation = operations.last()
+            operation = operations.filter(is_current=True).last()
 
         operation_infos = OperationInfos.objects \
                                         .filter(language__acronym=request.LANGUAGE_CODE) \

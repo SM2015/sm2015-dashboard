@@ -27,7 +27,7 @@ def render_hitos(request, country_slug):
     if operation:
         operation = Operation.objects.filter(country__slug=country_slug, number=operation).last()
     else:
-        operation = Operation.objects.filter(country__slug=country_slug).last()
+        operation = Operation.objects.filter(country__slug=country_slug, is_current=True).last()
 
     hitos = Hito.objects.filter(country__slug=country_slug, language__acronym=language_code, operation=operation).order_by('-quarter')
 
@@ -66,7 +66,7 @@ def render_hitos_noneditable(request, country_slug):
     if operation_number:
         operation = Operation.objects.filter(number=operation_number).last()
     else:
-        operation = Operation.objects.filter(country__slug=country_slug).last()
+        operation = Operation.objects.filter(country__slug=country_slug, is_current=True).last()
 
     hitos = Hito.objects.filter(country__slug=country_slug,
                                 language__acronym=request.LANGUAGE_CODE, operation=operation)
@@ -445,7 +445,7 @@ def render_country_risk_identification(request, country_slug):
     if operation_number:
         operation = Operation.objects.filter(number=operation_number, country=country).last()
     else:
-        operation = Operation.objects.filter(country=country).last()
+        operation = Operation.objects.filter(country=country, is_current=True).last()
 
     fields = CountryRiskIdentification.objects.filter(country=country, operation=operation)
 
@@ -533,13 +533,11 @@ def render_country_risk_top(request, country_slug):
     if request.GET.get('operation'):
         operation = Operation.objects.filter(country=country, number=request.GET.get('operation')).last()
         if not operation:
-            operation = Operation.objects.filter(country=country).last()
+            operation = Operation.objects.filter(country=country, is_current=True).last()
     else:
-        operation = Operation.objects.filter(country=country).last()
+        operation = Operation.objects.filter(country=country, is_current=True).last()
 
-    rows = CountryMainRisks.objects.filter(country=country,
-                                           language__acronym=request.LANGUAGE_CODE,
-                                           operation=operation)
+    rows = CountryMainRisks.objects.filter(country=country, language__acronym=request.LANGUAGE_CODE, operation=operation)
 
     table = {'positives': [r for r in rows.filter(type__uuid='POSITIVE')],
              'negatives': [r for r in rows.filter(type__uuid='NEGATIVE')]}
