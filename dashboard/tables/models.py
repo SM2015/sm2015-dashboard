@@ -1279,74 +1279,59 @@ class CountryRiskIdentification(models.Model):
     @classmethod
     def upload_excel(cls, uploaded_file):
         wb = load_workbook(uploaded_file, data_only=True)
-        sheet = wb.get_sheet_by_name('Risk Identification Summary')
 
-        positives_rows = [22, 43, 66, 67, 91, 92, 114, 115, 116]
-        very_high = CountryRiskLevels.objects.get(uuid='VERY_HIGH')
-        high = CountryRiskLevels.objects.get(uuid='HIGH')
-        medium = CountryRiskLevels.objects.get(uuid='MEDIUM')
-        low = CountryRiskLevels.objects.get(uuid='LOW')
+        risk_levels = [
+            CountryRiskLevels.objects.get(uuid='VERY_HIGH'),
+            CountryRiskLevels.objects.get(uuid='HIGH'),
+            CountryRiskLevels.objects.get(uuid='MEDIUM'),
+            CountryRiskLevels.objects.get(uuid='LOW')
+        ]
 
-        fields_map = {
-            'operacional': CountryRiskIdentificationFields.objects.get(uuid='OPERATIONAL'),
-            'sostenibilidad': CountryRiskIdentificationFields.objects.get(uuid='SUSTAINABILITY'),
-            'financieros': CountryRiskIdentificationFields.objects.get(uuid='FINANCIAL'),
-            'calidad': CountryRiskIdentificationFields.objects.get(uuid='QUALITY'),
-            'contexto': CountryRiskIdentificationFields.objects.get(uuid='CONTEXT'),
-            'interesados': CountryRiskIdentificationFields.objects.get(uuid='INTERESTED'),
-            'liderazgo institucional': CountryRiskIdentificationFields.objects.get(uuid='INSTITUTIONAL_LEADERSHIP'),
-            'sociales y ambientales': CountryRiskIdentificationFields.objects.get(uuid='SOCIAL_AND_ENVIRONMENTAL'),
-            'estrategicos': CountryRiskIdentificationFields.objects.get(uuid='STRATEGIC')
-        }
+        fields_map = {}
+        fields = CountryRiskIdentificationFields.objects.all()
+        for field in fields:
+            fields_map[field.name.lower()] = field
 
-        for row in sheet.rows:
-            country = None
-            if (row[0].row >= 8 and row[0].row <= 15) or row[0].row == 22:
-                country = Country.objects.get(slug='belize')
-                negative_levels = [very_high, high, medium]
-                positive_levels = [very_high]
-            elif (row[0].row >= 31 and row[0].row <= 36) or row[0].row == 43:
-                country = Country.objects.get(slug='guatemala')
-                negative_levels = [very_high, high, medium, low]
-                positive_levels = [very_high]
-            elif (row[0].row >= 52 and row[0].row <= 59) or (row[0].row >= 66 and row[0].row <= 67):
-                country = Country.objects.get(slug='mexico')
-                negative_levels = [very_high, high]
-                positive_levels = [very_high]
-            elif (row[0].row >= 76 and row[0].row <= 84) or (row[0].row >= 91 and row[0].row <= 92):
-                country = Country.objects.get(slug='nicaragua')
-                negative_levels = [high, medium, low]
-                positive_levels = [high]
-            elif (row[0].row >= 101 and row[0].row <= 107) or (row[0].row >= 114 and row[0].row <= 116):
-                country = Country.objects.get(slug='el-salvador')
-                negative_levels = [high, medium, low]
-                positive_levels = [high]
-            elif row[0].row >= 125 and row[0].row <= 131:
-                country = Country.objects.get(slug='honduras')
-                negative_levels = [very_high, high, medium]
-                positive_levels = []
+        countries = Country.objects.all()
 
-            if not country:
+        for country in countries:
+            sheet = wb.get_sheet_by_name(country.slug)
+            if not sheet:
                 continue
 
-            field_str = row[1].value.strip().lower()
-            field = fields_map[field_str]
+            risk_type = None
+            for row in sheet.rows:
+                if not row[0].value:
+                    continue
 
-            if row[0].row in positives_rows:
-                type_uuid = 'POSITIVE'
-                levels_list = positive_levels
-            else:
-                type_uuid = 'NEGATIVE'
-                levels_list = negative_levels
+                if 'operation_number' in row[0].value.lower():
+                    operation_number = row[0].value
+                    operation_number = operation_number.split('=')[1]
+                    operation = Operation.objects.filter(number=operation_number)[0]
+                    continue
+                elif 'negative' in row[0].value.lower():
+                    risk_type = CountryRiskTypes.objects.get(uuid='NEGATIVE')
+                    continue
+                elif 'positive' in row[0].value.lower():
+                    risk_type = CountryRiskTypes.objects.get(uuid='POSITIVE')
+                    continue
 
-            for i_level in range(0, len(levels_list)):
-                level = levels_list[i_level]
-                i_value = 2 + i_level
+                if not risk_type:
+                    continue
 
-                if row[i_value].value:
-                    cls.objects.create(country=country,
-                                       date=date.today(),
-                                       type=CountryRiskTypes.objects.get(uuid=type_uuid),
-                                       field=field,
-                                       level=level,
-                                       value=row[i_value].value)
+                field_str = row[0].value.strip().lower()
+
+                if field_str not in fields_map.keys():
+                    continue
+
+                field = fields_map[field_str]
+
+                for i_level in range(1, 5):
+                    if row[i_level].value:
+                        cls.objects.create(country=country,
+                                           date=date.today(),
+                                           type=risk_type,
+                                           field=field,
+                                           level=risk_levels[i_level-1],
+                                           value=row[i_level].value,
+                                           operation=operation)
